@@ -1,7 +1,0 @@
-Aparece a mensagem que você determinar ou variável.
-mas só aparece no debug então não vai para o usuário.
-mas retirar após o uso para não ter problemas posteriores.
-
-
-
-window.console && console.log("MENSAGEM");	

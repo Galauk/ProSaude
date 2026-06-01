@@ -33,3 +33,11 @@ Contexto: o projeto passou a usar Composer para dependencias modernas.
 Decisao: a pasta `vendor/` sera gerada pelo Composer e nao sera versionada.
 
 Consequencia: `composer.lock` deve ser versionado para manter instalacoes reprodutiveis, enquanto `/vendor/` deve permanecer no `.gitignore`.
+
+## 2026-06-01 - Limpeza da pasta docs
+
+Contexto: a pasta `docs/` continha lembretes antigos, instrucoes operacionais obsoletas e scripts SQL historicos misturados com a documentacao nova da migracao.
+
+Decisao: manter em `docs/` apenas documentacao util para a nova versao e mover artefatos historicos de banco para `docs/legado/banco/`. Remover documentos soltos que dependiam de PHP 5, IonCube, XAMPP, rotinas manuais antigas ou customizacoes operacionais fora do escopo da nova arquitetura.
+
+Consequencia: `docs/migracao/` passa a ser a documentacao ativa da migracao, `docs/legado/` guarda referencias historicas, e scripts SQL antigos nao devem ser tratados como migrations oficiais da nova versao.

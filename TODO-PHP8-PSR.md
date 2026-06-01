@@ -55,12 +55,17 @@ O foco da migracao e:
 
 ### Documentacao da migracao
 
-- [ ] Criar `docs/migracao/DECISOES.md`.
-- [ ] Criar `docs/migracao/DESCOBERTAS-LEGADO.md`.
-- [ ] Criar `docs/migracao/DIARIO.md`.
-- [ ] Registrar decisoes de ambiente, banco, Composer e arquitetura em `DECISOES.md`.
-- [ ] Registrar fatos inferidos do legado em `DESCOBERTAS-LEGADO.md`.
-- [ ] Registrar cada ciclo de trabalho em `DIARIO.md`.
+- [x] Criar `docs/README.md`.
+- [x] Criar `docs/migracao/DECISOES.md`.
+- [x] Criar `docs/migracao/DESCOBERTAS-LEGADO.md`.
+- [x] Criar `docs/migracao/DIARIO.md`.
+- [x] Criar `docs/legado/README.md`.
+- [x] Registrar decisoes de ambiente, banco, Composer e arquitetura em `DECISOES.md`.
+- [x] Registrar fatos inferidos do legado em `DESCOBERTAS-LEGADO.md`.
+- [x] Registrar cada ciclo de trabalho em `DIARIO.md`.
+- [x] Revisar documentos antigos em `docs/`.
+- [x] Remover documentos obsoletos da documentacao ativa.
+- [x] Preservar scripts SQL historicos em `docs/legado/banco/`.
 
 ### Diagnostico do estado atual
 

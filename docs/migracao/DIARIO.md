@@ -13,3 +13,9 @@
 - Inferido o caminho legado principal de configuracao de banco: `WebSocialComum/library/conf/dbConfig.xml`.
 - Revisado `composer.lock`: as dependencias diretas travadas incluem PHP CS Fixer, PHPStan, PHPUnit e PHP_CodeSniffer.
 - Revisado `.gitignore` para ignorar `vendor/`, caches, logs e artefatos gerados.
+- Revisada a pasta `docs/`.
+- Removidos documentos antigos sem utilidade para a nova versao.
+- Movidos scripts SQL historicos de `docs/atualiza banco` para `docs/legado/banco/atualiza-banco`.
+- Preservado o script legado de leitos como `docs/legado/banco/leito.sql`.
+- Criado `docs/README.md` como indice da documentacao.
+- Criado `docs/legado/README.md` explicando o papel dos artefatos historicos.

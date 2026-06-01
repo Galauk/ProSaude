@@ -54,3 +54,26 @@ Foram encontradas conexoes PostgreSQL hardcoded em funcoes de debug `vSQL()`:
 - `funcoes_exa.inc.php`
 
 Essas conexoes devem ser tratadas como legado inseguro e removidas, isoladas ou substituidas por configuracao centralizada durante a migracao.
+
+## Observacoes funcionais preservadas de documentos antigos
+
+- O modulo BPA usava uma sigla de municipio com 3 letras para gerar o "Relatorio de Controle de Remessa".
+- O nome do municipio era salvo na tabela `secretaria`.
+- Havia customizacao de brasao em caminhos do `WebSocialComum`, `WebSocialSaude/imgs/brasao.jpg` e `zf/public/images/brasao.jpg`.
+- Documentos antigos mencionavam banco com encoding `WIN1252`, conversoes entre `UTF8`, `LATIN1` e `WIN1252`, e uso de `template0` ao criar bases restauradas.
+
+Essas observacoes nao devem ser tratadas como requisitos definitivos da nova versao. Elas servem como hipoteses para validar quando os modulos correspondentes forem migrados.
+
+## Documentos antigos retirados da documentacao ativa
+
+Foram retirados da area ativa de `docs/` arquivos de lembrete sobre:
+
+- instalacao de IonCube para PHP 5;
+- instalacao manual de Zend em XAMPP/PEAR;
+- rotina manual de backup com Java e arquivos `.bat`;
+- substituicao manual de brasao;
+- notas de release antigas;
+- dicas soltas de debug JavaScript;
+- instrucoes manuais de importacao/restauracao de banco.
+
+Os scripts SQL historicos foram preservados em `docs/legado/banco/`.

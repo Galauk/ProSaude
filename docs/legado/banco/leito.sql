@@ -1,10 +1,7 @@
-
 DROP TABLE PACIENTE_LEITO;
 DROP TABLE LEITO;
 DROP TABLE QUARTO;
 DROP TABLE ATENDIMENTO_INTERNACAO;
-
-
 
 CREATE TABLE quarto
 (
@@ -25,7 +22,6 @@ WITH (
   OIDS=FALSE
 );
 
-
 CREATE TABLE leito
 (
   lei_codigo bigserial NOT NULL,
@@ -45,7 +41,7 @@ WITH (
 ALTER TABLE leito
   OWNER TO postgres;
 
-  CREATE TABLE paciente_leito
+CREATE TABLE paciente_leito
 (
   pac_leito bigserial NOT NULL,
   lei_codigo integer,
@@ -64,7 +60,7 @@ WITH (
   OIDS=FALSE
 );
 
-  CREATE TABLE atendimento_internacao
+CREATE TABLE atendimento_internacao
 (
   atin_codigo bigserial NOT NULL,
   ate_codigo integer,
@@ -82,5 +78,3 @@ WITH (
 );
 ALTER TABLE atendimento_internacao
   OWNER TO postgres;
-
-  
