@@ -1,1 +1,27 @@
 /vendor/
+
+# Environment/local configuration
+.env
+.env.*
+!.env.example
+
+# Composer/quality tool caches
+/.phpunit.cache/
+/.php-cs-fixer.cache
+/.phpstan/
+
+# Logs and runtime output
+*.log
+/log/
+/debugLog/
+
+# Generated/build artifacts
+**/target/
+**/build/
+**/dist/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -17,6 +17,51 @@ O foco da migracao e:
 
 ## Fase 0 - Inventario e controle inicial
 
+### Informacoes que precisam ser confirmadas
+
+- [x] Confirmar que nao ha mais documentacao externa do sistema legado alem dos arquivos do repositorio.
+- [x] Definir PHP 8.x como alvo da migracao.
+- [x] Definir PostgreSQL em Docker como banco do ambiente novo.
+- [x] Definir que `vendor/` sera controlado pelo Composer e nao versionado.
+- [ ] Definir versao exata do PHP 8.x para Docker/local.
+- [ ] Definir versao exata do PostgreSQL para Docker.
+- [ ] Definir encoding inicial do banco Docker, preferencialmente `UTF8` salvo incompatibilidade com dados legados.
+- [x] Inferir a estrutura real entre `WebSocialSaude` e `WebSocialComum` a partir dos includes e caminhos existentes.
+- [x] Identificar o caminho legado principal do arquivo de configuracao de banco.
+- [ ] Quais diretorios sao codigo proprio.
+- [ ] Quais diretorios sao bibliotecas de terceiros vendorizadas.
+- [ ] Se bibliotecas legadas internas devem permanecer no repositorio.
+- [ ] Se havera banco de teste ou base sanitizada para testes de integracao.
+- [ ] Como sera feita a migracao gradual de senhas antigas em `MD5`.
+- [ ] Quais modulos sao mais criticos para operacao diaria.
+- [ ] Quais modulos podem ser migrados primeiro com menor risco.
+
+### Diretriz quando faltar informacao do legado
+
+- [x] Tratar o repositorio como fonte primaria da verdade.
+- [ ] Registrar hipoteses tecnicas antes de implementar alteracoes estruturais.
+- [ ] Validar hipoteses por leitura de codigo, execucao local e testes de caracterizacao.
+- [ ] Evitar remover comportamento antigo sem antes identificar quem usa o fluxo.
+- [ ] Preferir compatibilidade gradual a reescrita direta.
+
+### Descobertas ja inferidas pelo codigo
+
+- [x] Estrutura esperada do legado: `DOCUMENT_ROOT/WebSocialSaude` e `DOCUMENT_ROOT/WebSocialComum`.
+- [x] `global.php` define `COMUM` como pasta irma `WebSocialComum`.
+- [x] `auth.php` e `index.php` definem `$_SESSION['comum'] = "WebSocialComum/"`.
+- [x] Caminho principal de configuracao de banco: `WebSocialComum/library/conf/dbConfig.xml`.
+- [x] `api/db.inc.painel.php`, `sessao_controller.php` e `zf/application/configs/application.ini` referenciam `dbConfig.xml`.
+- [x] Existem conexoes hardcoded antigas em funcoes de debug `vSQL()`, que devem ser removidas ou isoladas.
+
+### Documentacao da migracao
+
+- [ ] Criar `docs/migracao/DECISOES.md`.
+- [ ] Criar `docs/migracao/DESCOBERTAS-LEGADO.md`.
+- [ ] Criar `docs/migracao/DIARIO.md`.
+- [ ] Registrar decisoes de ambiente, banco, Composer e arquitetura em `DECISOES.md`.
+- [ ] Registrar fatos inferidos do legado em `DESCOBERTAS-LEGADO.md`.
+- [ ] Registrar cada ciclo de trabalho em `DIARIO.md`.
+
 ### Diagnostico do estado atual
 
 - [x] Identificar que o projeto e um legado PHP procedural com PostgreSQL e muitos arquivos na raiz.
@@ -24,19 +69,17 @@ O foco da migracao e:
 - [x] Identificar uso extenso de `pg_query()`.
 - [x] Identificar presenca de Zend Framework antigo em `zf/`.
 - [x] Identificar que `composer.json` foi criado como ponto de partida da migracao.
-- [ ] Confirmar versao PHP atual usada em producao.
-- [ ] Confirmar versao PHP alvo da primeira etapa (`^8.0`, `^8.1` ou superior).
-- [ ] Confirmar versao do PostgreSQL usada em producao.
-- [ ] Confirmar encoding oficial esperado pelo banco (`LATIN1`, `WIN1252`, `UTF8` ou misto).
-- [ ] Documentar a estrutura esperada entre `WebSocialSaude` e `WebSocialComum`.
-- [ ] Mapear quais diretorios sao codigo proprio e quais sao bibliotecas de terceiros vendorizadas.
+- [ ] Documentar as informacoes confirmadas acima.
+- [ ] Mapear dependencias externas obrigatorias para rodar o sistema localmente.
 
 ### Git e organizacao do repositorio
 
-- [ ] Criar ou revisar `.gitignore`.
-- [ ] Decidir se `vendor/` deve ficar versionado ou ser instalado via Composer.
+- [x] Criar ou revisar `.gitignore`.
+- [x] Decidir se `vendor/` deve ficar versionado ou ser instalado via Composer.
 - [ ] Decidir se bibliotecas legadas internas devem permanecer no repositorio.
-- [ ] Adicionar `composer.lock` depois da primeira instalacao controlada das dependencias.
+- [x] Adicionar `composer.lock` depois da primeira instalacao controlada das dependencias.
+- [ ] Definir `license` no `composer.json` ou registrar como `proprietary`.
+- [ ] Revisar requisito PHP do `composer.json`: o lock atual usa PHPUnit 10, que exige PHP 8.1+.
 - [ ] Separar alteracoes de infraestrutura em commits pequenos.
 
 ---
@@ -46,7 +89,7 @@ O foco da migracao e:
 ### Composer e autoload
 
 - [x] Criar `composer.json` na raiz do projeto.
-- [ ] Revisar requisito minimo de PHP no `composer.json`.
+- [ ] Revisar requisito minimo de PHP no `composer.json` para PHP 8.x.
 - [ ] Definir autoload PSR-4 para `App\\` apontando para `src/`.
 - [ ] Definir autoload de testes para `App\\Tests\\` apontando para `tests/`.
 - [ ] Rodar `composer install`.
