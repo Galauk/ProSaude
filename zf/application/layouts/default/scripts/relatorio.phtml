@@ -1,0 +1,79 @@
+<?= $this->doctype() . "\n"; ?>
+<?php $sec = $this->dadosSecretaria(); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+        <?= $this->headMeta() . "\n"; ?>
+        <?= $this->headTitle() . "\n"; ?>
+        <?= $this->headLink() . "\n"; ?>
+		<link href='<?=$this->baseUrl('/public/css/print.css')?>' rel='stylesheet' type='text/css'></link>
+		<script type="text/javascript">
+			var baseUrl = '<?=$this->baseUrl();?>';
+		</script>
+        <?= $this->headScript() . "\n"; ?>
+		<?= $this->analytics(); ?>
+    </head>
+	<body>
+	 	<div id="page">
+	 		<div id="header" align="center">
+	 			<? /*<div id="header_logo">
+	 				<img src="<?=$this->baseUrl('/public/images/brasao.jpg')?>" title="Logo Prefeitura" />
+	 			</div>*/?>
+				<!-- <div>
+					<img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" height="80" width="80"/>
+				</div> -->
+	 			<div id="header_dados" >
+				 	<!-- <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" height="80" width="80"/> -->
+	 				<div id="sec_nome">Secretaria Municipal de Saúde</div>
+	 				<div id="pref_nome">Prefeitura Municipal de <?=$sec->cidade;?></div>
+	 			</div>
+	 			<div class="clear"></div>
+	 		</div>
+			<div>
+			<table>
+				<tr>
+					<th align="right" width="33%"><?=$sec->endereco;?></th>
+					<th width="33%">CNES: <?=$sec->cnes;?></th>
+					<th align="left" width="33%">CNPJ: <?=$sec->cnpj;?></th>
+				</th>
+			</table>
+	 		</div>
+	 		 <div id="dados_pac">
+                                <?if($this->title):?>
+                                    <div id="sec_nome"><?=$this->title?></div>
+                                <?endif;?>
+								<?if(!$this->dados->via_data_ida){?>
+								<table>
+									<tr>
+											<?php if ($this->params[2] != ""): ?>
+										<th width="33%">Unidade: <?=$this->params[2]?></th>
+											<?php endif ?>
+
+											<?php if ($this->params[0] != ""): ?>
+										<th width="33%">Data Inicial: <?=$this->params[0]?></th>
+											<?php endif ?>
+										
+											<?php if ($this->params[1] != ""): ?>
+										<th width="33%">Data Final: <?=$this->params[1]?></th>	
+											<?php endif ?>
+									</th>
+								</table>
+<? }?> 
+                                <!-- <div id="pac_end" style="margin-bottom: 10px">
+                                     <?=$this->cabecalhoRelatorio($this->params);?> 
+                                </div> -->
+                                
+                                <?if($this->dados->via_data_ida){?>
+                                   <font size=3> Data da Viagem: <b><?=$this->data($this->dados->via_data_ida,Zend_Date::DATE_MEDIUM)?></b> <br>
+                                    Motorista: <b><?=$this->dados->usr_nome?></b><br>
+                                    Carro: <b><?=$this->dados->vei_descricao?></b></font><br>
+                                <? }?>                                
+	 		</div> 
+	 		<? // Chama a página com os dados ?>
+			<?= $this->layout()->content; ?>
+	 		
+	 		<?/*<div id="footer">
+	 			<?=$sec->endereco;?>
+	 		</div>*/?>
+	 	</div>
+	 </body>
+</html>

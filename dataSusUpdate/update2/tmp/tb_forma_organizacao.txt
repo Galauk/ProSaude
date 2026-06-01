@@ -1,0 +1,385 @@
+010101Educação em saúde                                                                                   201906
+080301Deslocamento/Ajuda de custo                                                                         201906
+020101Coleta de material por meio de punção/biópsia                                                       201906
+020201Exames bioquimicos                                                                                  201906
+020301Exames citopatológicos                                                                              201906
+020401Exames radiológicos da cabeça e pescoço                                                             201906
+020501Ultra-sonografias do sistema circulatório (qualquer região anatômica)                               201906
+020601Tomografia da cabeça, pescoço e coluna vertebral                                                    201906
+020701RM da cabeça, pescoço e coluna vertebral                                                            201906
+020801Aparelho cardiovascular                                                                             201906
+020901Aparelho digestivo                                                                                  201906
+021001Exames radiológicos de vasos sangüíneos e linfáticos                                                201906
+021101Diagnóstico em angiologia                                                                           201906
+021201Exames do doador/receptor                                                                           201906
+021301Exames relacionados a doenças e agravos de notificação compulsória                                  201906
+021401Teste realizado fora da estrutura de laboratório                                                    201906
+030101Consultas médicas/outros profissionais  de nivel superior                                           201906
+030201Assistência fisioterapêutica em alterações obstétricas, neonatais e uroginecológicas                201906
+030301Tratamento de doenças infecciosas e parasitárias                                                    201906
+030401Radioterapia                                                                                        201906
+030501Tratamento dialítico                                                                                201906
+030601Procedimentos destinados a obtenção do sangue para fins de assistência hemoterapica                 201906
+030701Dentística                                                                                          201906
+030801Traumatismos                                                                                        201906
+030901Terapia nutricional                                                                                 201906
+031001Parto e nascimento                                                                                  201906
+040101Pequenas cirurgias                                                                                  201906
+040201Cirurgia de tireóide e paratireóide                                                                 201906
+040301Trauma e anomalias do desenvolvimento                                                               201906
+040401Cirurgia das vias aéreas superiores e do pescoço                                                    201906
+040501Palpebras e vias lacrimais                                                                          201906
+040601Cirurgia cardiovascular                                                                             201906
+040701Esôfago, estômago e duodeno                                                                         201906
+040801Cintura escapular                                                                                   201906
+040901Rim, ureter e bexiga                                                                                201906
+041001Mama                                                                                                201906
+041101Parto                                                                                               201906
+041201Traqueia e brônquios                                                                                201906
+041301Tratamento de queimados                                                                             201906
+041401Buco-maxilo-facial                                                                                  201906
+041501Múltiplas                                                                                           201906
+041601Urologia                                                                                            201906
+041701Anestesias                                                                                          201906
+041801Acessos para dialise                                                                                201906
+050101Coleta e exames para identificação de doador de células-tronco hematopoéticas (busca nacional)      201906
+050201Avaliação clínica de morte encefálica                                                               201906
+050301Ações relacionadas a doação de orgãos e tecidos para transpalnte                                    201906
+050401Processamento de córnea/esclera                                                                     201906
+050501Transplante de tecidos e células                                                                    201906
+050601Acompanhamento de paciente no pré e pós-transplante                                                 201906
+060101Agentes anticitocinas                                                                               201906
+060201Procoagulantes em coagulopatias hereditárias                                                        201906
+060301Antiinflamatórios                                                                                   201906
+060401Acido Aminosalicilico e Similares                                                                   201906
+070101OPM auxiliares da locomoção                                                                         201906
+070201OPM em neurocirurgia                                                                                201906
+080101Incentivos                                                                                          201906
+080201Diárias                                                                                             201906
+010201Vigilancia sanitária                                                                                201906
+010102Saúde bucal                                                                                         201906
+080202Outras ações                                                                                        201906
+020102Outras formas de coleta de material                                                                 201906
+020202Exames hematológicos e hemostasia                                                                   201906
+020302Exames anatomopatológicos                                                                           201906
+020402Exames radiológicos da coluna vertebral                                                             201906
+020502Ultra-sonografias dos demais sistemas                                                               201906
+020602Tomografia do torax e membros superiores                                                            201906
+020702RM do torax e membros superiores                                                                    201906
+020802Aparelho digestivo                                                                                  201906
+020902Aparelho urinário                                                                                   201906
+021002Vias biliares                                                                                       201906
+021102Diagnóstico em cardiologia                                                                          201906
+021202Procedimentos especiais em hemoterápica                                                             201906
+021302Exames relacionados ao meio ambiente                                                                201906
+030102Atendimento/Acompanhamento em saúde do trabalhador                                                  201906
+030202Assistência fisioterapêutica em alterações oncológicas                                              201906
+030302Tratamento de doenças do sangue, orgãos hematopoéticos e alguns transtornos imunitários             201906
+030402Quimioterapia paliativa - adulto                                                                    201906
+030502Tratamento em nefrologia em geral                                                                   201906
+030602Medicina transfusional                                                                              201906
+030702Endodontia                                                                                          201906
+030802Intoxicações e envenenamentos                                                                       201906
+030902Terapias em doenças alérgicas                                                                       201906
+040102Cirurgias de pele, tecido subcutâneo e mucosa                                                       201906
+040202Cirurgia da suprarrenal                                                                             201906
+040302Coluna e nervos periféricos                                                                         201906
+040402Cirurgia da face e do sistema estomatognático                                                       201906
+040502Músculos oculomotores                                                                               201906
+040602Cirurgia vascular                                                                                   201906
+040702Intestinos , reto e anus                                                                            201906
+040802Membros superiores                                                                                  201906
+040902Uretra                                                                                              201906
+041102Outras cirurgias relacionadas com o estado gestacional                                              201906
+041202Mediastino                                                                                          201906
+041302Reparadora em oncológica                                                                            201906
+041402Cirurgia oral                                                                                       201906
+041502Sequenciais                                                                                         201906
+041602Sistema linfático                                                                                   201906
+041802Intervençõess cirúrgicas em acessos para diálise                                                    201906
+050102Exames de histocompatibilidade para identificação de receptor de células-tronco hematopoéticas      201906
+050302Cirurgias para transplante - doador vivo                                                            201906
+050402Processamento de tecido ósteo-fascio-condro-ligamentoso humano                                      201906
+050502Transplante de orgãos                                                                               201906
+050602Intercorrência pós transplante                                                                      201906
+060102Antagonista do glutamato                                                                            201906
+060302Imunossupressores                                                                                   201906
+060402Agentes Quelantes de Ferro                                                                          201906
+070102OPM ortopédicas                                                                                     201906
+070202OPM em cirurgia buco-maxilo-facial                                                                  201906
+010202Vigilância em Saúde do Trabalhador                                                                  201906
+010103Visita domiciliar                                                                                   201906
+070203OPM em ortopedia                                                                                    201906
+020403Exames radiológicos do torax e mediastino                                                           201906
+020603Tomografia do abdomen, pelve e membros inferiores                                                   201906
+020703RM do abdomen, pelve e membros inferiores                                                           201906
+020803Aparelho endócrino                                                                                  201906
+020903Aparelho ginecológico                                                                               201906
+021103Diagnóstico cinético funcional                                                                      201906
+030103Atendimento pré-hospitalar de urgência                                                              201906
+030203Assistência fisioterapêutica em oftalmologia                                                        201906
+030303Tratamento de doenças endocrinas, metabólicas e nutricionais                                        201906
+030403Quimioterapia para controle temporário de doença - adulto                                           201906
+030703Periodontia clínica                                                                                 201906
+030803Outras consequências de causas externas                                                             201906
+030903Terapias do aparelho geniturinário                                                                  201906
+040303Tumores do sistema nervoso                                                                          201906
+040403Anomalia Crânio e bucomaxilo facial                                                                 201906
+040503Corpo vítreo, retina, coróide e esclera                                                             201906
+040603Cardiologia intervencionista                                                                        201906
+040703Pancreas, baco, figado e vias biliares                                                              201906
+040803Coluna vertebral e caixa torácica                                                                   201906
+040903Próstata e vesicula seminal                                                                         201906
+041203Pleura                                                                                              201906
+041303Reparadora para lipodistrofia                                                                       201906
+041503Politraumatizados                                                                                   201906
+041603Cabeça e pescoço                                                                                    201906
+050103Coleta e exames para ident. de doador de célula-tronco hematopoéticas (busca internacional/nacional)201906
+050303Manutenção e retirada de orgãos e tecidos para transplante                                          201906
+050403Processamento de válvula/tubo valvado cardíaco humano                                               201906
+060103Antianêmicos não hormonais                                                                          201906
+060303Imunoterápicos                                                                                      201906
+060403Agonistas da Dopamina/inibidor da prolactina                                                        201906
+070103OPM auditivas                                                                                       201906
+020203Exames sorológicos e imunológicos                                                                   201906
+010104Alimentação e nutrição                                                                              201906
+020204Exames coprológicos                                                                                 201906
+020404Exames radiológicos da cintura escapular e dos membros superiores                                   201906
+020804Aparelho geniturinário                                                                              201906
+020904Aparelho respiratório                                                                               201906
+021104Diagnóstico em ginecologia-obstetrícia                                                              201906
+030104Outros atendimentos realizados por profissionais de níveis superior                                 201906
+030204Assistência fisioterapêutica cardiovasculares e pneumo-funcionais                                   201906
+030304Tratamento de doenças do sistema nervoso central e periférico                                       201906
+030404Quimioterapia prévia (neoadjuvante/citorredutora)- adulto                                           201906
+030704Moldagem/Manutenção                                                                                 201906
+030804Complicações consequentes a procedimentos em saúde                                                  201906
+030904Terapias do aparelho cardiovascular                                                                 201906
+040304Neurocirurgias vasculares                                                                           201906
+040504Cavidade orbitária e globo ocular                                                                   201906
+040604Cirurgia endovascular                                                                               201906
+040704Parede e cavidade abdominal                                                                         201906
+040804Cintura pélvica                                                                                     201906
+040904Bolsa escrotal, testículos e cordão espermático                                                     201906
+041204Parede torácica                                                                                     201906
+041304Outras cirurgias plásticas/reparadoras                                                              201906
+041504Procedimentos cirúrgicos gerais                                                                     201906
+041604Esôfago-gastro duodenal e vísceras anexas e outros orgãos intra-abdominais                          201906
+050104Exames imunogenéticos/histocompatibilidade para identificação de doador de orgãos                   201906
+050304Açõess complementares destinadas a doação de orgãos, tecidos e células.                             201906
+050404Processamento de pele humana                                                                        201906
+060104Antianêmicos hormonais                                                                              201906
+060304Reguladores de atividade hormonal - inibidores da prolactina                                        201906
+060404Agonistas seletivos dos receptores beta 2 adrenérgicos                                              201906
+070104OPM oftalmológicas                                                                                  201906
+070204OPM em assistência cardiovascular                                                                   201906
+060305Antitrombóticos                                                                                     201906
+060105Antiasmáticos                                                                                       201906
+070105OPM em gastroenterologia                                                                            201906
+070205OPM comuns                                                                                          201906
+010105Praticas Integrativas/Complementares                                                                201906
+020205Exames de uroanálise                                                                                201906
+020405Exames radiológicos do abdomen e pelve                                                              201906
+020805Aparelho esquelético                                                                                201906
+021105Diagnóstico em neurologia                                                                           201906
+030105Atenção domiciliar                                                                                  201906
+030205Assistência fisioterapêutica nas disfunções musculo esqueleticas (todas as origens)                 201906
+030305Tratamento de doenças do aparelho da visão                                                          201906
+030405Quimioterapia adjuvante (profilática) - adulto                                                      201906
+030905Práticas integrativas e complementares                                                              201906
+040305Tratamento neurocirúrgico da dor funcional                                                          201906
+040505Conjuntiva, córnea, câmara anterior, íris, corpo ciliar e cristalino                                201906
+040605Eletrofisiologia                                                                                    201906
+040805Membros inferiores                                                                                  201906
+040905Pênis                                                                                               201906
+041205Pulmão                                                                                              201906
+041605Colo-proctologia                                                                                    201906
+050105Exames imunogenéticos/histocompatibilidade para identificação de receptor de orgãos                 201906
+060405Alcalóides naturais do ópio                                                                         201906
+060306Tensiolítico alveolar                                                                               201906
+060106Antibióticos                                                                                        201906
+070106OPM em urologia                                                                                     201906
+070206OPM em urologia                                                                                     201906
+020206Exames hormonais                                                                                    201906
+020406Exames radiológicos da cintura pélvica e dos membros inferiores                                     201906
+020806Aparelho nervoso                                                                                    201906
+021106Diagnóstico em oftalmologia                                                                         201906
+030106Consulta/Atendimento ás urgências (em geral)                                                        201906
+030206Assistência fisioterapêutica nas alterações em neurologia                                           201906
+030306Tratamento de doenças cardiovasculares                                                              201906
+030406Quimioterapia curativa - adulto                                                                     201906
+030906Acessos venosos                                                                                     201906
+040306Investigação e cirurgia da epilepsia                                                                201906
+040806Gerais                                                                                              201906
+040906Útero e anexos                                                                                      201906
+041606Ginecologia                                                                                         201906
+050106Exames gráficos ou por imagem para diagnóstico de morte encefálica                                  201906
+060406Alimentos dietéticos isentos de fenilalanina                                                        201906
+060307Hemoderivados                                                                                       201906
+060107Antiepiléticos                                                                                      201906
+070107OPM em odontologia                                                                                  201906
+070207OPM em cirurgias oftálmicas                                                                         201906
+020207Exames toxicológicos ou de monitorização terapêutica                                                201906
+020807Aparelho respiratório                                                                               201906
+021107Diagnóstico em otorrinolaringologia/fonoaudiologia                                                  201906
+030107Atendimento/acompanhamento em reabilitação física, mental, visual e múltiplas deficiências          201906
+030207Assistência fisioterapêutica em queimados                                                           201906
+030307Tratamento de doenças do aparelho digestivo                                                         201906
+030407Quimioterapia de tumores de crianca e adolescente                                                   201906
+030907Angiologia                                                                                          201906
+040307Tratamento neuro-endovascular                                                                       201906
+040907Vagina, vulva e períneo                                                                             201906
+041607Oftalmologia                                                                                        201906
+050107Outros exames complementares para doação de orgãos, tecidos e células                               201906
+060407Aminas Terciárias                                                                                   201906
+060308Medicamentos para transplante                                                                       201906
+060408Aminoquinolinas                                                                                     201906
+070108OPM de anomalias buco-maxilo-facial                                                                 201906
+070208OPM em cirurgia plástica/reparadora                                                                 201906
+020208Exames microbiológicos                                                                              201906
+020808Aparelho hematológico                                                                               201906
+060108Antiinflamatórios                                                                                   201906
+030108Atendimento/Acompanhamento psicossocial                                                             201906
+030308Tratamento de doenças da pele e do tecido  subcutâneo                                               201906
+030408Quimioterapia - procedimentos especiais                                                             201906
+040308Neurocirurgia funcional estereotáxica                                                               201906
+041608Pele e cirurgia plástica                                                                            201906
+050108Exames complementares para pacientes transplantados                                                 201906
+021108Diagnóstico em pneumologia                                                                          201906
+060109Antiinflamatórios intestinais                                                                       201906
+060409Análogos da mostarda nitrogenada                                                                    201906
+070109Substituição/Troca em órteses/próteses                                                              201906
+070209OPM em cirurgia de otorrinolaringologia                                                             201906
+020209Exames em outros líquidos biológicos                                                                201906
+020809Outros métodos de diagnóstico em medicina nuclear in vivo                                           201906
+021109Diagnóstico em urologia                                                                             201906
+030109Atendimento/Acompanhamento em saúde do idoso                                                        201906
+030309Tratamento de doenças do sistema osteomuscular e do tecido conjuntivo                               201906
+030409Medicina nuclear - terapêutica oncológica                                                           201906
+041609Ossos e partes moles                                                                                201906
+070110OPM em queimados                                                                                    201906
+030310Tratamento durante a gestação, parto e puerpério                                                    201906
+030410Gerais em oncologia                                                                                 201906
+021110Diagnóstico em psicologia-psiquiatria                                                               201906
+041610Neurocirurgia                                                                                       201906
+060410Vasopressina e Análogos                                                                             201906
+030110Atendimentos de enfermagem (em geral)                                                               201906
+070210OPM em nefrologia                                                                                   201906
+060110Antiparkinsonianos                                                                                  201906
+020210Exames de genética                                                                                  201906
+030311Tratamento de malformações congênitas, deformidades e anomalias cromossômicas                       201906
+030111Atendimento/Acompanhamento queimados                                                                201906
+021111Diagnóstico em cardiologia intervencionista                                                         201906
+020211Exames para triagem neonatal                                                                        201906
+070211OPM em queimados                                                                                    201906
+060411Análogos do hormônio liberador de gonadotrofina                                                     201906
+060111Antipsicóticos                                                                                      201906
+041611Cirurgia torácica                                                                                   201906
+020212Exames imunohematológicos                                                                           201906
+030112Atendimento/acompanhamento de diagnóstico de doenças endocrinas/metabolicas e nutricionais          201906
+021112Diagnóstico em traumato-ortopedia                                                                   201906
+030312Tratamentos por medicina nuclear in vivo                                                            201906
+060412Antiandrogênios                                                                                     201906
+060112Antivirais                                                                                          201906
+041612Mastologia                                                                                          201906
+070212OPM para transplantes                                                                               201906
+041613Otorrinolaringologia                                                                                201906
+030113Acompanhamento em outras especialidades                                                             201906
+030313Tratamento de pacientes sob cuidados prolongados                                                    201906
+060413Anticolinesterases                                                                                  201906
+060113Bloqueadores neuromusculares                                                                        201906
+060114Ceratolíticos sistêmicos                                                                            201906
+030114Cuidados Paliativos                                                                                 201906
+030314Tratamento de doenças do ouvido/apófise mastóide e vias aéreas                                      201906
+060414Antigonadotrofinas e agentes similares                                                              201906
+060415Barbitúricos e derivados                                                                            201906
+060115Complementos alimentares para fenilcetonúricos                                                      201906
+030315Tratamento das doenças do aparelho geniturinário                                                    201906
+030316Tratamento de algumas afecçõess originadas no período neonatal                                      201906
+060116Fatores de crescimento mielóides                                                                    201906
+060416Bisfosfonados                                                                                       201906
+030317Tratamento dos transtornos mentais e comportamentais                                                201906
+060117Hipnoanalgésicos                                                                                    201906
+060417Compostos de Alumínio                                                                               201906
+060418Derivados da benzodiazepina                                                                         201906
+060118Hipolipemiantes                                                                                     201906
+030318Tratamento HIV/Aids                                                                                 201906
+060419Derivados de ácidos graxos                                                                          201906
+030319Reabilitação                                                                                        201906
+060119Imunomoduladores                                                                                    201906
+060120Imunossupressores                                                                                   201906
+060420Derivados do adamantano                                                                             201906
+060121Imunoterapicos                                                                                      201906
+060421Derivados do indol                                                                                  201906
+060122Inibidores da acetilcolinesterase                                                                   201906
+060422Derivados da succinimida                                                                            201906
+060123Mucolíticos                                                                                         201906
+060423Diazepinas, oxazepinas e tiazepinas                                                                 201906
+060124Quelantes do ferro                                                                                  201906
+060424 Enzimas                                                                                            201906
+060125Outros quelantes                                                                                    201906
+060425Fatores de estimulação de colônias                                                                  201906
+060126Reguladores da atividade hormonal-agonistas da vasopressina                                         201906
+060426Ferro trivalente, preparações parenterais                                                           201906
+060127Reguladores da atividade hormonal-analogos do GNRH                                                  201906
+060427Fibratos, Acido Nicotínico e seus derivados                                                         201906
+060128Reguladores da atividade hormonal-antiandrogênicos                                                  201906
+060428Glicocorticóides                                                                                    201906
+060429Somatostatina e Análogos                                                                            201906
+060129Reguladores da atividade hormonal-inibidores das gonadotrofinas                                     201906
+060130Reguladores da atividade hormonal-inibidores do hormônio do crescimento                             201906
+060430 Imunoglobulinas específicas                                                                        201906
+060131Reguladores da atividade hormonal-inibidores de prolactina                                          201906
+060431Imunoglobulinas, humana normal                                                                      201906
+060132Reguladores da atividade hormonal-hormonios de crescimento                                          201906
+060432Imunossupressores seletivos                                                                         201906
+060433Inibidores da agregação plaquetária, excl. heparina                                                 201906
+060133Reguladores da atividade hormonal-hormonios tireoidianos                                            201906
+060134Reguladores da atividade hormonal-mineralocorticóides                                               201906
+060434Inibidores da calcineurina                                                                          201906
+060135Reguladores da homeostase do cálcio                                                                 201906
+060435Inibidores da fosfodiesterase                                                                       201906
+060136Repositores enzimáticos                                                                             201906
+060436Inibidores da HMG-CoA redutase                                                                      201906
+060437Inibidores da monoamino oxidase tipo b                                                              201906
+060438Inibidores do fator de necrose tumoral alfa (TNF-a)                                                 201906
+060439Interferonas                                                                                        201906
+060440Medicamentos para tratamento da hipercalemia e hiperfosfatemia                                      201906
+060441Medicamentos utilizados na dependência de opióides                                                  201906
+060442Mineralocorticóides                                                                                 201906
+060443Modulador seletivo de receptor de estrogênio                                                        201906
+060444Mucolíticos                                                                                         201906
+060445Nucleosídeo e nucleotídeo (excl. inibidores da transcriptase reversa)                               201906
+060446Nucleosídeo e nucleotídeo, Inibidor da transcriptase reversa                                        201906
+060447Outras preparações antianêmicas                                                                     201906
+060448Outros agentes citotóxicos                                                                          201906
+060449Outros agentes dopaminérgicos                                                                       201906
+060450Outros antiepilépticos                                                                              201906
+060451Outros antipsicóticos                                                                               201906
+060452Outros imunoestimulantes                                                                            201906
+060453Outros imunossupressores                                                                            201906
+060454Outros medicamentos do sistema nervoso                                                              201906
+060455Outros relaxantes musculares de ação periférica                                                     201906
+060456Penicilamina e agentes similares                                                                    201906
+060457Preparações de calcitonina                                                                          201906
+060458Preparações de enzimas                                                                              201906
+060459Retinóides para tratamento da acne                                                                  201906
+060460Retinóides para tratamento da psoríase                                                              201906
+060461Somatropina e agonistas da somatropina                                                              201906
+060462Vitamina D e análogos, incluido combinação dos dois                                                 201906
+060463Produtos diversos para o trato alimentar ou metabolismo                                             201906
+060464Inibidores de Protease                                                                              201906
+060465Análogos das Prostaglandinas                                                                        201906
+060466Inibidores da Anidrase Carbonica                                                                    201906
+060467Simpatomiméticos na Terapia de Glaucoma                                                             201906
+060468Anticorpos Monoclonais                                                                              201906
+060469Inibidores de Interleucinas                                                                         201906
+060470Outros Antipsoriaticos de Uso Tópico                                                                201906
+060471Corticoesteróides de Potência Muito Alta (Grupo IV)                                                 201906
+060472Derivados do Ácido Propriônico                                                                      201906
+060473Parassimpaticomiméticos                                                                             201906
+060474Agentes Beta Bloqueadores                                                                           201906
+060475Outros Anti-hipertensivos                                                                           201906
+060476Outros Antivirais                                                                                   201906
+060477Outros Agentes Antiparatireoide                                                                     201906
+060478Insulinas Análogas de Ação Rápida de Uso Injetável                                                  201906

@@ -1,0 +1,20 @@
+<form method="post" action="<?=$this->url($this->action);?>" target="_blank">
+	<input name="filtro" id="filtro" type="hidden" value="s" />
+	<label>Setor:</label>
+	<input name="set_nome" id="set_nome" />
+        <input name="set_codigo" id="set_codigo" type="hidden"/><br />
+        
+        <label>Produto:</label>
+	<input name="pro_nome" id="pro_nome" />
+	<input name="pro_codigo" id="pro_codigo" type="hidden" /><br />
+	
+	<label>Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+	
+	<div class="clear"></div>
+	<a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+	
+</form>

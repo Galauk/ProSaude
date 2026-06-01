@@ -1,0 +1,55 @@
+<h1 ><?=$this->age_codigo." - ".$this->usu_nome?></h1>
+<h2 class="titulo">Médico Solicitante: <?php echo($this->medico)?></h2>
+<?php if($this->coletados == 1):?><h3 class="titulo" style="margin-left: 35%">Comprovante de coleta</h3> <?php endif;?>
+
+<table class="borda zebra" style="width: 100%">
+	<tr>
+            <th style="width: 100px">Cod. SUS</th>
+            <th>Exame</th>
+            <th style="width: 80px">Data <?php if($this->coletados  == 1): echo "Resultado";endif;?></th>
+            <th style="width: 80px">Valor</th>
+	</tr>
+        <?$total_geral = 0;?>
+	<?php foreach ($this->age as $item): ?>
+        <?//$total_geral += $item->coni_valor;?>
+        <?php $data_agenda = ($item->col_data_entrega ? $item->col_data_entrega : $item->agei_data);?>
+	<tr>
+            <td><?=$this->mask($item->proc_codigo_sus, "sus");?></td>
+            <td><?=$this->escape($item->proc_nome);?></td>
+            <td><?=$this->data($data_agenda);?></td>
+            <?php
+                if(!empty($item->coni_valor)):$total += $item->coni_valor;
+            ?>
+                <td><?=$this->escape(number_format($item->coni_valor,2));?></td>
+            <?php
+                else:
+            ?>
+                <td>Não especificado</td>
+            <?php
+                endif;
+            ?>
+	</tr>
+	<?php endforeach; ?>
+        <tr>
+            <td colspan="4" style="text-align: right;"><b>Total R$:</b><?=number_format($total,2)?></td>
+        </tr>
+         <tr>
+             <td colspan="4" style="text-align: right;"><b>Emitido por:</b> <?=$this->emissor?><b>Data de Entrega:___/___/______</b></td>
+        </tr>
+
+</table>
+<?php if($this->coletados != 1):?>
+    <div class="space"></div>
+    <div class="space"></div>
+    <h2 class="titulo">Dados do Laboratório</h2>
+    <label><strong>Nome:</strong></label> <?=$this->escape($item->med_nome);?><br />
+    <label><strong>Endereço:</strong></label> <?=$this->escape($item->med_endereco);?>/<?=$this->escape($item->cid_nome);?><br />
+    <div class="space"></div>
+    <h2 class="titulo">Orientações:</h2>
+            <?php foreach ($this->orientacoes as $item): ?>
+            <span><?=$this->escape($item->ori_exa_orientacoes);?></span><br />
+
+            <?php endforeach; ?>
+    <span>Comparecer no local as 07:00 horas para coleta.</span><br>
+    <span>Comparecer no local das 13h30min às 15h para entrega.</span>
+<?php endif;?>

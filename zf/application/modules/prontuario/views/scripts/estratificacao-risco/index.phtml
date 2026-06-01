@@ -1,0 +1,70 @@
+<?php
+
+    $usu_codigo = $this->age->usu_codigo;
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" id="estratificacao-risco" >
+    <input type="hidden" name="usu_codigo" id = "usu_codigo" value="<?= $this->age->usu_codigo; 	?>">
+
+        <label  style = "padding: 6px;" for="">Escolha uma ficha </label>
+        
+        <select style = "padding: 4px;border-radius : 4px" name="valoresFichaDeEstratificacao" id="valoresFichaDeEstratificacao">
+            <?php
+                
+                if ($this->recuperFichaEspecialidade == NULL) {?>
+                    
+                    <option value="">Sem Fichas Cadastradas</option>
+
+                <?} else{ 
+                    
+                    for ($contador=0; $contador < count($this->recuperFichaEspecialidade); $contador++) { ?>
+
+                            <option value="<?=$this->recuperFichaEspecialidade[$contador][id_estlista]?>">
+                                <?=$this->recuperFichaEspecialidade[$contador][est_nomeficha]?>
+                            </option>  
+                            
+                        <?}
+                    }
+                    ?>
+        </select>
+
+        <button style = "border-radius : 3px" type = "button" onclick = "listarPerguntasFicha()">
+            <img src="/WebSocialSaude/zf/public/images/icons/quiz.png" alt="" title="">     
+        </button>
+        
+        <a href='<?= $this->url(array("module" => "relatorio", "controller" => "usuario", "action" => "estratificacao-risco","usu_codigo" => $usu_codigo)); ?>' class="ui-button detalhes popup" rel="900x540">
+            Histórico
+        </a>
+        
+        
+        <div style = "width: 956px;margin-bottom: 25px;text-align:center;font-size:13px" id = "perguntas"></div>
+        
+
+        <div style = "width: 956px;margin-bottom: 25px;text-align:center;font-size:13px" id = "referencia"></div>
+
+        <div>
+        
+            <label style = "padding: 6px;" for="">Total : </label> 
+            
+            <input style = "padding: 5px;border-radius: 7px;" id = "recebeSomaTotal"  type="text" >
+
+        </div>
+
+        <a href="#" onclick = "salvarEstratificacaoDeRisco()" class="ui-button">Salvar</a>
+
+        <div hidden id = "finalizarEstratificacao"></div>
+        
+
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<form method="post" action="<?= $this->url(array("action" => "gera-bpa")); ?>" target="_blank" id="form">
+    
+    <label>Tipo Financiamento:</label>
+    <select name="tipoBpa" style="width:300px;" class="ui-state-default">
+	<?php
+        //Lista todas as unidades no select
+        foreach ($this->listaFinanciamento as $finan):?>
+                <option value="<?=$finan->co_financiamento?>"><?=$finan->no_financiamento?></option>
+    <?php endforeach ?>
+    </select>
+    <br/>
+
+    <label>Unidade:</label>
+    <select id="codigo" name="codigo" style="width:300px;" class="ui-state-default">
+        <option onclick="validarTipo('')" value="">Todos</option>
+            <optgroup label="Unidades">
+        <? foreach ($this->listaUnidade as $unidade){ ?>
+                <option onclick="validarTipo('U')" value="<?=$unidade->uni_codigo?>"><?=$unidade->uni_desc?></option>
+        <? } ?>
+            <optgroup label="Prestadores">
+        <? foreach ($this->listaPrestador as $prestador){ ?> 
+            <option onclick="validarTipo('M')" value="<?=$prestador->med_codigo?>"><?=$prestador->med_nome?></option>
+        <? } ?>
+    </select>
+
+    <input type='hidden' name='tipo' id="tipo" class="field" value=""/>
+    <br/>
+    <label>Competência:</label>
+    <select id="competencia" name="competencia" style="width:300px;" class="ui-state-default">          
+        <?php
+        //Prapara a data podendo selecionar ate o ano de 2008
+        $count = 0;
+        $condicao = true;
+        while ($condicao) {
+            $competencia = new Zend_Date();
+            //Já diminui um mês, pela regra do BPA que só se exporta a partir do mês anterior ao atual
+            $competencia->add('-1', Zend_Date::MONTH);
+            //A partir disso, se reduz mês a mês até atingir a data limite da nova estrutura do bpa
+            $competencia->add('-'.$count, Zend_Date::MONTH);
+            if($ano != $competencia->toString('YYYY')){
+                $ano = $competencia->toString('YYYY');
+                ?>
+                <optgroup label="<?=$ano?>">    
+                <?php
+            }
+            ?>
+            <option value="<?=$competencia->get('MM/YYYY')?>"><?=$competencia->toString('MM/YYYY');?></option>
+        <?php
+            // echo $competencia->toString('MM/YYYY') ."==". $this->dataCompetencia."<br/>";
+            if($competencia->toString('MM/YYYY') == $this->dataCompetencia){ //
+                $condicao = false;
+            }
+            
+            $count = $count + 1;
+            if($count == 100){
+                $condicao = false;
+            }
+        }?>
+    </select>
+    <!--<input type="text" name="competencia" id="competencia" value="">-->
+    <br/>
+    <br/>
+    
+    <div class="clear"></div>
+    <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+
+</form>

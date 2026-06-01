@@ -1,0 +1,35 @@
+<?php $this->dialog(); ?>
+<input type="hidden" id="imprimir" value="<?=$this->imprimir;?>" />
+<input type="hidden" id="cid_obrigatorio" value="<?=$this->cid_obrigatorio;?>" />
+<form method="post" id="form-atestado" action="<?= $this->url(array("action" => "salvar")); ?>">	
+	<input type="hidden" name="atest_codigo" value="<?=$this->dados->atest_codigo;?>" />
+        <?php $this->errorMsg(); ?>
+	<label>CID:</label>
+        <input type="text" name="ate_cd10_codigo_novo" id="ate_cd10_codigo_novo" value="<?=$this->escape(trim($this->cid->cd10_codigo_cid));?>" readonly="readonly" style="width: 35px;" />
+        <input type="hidden" name="ate_cd10_codigo" id="ate_cd10_codigo" value="<?=$this->escape(trim($this->cid->cd10_codigo));?>" readonly="readonly" style="width: 35px;" />
+	<input type="text" name="ate_cd10_descricao" id="ate_cd10_descricao" value="<?=$this->escape(trim($this->cid->cd10_descricao));?>" readonly="readonly" />
+        <img src="/WebSocialSaude/zf/public/images/icons/atualizar.png" alt="Carregar CID Atendimento" title="Carregar CID Atendimento" onclick="atualizarCid();" style="cursor:pointer">
+        <img src="/WebSocialSaude/zf/public/images/icons/excluir.png" alt="Excluir CID" title="Excluir CID" onclick="excluirCid();" style="cursor:pointer">
+        <br />
+	<label>Motivo do Atestado:</label>
+	<div class="grupo">
+		<input name="motivo[consulta_medica]" type="checkbox" value="S" checked="checked" disabled="disabled" /> Consulta Médica<br />
+		<?=$this->inputCheckbox("motivo[acompanhando_filho]",'S',$this->dados->acompanhando_filho);?>
+                Acompanhado por: <input name="acompanhando" value="<?=$this->escape($this->dados->acompanhando);?>" /><br />
+		<?=$this->inputCheckbox("motivo[retorno_trabalho]",'S',$this->dados->retorno_trabalho);?>
+                Devendo retornar ao trabalho: <input name="retornoaotrabalho" value="<?=$this->escape($this->dados->retornoaotrabalho);?>" /><br />
+		<?=$this->inputCheckbox("motivo[repouso_hs]",'S',$this->dados->repouso_hs);?>
+                Devendo permanecer em repouso: <input name="repousohs_ini" style="width: 30px" class="mask d" rel="9?99" value="<?=$this->escape($this->dados->repousohs_ini);?>" />hs. a partir das <input name="repousohs_final" style="width: 40px" class="mask" rel="99:99" value="<?=$this->escape($this->dados->repousohs_final);?>" />hs.<br />
+		<?=$this->inputCheckbox("motivo[repouso_hoje]",'S',$this->dados->repouso_hoje);?>
+                Devendo permanecer em repouso hoje.<br />
+		<?=$this->inputCheckbox("motivo[repouso_dia]",'S',$this->dados->repouso_dia);?>
+                Devendo permanecer em repouso: <input name="repousodias" style="width: 30px" class="mask d" rel="9?99" value="<?=$this->escape($this->dados->repousodias);?>" /> dias, a partir desta data.
+	</div><br />
+	<label>Observações:</label>
+	<div class="textarea">
+		<textarea name="obs" class="tinymce"><?= $this->escape($this->dados->obs); ?></textarea>
+	</div><br />
+        <div class="space"></div>
+        <a href="#" class="ui-button salvar">Salvar e Imprimir</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+</form>

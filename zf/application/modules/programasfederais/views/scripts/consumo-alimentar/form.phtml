@@ -1,0 +1,295 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<script language="JavaScript">
+    function muda(n) {
+        document.getElementById(n).style.backgroundColor = "#cccccc";
+    }
+
+    function voltar(n) {
+        document.getElementById(n).style.backgroundColor = "#ffffff";
+    }
+</script>
+<form name='upload' action='<?= $this->url(array("action" => "salvar")) ?>' method='post' enctype='multipart/form-data'
+      id="cons-alimentar">
+    <input type="hidden" name="codFicha" id="codFicha" value="<?= $this->dados->co_seq_cds_consumo_alimentar ?>"/>
+    <input type="hidden" name="ativCol" id="ativCol" value="1"/>
+    <table width="100%" cellspacing="5" cellpadding="0" border="0" class='bordertotal'>
+        <tr>
+            <td width='345' valign="top">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td>
+                            <div id="div_local">
+                                <label class="obrigatorio">Local:</label>
+                                <?= $this->selectLocais ?>
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="obrigatorio">Unidade:</label>
+                            <input <?= $this->restringir == 1 ? "disabled=disabled" : "" ?>
+                                    type="text"
+                                    name="uni_desc" id="uni_desc" tabindex="1"
+                                    value="<?= $this->dados['uni_desc'] ? $this->dados['uni_desc'] : "" ?>"
+                                    onkeypress="buscaUnidade()"/>
+                            <input type="hidden"
+                                   name="uni_codigo" id="uni_codigo"
+                                   value="<?= $this->dados['uni_codigo'] ?
+                                       $this->dados['uni_codigo'] :
+                                       "" ?>">
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="obrigatorio">Data:</label>
+                            <input type="text"
+                                   name="data_atendimento" id="data_atendimento"
+                                   class="mask data-esus focus" rel="99/99/9999"
+                                   tabindex="1"
+                                   autocomplete="off"
+                                   onchange="habilitaPerguntas()"
+                                   value="<?= $this->dados['ate_data'] ?
+                                       $this->data($this->dados['ate_data']) :
+                                       "" ?>"/>
+                            <input type="hidden" name="data_atual" id="data_atual"
+                                   value="<?= date("d/m/Y") ?>"/>
+                            <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="obrigatorio">Cidadão:</label>
+                            <input type="text" name="usu_nome" id="usu_nome"
+                                   onkeypress="buscaCidadao()" tabindex="2"
+                                   value="<?= $this->dados['usu_nome'] ?>"/>
+                            <input type="hidden"
+                                   name="usu_codigo"
+                                   id="usu_codigo"
+                                   value="<?= $this->dados['usu_codigo'] ?>"/>
+                            <input type="hidden" name="id_nome" id="id_nome" value="usu_nome"/>
+                            <input type="hidden" name="id_codigo" id="id_codigo"
+                                   value="usu_codigo"/>
+                            <a type="button" class="ui-button paciente" id="botaoPaciente"
+                               style="margin-left: 5px;" tabindex="5">Novo / Editar</a>
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="obrigatorio">Data de nascimento:</label>
+                            <input type="text" name="data_nasc"
+                                   id="data_nasc"
+                                   value="<?= $this->dados['usu_datanasc'] ? $this->data($this->dados['usu_datanasc']) : "" ?>"
+                                   readonly="true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="obrigatorio">Profissional:</label>
+                            <input <?= $this->restringir == 1 ? "disabled=disabled" : "" ?>
+                                    type="text"
+                                    name="usr_nome" id="usr_nome"
+                                    onclick="buscaProfissional()"
+                                    tabindex="3"
+                                    value="<?= $this->dados['usr_nome'] ? $this->dados['usr_nome'] : "" ?>"/>
+                            <input type="hidden" id="usr_codigo" name="usr_codigo"
+                                   value="<?= $this->dados['usr_codigo'] ? $this->dados['usr_codigo'] : "" ?>"/>
+
+                            <br/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <div id="menorSeis">
+        <table width="50%" heigth="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <!-- PÚBLICO ALVO -->
+                <td width="34%" valign="top">
+                    <table width="100%" heigth="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                            <td>
+                                <fieldset>
+                                    <legend style="text-align: center" align="center">
+                                        Crianças menores de 6 meses
+                                    </legend>
+                                    <table width="100%" cellspacing="0" cellpadding="0" id="tab-menorSeis"
+                                           border="0" style="font-size: 11px;">
+                                        <?php foreach ($this->perguntaMenorSeis as $key => $perguntaMenorSeis) { ?>
+                                            <tr id="msg1<?= $perguntaMenorSeis['co_qst_questao'] ?>"
+                                                name="msg1<?= $perguntaMenorSeis['co_qst_questao'] ?>"
+                                                style="background-color:#ffffff;"
+                                                onMouseOver="muda('msg1<?= $perguntaMenorSeis['co_qst_questao'] ?>')"
+                                                onMouseOut="voltar('msg1<?= $perguntaMenorSeis['co_qst_questao'] ?>')">
+                                                <td width="50%"
+                                                    align="left"><?= $perguntaMenorSeis['no_qst_questao'] ?></td>
+                                                <td align="right">
+                                                    <?php foreach ($this->respostas as $resposta) {
+                                                        if ($resposta['co_qst_questao'] == $perguntaMenorSeis['co_qst_questao']) {
+                                                            if (($resposta['co_qst_questao'] == $this->dados['radio'][$key]['co_qst_questao']) &&
+                                                                ($resposta['co_qst_resposta'] == $this->dados['radio'][$key]['co_qst_resposta'])) {
+                                                                $selecionado = "checked=checked";
+                                                            } else {
+                                                                $selecionado = "";
+                                                            } ?>
+                                                            <input type="radio"
+                                                                   required
+                                                                   class="inputMenorSeis"
+                                                                   name="menorSeis<?= $resposta['co_qst_questao'] ?>"
+                                                            <?= $selecionado ?>
+                                                                   value=<?= $resposta['co_qst_resposta'] ?>><?= $resposta['no_qst_resposta'] ?>
+                                                        <?php }
+                                                    } ?>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </table>
+                                </fieldset>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="maiorSeis">
+        <table width="100%" heigth="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td width="33%" valign="top">
+                    <table width="100%" heigth="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                            <td>
+                                <fieldset>
+                                    <legend style="text-align: center" align="center">
+                                        Crianças de 6 a 23 meses
+                                    </legend>
+                                    <table width="100%" cellspacing="0" cellpadding="0" border="0" id="tab-maiorSeis"
+                                           style="float: left; font-size: 11px;">
+                                        <?php foreach ($this->perguntaMaiorSeis as $key => $perguntaMaiorSeis) { ?>
+                                            <tr id="msg2<?= $perguntaMaiorSeis['co_qst_questao'] ?>"
+                                                name="msg2<?= $perguntaMaiorSeis['co_qst_questao'] ?>"
+                                                style="background-color:#ffffff;"
+                                                onMouseOver="muda('msg2<?= $perguntaMaiorSeis['co_qst_questao'] ?>')"
+                                                onMouseOut="voltar('msg2<?= $perguntaMaiorSeis['co_qst_questao'] ?>')">
+                                                <td width="50%"
+                                                    align="left"><?= $perguntaMaiorSeis['no_qst_questao'] ?></td>
+                                                <td align="right">
+                                                    <?php foreach ($this->respostas as $resposta) {
+                                                        if ($resposta['co_qst_questao'] == $perguntaMaiorSeis['co_qst_questao']) {
+                                                            if (($resposta['co_qst_questao'] == $this->dados['radio'][$key]['co_qst_questao']) &&
+                                                                ($resposta['co_qst_resposta'] == $this->dados['radio'][$key]['co_qst_resposta'])) {
+                                                                $selecionado = "checked=checked";
+                                                            } else {
+                                                                $selecionado = "";
+                                                            } ?>
+                                                            <input type="radio"
+                                                                   class="inputMaiorSeis"
+                                                                   onclick="trataValor()"
+                                                                   id="maiorSeis<?= $resposta['co_qst_questao'] ?>"
+                                                                   name="maiorSeis<?= $resposta['co_qst_questao'] ?>"
+                                                            <?= $selecionado ?>
+                                                                   value=<?= $resposta['co_qst_resposta'] ?>><?= $resposta['no_qst_resposta'] ?>
+                                                        <?php }
+                                                    } ?>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </table>
+                                </fieldset>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="maiorDois">
+        <table width="100%" heigth="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td width="33%" valign="top">
+                    <table width="100%" heigth="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                            <td>
+                                <fieldset>
+                                    <legend style="text-align: center" align="center">
+                                        Crianças com 2 anos ou mais,
+                                        adolecentes, adultos,
+                                        gestantes e idosos
+                                    </legend>
+                                    <table width="100%" cellspacing="0" cellpadding="0" border="0" id="tab-maiorDois"
+                                           style="float: left; font-size: 11px;">
+                                        <?php foreach ($this->perguntaMaiorDois as $key => $perguntaMaiorDois) { ?>
+                                            <tr id="msg3<?= $perguntaMaiorDois['co_qst_questao'] ?>"
+                                                name="msg3<?= $perguntaMaiorDois['co_qst_questao'] ?>"
+                                                style="background-color:#ffffff;"
+                                                onMouseOver="muda('msg3<?= $perguntaMaiorDois['co_qst_questao'] ?>')"
+                                                onMouseOut="voltar('msg3<?= $perguntaMaiorDois['co_qst_questao'] ?>')">
+                                                <td width="50%"
+                                                    align="left"><?= $perguntaMaiorDois['no_qst_questao'] ?></td>
+                                                <td align="right">
+                                                    <?php foreach ($this->respostas as $resposta) {
+                                                        if ($resposta['co_qst_questao'] == $perguntaMaiorDois['co_qst_questao']) {
+                                                            if ($resposta['co_qst_questao'] == 12) {
+                                                                $selecionado = "";
+                                                                //echo '<p>' ."RESPOSTA: ".$resposta['co_qst_resposta']. '</p>';
+                                                                foreach ($this->dados['check'] as $dd) {
+                                                                    //echo '<p>' .$dd['co_qst_resposta']. '</p>';
+                                                                    if (($resposta['co_qst_resposta'] == $dd['co_qst_resposta']) &&
+                                                                        ($resposta['co_qst_questao'] == $dd['co_qst_questao'])) {
+                                                                        $selecionado = "checked=checked";
+                                                                    }
+                                                                } ?>
+                                                                <input id="checkboxMaiorDois"
+                                                                       type="checkbox"
+                                                                       class="inputMaiorDois"
+                                                                       name="maiorDois[]"
+                                                                    <?= $selecionado ?>
+                                                                       value=<?= $resposta['co_qst_resposta'] ?>>
+                                                                <?= $resposta['no_qst_resposta'] ?>
+                                                            <?php } else {
+                                                                $selecionado = "";
+                                                                foreach ($this->dados['radio'] as $dd) {
+                                                                    if (($resposta['co_qst_resposta'] == $dd['co_qst_resposta']) &&
+                                                                        ($resposta['co_qst_questao'] == $dd['co_qst_questao'])) {
+                                                                        $selecionado = "checked=checked";
+                                                                    }
+                                                                } ?>
+                                                                <input type="radio"
+                                                                       class="inputMaiorDois"
+                                                                       name="maiorDois<?= $resposta['co_qst_questao'] ?>"
+                                                                    <?= $selecionado ?>
+                                                                       value=<?= $resposta['co_qst_resposta'] ?>>
+                                                                <?= $resposta['no_qst_resposta'] ?>
+                                                                <?php
+                                                            }
+                                                        }
+                                                    } ?>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </table>
+                                </fieldset>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <br/>
+
+    <br>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td align='right'>
+                <a href="<?= $this->url(array("controller" => "consumo-alimentar", "action" => "index")); ?>"
+                   class="ui-button voltar" data-atalho="ESC">Voltar</a>
+                <a type="button" class="ui-button salvar-icon" id="enviar" onclick="salvar()">Salvar Dados</a>
+            </td>
+        </tr>
+    </table>
+</form>

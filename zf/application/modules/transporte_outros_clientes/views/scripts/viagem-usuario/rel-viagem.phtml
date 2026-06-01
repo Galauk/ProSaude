@@ -1,0 +1,63 @@
+<table>
+    <?$totalDespesas = 0;
+    $total = 0;
+    ?>
+    <?  foreach ($this->dadosP as $item){?>
+    <?if($item['usu_nome'] != $usu_nome){
+        if($usu_nome){?>
+                <tr><td style=\"border:none;\" colspan=\"3\">&nbsp;</td></tr>
+        <?}        
+        $totalDespesas += $item[viausu_despesas];
+        $usu_nome = $item['usu_nome'];        
+        
+        ?>
+				
+				
+        <tr>
+          <th align="left" colspan="2">Paciente: <?=$item['usu_nome']?></th>
+          <th align="left" style="font-size:10px;">Despesas: <?=($item['viausu_despesas'] == "" ? "Não Informado" : $item['viausu_despesas'])?></th>
+        </tr>
+        <tr>
+             <th>Procedimento</th>
+             <th>Quantidade</th>
+             <th>Ajuda de Custo</th>
+        </tr>
+    <?}
+    $custoProc = $item['qtde'] * $item[proc_vlsa];
+    ?>
+    
+    <tr>
+        <td><?=($item['proc_nome'] == "" ? "Nenhum Procedimento" : $item['proc_nome'])?></td>
+        <td><?=$item['qtde']?></td>
+        <td class="float" rel="9,2"><?=number_format($custoProc,2, '.', '')?></td>
+
+    </tr>
+
+<?
+
+$total += $custoProc;
+
+       
+    } ?>
+    <!--<tr style='font-weight:bold;'>
+        <td  align="right" >Total Ajuda de Custo</td>
+        <td class="float" rel="9,2"><?number_format($total,2, '.', '')?></td>
+        
+        <td  align="right" >Total Ajuda de Despesas</td>
+        <td class="float" rel="9,2"><?number_format($totalDespesas,2, '.', '')?></td>
+    </tr>-->
+</table>
+<table style="background-color: #eee; font-weight: bold;">
+    <tr>
+        <td width='110' align="left" >Total Ajuda de Custo</td>
+        <td class="float" rel="9,2"><?=number_format($total,2, '.', '')?></td>
+    </tr>
+     <tr>
+        <td  align="left" >Total de Despesas</td>
+        <td class="float" rel="9,2"><?=number_format($totalDespesas,2, '.', '')?></td>
+    </tr>
+    <tr>
+        <td  align="left" >Balanço</td>
+        <td class="float" rel="9,2"><?=number_format($total - $totalDespesas,2, '.', '')?></td>
+    </tr>
+</table>

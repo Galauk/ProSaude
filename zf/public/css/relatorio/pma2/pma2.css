@@ -1,0 +1,45 @@
+body{
+  background-color: #FFF;
+}
+
+table{
+  font-family:"Times New Roman";
+}
+
+table#cabecalho{
+  width: 600px;
+}
+
+table#cabecalho tr{
+  border: 2px solid #000;
+}
+
+table#cabecalho tr td{
+  border: 1px solid #000;
+}
+
+#col1{
+  float: left;
+  width: 305px;
+}
+
+
+#col1 table,
+#col2 table{
+  border: 3px double #000;
+}
+
+#col1 table td,
+#col2 table td{
+  border: 1px solid #000;
+}
+
+#col2{
+  float: left;
+  margin-left: 25px;
+  width: 270px;
+}
+
+.b2{
+  border-bottom: 3px double #000 !important;
+}

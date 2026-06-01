@@ -1,0 +1,31 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Data Agenda</th>
+		<th>Especialista</th>
+		<th>Unidade</th>
+		<th>Observação</th>
+		<th>Especialidade</th>
+		<th>Opções</th>
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<tr>
+		<td class="ui-state-default">
+			Ag.: <?=$this->data($item->agee_data,'dd/MM/yyyy','<em>[em espera]</em>');?><br />
+			Reg.: <?=$this->data($item->agee_data_cad,'dd/MM/yyyy','--');?>
+		</td>
+		<td class="ui-state-default"><?=$item->med_destino;?></td>
+		<td class="ui-state-default"><?=$item->uni_desc;?></td>
+		<td class="ui-state-default escape"><?=$item->agee_observacao;?></td>
+		<td class="ui-state-default"><?=$item->esp_nome;?></td>
+		<td class="ui-state-default c" width="60">
+			<a href="<?=$this->url(array("controller"=>"agendamento-externo", "action"=>"editar","id"=>$item->agee_codigo),NULL,TRUE);?>"><img src="<?=$this->baseUrl('/public/images/icons/editar.png');?>" alt="Editar" title="Editar" /></a>
+			<a href="#" onClick="popup('<?=$this->url(array("controller"=>"agendamento-externo", "action"=>"imprimir","id"=>$item->agee_codigo),NULL,TRUE);?>','agendamento-externo',600,550)"><img src="<?=$this->baseUrl('/public/images/icons/imprimir.png');?>" alt="Imprimir" title="imprimir" /></a>
+			<a class="excluir" href="<?=$this->url(array("controller"=>"agendamento-externo", "action"=>"excluir","id"=>$item->agee_codigo),NULL,TRUE);?>"><img src="<?=$this->baseUrl('/public/images/icons/excluir.png');?>" alt="Excluir" title="Excluir" /></a>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php else: ?>
+<em>Nenhum agendamento encontrado para este paciente</em>
+<?php endif; ?>

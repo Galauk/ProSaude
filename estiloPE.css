@@ -1,0 +1,72 @@
+/* Originalmente desenvolvido para "Porta de Entrada" */
+
+#box-select{
+  float: left;  
+  width: 350px;
+}
+
+#box-select img.label{
+  display: block;
+}
+
+#box-select img{
+  float: left;
+}
+
+#box-select div{
+  float: left;
+  display: inline-table;
+  width: 200px;
+  height: 22px;
+  background: #DDE6EF;
+  padding: 5px 0 0 0;
+}
+
+#bloco{
+	margin: 10px 0 0 0;
+}
+
+#pac-foto,#pac-dados{
+	float: left;
+}
+
+#btnbio{
+	left:680px;
+	top:100px;
+	position: absolute;
+}
+
+
+#iframe{
+	width: 700px;
+	height: 390px;
+	display: none;
+}
+	
+
+.grid tr td, .grid tr th{
+	padding: 2px 5px;	
+}
+
+.situacaoS td{font-weight: bold; color:blue}
+.situacaoF td{font-weight: bold; color:red}
+.situacaoT td{font-weight: bold; color:orange}
+.situacaoE td{font-weight: bold; color:DarkGreen}
+.situacaoP td{font-weight: bold; color:green}
+
+
+.clear{clear:both;}
+
+.ui-menu-item{font-size:12px;}
+
+#box-select select {
+    width: 200px;
+}
+
+#box-select img.borda-left {
+    clear: left;
+}
+
+#box-select div.clear {
+    width: 201px;
+}

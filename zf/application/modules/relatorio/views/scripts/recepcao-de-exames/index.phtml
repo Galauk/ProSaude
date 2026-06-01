@@ -1,0 +1,25 @@
+<form>
+	<div>
+		<label for="">Unidade : </label>
+		<select name="codigoDoLocal" id="codigoDoLocal">
+			<?php 
+				for ($contador = 0; $contador < count($this->recebePrestadorTipoL) ; $contador ++) { ?>
+					<option value="<?=$this->recebePrestadorTipoL[$contador][med_codigo]?>"><?=$this->recebePrestadorTipoL[$contador][med_crm]?></option>
+				<?} 
+			?>
+		</select>
+	</div>
+
+	<div>
+		<label for="">Data inicial : </label>
+		<input type="date" id="dataInicial" name="dataInicial">
+	</div>
+
+	<div>
+		<label for="">Data Final : </label>
+		<input type="date" id="dataFinal" name="dataFinal">
+	</div>
+
+	<a href="#" onclick="gerarRelatorioRecepcaoDeExames()" class="ui-button">Gerar Relatório</a>
+
+</form>

@@ -1,0 +1,31 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<form method="post" action="<?= $this->url(array("action" => "rel-atendimento-simplificado")); ?>" target="_blank">
+	<input type="hidden" id="imprimir" value="<?php echo $this->print;?>" />
+	<div style="width: 760px" class="f">
+            <label style="width: 110px;">Paciente:</label>
+            <input type="text" id="usu_nome" class="focus" tabindex="1" /><br />
+            <input type="hidden" id="usu_codigo" name="usu_codigo" value="<?= $this->dados->usu_codigo; ?>" />
+            <label style="width: 110px;">Profissional:</label>
+            <input type="text" id="usr_nome" class="focus"  /><br />
+            <input type="hidden" id="usr_codigo" name="usr_codigo" value="<?= $this->dados->usr_codigo; ?>" />
+            <label style="width: 110px;">Procedimentos:</label>
+            <input type="text" id="proc_nome" name="proc_nome" value="<?= $this->dados->proc_nome; ?>" tabindex="2" /><br />
+            <input type="hidden" id="proc_codigo" name="proc_codigo" value="<?= $this->dados->proc_codigo; ?>" />
+            <input type="hidden" id="proc_codigo_sus" name="proc_codigo_sus" value="<?= $this->dados->proc_codigo_sus; ?>" />
+            <div id="dadosProcAtendSimp">
+                <!-- Aqui o conteúdo é alimentado pelo jQuery -->
+            </div>
+            <label style="width: 110px;">Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	<label style="width: 110px;">Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+	</div>
+	<div class="clear"></div>
+	<div class="space"></div>
+	<div class="space"></div>
+        <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+	<div class="space"></div>
+	<div id="itens"></div>
+</form>

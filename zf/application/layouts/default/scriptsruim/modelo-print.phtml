@@ -1,0 +1,75 @@
+<?= $this->doctype() . "\n"; ?>
+<?php
+$_SESSION[modulo] = "WebSocialSaude/";
+$_SESSION[root] = $_SERVER[DOCUMENT_ROOT] . "/";
+$_SESSION[linkroot] = "http://" . $_SERVER[HTTP_HOST] . "/";
+$_SESSION[comum] = "WebSocialComum/";
+$_SESSION[modulo] = "WebSocialSaude/";
+$_SESSION[modulo] = "WebSocialSaude/"; $_SESSION[root] = $_SERVER[DOCUMENT_ROOT] . "/"; $_SESSION[linkroot] = "http://" . $_SERVER[HTTP_HOST] . "/"; $_SESSION[comum] = "WebSocialComum/"; $_SESSION[modulo] = "WebSocialSaude/"; require_once $_SESSION[root].$_SESSION[modulo]."sessao_controller.php";
+$sessao = new TempoSessao();
+$sessao->primeiraPagina();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+        <?= $this->headMeta() . "\n"; ?>
+        <?= $this->headTitle() . "\n"; ?>
+        <?= $this->headLink() . "\n"; ?>
+		<link href='<?=$this->baseUrl('/public/css/print.css')?>' rel='stylesheet' type='text/css'></link>
+		<script type="text/javascript">
+			var baseUrl = '<?=$this->baseUrl();?>';
+		</script>
+        <?= $this->headScript() . "\n"; ?>
+		<?php if(APPLICATION_ENV != "development"):?>
+		<script type="text/javascript">
+			$(function(){
+				window.print();
+			});
+		</script>
+		<?php endif;?>
+		<?= $this->analytics(); ?>
+    </head>
+	<body>
+	 	<div id="page">
+	 		<div id="header">
+	 			<div id="header_logo">
+	 				<img src="<?=$this->baseUrl('/public/images/brasao.jpg')?>" title="Logo Prefeitura" />
+	 			</div>
+	 			<div id="header_dados">
+	 				<div id="sec_nome">Prefeitura Municipal de <?=$this->dadosSecretaria()->cidade;?></div>
+	 				<div id="pref_nome">Secretaria Municipal de Saúde</div>
+	 			</div>
+                                <?if($this->codigo):?>
+                                    <div id="header_barcode">
+                                            <img src="<?=$this->baseUrl("/public/images/codigo_barras.php?codigo=".$this->codigo."&lw=1&hi=18")?>" alt="Código de Barras: <?=$this->codigo;?>" title="Código de Barras: <?=$this->codigo;?>" />
+                                    </div>
+                                <?endif;?>
+	 			<div class="clear"></div>
+	 		</div>
+	 		<br/><br/><br/>
+                        <?if($this->dados_pac):?>
+                            <div id="dados_pac">
+                                    <div id="pac_nome"><?=$this->dadosUsu($this->usu_codigo)->usu_nome;?></div>
+                                    <div id="pac_end"><?=$this->dadosUsu($this->usu_codigo)->usu_endereco;?></div>
+                                    <div id="pac_end">Data Nasc.: <?=$this->data($this->dadosUsu($this->usu_codigo)->usu_datanasc);?> - Idade: <?=$this->idade($this->dadosUsu($this->usu_codigo)->usu_datanasc);?></div>
+                            </div>
+                        <?endif;?>
+                        <?if($this->dados_gerais):?>
+                            <div id="dados_pac">
+                                    <div class="dados_gerais"><?=$this->dados_gerais?></div>
+                                    <div class="dados_gerais"><?=$this->dados_gerais_sec?></div>
+                                    <div class="dados_gerais"><?=$this->dados_complementares?></div>
+                                    <div class="dados_gerais"><?=$this->dados_complementares_sec?></div>
+                            </div>
+                        <?endif;?>
+	 		
+			<?= $this->layout()->content; ?>
+	 		
+	 		<div id="footer">
+	 			Secretaria Municipal de Saúde - <?=$this->dadosSecretaria()->endereco;?>
+                <?if($this->dadosSecretaria()->telefone_secretaria):?>
+                    <div><?= "Telefone: ".$this->dadosSecretaria()->telefone_secretaria;?></div>
+                <?endif;?>
+	 		</div>
+	 	</div>
+	 </body>
+</html>

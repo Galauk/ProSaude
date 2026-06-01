@@ -1,0 +1,26 @@
+<? if (count($this->dados)>0) { ?>
+    <table>
+        <tr>
+            <td bgcolor="#F8F8F8"><strong>Tipo de Movimentação</strong></td>
+            <td bgcolor="#F8F8F8"><strong>Número Produto HORUS</strong></td>
+            <td bgcolor="#F8F8F8"><strong>Qtd Enviada</strong></td>
+            <td bgcolor="#F8F8F8"><strong>Número do protocolo de envio</strong></td>
+            <td bgcolor="#F8F8F8"><strong>Nome responsável pelo envio</strong></td>
+        </tr>
+        <? foreach ($this->dados as $item) { ?>
+            <tr>
+                <?= ($item["hor_dad_tpxml"] ? "<td>".$item["hor_dad_tpxml"]."</td>" : "<td> - </td>") ?>
+                <?= ($item["hor_dad_nuproduto"] ? "<td>".$item["hor_dad_nuproduto"]."</td>" : "<td> - </td>") ?>
+                <?= ($item["hor_dad_qtd"] ? "<td>".number_format($item["hor_dad_qtd"],0)."</td>" : "<td> - </td>") ?>
+                <?= ($item["hor_dad_numprotocolo_envio"] ? "<td>".$item["hor_dad_numprotocolo_envio"]."</td>" : "<td> - </td>") ?>
+                <?= ($item["hor_dad_nome_respenvio"] ? "<td>".$item["hor_dad_nome_respenvio"]."</td>" : "<td> - </td>") ?>
+            </tr>
+        <? } ?>
+    </table>
+<? } else { ?>
+    <table>
+        <tr>
+            <td colspan="3">Nenhum resultado encontrado.</strong></td>
+        </tr>
+    </table>	
+<? } ?>

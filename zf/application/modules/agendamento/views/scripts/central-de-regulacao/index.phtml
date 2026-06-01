@@ -1,0 +1,23 @@
+<?php
+	// echo "<pre>";var_dump($this->recuperaDadosCentroDeRegulacao);die();
+    // echo "<pre>";print_r($this->encaminhamentos);die();
+    // echo "<pre>";var_dump($this->usrAtual->usr_tipo_medico);die();
+    // echo "<pre>";print_r($this->url);die();
+    // echo "<pre>";print_r($this->url);die();
+    $contador = 0;
+?>
+
+<div class="abas">
+    <ul class="tabs">
+        <li><a href="#tabs2-1">Lista de Encaminhamentos</a></li>
+        <li><a href="#tabs2-2">Lista de Agendamentos Externos</a></li>
+    </ul>
+    <div id="tabs2-1">
+        <?= $this->action("lista-de-encaminhamentos", "central-de-regulacao","agendamento"); ?>
+    </div>    
+
+    <div id="tabs2-2">
+        <?= $this->action("lista-de-agendamentos", "central-de-regulacao","agendamento"); ?>
+    </div>
+    
+</div>

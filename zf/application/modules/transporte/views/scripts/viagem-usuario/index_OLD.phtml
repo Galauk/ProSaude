@@ -1,0 +1,56 @@
+<?php $this->errorMsg(); 
+//echo "<pre>".  print_r($this->itens,1);
+?>
+<form method="post" name="form2" id="form2" action="<?= $this->url(array("action" => "index")); ?>">
+    <label>Data Viagem:</label>
+    <input type="text" name="via_data" id="via_data" style="width:80px;" maxlength="14"  value="<?=(!$this->dados->via_data ? "" : $this->data($this->dados->via_data));?>" class="mask data" rel="99/99/9999" /><br />
+    
+<!--    <label>Cidade Origem:</label>
+    <input type="text" name="busca1" id="busca1" value="<?=$this->dadosViagem->busca1?>" /><br />-->
+    <input type="hidden" name="cid_codigo_origem" id="cid_codigo_origem" value="1">
+    
+    <label>Cidade Destino:</label>
+    <input type="text" name="busca2" id="busca2" value="<?=$this->dadosViagem->busca2?>" /><br />
+    <input type="hidden" name="cid_codigo_2" id="cid_codigo_2" value="<?=$this->dadosViagem->cid_codigo_2?>"> 
+    
+    <label>Veículo:</label>
+    <select name="vei_codigo" id="vei_codigo">
+        <option value="">TODOS</option>
+        <?foreach ($this->veiculo as $veiculo){?>
+        <option value="<?=$veiculo->vei_codigo?>" <? if ($this->dados->vei_codigo == $veiculo->vei_codigo) { echo("selected=\"selected\""); } ?>><?=$veiculo->vei_descricao?></option>         
+        <?}?>           
+    </select><br />
+<a href="#" class="ui-button procura submit"  style="margin-left: 185px;">Buscar</a>
+</form>
+
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    <tr class='ui-widget-header'>
+           <th>Data Viagem</th>
+           <th>Carro</th>
+           <th>Motorista</th> 
+           <th>Local</th>
+           <th>Hr.Embarque</th>
+           <th>Opções</th>
+       </tr>
+<?php
+if($this->itens && $this->itens->count()):
+foreach($this->itens as $item):?>
+        <tr>
+            <td class='ui-state-default' width='30'><?=$this->data($item->via_data);?></td>
+            <td class='ui-state-default c' width='80'><?=$this->escape($item->vei_descricao);?></td>  
+            <td class='ui-state-default c' width='150'><?=$this->escape($item->usr_nome);?></td>
+            <td class='ui-state-default c' width='100'><?=$this->escape($item->via_local);?> </td>
+            <td class='ui-state-default c' width='60'><?=$this->escape($item->via_hora);?></td>
+          
+            <td class='ui-state-default c' width='300'>
+<!--                <a href='<?=$this->url(array("module"=>"transporte", 'controller'=>'viagem-usuario','action'=>'novo','cod'=>$item->via_codigo), NULL, TRUE);?>' class='ui-button paciente'>Agendar</a>-->
+                <a href='#' class='ui-button paciente' onclick="verificaVagas(<?=$item->via_codigo?>)">Agendar</a>
+                <a href='<?=$this->url(array('controller'=>'viagem-usuario','action'=>'rel-viagem','cod'=>$item->via_codigo));?>' class='ui-button historico popup' rel="1000x800">Rel. Viagem</a>
+                <a href='<?=$this->url(array('controller'=>'viagem-usuario','action'=>'lista','cod'=>$item->via_codigo));?>' class='ui-button historico popup' rel="1000x800">Lista</a>
+            </td>
+        </tr>
+<?php endforeach; ?>
+</table>
+<?php else:?>
+        <em>Nenhum item encontrado</em>
+<?php endif;?>

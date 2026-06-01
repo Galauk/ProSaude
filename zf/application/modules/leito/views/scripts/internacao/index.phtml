@@ -1,0 +1,312 @@
+<?= $this->dialog(); ?>
+<?= $this->errorMsg(); ?>
+<style>
+	.paciente { width: 40px; height: 35px; float: left; }
+    #droppable  { width: 150px; height: 150px; padding: 0.5em; float: left; margin: 10px; }
+</style>
+
+<div class='abas'> 
+	<ul class="tabs">
+		<li><a href="#tabs2-1">Controle de Internação</a></li>	
+		<li><a href="#tabs2-2">Pacientes Internados</a></li>
+		<li><a href="#tabs2-3">Pacientes com Alta Médica</a></li>
+	</ul>
+
+    <div id='tabs2-1'>
+		<table class="grid ui-widget ui-widget-content ui-corner-all"  >
+			<tr>
+				<td>
+					<div id="mae">
+						<div style="width:700px;float: left">
+							<?php if ($this->dados->count()): ?>
+	                            <table width="100%">
+	                                <tr class="ui-widget-header">
+	                                    <th width="65"> </th>
+	                                    <th width="90">Prontuário</th>
+	                                    <th width="260">Nome</th>
+	                                    <th width="90">Idade</th>
+	                                    <th width="90">Status</th>
+	                                    <th width="290">Encaminhado por</th>
+	                                </tr>
+	                            </table>
+	                            <table width="100%" class="pacientesInternados">
+                                            <?php $k = 0; ?>
+                                            <?php foreach ($this->dados as $dado): ?>
+                                                    <?php if(isset($item->pc_clas_risco)){ 
+                    if($this->escape($item->pc_clas_risco) == 1){
+                        $cor = "red";
+                    }else if($this->escape($item->pc_clas_risco) == 2){
+                        $cor = "orange";
+                    }else if($this->escape($item->pc_clas_risco) == 3){
+                        $cor = "GoldenRod";
+                    }else if($this->escape($item->pc_clas_risco) == 4){
+                        $cor = "green";
+                    }else if{$this->escape($item->pc_clas_risco) == 5){
+                        $cor = "blue";
+                    }else if{$this->escape($item->age_estratificacao_risco) == 1){
+                        $cor = "#e600ff";
+                    }else{
+                        $cor = "";
+
+                    }
+                }
+                
+                ?>
+		                                <tr class="ui-widget-content">
+		                                    <td class="paciente" style="z-index:1;">
+                                                        <?php if ($this->escape($dado->usu_sexo) == "F"): ?>
+                                                                <?php if ($this->escape($dado->rac_codigo) == "2"): ?>
+                                                                        <img src="<?= $this->baseUrl('/public/images/icons/female_black.png'); ?>"/>
+                                                                <?php else: ?>
+                                                                        <img src="<?= $this->baseUrl('/public/images/icons/female.png'); ?>"/>
+                                                                <?php endif; ?>
+                                                        <?php else: ?>
+                                                                <?php if ($this->escape($dado->rac_codigo) == "2"): ?>
+                                                                        <img src="<?= $this->baseUrl('/public/images/icons/male_black.png'); ?>"/>
+                                                                <?php else: ?>
+                                                                        <img src="<?= $this->baseUrl('/public/images/icons/male.png'); ?>"/>
+                                                                <?php endif; ?>
+                                                        <?php endif ?>
+		                                        <input type="hidden" name="paciente[]" class="paciente_id" id="paciente<?= $k ?>" value="<?= $this->escape($dado->usu_codigo); ?>" />
+		                                        <input type="hidden" name="internacao[]" class="io_id"  value="<?= $this->escape($dado->io_codigo); ?>" />
+		                                    </td>
+		                                    <td width="90" class="ui-state-default " style="color: 
+                                                        <?= $cor ?>"><?= $this->escape($dado->usu_codigo); ?>
+
+		                                    </td>
+		                                    <td width="260" class="ui-state-default" style="color: <?= $cor ?>">
+                                                        <?= $this->escape($dado->usu_nome); ?>
+		                                    </td>
+		                                    <td width="90" class="ui-state-default" style="color: <?= $cor ?>">
+                                                        <?= $this->idade($dado->usu_datanasc); ?>
+		                                    </td>
+		                                    <td width="90" class="ui-state-default" style="color: <?= $cor ?>">
+                                                        <?= ($this->escape($dado->io_status) == "O" ? "Observação" : "Internação") ?>
+		                                    </td>
+		                                    <td width="290" class="ui-state-default" style="color: <?= $cor ?>">
+                                                        <?= $this->escape($dado->usr_nome); ?>
+		                                    </td>
+		                                </tr>
+                                                        <?php $k++; ?>
+                                            <?php endforeach; ?>
+	                            </table>
+                                    <div class='excluir_lista'>
+                                    </div>
+                                                    
+                                                        <?php else: ?>
+								<table width="100%" class="pacientesInternados">
+									<tr>
+										<td style="height: 120px;vertical-align: top;">Nenhum Item Encontrado</td>
+									</tr>
+								</table>
+                                                        <?php endif; ?>
+
+						</div>
+
+						<div style="width: 450px;float: left;text-align: center;"> 
+							<div style="text-align: center;"  id="checkbox">
+								<table width="100%"> 
+									<tr>
+										<td>
+											<input type="radio" name="opcao" class="radio"  value="D">Disponiveis
+										</td>
+										<td>
+											<input type="radio" name="opcao" class="radio" value="P">Parcialmente Ocupado
+										</td>
+										<td>
+											<input type="radio" name="opcao" class="radio" value="O">Ocupados
+										</td>
+										<td>
+											<input type="radio" name="opcao" class="radio" value="T" checked="checked">Todos
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div id="scrollbar1">
+								<div class="scrollbar" id="sc1">
+									<div class="track">
+										<div class="thumb">
+											<div class="end">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="viewport">
+									<div class="overview" id="quartos">
+
+									</div>
+								</div>
+							</div>                    
+							<div id="scrollbar2" style="display: none">
+								<div class="scrollbar1">
+									<div class="track1">
+										<div class="thumb1">
+											<div class="end1">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="viewport1">
+									<div class="overview2" id="leitos">
+
+									</div>
+								</div>
+							</div>        
+							<div>
+								<table width="100%">
+									<tr>
+										<td align="center">
+											<img src="<?= $this->baseUrl('/public/images/disponivelMin.png'); ?>"/>
+											<b>Disponivel</b>
+										</td>
+										<td align="center">
+											<img src="<?= $this->baseUrl('/public/images/ocupadoMin.png'); ?>"/>
+											<b>Ocupado</b>
+										</td>
+										<td align="center">
+											<img src="<?= $this->baseUrl('/public/images/reservadoMin.png'); ?>"/>
+											<b>Parcialmente Ocupado</b>
+										</td>
+									</tr>
+								</table>
+							</div> 
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div id='tabs2-2' >
+
+
+
+		<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+			<tr>
+				<td>
+					<table width="100%">
+						<tr class="ui-widget-header">
+							<th width="35">&nbsp;</th>
+							<th width="90">Prontuário</th>
+							<th width="260">Nome</th>
+							<th width="90">Idade</th>
+							<th width="90">Status</th>
+							<th width="290">Encaminhado por</th>
+							<th width="290">Quarto/Leito</th>
+						</tr>
+                            <?php foreach ($this->inter as $lst): ?>
+	                        <tr style="cursor: pointer !important" onclick="location.href='<? echo $this->baseUrl('/leito/atendimento/index/cod/') . $this->escape($lst->io_codigo); ?>'">                   
+                                        <td width="32" class="ui-state-default">
+                                                <?php if ($this->escape($lst->usu_sexo) == "F"): ?>
+                                                        <?php if ($this->escape($lst->rac_codigo) == "2"): ?>
+                                                                <img src="<?= $this->baseUrl('/public/images/icons/female_black.png'); ?>"/>
+                                                        <?php else: ?>
+                                                                <img src="<?= $this->baseUrl('/public/images/icons/female.png'); ?>"/>
+                                                        <?php endif; ?>
+                                                <?php else: ?>
+                                                        <?php if ($this->escape($lst->rac_codigo) == "2"): ?>
+                                                                <img src="<?= $this->baseUrl('/public/images/icons/male_black.png'); ?>"/>
+                                                        <?php else: ?>
+                                                                <img src="<?= $this->baseUrl('/public/images/icons/male.png'); ?>"/>
+                                                        <?php endif; ?>
+                                                <?php endif ?>
+                                        </td>
+
+                                        <td width="90" class="ui-state-default " style="color: 
+                                            <?= $cor ?>"><?= $this->escape($lst->usu_codigo); ?>
+
+                                        </td>
+                                        <td width="260" class="ui-state-default" style="color: <?= $cor ?>">
+                                            <?= $this->escape($lst->usu_nome); ?>
+                                        </td>
+                                        <td width="90" class="ui-state-default" style="color: <?= $cor ?>">
+                                            <?= $this->idade($lst->usu_datanasc); ?>
+                                        </td>
+                                        <td width="90" class="ui-state-default" style="color: <?= $cor ?>">
+                                            <?= ($this->escape($lst->io_status) == "O" ? "Observação" : "Internação") ?>
+                                        </td>
+                                        <td width="290" class="ui-state-default" style="color: <?= $cor ?>">
+                                            <?= $this->escape($lst->usr_nome); ?>
+                                        </td>
+                                        <td width="290" class="ui-state-default" style="color: #0DA318">
+                                            <?= $this->escape($lst->apt_codigo); ?>&nbsp;/&nbsp;<?= $this->escape($lst->lei_numero); ?>
+                                        </td>
+                                </tr>
+                        <?php endforeach; ?>
+					</table>
+				</td>
+			</tr>
+		</table>
+
+
+
+	</div>
+
+
+	<div id='tabs2-3'>
+
+
+		<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+			<tr>
+				<td>
+					<table width="100%">
+						<tr class="ui-widget-header">
+							<th width="35">&nbsp;</th>
+							<th width="90">Prontuário</th>
+							<th width="260">Nome</th>
+							<th width="90">Idade</th>
+							<th width="90">Status</th>
+							<th width="290">Atendido por</th>
+							<th width="290">Data da Alta</th>
+						</tr>
+					</table>
+					<table width="100%" class="pacientesInternados">
+<?php foreach ($this->alta as $alt): ?>
+	                        <tr>                   
+								<td width="32" class="ui-state-default">
+									<?php if ($this->escape($alt->usu_sexo) == "F"): ?>
+										<?php if ($this->escape($alt->rac_codigo) == "2"): ?>
+											<img src="<?= $this->baseUrl('/public/images/icons/female_black.png'); ?>"/>
+										<?php else: ?>
+											<img src="<?= $this->baseUrl('/public/images/icons/female.png'); ?>"/>
+										<?php endif; ?>
+									<?php else: ?>
+										<?php if ($this->escape($alt->rac_codigo) == "2"): ?>
+											<img src="<?= $this->baseUrl('/public/images/icons/male_black.png'); ?>"/>
+										<?php else: ?>
+											<img src="<?= $this->baseUrl('/public/images/icons/male.png'); ?>"/>
+										<?php endif; ?>
+	<?php endif ?>
+								</td>
+
+								<td width="90" class="ui-state-default " style="color: 
+	<?= $cor ?>"><?= $this->escape($alt->usu_codigo); ?>
+
+								</td>
+								<td width="260" class="ui-state-default" style="color: <?= $cor ?>">
+	<?= $this->escape($alt->usu_nome); ?>
+								</td>
+								<td width="90" class="ui-state-default" style="color: <?= $cor ?>">
+	<?= $this->idade($alt->usu_datanasc); ?>
+								</td>
+								<td width="90" class="ui-state-default" style="color: <?= $cor ?>">
+	<?= ($this->escape($alt->io_status) == "O" ? "Observação" : "Internação") ?>
+								</td>
+								<td width="290" class="ui-state-default" style="color: <?= $cor ?>">
+	<?= $this->escape($alt->usr_nome); ?>
+								</td>
+								<td width="290" class="ui-state-default" style="color: #000000">
+	<? echo date('d/m/Y h:i.s', strtotime($this->escape($alt->io_data_alta))); ?>
+								</td>
+							</tr>
+<?php endforeach; ?>
+					</table>
+
+				</td>
+			</tr>
+		</table>
+
+
+	</div>
+
+</div>

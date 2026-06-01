@@ -1,0 +1,64 @@
+<div class="msgAtencaoMenor">
+    <strong>Dados do cidadão irregular, as seguintes informações em branco devem ser preenchidas:</strong><br />
+    <!-- &nbsp; - Nome deve conter sobrenome(Com espaço)! Ex: Nome Sobrenome <br />
+    &nbsp; - Nome da mãe deve conter sobrenome(Com espaço)! Ex: Nome Sobrenome <br />
+    &nbsp; - Número do CNS inválido!<br /> -->
+</div>
+<div class="msgAtencaoMenor" id="cns_existe" style="display: none;">
+    Número de CNS já existe!
+</div>
+<div class="msgAtencaoMenor" id="cns_invalido" style="display: none;">
+    Número de CNS inválido!
+</div>
+<div class="msgAtencaoMenor" id="cns_obg" style="display: none;">
+    Número de CNS obrigatório!
+</div>
+<div class="msgAtencaoMenor" id="cns_nome" style="display: none;">
+    Nome deve conter sobrenome(Com espaço)! Ex: Nome Sobrenome
+</div>
+<div class="msgAtencaoMenor" id="cns_mae" style="display: none;">
+    Nome da mãe deve conter sobrenome(Com espaço)! Ex: Nome Sobrenome
+</div>
+<div class="msgAtencaoMenor" id="cns_nacionalidade" style="display: none;">
+    Nacionalidade deve ser selecionada!
+</div>
+<div class="msgAtencaoMenor" id="cns_raca" style="display: none;">
+    Raça deve ser selecionada!
+</div>
+<form id="form-esus-cns">
+    <input type="hidden" name="usu_codigo" id="usu_codigo_mc" value="<?=$this->dados[0]->pessoa?>" />
+    <input type="hidden" name="usu_datanasc" id="usu_datanasc_mc" value="<?=$this->data($this->dados[0]->datanascimento,Zend_Date::DATE_MEDIUM)?>" />
+    <label>Nome: </label>
+    <input name="usu_nome" id="usu_nome_mc" class="ui-state-default"  style="text-transform: uppercase;" value="<?=$this->dados[0]->nome?>" /><br />
+    <label>Nome da mãe: </label>
+    <input name="usu_mae" id="usu_mae_mc" class="ui-state-default" style="text-transform: uppercase;" value="<?=$this->dados[0]->pep_mae?>" /><br />
+    <label>Cartão SUS:</label>
+    <input name="usu_cartao_sus_mc" id="usu_cartao_sus_mc" class="ui-state-default"  maxlength="15" value="<?=$this->dados[0]->pep_cartao_sus?>"
+           onkeypress="return SomenteNumero(event)" />
+    <?php if ($this->ativCol!=1) { ?>
+            <input type="checkbox" name="usu_sem_cns" id="usu_sem_cns" value="1" onclick="desabilitaCns();" />Não possui<br />
+    <?php } ?>
+    <label class="obrigatorio">Nacionalidade:</label>
+    <select name="cd_nacionalidade_mc" id="cd_nacionalidade_mc" value = "" style="width: 305px;">
+            <option value="">Selecione</option>
+            <option <?php if($this->dados[0]->cd_nacionalidade == "B"){echo "selected=selected";} ?> value="B" onclick="habilitaCidade()">
+                Brasileiro
+            </option>
+            <option <?php if($this->dados[0]->cd_nacionalidade == "E"){echo "selected=selected";} ?> value="E" onclick="habilitaCidade()">Estrangeiro</option>
+            <option <?php if($this->dados[0]->cd_nacionalidade == "N"){echo "selected=selected";} ?> value="N" onclick="habilitaCidade()">Naturalizado</option>
+        </select><br />
+        <label class="obrigatorio">Raça:</label>
+        <select name="rac_codigo" id="rac_codigo_mc" >
+            <option value="">Selecione</option>
+            <?php  foreach ($this->raca as $raca){?>
+                <option <? if (trim($raca->rac_codigo) == trim($this->dados[0]->rac_codigo)) { echo "selected"; }  ?> value="<?=$raca->rac_codigo?>"><?=$raca->rac_descricao?></option>
+            <?} ?>
+        </select>
+        <br />
+        <br />
+    <a data-atalho="CTRL+S" href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" onclick="atualizaCnsSalvar()">
+        <div><img src="/WebSocialSaude/zf/public/images/icons/salvar.png"></div>Salvar <span class="hotkey">(CTRL+S)</span>
+    </a>
+    
+</form>
+<div class="space"></div>

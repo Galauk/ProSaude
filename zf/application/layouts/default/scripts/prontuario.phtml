@@ -1,0 +1,49 @@
+<?= $this->doctype() . "\n"; ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+		<?= $this->headMeta() . "\n"; ?>
+		<?= $this->headTitle() . "\n"; ?>
+		<?= $this->headLink() . "\n"; ?>
+		<script type="text/javascript">
+			var baseUrl = '<?=$this->baseUrl();?>';
+		</script>
+		<?= $this->headScript() . "\n"; ?>
+		<?= $this->analytics(); ?>
+    </head>
+    <body>
+		<div id="page">
+<?php 
+//echo "asfasdf:".$this->dados['0']['nome'];
+//echo "<pre>====="; print_r($_SESSION);  echo "</pre>";
+  if((trim($this->title)!="Pacientes Agendados" && trim($this->title)!="Pacientes Atendidos Hoje")) {
+?>		
+	<table class='ui-corner-tr ui-corner-bl ui-state-default' style='border:1px solid;border-color:#C5DBEC;padding: 3px;' width='100%' border='0'>
+		<tr>
+		 <td width='70'><img src='<?=$this->baseUrl();?>/public/images/sem_foto_m.png' width='60'></td>
+		 <td><div style='font-weight: normal;'>
+		<b><font size=3><?=$_SESSION['usu_nome']?>, <?=$_SESSION['idade']?> anos</font></b>
+		<br><font size=1><b>Nome da Mae:</b> <?=$_SESSION['usu_mae']?><br>
+		<b>Risco:</b> <?=$_SESSION['est_risco1']?> <?=$_SESSION['est_risco2']?></div></td>
+		<td width='50%' align='right' valign='bottom'><img src='<?=$this->baseUrl();?>/public/images/icons/sino.png'>&nbsp;<img src='<?=$this->baseUrl();?>/public/images/icons/enfermeira.png'></td>
+	</tr>
+	</table>
+<div style="height:3px">&nbsp;</div>
+<?php } ?>
+		 
+			<div id="menu">
+				<?php echo $this->action("menu", "index", "prontuario"); ?>
+			</div>
+			<div id="corpo">
+				<div id='tabs'> 
+					<ul class="tabs">
+						<li><a href="#tabs-1"><?= $this->title; ?></a></li>
+					</ul>
+					<div id='tabs-1'>
+						<?= $this->layout()->content; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="sys"></div>
+    </body>
+</html>

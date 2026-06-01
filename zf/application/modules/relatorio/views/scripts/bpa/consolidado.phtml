@@ -1,0 +1,35 @@
+<div style='font-weight:bold; margin-bottom: 5px;'>
+    <?php  foreach ($this->dados as $item2){ ?>
+        <div st>Unidade: <?=$this->uni_cnes ? $item2->uni_desc : "Todas";?></div>
+    <?php break;
+    } ?>
+</div>
+<table>
+    <tr>
+        <?php if (!$this->uni_cnes) : ?>
+            <th align="left">Unidade</th>
+        <?php endif ?>
+        <th align="left">Procedimento</th>
+        <th>Código do sus</th>
+        <th>CBO</th>
+        <th>Quantidade</th>  
+    </tr>
+<?  foreach ($this->dados as $item){ ?>
+    <tr>
+        <?php if (!$this->uni_cnes) : ?>
+            <td><?=$item->uni_desc?></td>
+        <?php endif ?>
+        <td><?=$item->proc_nome?></td>
+        <td align="center"><?=$item->proc_codigo_sus?></td>
+        <td align="center"><?=$item->m_cbo?></td>
+        <td align="center"><?=$item->total?></td>
+    </tr>
+
+<?
+$total += $item->total;
+} ?>
+    <tr style='font-weight:bold;'>
+        <td colspan="4" align="right" >Total</td>
+        <td><?=$total?></td>
+    </tr>
+</table>

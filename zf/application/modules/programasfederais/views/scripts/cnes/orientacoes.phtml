@@ -1,0 +1,56 @@
+<?php $this->dialog(); ?>
+<div class="msgAtencao" style="height: 36px;">
+    Para realizar a importação dos dados do <b>CNES</b> realize os passos abaixo. 
+    A importação ficará disponível em: <br /><b>Prog. Federais -> CNES -> Importação</b>.
+</div>
+<table style="width: 870px;">
+    <tr style="height: 30px;">
+        <th>Status</th>
+        <th>Unidades Atuais</th>
+    </tr>
+    <tr>
+        <td style="width: 60px; border: 1px solid #919B9C;">
+            <?php if($this->qtd_uni > 0) { ?>
+                    <img src="<?=$this->baseUrl()?>/public/images/icons/confirmado_menor.png" title="Confirmado" width="30px" height="30px" style="margin-left: 16px;" />
+            <?php } else { ?>
+                    <img src="<?=$this->baseUrl()?>/public/images/icons/negado_menor.png" title="Confirmado" width="30px" height="30px" style="margin-left: 16px;" />
+            <?php } ?>
+        </td>
+        <td style="border: 1px solid #919B9C;">
+            <p style="margin-left: 4px;">
+                Identificar qual das <b>Unidades de Saúde do CNES</b> correspondem as atuais, para realizar essa verificação: 
+                <a href="<?=$this->baseUrl()?>/programasfederais/cnes/modulo-unidades-cnes"><b>Clique Aqui</b></a>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 60px; border: 1px solid #919B9C;">
+            <?php if($this->qtd_prest > 0) { ?>
+                    <img src="<?=$this->baseUrl()?>/public/images/icons/confirmado_menor.png" title="Confirmado" width="30px" height="30px" style="margin-left: 16px;" />
+            <?php } else { ?>
+                    <img src="<?=$this->baseUrl()?>/public/images/icons/negado_menor.png" title="Confirmado" width="30px" height="30px" style="margin-left: 16px;" />
+            <?php } ?>
+        </td>
+        <td style="border: 1px solid #919B9C;">
+            <p style="margin-left: 4px;">
+                Identificar quais <b>Prestadores de Serviços do CNES</b> correspondem aos atuais, para realizar essa verificação: 
+                <a href="<?=$this->baseUrl()?>/programasfederais/cnes/modulo-prestador-cnes"><b>Clique Aqui</b></a>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 60px; border: 1px solid #919B9C;">
+            <?php if($this->qtd_usr > 0) { ?>
+                    <img src="<?=$this->baseUrl()?>/public/images/icons/confirmado_menor.png" title="Confirmado" width="30px" height="30px" style="margin-left: 16px;" />
+            <?php } else { ?>
+                    <img src="<?=$this->baseUrl()?>/public/images/icons/negado_menor.png" title="Confirmado" width="30px" height="30px" style="margin-left: 16px;" />
+            <?php } ?>
+        </td>
+        <td style="border: 1px solid #919B9C;">
+            <p style="margin-left: 4px;">
+                Identificar qual dos <b>Profissionais do CNES</b> correspondem aos atuais, para realizar essa verificação: 
+                <a href="<?=$this->baseUrl()?>/programasfederais/cnes/modulo-usuarios-cnes"><b>Clique Aqui</b></a>
+            </p>
+        </td>
+    </tr>
+</table>

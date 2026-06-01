@@ -1,0 +1,46 @@
+
+.conteudo {
+display: table-cell;
+display: table-row-group;
+vertical-align: top;
+height: 668px;
+}
+
+
+.proc_nome{
+    width: 50%;
+    font-family: fantasy;
+    font-size: 15px;
+    float: left;
+    margin-top: 10px;
+
+}
+
+
+.itens_exames_resultado{
+    width: 650px;
+    height: auto;
+    margin-top: 5px;
+}
+
+.item_analise{
+    width: 200px;
+    height: auto;
+    float: left;
+    font-family: Courier, "Courier New", monospace ;
+    font-size: 12px;
+    
+}
+
+
+.categoria_div{
+    width: 2480;
+    border:dotted #000 !important ;
+    border-width:0px 0px 2px 0px !important;
+    
+}
+
+.cabecalho{
+    font-size: 11px;
+}
+

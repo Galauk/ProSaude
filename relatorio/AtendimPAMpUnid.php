@@ -1,0 +1,224 @@
+<!-- ---------------------------------------------------------------
+       Funções javascript
+--------------------------------------------------------------- --->
+<script language=javascript>
+
+function imprimir() {
+       window.print();
+}
+
+</script>
+
+<body>
+
+<?php
+
+function inv_data($dat) {
+   if ($dat) {
+       $d=explode("-",$dat);
+       $dat=$d[2]."-".$d[1]."-".$d[0]."<br>";
+       return "$dat";
+   }
+ }
+
+//------------------------------------------------------------------>
+// -> Includes
+//------------------------------------------------------------------>
+	session_start();
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/db.inc.php";
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+echo "<body>
+     <link href='../estilo.css' rel='stylesheet' type='text/css'>";
+
+//----------------  Monta Dados Recebidos  ---------------->
+
+$titulo="Atendimento PAM";    //       NOME DO RELATÓRIO
+
+//echo "Data INICIAL->".$dt_inicial."<br>";
+//echo "Data FINAL  ->".$dt_final."<br>";
+//echo "Hora INICIAL->".$hr_inicial."<br>";
+//echo "Hora FINAL  ->".$hr_final."<br>";
+
+
+if ($uni_codigo) {
+    $sql = "SELECT unidade.uni_desc " .
+           "  FROM unidade " .
+           " WHERE unidade.uni_codigo = $uni_codigo";
+    $query=pg_query($sql);
+    while($row=pg_fetch_row($query)) {
+          $UniNome=$row[0];
+    }
+} else {  $UniNome = "TODAS";  }
+
+
+//------------------------------------------------------------------>
+// -> Funções php
+//------------------------------------------------------------------>
+
+function cabeca($Tit, $dtIni, $dtFin, $hrIni, $hrFin, $Uni, $Cab) {
+
+//--->        Cabeçalho do Sistema
+
+       if ($Cab == 0) {
+
+          include "cabecalho.php";
+ 	    echo "<table style=\"font-size:11px;font-family:courier,vardana,arial;\" width=100% align=center cellspacing=0 cellpadding=0 border=0 topmargin=0 leftmargin=0>\n";
+ 	    }
+
+//--->        Cabeçalho dos Dados
+
+       if ($Cab == 0) {
+           echo " <tr style='font-weight:bold'>\n";
+           echo "  <td width=60px>&nbsp;&nbsp;&nbsp;Data </td>\n";
+           echo "  <td width=40px>Hora     </td>\n";
+           echo "  <td>Paciente            </td>\n";
+           echo "  <td width=45px>Cisvir   </td>\n";
+           echo "  <td width=55px>Dt.Nasc. </td>\n";
+           echo " </tr>\n";
+
+        }
+}
+
+//----------------  Rotina de Impressão  ---------------->
+
+	$sql = "SELECT  usuario.usu_nome, TO_CHAR(usuario.usu_datanasc,'DD/MM/YYYY'), usuario.usu_same, usuario.usu_cisvir, unidade.uni_desc as uni_origem, atendimento.ate_hora, TO_CHAR(atendimento.ate_data,'DD/MM/YYYY'), usuario.usu_sexo, calcula_idade(usuario.usu_codigo) as Idade,(select uni_desc from unidade where uni_codigo = $uni_codigo) as uni_atendimento
+				FROM atendimento, unidade, usuario 
+				WHERE atendimento.usu_codigo = usuario.usu_codigo 
+				AND usuario.uni_origem = unidade.uni_codigo 
+				AND atendimento.ate_data between '".$dt_inicial."' and '".$dt_final."' 
+				AND unidade.uni_codigo = $uni_codigo
+				Order By unidade.uni_desc,atendimento.ate_data, 
+				atendimento.ate_hora, usuario.usu_nome";
+
+
+$lin=999;
+$query=pg_query($sql);
+if (pg_num_rows($query) == 0) {
+    echo "<table style='font-size:12px;font-family:Tahoma,Arial;' width=70% align=left cellspacing=2 cellpadding=0 border=0 topmargin=0 leftmargin=0>\n";
+    echo "  <tr><td align=center colspan=5>NÃO TEM DADOS PARA ESTES PARÂMETROS</td></tr>\n";
+    echo "  <tr><td align=right  colspan=5>&nbsp;</td></tr>\n";
+    echo "  <tr><td align=right  width=25%></td>\n";
+    echo "      <td align=right  width=20%>Data INICIAL</td>\n";
+    echo "      <td align=center width= 5%>.....</td>\n";
+    echo "      <td align=left   width=30%>$dt_inicial</td><td>&nbsp;</td></tr\n";
+    echo "  <tr><td align=right></td>\n";
+    echo "      <td align=right>Data FINAL</td>\n";
+    echo "      <td align=center>........</td>\n";
+    echo "      <td align=left>$dt_final</td><td>&nbsp;</td></tr\n";
+    echo "  <tr><td align=right></td>\n";
+    echo "      <td align=right>Hora INICIAL</td>\n";
+    echo "      <td align=center>.....</td>\n";
+    echo "      <td align=left>$hr_inicial</td><td>&nbsp;</td></tr\n";
+    echo "  <tr><td align=right></td>\n";
+    echo "      <td align=right>Hora FINAL</td>\n";
+    echo "      <td align=center>........</td>\n";
+    echo "      <td align=left>$hr_final</td><td>&nbsp;</td></tr>\n";
+    echo "</table>\n";
+}
+else {
+      $hr_Par_fim=explode(":",$hr_final);
+      $hr_Par_inicio=explode(":",$hr_inicial);
+
+      $dt_final  =str_replace("/", "-", $dt_final);
+      $dt_inicial=str_replace("/", "-", $dt_inicial);
+
+      $dt_Par_fim=explode("-",$dt_final);
+      $dt_Par_inicio=explode("-",$dt_inicial);
+
+      $dt_Par_fim=$dt_Par_fim[2].$dt_Par_fim[1].$dt_Par_fim[0];
+      $hr_Par_fim=$hr_Par_fim[0].$hr_Par_fim[1];
+      $dt_Par_inicio=$dt_Par_inicio[2].$dt_Par_inicio[1].$dt_Par_inicio[0];
+      $hr_Par_inicio=$hr_Par_inicio[0].$hr_Par_inicio[1];
+
+	while($row=pg_fetch_row($query)) {
+
+		$dt_BD=explode("-",$row[6]);
+		$dt_BD=$dt_BD[0].$dt_BD[1].$dt_BD[2];
+		if ($dt_Par_inicio==$dt_BD) {
+			$hr_BD=explode(":",$row[5]);
+			$hr_BD=$hr_BD[0].$hr_BD[1];
+			if ($hr_BD < $hr_Par_inicio) continue;
+		}
+		if ($dt_Par_fim==$dt_BD) {
+			$hr_BD=explode(":",$row[5]);
+			$hr_BD=$hr_BD[0].$hr_BD[1];
+			if ($hr_BD > $hr_Par_fim)    continue;
+		}
+		if ($lin== 999) {
+			cabeca($titulo, $dt_inicial, $dt_final, $hr_inicial, $hr_final, $UniNome, '0');
+			$lin=9;
+		}
+		if ($row['4'] != $temp)
+		{
+			echo "<tr><td colspan=6>".$texto."</td></tr>";
+			echo "<tr><td colspan=6>&nbsp;</td></tr>";
+			echo "<tr><td colspan=6>$row[4]</td></tr>";
+			echo "<tr><td colspan=6>&nbsp;</td></tr>";
+			$TotMaiorMasc=0;
+			$TotMaiorFem=0;
+			$TotMenorMasc=0;
+			$TotMenorFem=0;
+			$temp = $row['4'];
+		}
+		echo " <tr>\n";
+		echo "  <td width=40px>".$row[6]."</td>\n";
+		echo "  <td width=40px>$row[5]</td>\n";
+		echo "  <td width=100px>$row[0]</td>\n";
+		echo "  <td width=40px>$row[3]</td>\n";
+		echo "  <td>$row[1]</td>\n";
+		echo " </tr>\n";
+
+		if ($row[8]>12) {
+			if ($row[7]=="M") {
+				$TotMaiorMasc++;
+			} else {
+				$TotMaiorFem++;
+			}
+		} else {
+			if ($row[7]=="M") {
+				$TotMenorMasc++;
+			} else {
+				$TotMenorFem++;
+			}
+		}
+	$texto = "<table style=\"font-size:11px;font-family:courier,vardana,arial;\" width=100% align=center cellspacing=0 cellpadding=0 border=0 topmargin=0 leftmargin=0>\n
+		<tr><td>&nbsp;&nbsp;</td></tr>\n
+		<tr style='font-weight:bold'>\n
+		<td width=10% align=right>&nbsp;</td>\n
+		<td width=10% align=right>Adulto</td>\n
+		<td width=15% align=right>Masculino - ".($TotMaiorMasc ? "$TotMaiorMasc" : "0")."</td>\n
+		<td width=15% align=right>Feminino -  ".($TotMaiorFem  ? "$TotMaiorFem"  : "0")."</td>\n";
+		$TotAux=$TotMaiorMasc+$TotMaiorFem;
+	$texto.= "<td width=15% align=right>Total - ".($TotAux ? "$TotAux" : "0")."</td>\n
+		<td colspan=2>&nbsp;</td>\n
+		</tr>\n
+		<tr style='font-weight:bold'>\n
+		<td width=10%>&nbsp;</td>\n
+		<td width=10% align=right>Pediatria</td>\n
+		<td width=15% align=right>Masculino - ".($TotMenorMasc ? "$TotMenorMasc" : "0")."</td>\n
+		<td width=15% align=right>Feminino -  ".($TotMenorFem  ? "$TotMenorFem"  : "0")."</td>\n";
+		$TotAux=$TotMenorMasc+$TotMenorFem;
+	$texto.= "<td width=15% align=right>Total - ".($TotAux ? "$TotAux" : "0")."</td>\n
+		<td colspan=2>&nbsp;</td>\n
+		</tr>\n
+		<tr><td>&nbsp;&nbsp;</td></tr>\n
+		<tr style='font-weight:bold'>
+		<td width=10%>&nbsp;</td>
+		<td width=10% align=right>Geral</td>\n";
+		$TotAux=$TotMaiorMasc+$TotMenorMasc;
+	$texto.= "<td width=15% align=right>Total - ".($TotAux ? "$TotAux" : "0")."</td>\n";
+		$TotAux=$TotMaiorFem+$TotMenorFem;
+	$texto.= "<td width=15% align=right>Total - ".($TotAux ? "$TotAux" : "0")."</td>\n";
+		$TotAux=$TotMaiorMasc+$TotMenorMasc+$TotMaiorFem+$TotMenorFem;
+	$texto.= "<td width=15% align=right>Total - ".($TotAux ? "$TotAux" : "0")."</td>\n
+		<td colspan=2>&nbsp;</td>\n
+		</tr>\n
+		</table>";     
+	}
+	echo "</table>\n"; 
+
+}
+
+echo "<body>\n";
+echo "<body>\n";
+?>

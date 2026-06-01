@@ -1,0 +1,40 @@
+AgPorAgente.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+AgPorAgente.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+AgPorMedico.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+AgPorMedico.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+AgPorPaciente.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+AgPorPaciente.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+AgPorUnidade.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+AgPorUnidade.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+apac_prestador.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+apac_prestador.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+apac_procedimento.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+apac_procedimento.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+apac_qtd_procedimento.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+apac_qtd_procedimento.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+AtCidPAM.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+AtCidPAM.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+AtPAM.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+AtPAM.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+AtPAMpUnid.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+AtPAMpUnid.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+ConsumoSemestral.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+ConsumoSemestral.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+CurABCConsumo.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+CurABCConsumo.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+CurABCEstoque.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+CurABCEstoque.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+EfetAtendPorMedico.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+EfetAtendPorMedico.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+FaltPorPeriodo.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+FaltPorPeriodo.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+filtro_rel_item1.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+filtro_rel_item1.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+material_entrada.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+material_entrada.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+MedPorEspecialidade.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+MedPorEspecialidade.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+ProntPorUnid.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+ProntPorUnid.php:   if (date_array[0] > maxDay[date_array[1]-1]) {
+TempoEsperaPaciente.php:var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+TempoEsperaPaciente.php:   if (date_array[0] > maxDay[date_array[1]-1]) {

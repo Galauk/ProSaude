@@ -1,0 +1,56 @@
+<?php 
+if($this->grades && count($this->grades)): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="850px">
+
+	<tr class="ui-widget-header">
+		<th rowspan="2">Intervalo</th>
+		<th rowspan="2">Repetições</th>
+		<th colspan="2">Início</th>	
+		<th rowspan="2">Próxima</th>	
+		<?php if($this->impresso != "S"):?><th rowspan="2">Opções</th>	<?php endif;?>
+	</tr>
+	<tr class="ui-widget-header">
+		<th>Data</th>
+		<th>Hora</th>
+	</tr>
+	<?php foreach($this->grades as $item):/* @var $item Zend_Db_Table_Row_Abstract */ ?>
+	<tr>
+		<td class="ui-state-default c">De <?=$item->lgra_intervalo;?> em <?=$item->lgra_intervalo;?> horas</td>
+		<td class="ui-state-default c"><?=$item->lgra_repeticoes;?> vezes</td>
+		<td class="ui-state-default c"><?=$this->data($item->lgra_data);?></td>
+		<td class="ui-state-default c"><?=$item->lgra_hora;?></td>
+		<td class="ui-state-default c"><?=$this->data($item->lgra_proximo, 'HH:mm dd/MM', '<em>--</em>');?></td>
+		<?php if($this->impresso != "S"):?><td class="ui-state-default c"><img class="a" data-id="<?=$item->lgra_codigo;?>" src="<?=$this->baseUrl("/public/images/icons/excluir.png");?>" alt="x" title="Cancelar Grade" /></td><?php endif;?>
+	</tr>
+	<tr>
+		<td colspan="6" class="ui-state-default">
+			<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+				<tr class="ui-widget-header">
+					<th>Produto</th>
+                                        <th>Administração</th>
+					<th>Quantidade</th>
+				</tr>
+				<?php foreach($item->findDependentRowset("Application_Model_LeitoGradeItens") as $gradeItem):/* @var $gradeItem Zend_Db_Table_Row_Abstract */ ?>
+				<tr>
+					<td><?=$gradeItem->findParentRow("Application_Model_Produto")->pro_nome;?></td>
+                                        <td class="d"><?php $tbAp = new Application_Model_TbAdministracaoProduto();
+                                                            $adm = $tbAp->getAdministracao($gradeItem->adm_codigo);
+                                                            echo $adm['adm_nome']." ".$adm['adm_sigla'];?></td>
+					<td class="d"><?=$gradeItem->lig_quantidade;?></td>
+				</tr>
+				<?php endforeach; ?>
+			</table>			
+		</td>		
+	</tr>
+	<tr><td>&nbsp;</td></tr>
+	<?php endforeach; ?>
+	
+</table>
+
+<?php else: ?>
+<em>Não há grade de medicamentos para este leito/paciente.</em>
+<?php endif; ?>
+<?php if($this->impresso != "S"):?>
+    <div class="space"></div>
+    <a href="<?=$this->url(array("module" => "leito","controller" =>"medicamentos","action"=>"dispensar","leito"=>$this->lei_codigo,"io_codigo" => $this->io_codigo,"ate_codigo" => $this->ate_codigo,"prontuario"=>$this->prontuario));?>" class="ui-button novo popup" rel="1100x500">Nova grade</a>
+<?php endif;?>

@@ -1,0 +1,121 @@
+#boca{
+	width: 740px;
+	maring: 0 auto;
+}
+
+#boca > div {
+	text-align: center;
+}
+
+.adulto,
+.crianca{
+  position:relative; top:0px; left:0px;
+  display: inline-block;
+  margin: 0 -2px;
+  padding: 1px 4px;
+  width: 31px;
+  height: 47px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: 4px 12px;
+  font: 10px verdana;
+  text-align: right;
+  border: 1px solid #FFF; 
+  overflow:hidden;
+}
+.sextante {
+  display: inline-block;
+  height:51px;
+  cursor:pointer;
+  width:41px;
+  line-height:50px;
+  box-sizing:border-box;
+  border:1px solid #000;
+  overflow:hidden;
+}
+.adulto:hover, .crianca:hover, .sextante:hover{
+	border: 1px solid #abcdef;	
+}
+
+.adulto{
+	background-image: url('/WebSocialSaude/zf/public/images/dente/dente_adulto.jpg');
+	background-position: 4px 12px;
+}
+
+.crianca{
+	background-image: url('/WebSocialSaude/zf/public/images/dente/dente_crianca.jpg');
+	background-position: 4px 13px;
+}
+
+.consulta-adulto,
+.consulta-crianca{
+	position:relative; top:0px; left:0px;
+        display: inline-block;
+	margin: 0 -2px;
+	padding: 1px 4px;
+        width: 31px;
+	height: 47px;
+	background-repeat: no-repeat;
+	background-position: 4px 12px;
+	font: 10px verdana;
+	text-align: right;
+	border: 1px solid #FFF;	
+	overflow: hidden;
+}
+
+.consulta-adulto{
+	background-image: url('/WebSocialSaude/zf/public/images/dente/dente_adulto.jpg');
+	background-position: 4px 12px;
+}
+
+.consulta-crianca{
+	background-image: url('/WebSocialSaude/zf/public/images/dente/dente_crianca.jpg');
+	background-position: 4px 13px;
+}
+
+.proc img{
+  position: relative;
+}
+
+#meio{
+	text-align: center
+}
+
+#nome{
+	text-align: left;
+	margin: 3px 0 0 0;
+}
+
+#dente-dialog h3{
+  margin:0 0 10px 0;
+  padding: 0;
+}
+
+#face,
+#procedimento,
+#anotacoes,
+#historico{
+	padding: 5px;
+}
+
+#face img{
+	cursor: pointer;
+}
+
+#face .f label{
+	display: inline-block;
+	width: 65px;
+}
+
+#procedimento-status {
+    margin-left: 12px;
+    width: 376px;
+    height: 120px;
+    padding-left: 12px;
+    padding-top: 04px;
+}
+
+#procedimento-status .title {
+    margin-bottom: 15px;
+    
+}

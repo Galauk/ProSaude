@@ -1,0 +1,33 @@
+<form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar")); ?>">
+    <input type="hidden" name="area_codigo" value="<?=$this->dados->area_codigo;?>">
+    <label>Cep:</label>
+    <input type="text" name="cep" id="cep" rel="99999-999" class="ma" value="<?=$this->dados->cep;?>">
+    <span class="ui-state-error erro" id="erro-cep" style="display:none">Cep Inválido!</span><br/>
+    <label><span class="obrigatorio">(*)</span> Logradouro:</label>
+    <input type="text" name="rua" id="rua"  value="<?=$this->dados->logradouro;?>" /><br />
+    <label>Número</label>
+    <input id="num" name="num" type="text"  /><br/>
+    <label>Complemento:</label>
+    <input type="text" name="complemento" id="complemento"  value="<?=$this->dados->bairro;?>" /><br />
+    <label><span class="obrigatorio">(*)</span> Estado:</label>
+    <input type="text" name="uf" id="uf" onkeypress="buscaEstado()" value="<?=$this->dados->estado;?>" />
+    <input type="hidden" name="uf_codigo" id="uf_codigo" value="<?= $this->dados->est_codigo?>">
+    <span class="ui-state-error erro" id="erro-uf" style="display:none">Estado Inválido!</span><br/>
+    <label><span class="obrigatorio">(*)</span> Município:</label>
+    <input type="text" name="cidade" id="cidade" onkeypress="buscaCidade()" value="<?=$this->dados->estado;?>" />
+    <input type="hidden" name="cidade_codigo" id="cidade_codigo" value="<?= $this->dados->est_codigo?>">
+    <span class="ui-state-error erro" id="erro-cidade" style="display:none">Municipio Inválido!</span><br/>
+    <label><span class="obrigatorio">(*)</span> Bairro:</label>
+    <input type="text" name="bairro" id="bairro" onkeypress="buscaBairro()" value="<?=$this->dados->bairro;?>" />
+    <input type="hidden" name="bairro_codigo" id="bairro_codigo" value="<?= $this->dados->bairro_codigo?>">
+    <span class="ui-state-error erro" id="erro-bairro" style="display:none">Bairro Inválido!</span><br />
+    <label>Ponto de referência:</label>
+    <input type="text" name="ponto_referencia" value="<?=$this->dados->bairro;?>" /><br />
+    <label>Área:</label>
+    <input type="text" name="area" value="<?=$this->dados->bairro;?>" /><br />
+    <label>Micro-área:</label>
+    <input type="text" name="micro_area" value="<?=$this->dados->bairro;?>" /><br />
+    <a href="<?=$this->url(array("action"=>"index", "module"=>"domicilio","controller" => "area"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+    <a href="#" class="ui-button salvar"  >Salvar</a>
+</form>
+ <div class="grid_7 map" id="map1"></div>

@@ -1,0 +1,75 @@
+<link href="/WebSocialSaude/zf/public/css/relatorio.css" media="all" rel="stylesheet" type="text/css" >
+<table width="600">
+  <tr>
+    <?=($this->ficha["uni_desc"] ? "<td colspan=2><strong>Unidade de atendimento: </strong>".$this->ficha["uni_desc"]."</td>" : "<td><strong>Unidade de atendimento:</strong> - </td>")?>
+  </tr>
+  <tr>
+    <?=($this->ficha["usu_nome"] ? "<td><strong>Nome: </strong>".$this->ficha["usu_nome"]."</td>" : "<td><strong>Nome:</strong> - </td>")?>
+    <?=($this->ficha["rua_nome"] ? "<td><strong>Endereço: </strong>".$this->ficha["rua_nome"]."</td>" : "<td><strong>Endereço:</strong> - </td>")?>
+  </tr>
+  <tr>
+    <?=($this->ficha["rua_bairro"] ? "<td><strong>Bairro: </strong>".$this->ficha["rua_bairro"]."</td>" : "<td><strong>Bairro:</strong> - </td>")?>
+    <?=($this->ficha["cid_nome"] ? "<td><strong>Cidade: </strong>".$this->ficha["cid_nome"]."</td>" : "<td><strong>Cidade:</strong> - </td>")?>
+  </tr>
+  <tr>
+    <?=($this->ficha["ate_data"] ? "<td><strong>Data de atendimento: </strong>".$this->data($this->ficha["ate_data"],Zend_Date::DATE_MEDIUM)."</td>" : "<td><strong>Data de atendimento:</strong> - </td>")?>
+    <?=($this->ficha["ate_hora"] ? "<td><strong>Horas: </strong>".$this->ficha["ate_hora"]."</td>" : "<td><strong>Horas:</strong> - </td>")?>
+  </tr>
+  <tr>
+    <td colspan="2" bgcolor="#ECECEC"><strong>Dados Vitais</strong></td>
+  </tr>
+  <tr>
+    <?=($this->ficha["pc_pressao_sistolica"] ? "<td><strong>P.A: </strong>".$this->ficha["pc_pressao_sistolica"]."</td>" : "<td><strong>P.A:</strong> - </td>")?>
+    <?=($this->ficha["usu_datanasc"] ? "<td><strong>Idade: </strong>".$this->idade($this->ficha["usu_datanasc"])."</td>" : "<td><strong>Idade:</strong> - </td>")?>
+  </tr>
+  <tr>
+    <?=($this->ficha["pc_freq_cardiaca"] ? "<td><strong>Freq Cardiaca: </strong>".$this->ficha["pc_freq_cardiaca"]."</td>" : "<td><strong>Freq Cardiaca:</strong> - </td>")?>
+    <?=($this->ficha["pc_peso"] ? "<td><strong>Peso: </strong>".$this->ficha["pc_peso"]."</td>" : "<td><strong>Peso:</strong> - </td>")?>
+  </tr>
+  <tr>
+    <?=($this->ficha["pc_temperatura"] ? "<td><strong>Temp: </strong>".$this->ficha["pc_temperatura"]."</td>" : "<td><strong>Temp:</strong> - </td>")?>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2" bgcolor="#ECECEC">&nbsp;</td>
+  </tr>
+  <tr>
+      <?=($this->ficha["ate_reclamacao"] ? "<td colspan=2><strong>História Sumária: </strong>".$this->ficha["ate_reclamacao"]."</td>" : "<td colspan=2><strong>História Sumária:</strong> - </td>")?>
+  </tr>
+  <tr>
+      <?=($this->ficha["cd10_descricao"] ? "<td colspan=2><strong>Diagnóstico provável: </strong>".$this->ficha["cd10_descricao"]."</td>" : "<td colspan=2><strong>Diagnóstico provável:</strong> - </td>")?>
+  </tr>
+  <tr>
+      <?=($this->ficha["io_observacao"] ? "<td colspan=2><strong>Prescrição Médica: </strong>".$this->ficha["io_observacao"]."</td>" : "<td colspan=2><strong>Prescrição Médica:</strong> - </td>")?>
+  </tr>
+  <tr>
+      <td colspan="2" bgcolor="#ECECEC"><strong>Grade de medicamentos</strong></td>
+  </tr>
+  <? foreach ($this->dados_grade as $key => $value) { ?>
+        <tr>
+          <td colspan="2">
+                <?=($value["pro_nome"] ? "<strong>Produto: </strong>".$value["pro_nome"] : "<strong>Produto: - </strong>")?>
+                <?=($value["lig_quantidade"] ? "<strong>Quantidade: </strong>".$value["lig_quantidade"] : "<strong>Quantidade: - </strong>")?>
+                <?=($value["adm_sigla"] ? "<strong>Administração: </strong>".$value["adm_nome"].' ('.$value["adm_sigla"].')' : "<strong>Administração: </strong>".$value["adm_nome"])?>
+                <?="<br/><strong>Intervalo: </strong>De ".$value["lgra_intervalo"]." em ".$value["lgra_intervalo"]." horas";?>
+                <?="<strong>Repetições: </strong>".$value["lgra_repeticoes"];?>
+                <?=($value["ldis_datahora"] ? "<strong>Horário da medicação: </strong>".$this->data($value["ldis_datahora"],Zend_Date::TIMES) : "<strong>Horário da medicação: - </strong>")?>
+          </td>
+        </tr>
+  <? } ?>
+  <tr>
+    <td colspan="2">____________________________________________________________________________________________________________</td>
+  </tr>
+  <tr>
+    <td colspan="2">____________________________________________________________________________________________________________</td>
+  </tr>
+  <tr>
+    <td colspan="2">____________________________________________________________________________________________________________</td>
+  </tr>
+  <tr>
+    <td colspan="2">____________________________________________________________________________________________________________</td>
+  </tr>
+  <tr>
+    <td colspan="2">____________________________________________________________________________________________________________</td>
+  </tr>
+</table>

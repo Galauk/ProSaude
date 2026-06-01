@@ -1,0 +1,18 @@
+<div>
+	<form method="POST">
+		<fieldset style="text-align: center; border: none;">
+			<div>
+				<label for="dataAtendimentoInicio">Data Inicio</label>
+				<input name="dataAtendimentoInicio" type="date" id="dataInicial">
+			</div>
+
+			<div>
+				<label for="dataAtendimentoFim">Data Fim</label>
+				<input name="dataAtendimentoFim" type="date" id="dataFinal">
+			</div>
+			
+			<button type="button" onclick="atualizarTabelaEsus( $('#dataInicial').val(), $('#dataFinal').val() )"> Atualizar Esus</button>
+
+		</fieldset>
+	</form>
+</div>

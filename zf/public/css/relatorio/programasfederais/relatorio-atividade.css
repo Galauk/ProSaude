@@ -1,0 +1,56 @@
+
+#page{
+  width: 780px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #FFF;
+}
+
+#header{
+    border: 1px solid black;
+}
+
+#header #logo{
+  float: left;
+  width: 140px;
+  margin-left: 10px;
+}
+
+#header #titulo{
+  float: left;
+  width: 480px;
+  text-align: center;
+}
+
+.divAtividade{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid black;
+}
+
+.divUnidade{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 20px;
+    width: 760px;
+    padding: 10px;
+    background-color: #EEE;
+}
+
+.divNomeUnidade{
+    float: left;
+}
+
+.divParticipantes{
+    float: right;
+}
+
+.divTotalParticipantesDaAtividade{
+    float: right;
+    background-color: #EEE;
+}
+
+.divNenhumResultado{
+    background-color: #EEE;
+}

@@ -1,0 +1,86 @@
+<?php
+    // echo "<pre>";print_r($this->dadosP);die();
+?>
+<table>
+    <style type="text/css">
+    .bb td, .bb th {
+        border-bottom: 1px solid black !important;
+    }
+    </style>    
+    <tr>
+        <th align="left" colspan="10">Paciente:</th>
+    </tr>
+    
+    <?php
+    $contador = 0;
+    ?>
+    <?php foreach ($this->dadosP as $item){ $contador++;?>
+    
+        <tr>
+            <th align="left" colspan="2">Nome</th>
+            <th align="left" colspan="2">Maca</th>
+            <th align="center" colspan="2">Embarque do Paciente</th>
+            <th align="left" colspan="2">Clinica</th>
+            <th align="left" colspan="2">Horario</th>
+            <th align="center" colspan="2">Destino</th>
+            <th align="left" colspan="2">Observação:</th>
+        </tr>
+        
+        <tr>
+            <td align="left" colspan="2"><font size='2'><?=$item['usu_nome']?></td>
+
+            <td align="left" colspan="2"><font size='2'> <?=($item['necessita_maca'] == '' ? "Não" : "Sim") ?> </td>
+
+            <td align="center" colspan="2"><font size='2'> 
+
+                <?php
+                    if ($item['outros_paciente_embarque'] != '') {
+                        echo $item['outros_paciente_embarque'];
+                    }
+
+                    if ($item["uni_codigo_paciente_embarque"] != 0) {
+                        echo $item['uni_desc'];
+                    }
+
+                    if ($item["dom_codigo_paciente_embarque"] != 0) {
+                        echo $item["rua_nome"]." "."|".$item["bai_nome"];
+                    }
+                ?>
+
+            </td>
+
+            <td align="left" colspan="2"><font size='2'><?=$item['clinica']?></font></td>
+            <td align="left" colspan="2"><font size='2'><?=$item['horario']?></font></td>
+            <td align="center" colspan="2"><font size='2'><?=$item['cid_nome']?></font></td>
+            <td align="left" colspan="2"><?=$item['viausu_observacao']?></td>
+
+        </tr>
+        <tr>
+            <th align="left" colspan="10">Acompanhante:</th>
+            <th align="left" colspan="1"></th>
+            <th align="left" colspan="1"></th>
+        </tr>
+            
+            <?php foreach ($item["usu_acomp"] as $itemA) { $contador++;?>
+            <tr>
+              <td align="left" colspan="8">
+                        <?=$itemA['usu_nome'] == "" ? "Nenhum acompanhante" : $itemA['usu_nome']?>
+              </td>
+              <td align="left" colspan="1">
+                        <?=$itemA['usu_rg'] ? $itemA['usu_rg'] : '---' ?>
+              </td>
+              <td align="left" colspan="1">
+                        <?=$itemA['usu_cpf'] ? $itemA['usu_cpf'] : '---' ?>
+              </td>
+            </tr>
+            <?php } ?>
+        <tr class="bb">
+            <td colspan="16">
+            </td>
+        </tr>
+    <?php } ?>
+    <tr>
+      <th align="left" colspan="1">Total : <?=$contador?></th>
+    </tr>
+</table>
+

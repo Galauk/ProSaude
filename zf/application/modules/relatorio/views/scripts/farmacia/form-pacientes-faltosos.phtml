@@ -1,0 +1,11 @@
+<form method="post" id="form-num-paciente-atendido-por-medicamentos" action="<?=$this->url(array("action"=>"rel-pacientes-faltosos"));?>" target="_blank">
+    <label>Setor:</label>
+    <input name="set_nome" id="set_nome" />
+    <input name="set_codigo" id="set_codigo" type="hidden" /><br />
+    <label>Data Inicial:</label>
+    <input name="data_inicial" id="data_inicial" class="data" style="width: 100px"/><br />
+    <label>Data Final:</label>
+    <input name="data_final" id="data_final" class="data" style="width: 100px"/><br />
+    <div class="clear"></div>
+    <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+</form>

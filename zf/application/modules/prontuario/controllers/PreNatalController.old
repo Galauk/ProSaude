@@ -1,0 +1,18 @@
+<?php
+
+class Prontuario_PreNatalController extends Zend_Controller_Action {
+
+	public function init() {
+		$this->_helper->acl->copiarPermissao("zf/prontuario/index");
+		Zend_Layout::getMvcInstance()->setLayout("prontuario");
+		$this->view->title = "Pré-Natal";
+	}
+
+	public function indexAction() {
+		$age = Application_Model_Agendamento::usuEmAberto();
+		$this->view->url = "/WebSocialSaude/prontuarioEletronico/prontuario.php?pagina=17&age_codigo={$age->age_codigo}&usu_codigo={$age->usu_codigo}&uni_codigo={$age->uni_codigo}&med_codigo={$age->med_codigo}&esp_codigo={$age->esp_codigo}&age_data={$age->data}";
+		$this->view->height = 580;
+		return $this->render("iframe", NULL, TRUE);		
+	}
+}
+

@@ -1,0 +1,13 @@
+<div class='abas'> 
+	<ul class="tabs">
+		<li><a href="#tabs2-1">Atendimento</a></li>
+		<li><a href="#tabs2-2">Grade de medicamentos</a></li>
+
+	</ul>
+	<div id='tabs2-1'>
+		<?= $this->action("index", "atendimento", "prontuario", array("obs" => "S","io_codigo" => $this->io_codigo,"ate_codigo"=>$this->ate_codigo)); ?>
+	</div>
+	<div id='tabs2-2'>
+		<?= $this->action("ver", "medicamentos", "leito",  array("obs" => "S","io_codigo" => $this->io_codigo,"ate_codigo"=>$this->ate_codigo)); ?>
+	</div>	
+</div>

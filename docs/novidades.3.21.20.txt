@@ -1,0 +1,23 @@
+﻿Módulo: Saúde - Versão: 3.21.20
+
+- Login:
+-- Adicionado foco automático no campo usuário.
+-- Alterado os campos Unidade, Especialidade e Setor:
+--- Se houver apenas um: irá mostrar como campo de texto sem opção de alterar
+--- Se houver mais de um: irá mostrar como combo (assim como antigo). Nesse caso, o sistema procura quais foram as opções escolhidas no ultimo login.
+--- Se não houver opções: o campo não será exibido.
+
+- Vacina:
+-- Adicionado validações nas ações preecher e aplicar. Não é possível aplicar ou preencher uma vacina com data futura.
+-- Adicionado calendário para seleção de data (em todas as ações).
+-- Alterado layout do atestado de vacina.
+-- Adicionado validação para impedir que seja gerado atestado para datas superiores as vacinas pendentes (aprazadas)
+
+- Atendimento > Porta de Entrada
+-- Adicionado opções de busca por data de nascimento e pelo número do prontuário
+
+- Farmácia > Dispensação
+-- Adicionado opções de busca por data de nascimento e pelo número do prontuário
+
+- Agendamento Externo
+-- Adicionado opções de busca por data de nascimento e pelo número do prontuário

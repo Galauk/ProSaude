@@ -1,0 +1,39 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<br />
+<form method="post" action="<?=$this->url(array("action"=>"salvar"))?>" id="form-categoria" >
+    <input type="hidden" name="catc_codigo" id="catc_codigo" value="<?=$this->dadosEdicao->catc_codigo?>" />
+    <label style="width: 140px;">Categoria:</label>
+    <input type="text" name="catc_nome" id="catc_nome" value="<?=$this->dadosEdicao->catc_nome?>" /><br />
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+S" style="margin-left: 145px;">Salvar</a>
+</form>
+<br />
+<table>
+    <tr>
+        <th style="width: 40px;">Código</th>
+        <th style="width: 500px;">Grupo</th>
+        <th style="width: 40px;" colspan="2">Ações</th>
+    </tr>
+    <?php if (count($this->dados)>0) { ?>
+        <?php foreach($this->dados as $value) { ?>    
+                <tr>
+                    <td style="width: 5%;"><?=$value->catc_codigo;?></td>
+                    <td style="width: 89%;"><?=$value->catc_nome;?></td>
+                    <td style="width: 3%;">
+                        <a href="<?=$this->baseUrl();?>/agenda/categoria-de-convenios/index/catc_codigo/<?=$value->catc_codigo;?>" class="editar" >
+                            <img src="<?=$this->baseUrl();?>/public/images/icons/editar.png" alt="Editar Item" title="Editar Item">
+                        </a>
+                    </td>
+                    <td style="width: 3%;">
+                        <a href="#">
+                            <img src="<?=$this->baseUrl();?>/public/images/icons/excluir.png" alt="Excluir Item" title="Excluir Item" onclick="excluir(<?=$value->catc_codigo;?>)">
+                        </a>
+                    </td>
+                </tr>
+        <?php } ?>
+    <?php } else { ?>
+            <tr>
+                <td colspan="4">Nenhuma categoria encontrada até o momento!</td>
+            </tr>
+    <?php } ?>
+</table>

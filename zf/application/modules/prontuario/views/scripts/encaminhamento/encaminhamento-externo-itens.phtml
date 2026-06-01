@@ -1,0 +1,35 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()){  ?>
+        <div class="space"></div>
+        <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+            <tr class="ui-widget-header">
+                <th width="10"><img src="<?=$this->baseUrl('/public/images/icons/imprimir.png');?>" alt="I"/></th>
+                <th>Agendado Para</th>
+                <th>Data</th>
+                <th>Observações</th>	
+                <th>Internação?</th>
+                <th>Urgência?</th>
+                <th>Opções</th>
+            </tr>
+            <?php foreach($this->itens as $item): ?>
+                    <tr>
+                        <td class="ui-state-default">
+                            <input type="checkbox" id="<?=$item->enc_ext_codigo?>"  class="produto" value="<?=$item->enc_ext_codigo?>" name="imprimir">
+                        </td>
+                        <td class="ui-state-default"><?=$this->escape($item->enc_ext_agendado_para);?></td>
+                        <td class="ui-state-default"><?=$this->data($item->enc_ext_data);?></td>
+                        <td class="ui-state-default escape"><?=str_replace("<p>&nbsp;</p>","",$item->enc_ext_descricao);?></td>
+                        <td class="ui-state-default c" width="100"><?=$this->mask($item->enc_ext_internacao,'bool');?></td>
+                        <td class="ui-state-default c" width="80"><?=$this->mask($item->enc_ext_urgencia,'bool');?></td>
+                        <td class="ui-state-default c" width="60">					
+                            <a href="<?=$this->url(array("module"=>"prontuario","controller"=>"encaminhamento","action"=>"excluir-item-encaminhamento-externo","id"=>$item->enc_ext_codigo));?>" class="excluir"><img src="<?=$this->baseUrl('/public/images/icons/excluir.png');?>" alt="Excluir" title="Excluir" /></a>
+                        </td>
+                    </tr>
+            <?php endforeach; ?>
+        </table>
+        <div class="space"></div>
+        <?$action = $this->url(array("module"=>"prontuario","controller"=>"encaminhamento","action"=>"encaminhamento-externo-imprimir","id"=>$item->enc_ext_codigo));?>
+        <a href="#" class="ui-button imprimir"  onclick="imprimirExterno()" rel="630x540">Imprimir</a>
+<? } else { ?>
+        <br />
+        <em>Nenhum encaminhamento adicionado ainda.</em>
+<? } ?>

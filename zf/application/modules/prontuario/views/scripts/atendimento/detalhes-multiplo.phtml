@@ -1,0 +1,47 @@
+<form>
+	<label>Início:</label>
+	<input value="<?= $this->data($this->dados->ate_data); ?>" style="width:80px" readonly="readonly" />
+	<input name="ate_hora" value="<?= $this->escape($this->dados->ate_hora); ?>" style="width:50px" readonly="readonly" /><br />
+
+	<label>Desc. do Paciente:</label>
+	<div class="textarea">
+		<div class="textarea-readonly">
+			<?= $this->dados->ate_reclamacao; ?></textarea>
+		</div>
+	</div><br />
+
+	<label>Acidente de trabalho?:</label>
+	<?= $this->arrayToRadio("ate_acidentetrab", array('S' => "Sim", 'N' => "Não"), is_null($this->dados->ate_acidentetrab) ? 'N' : $this->dados->ate_acidentetrab); ?><br />
+
+	<label><abbr title="Código Internacional de Doença">CID</abbr>:</label>
+	<input type="hidden" name="cd10_codigo" id="cd10_codigo" value="<?= $this->dados->cd10_codigo; ?>" />
+	<input id="buscar" value="<?= trim($this->dados->cd10_descricao); ?>" /><br />
+
+	<label>Exame Físico:</label>
+	<div class="textarea">
+		<div class="textarea-readonly">
+			<?= $this->dados->ate_exame_fisico; ?></textarea>
+		</div>
+	</div><br />
+
+	<label>Diagnóstico:</label>
+	<div class="textarea">
+		<div class="textarea-readonly">
+			<?= $this->dados->ate_diagnostico; ?></textarea>
+		</div>
+	</div><br />
+
+	<label>Conduta/Tratamento:</label>
+	<div class="textarea">
+		<div class="textarea-readonly">
+			<?= $this->dados->ate_tratamento; ?></textarea>
+		</div>
+	</div><br />
+
+	<label>Curativos<br />Motivo do Procedimento:</label>
+	<div class="textarea">
+		<div class="textarea-readonly">
+			<?= $this->dados->ate_curativo; ?></textarea>
+		</div>
+	</div><br />
+</form>

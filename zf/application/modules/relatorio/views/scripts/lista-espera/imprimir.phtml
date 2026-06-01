@@ -1,0 +1,140 @@
+<head>
+    <script>
+      //  window.print();
+    </script>
+        <style>
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+        td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        }
+
+        tr:nth-child(even) {
+        background-color: #dddddd;
+        }
+        .footer.rodape {
+            text-align: center;
+        }
+        </style>
+</head>
+<body>
+<table width="100%" >
+    <tfoot>
+        <tr>
+            <td>
+                <div class="footer rodape">
+                    <div id="endereco">
+                        <?php /*=$this->usr->uni_endereco?>, CNPJ:<?=$this->usr->uni_cnpj?>, FONE:<?=$this->usr->cnes_telefone*/?>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+    <thead>
+        <tr>
+            <td>
+                <div >
+                    <div class="cabecalho">
+                        <div class="brasao" style="align-center">
+                            <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" height="80" width="80"/>
+                        </div>
+                        <div class="dados_cabecalho" style="text-align:center">
+                            <font size="2">PREFEITURA DO MUNICIPIO DE <?=$this->nome_cidade?></font><br/>
+                            <b><?php
+                            if($this->tipo == 1){
+                              echo "RELATORIO LISTA DE ESPERA CONSULTAS";
+                            } elseif($this->tipo == 2){
+                              echo "RELATORIO LISTA DE ESPERA EXAMES";
+                            } elseif($this->tipo == 5){
+                              echo "RELATORIO LISTA DE ESPERA ODONTO";
+                            } elseif($this->tipo == 3){
+                              echo "RELATORIO LISTA DE ESPERA CIRURGIAS";
+                            }
+                            ?></b><br/>
+                        </div>
+                    </div>
+
+                </div>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+
+    <table>
+        <tr>
+            <th style="width: 250px;" class="titulos">
+                <b>Status</b>
+            </th>
+            <th style="width: 1000px;" class="titulos">
+                <b>Paciente</b>
+            </th>
+            <th style="width: 300px;" class="titulos">
+                <b>Data Agendamento</b>
+            </th>
+            <th style="width: 300px;" class="titulos">
+                <b>Data Entrada</b>
+            </th>
+            <th style="width: 300px;" class="titulos">
+                <b>Urgencia</b>
+            </th>
+                <th style="width: 1000px;" class="titulos">
+                <b>Medico</b>
+            </th>
+            <th style="width: 300px;" class="titulos">
+                <b>Procedimento</b>
+            </th>
+
+        </tr>
+            <?php echo $this->dados;?>
+
+          <?php foreach ($this->dados as $dado): ?>
+            <tr>
+            <td class="registros">
+                <?php
+                if(strcmp($dado->status_espera,"A") === 24){
+                  echo "AGENDADO";
+                } else {
+                  echo "AGUARDANDO";
+                }
+                ?>
+            </td>
+            <td class="registros">
+                <?php echo $dado->usu_nome; ?>
+            </td>
+            <td  class="registros">
+                <?php echo $dado->data_agendada; ?>
+            </td>
+            <td  class="registros">
+               <?php echo $dado->data_entrada; ?>
+            </td>
+            <td  class="registros">
+              <?php
+              if($dado->id_nivelurgencia === 1){
+                echo "Baixa";
+              } elseif($dado->id_nivelurgencia === 2){
+                echo "Media";
+              } elseif($dado->id_nivelurgencia === 3){
+                echo "Alta";
+              } else {
+                echo "Retorno";
+              }
+              ?>
+            </td>
+            <td  class="registros">
+                <?php echo $dado->med_nome; ?>
+            </td>
+            <td  class="registros">
+               <?php echo $dado->proc_nome; ?>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+    </table>
+    </tbody>
+</table>
+</body>

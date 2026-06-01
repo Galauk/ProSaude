@@ -1,0 +1,933 @@
+<?
+
+$dados = new stdClass();
+
+if($this->dados != NULL){
+    $dados->paciente = $this->dados->paciente->toArray();
+    $dados->medicamentos = $this->dados->medicamentos->toArray();
+}
+
+$action = $_GET['action'];
+
+if(!$dados->paciente){
+?>
+<div class="center-block">
+    <form method="post" class="ui" action="salvar-solicitacao">
+        <div class="center-block" id="contentPage" style="width: 860px; min-height: 1370px; border: .3rem solid black; background: #fff">
+            <div class="header" style="min-height: 88px;">
+                <div class="col-50 pull-right">
+                    <img src="/WebSocialSaude/zf/public/images/logo-do-sus.jpg" width="120" height="90" style="margin-top: 2px" class="img-responsive">
+                </div>
+                <div class="col-50">
+                    <div style="padding-left: 5px;" class="text-p-reduced">
+                        <p class="text-bold">Sistema Único de Saúde</p>
+                        <p class="text-bold">Ministério da Saúde</p>
+                        <p class="text-bold">Secretaria de Estado da Saúde</p>
+                    </div>
+                </div>
+            </div>
+            <div class="sub-header black" style="border: 5px ridge #BBB; line-height: 0; background-color: #000;" color="">
+                <p class="text-center font-16 text-bold">COMPONENTE ESPECIALIZADO DA ASSISTÊNCIA FARMACÊUTICA</p>
+            </div>
+            <div class="sub-header" style="background: #ddd;">
+                <p class="text-bold text-center" style="margin: 0; vertical-align: middle; line-height: 32px">LAUDO DE SOLICITAÇÃO, AVALIAÇÃO E AUTORIZAÇÃO EM MEDICAMENTO(S)</p>
+            </div>
+            <div class="center-block">
+                <p class="text-bold font-16 text-center" style="margin: 5px 0 -15px 0;">SOLICITAÇÃO DE MEDICAMENTO(S)</p>
+            </div>
+            <div class="center-block" style="margin-top: 17px;">
+                <div style="border: 3px solid black; border-radius: 7px; margin-left: -2px; margin-right: -2px;">
+                    <p class="text-bold font-14 text-center" style="margin: 5px 0 5px 0;">CAMPOS DE PREENCHIMENTO EXCLUSIVO PELO MÉDICO SOLICITANTE</p>
+                </div>
+            </div>
+            <div class="col-100">
+                <div class="col-40">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>1 - Número do CNES* &nbsp;&nbsp;</legend>
+                        <input type="text" value="<?=$this->uni_cnes?>" id="cnesunidade" name="cnesUnidade" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-60">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>2 - Nome do estabelecimento de saúde solicitante &nbsp;&nbsp;</legend>
+                        <input id="nomeEstabelecimento" value="<?=$_SESSION['logon']['usr']->uni_desc?>" name="nomeEstabelecimento" style="margin: 1px 0; background: transparent; color: #000; border: none; outline: none; width: 100%;">
+                        <input type="hidden" name="uni_codigo" value="<?=$_SESSION['logon']['usr']->uni_codigo?>">
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-100">
+                <div class="col-50">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>3 - Nome completo do Paciente* &nbsp;&nbsp;</legend>
+                        <input id="nomePaciente" name="nomePaciente" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                        <input type="hidden" name="usu_codigo" id="usu_codigo">
+                    </fieldset>
+                </div>
+                <div class="col-30">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>3<small>a</small> - Nascimento* &nbsp;&nbsp;</legend>
+                        <input id="nascimentoPaciente" name="nascimentoPaciente" placeholder="__/__/____" type="text" class="mask" rel="99/99/9999" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-20">
+                    <fieldset class="radius" style="height: 25px; margin: 20px 10px 2px 10px !important; position: absolute">
+                        <legend>5 - Peso* &nbsp;&nbsp;</legend>
+                        <input id="pesoPaciente" name="pesoPaciente" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-80">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>3<small>b</small> - Endereço do Paciente* &nbsp;&nbsp;</legend>
+                        <input id="enderecoPaciente" name="enderecoPaciente" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-80">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>4 - Nome da Mãe do Paciente* &nbsp;&nbsp;</legend>
+                        <input id="maePaciente" name="maePaciente" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-20">
+                    <fieldset class="radius" style="height: 25px; margin: -5px 10px 2px 10px !important; position: absolute">
+                        <legend>6 - Altura* &nbsp;&nbsp;</legend>
+                        <input id="alturaPaciente" name="alturaPaciente" class="mask" rel="9,99" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-100">
+                <ul class="medList" style="border: 2px solid #000; margin-left: 10px; margin-right: 10px; border-radius: 20px; margin: 5px 10px 5px 10px; padding: 0" data-li="1">
+                    <div class="" style="height: 30px;">
+                        <div class="col-70 text-center font-16 text-bold" style="border-right: 2px solid black; line-height: 30px">
+                            <small>7</small> - Medicamento(s)*
+                        </div>
+                        <div class=" col-30 text-center">
+                            <span><small>8 - </small><b>Quantidade solicitada*</b></span>
+                            <hr style="margin: 0; background-color: black; width: 100%"/>
+                            <div class="col-100">
+                                <div class="col-30 text-center" style="border-right: 2px solid black">
+                                    <b>1º mês</b>
+                                </div>
+                                <div class="col-40 text-center" style="border-right: 2px solid black">
+                                    <b>2º mês</b>
+                                </div>
+                                <div class="col-30 text-center">
+                                    <b class="text-center">3º mês</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <li style="line-height: 25px; height: 25px; border-top: 2px solid black; list-style: none;" class="li_1">
+
+                        <div class="text-center" style="float: left; min-height: 1px; border-right: 2px solid black; width: 20px;">
+                            <counter>1</counter>
+                        </div>
+                        <div class="text-center" style="float: left; min-height: 1px; border-right: 2px solid black; 
+                            width:calc(67% + 2px)" onmouseover="this.children[0].value != '' ? $('.exclude_1').show() : ''" onmouseleave="$('.exclude_1').hide()">
+
+                            <input type="text" name="nomeMed[][]" onkeyup="buscarMedicamento(this)" style="width: 90%; outline: none; background-color: transparent; border: none; margin: 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #000;">
+                            
+                            <img src="/WebSocialSaude/zf/public/images/icons/excluir.png" onclick="$('.li_<?= $j+1?>').remove(); excluirLi()" class="exclude_1" title="Excluir Medicamento" alt="Clique aqui para excluir o medicamento" style="float: right; cursor: pointer; width: 10px; right: 5px; margin-top: 8px; display: none; z-index: 999; position: relative">
+                        </div>
+
+                        <div class="col-30">
+                            <div class="text-center" style="border-right: 2px solid black; position: relative; width: calc(30% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_1[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                            <div class="text-center" style="border-right: 2px solid black; position: relative; width: calc(40% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_2[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                            <div class="text-center" style="position: relative; width: calc(30% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_3[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-100">
+                <div class="col-35 center-block">
+                    <fieldset class="radius" style="height: 25px; margin: 0 10px 2px 10px !important;">
+                        <legend><small>9</small> - CID-10* &nbsp;&nbsp;</legend>
+                        <input id="cid10" name="cid10" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-65">
+                    <fieldset class="radius" style="height: 25px; margin: 0 10px 2px 0px !important;">
+                        <legend><small>10</small> - Diagnóstico* &nbsp;&nbsp;</legend>
+                        <input id="diagnosticoPaciente" name="diagnosticoPaciente" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-100">
+                <fieldset class="radius" style="height: auto; margin: 0 10px 2px 10px !important;">
+                    <legend><small>11</small> - Anamnese* &nbsp;&nbsp;</legend>
+                    <textarea id="anamnesePaciente" name="anamnesePaciente" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%; resize: none;" cols='10' rows='3'></textarea>
+                </fieldset>
+            </div>
+            <div class="col-100">
+                <fieldset class="radius" style="height: auto; margin: 0 10px 2px 10px !important;">
+                    <legend><small>12</small> - Paciente realizou tratamento prévio ou está em tratamento da doença?* &nbsp;&nbsp;</legend>
+                    <ul class="list">
+                        <li class="list__item">
+                            <label class="label--checkbox" style="background: transparent;">
+                                <input type="radio" name="tratamento" value="t" class="checkbox">
+                                SIM. Relatar:
+                            </label>
+                            <input type="text" id="relatoTratamento" name="relatoTratamento" style="outline: none; border-top: none; border-left: none; border-right: none; vertical-align: 0px; width: 500px; background: transparent;" />
+                        </li>
+                        <li class="list__item" style="margin-bottom: -5px; ">
+                            <label class="label--checkbox" style="background: transparent; width: 66px !important; margin: -10px;">
+                                <input type="radio" name="tratamento" value="f" class="checkbox">
+                                NÃO
+                            </label>
+                        </li>
+                    </ul>
+                </fieldset>
+            </div>
+            <div class="col-100">
+                <fieldset class="radius" style="height: 150px; margin: 0 10px 2px 10px !important;">
+                    <p class="text-center" style="margin: 0;"><small>13</small> - <b>Atestado de capacidade*</b> &nbsp;&nbsp;</p>
+                    <p class="text-center" style="padding: 5px 0">
+                        A solicitação do medicamento deverá ser realizada pelo paciente. Entretanto, fica dispensada a obrigatoriedade da presença física do 
+                        paciente considerado incapaz de acordo com os artigos 3° e 4° do Código Civil. O paciente é considerado incapaz?
+                    </p>
+                    <label class="label--checkbox" style="background: transparent; width: 55px !important; padding: 15px;">
+                        <input type="radio" class="checkbox" name="atestadoCapacidade" value="f" style="vertical-align: -5px;">
+                        NÃO
+                    </label>
+                    <label class="label--checkbox" style="background: transparent;">
+                        <input type="radio" class="checkbox" name="atestadoCapacidade" value="t" style="vertical-align: -5px;">
+                        <span style="width: 280px; position: absolute">
+                            SIM. Indicar o nome do responsável pelo paciente, o qual poderá realizar a solicitação do medicamento
+                        </span>
+                    </label>
+                    <div class="col-30 text-center" style="float: right">
+                        
+                        <br>
+                        <input id="nomeResponsavel" name="nomeResponsavel" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%; padding: 0; margin: 0;"/>
+                        <hr style="margin-top: -1px;" />
+                        <span>Nome do responsável</span>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-100">
+                <div class="col-45">
+                    <fieldset class="radius" style="height: 25px; margin: 0 5px 2px 10px !important;">
+                        <legend><small>14</small> - Nome do médico solicitante* &nbsp;&nbsp;</legend>
+                        <input id="medicoSolicitante" name="medicoSolicitante" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>            
+                <div class="col-30">
+                    <fieldset class="radius" style="height: 25px; margin: 0 10px 2px 5px !important;">
+                        <legend><small>16</small> - Data da solicitação* &nbsp;</legend>
+                        <input id="dataSolicitacao" name="dataSolicitacao" rel="99/99/9999" class="mask" placeholder="__/__/____" value="<?= date('d/m/Y'); ?>" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div style="position: relative; width: calc(25%); float: left; min-height: 1px;" comment="col-25">
+                    <fieldset class="radius" style="height: 75px; margin: 0 5px 2px 5px !important;">
+                        <legend><small>17 - Assinatura e carimbo do médico*</small></legend>
+                    </fieldset>
+                </div>
+                <div class="col-75" style="margin-top: -42px">
+                    <fieldset class="radius" style="height: 25px; margin: 0 10px 2px 10px !important;">
+                        <legend><small>15</small> - Número do Cartão Nacional de Saúde do médico solicitante* &nbsp;&nbsp;</legend>
+                        <input id="cnsMedicoSolicitante" name="cnsMedicoSolicitante" type="text"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-100">
+                <div class="center-block" style="margin-top: 2px; margin-left: -3px; margin-right: -7px;">
+                    <div style="border: 3px solid black; border-radius: 14px; padding-top: 10px; padding-left: 5px;">
+                        &nbsp;&nbsp;<small>18</small> - <b>CAMPOS ABAIXO PREENCHIDOS POR*:</b>
+                        <br>
+                        &nbsp;
+                        <label class="label--checkbox" style="top: 4px; background: transparent; width: 75px !important;"> <input type="radio" class="checkbox" name="preenchido" value="Paciente"> <span style="vertical-align: 4px">Paciente</span> </label>
+                        <label class="label--checkbox" style="top: 4px; background: transparent; width: 115px !important;"> <input type="radio" class="checkbox" name="preenchido" value="Mãe do paciente"> <span style="vertical-align: 4px">Mãe do paciente</span> </label>
+                        <label class="label--checkbox" style="top: 4px; background: transparent; width: 178px !important;"> <input type="radio" class="checkbox" name="preenchido" value="Responsável"> <span style="vertical-align: 4px">Responsável <small-text>(descrito no item 13)</small-text></small> </label>
+                        <label class="label--checkbox" style="top: 4px; background: transparent; width: 120px !important;"> <input type="radio" class="checkbox" name="preenchido" value="Médico solicitante"> <span style="vertical-align: 4px">Médico solicitante</span> </label>
+                        <br>
+                        &nbsp;
+                        <label class="label--checkbox" style="background: transparent; width:145px !important;"> 
+                            <input type="radio" class="checkbox" name="preenchido" value="Outro" id="checkboxRepresentante" /> 
+                            <span style="vertical-align: 4px">Outro, informar nome:</span> 
+                        </label>
+                        <input type="text" id="nomeRepresentante" name="nomeRepresentante" style="outline: none; border-top: none; border-left: none; border-right: none; vertical-align: 4px; width: 200px; background: transparent;" /> 
+                        &nbsp; <span style="vertical-align: 4px;">e CPF </span>
+                        <input type="text" class="mask" name="cpfSolicitante" rel="999.999.999-99" placeholder="___.___.___-__"  style="outline: none; border: 2px solid black; border-radius: 4px; vertical-align: 4px; padding: 2px; width: 200px; background: transparent;"/>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-100">
+                <div class="col-70" style="width: calc(67%)">
+                    <fieldset class="radius" style="height: auto; margin: 5px 10px 2px 10px !important;">
+                        <legend><small>19</small> - Raça/Cor/Etnia informado pelo paciente ou responsável* &nbsp;&nbsp;</legend>
+                        <ul class="list">
+                            <li class="list__item">
+                                <label class="label--checkbox" style=" background: transparent; width: 65px !important; padding: 0 !imporatnt">
+                                    <input type="radio" name="raca" value="Branca" class="checkbox" style="background: transparent;">
+                                    Branca
+                                </label>
+                                <label class="label--checkbox" style=" background: transparent;">
+                                    <input type="radio" name="raca" value="Amarela" class="checkbox" style="background: transparent;">
+                                    Amarela
+                                </label>
+                            </li>
+                            <li class="list__item">
+                                <label class="label--checkbox" style="margin-right: 34px; background: transparent !important;; width: 56px !important;">
+                                    <input type="radio" name="raca" value="Preta" class="checkbox" style="background: tranparent !important;">
+                                    Preta
+                                </label>
+                                <label class="label--checkbox" style=" background: transparent !important; width: 168px !important;">
+                                    <input type="radio" name="raca" value="Indígena" class="checkbox" style="background: transparent !important;">
+                                    Indígena.
+                                    Informar Etnia: &nbsp;
+                                    <input type="text" name="etnia" style="outline: none; border-top: none; border-left: none; border-right: none; vertical-align: 4px; width: 150px; position: absolute; background: transparent;" />
+                                </label>
+                            </li>
+                            <li class="list__item" style="margin: 0">
+                                <label class="label--checkbox" style="margin-right: 32px; background: transparent; width: 60px !important;">
+                                    <input type="radio" name="raca" value="Parda" class="checkbox" style="background: transparent;">
+                                    Parda
+                                </label>
+                                <label class="label--checkbox" style="background: transparent; width: 115px !important;">
+                                    <input type="radio" name="raca" value="Sem informação" class="checkbox" style="background: transparent;">
+                                    Sem informação
+                                </label>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+                <div class="col-33">
+                    <fieldset class="radius" style="height: 27px; margin: 5px 1px 2px 0px !important;">
+                        <legend><small style="font-size: 10px">20 - Telefone(s) para contato do paciente</small>*</legend>
+                    </fieldset>
+                    <fieldset class="radius" style="height: 21px; margin: -4px 1px 2px 0px !important;"></fieldset>
+                </div>
+                <div class="col-70" style="width: calc(67%)">
+                    <fieldset class="radius" style="height: auto; margin: 0 10px 2px 10px !important; padding-bottom: 0">
+                        <legend><small>21 - Número do documento do paciente</small>*</legend>
+                        <ul class="list" style="margin-top: 0">
+                            <li class="list__item" style="margin: 0; padding: 0;">
+                                <label class="label--checkbox" style="background: transparent; width: 50px !important; margin-right: 50px;" onchange="$(this).find('.checkbox').is(':checked') ? $('#documento').val('') && $('#documento').focus() : $('#documento').focusout()">
+                                    <input type="radio" class="checkbox" name="documentoPaciente" value="cpf" style="background: transparent;">
+                                    <span style="vertical-align: 4px">CPF</span>
+                                </label>
+                                <span style="vertical-align: 4px">ou</span>
+                                <label class="label--checkbox" style="background: transparent; margin-right: 10px;" onchange="$(this).find('.checkbox').is(':checked') ? $('#documento').val(sessionStorage.getItem('cnsPaciente')) && $('#documento').focus() : $('#documento').focusout()">
+                                    <input type="radio" class="checkbox" name="documentoPaciente" value="cns" style="background: transparent;">
+                                    <span style="vertical-align: 4px;">CNS</span>
+                                </label>
+                                <input type="text" id="documento"  name="numeroDocumentoPaciente" style="color: #000; border: none; outline: none; border-bottom: 1px solid black; position: absolute; padding-left: 0; margin-top: 1px !important; background: transparent;" />
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+                <div class="col-33">
+                    <fieldset class="radius" style="height: 80px; margin: 0px 1px 2px 0px !important; position: absolute;">
+                        <legend><small style="font-size: 10px">23 - Assinatura do responsável pelo preenchimento</small>*</legend>
+                    </fieldset>
+                </div>
+                <div class="col-70" style="width: calc(67%)">
+                    <fieldset class="radius" style="height: auto; margin: 0 10px 2px 10px !important;">
+                        <legend><small>22 - Correio eletrônico do paciente</small>*</legend>
+                        <input type="text" id="emailPaciente" name="emailPaciente" style="border: none; outline: none; padding-left: 5px; width: 100%; background: transparent; color: #000;" />                
+                        <br>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="center-block" style="width: 890px; ">
+            <div class="col-100">
+                <b>* CAMPOS DE PREENCHIMENTO OBRIGATÓRIO</b>
+            </div>
+        </div>
+        <br>
+        <div class="center-block">
+            <div class="center-block" id="button-group" style="width: 890px; margin-top: 15px">
+                <div class="center-block" style="width: 35%">
+                    <a href="#" class="ui-button salvar">Salvar</a>
+                    <a href="#" class="ui-button limpar">Limpar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<? } else {?>
+
+<div class="center-block">
+    <form method="post" class="ui" action="salvar-solicitacao">
+        <?php if($_GET['id']){ ?>
+            <input type="hidden" name="id" id="id" value="<?=$_GET['id']?>">
+        <?php } ?>
+        <div class="center-block" id="contentPage" style="width: 890px; min-height: 1340px; border: .3rem solid black; background: #fff">
+            <div class="header" style="min-height: 88px;">
+                <div class="col-50 pull-right">
+                    <img src="/WebSocialSaude/zf/public/images/logo-do-sus.jpg" width="120" height="90" style="margin-top: 2px" class="img-responsive">
+                </div>
+                <div class="col-50">
+                    <div style="padding-left: 5px;" class="text-p-reduced">
+                        <p class="text-bold">Sistema Único de Saúde</p>
+                        <p class="text-bold">Ministério da Saúde</p>
+                        <p class="text-bold">Secretaria de Estado da Saúde</p>
+                    </div>
+                </div>
+            </div>
+            <div class="sub-header black" style="border: 5px ridge #BBB; line-height: 0; background-color: #000;" color="">
+                <p class="text-center font-16 text-bold">COMPONENTE ESPECIALIZADO DA ASSISTÊNCIA FARMACÊUTICA</p>
+            </div>
+            <div class="sub-header" style="background: #ddd;">
+                <p class="text-bold text-center" style="margin: 0; vertical-align: middle; line-height: 32px">LAUDO DE SOLICITAÇÃO, AVALIAÇÃO E AUTORIZAÇÃO EM MEDICAMENTO(S)</p>
+            </div>
+            <div class="center-block">
+                <p class="text-bold font-16 text-center" style="margin: 5px 0 -15px 0;">SOLICITAÇÃO DE MEDICAMENTO(S)</p>
+            </div>
+            <div class="center-block" style="margin-top: 17px;">
+                <div style="border: 3px solid black; border-radius: 7px; margin-left: -2px; margin-right: -2px;">
+                    <p class="text-bold font-14 text-center" style="margin: 5px 0 5px 0;">CAMPOS DE PREENCHIMENTO EXCLUSIVO PELO MÉDICO SOLICITANTE</p>
+                </div>
+            </div>
+            <div class="col-100">
+                <div class="col-40">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>1 - Número do CNES* &nbsp;&nbsp;</legend>
+                        <input type="text" value="<?=$dados->paciente['cnesUnidade'];?>" id="cnesUnidade" name="cnesUnidade" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-60">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>2 - Nome do estabelecimento de saúde solicitante &nbsp;&nbsp;</legend>
+                        <input id="nomeEstabelecimento" value="<?=$dados->paciente['nomeEstabelecimento'];?>" name="nomeEstabelecimento" style="margin: 1px 0; background: transparent; color: #000; border: none; outline: none; width: 100%;">
+                        <input type="hidden" name="uni_codigo" value="<?=$dados->paciente['uni_codigo'];?>">
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-100">
+                <div class="col-50">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>3 - Nome completo do Paciente* &nbsp;&nbsp;</legend>
+                        <input id="nomePaciente" name="nomePaciente" value="<?= $dados->paciente['nomePaciente'];?>" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                        <input type="hidden" name="usu_codigo" id="usu_codigo" value="<?= $dados->paciente['usu_codigo'];?>">
+                    </fieldset>
+                </div>
+                <div class="col-30">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>3<small>a</small> - Nascimento* &nbsp;&nbsp;</legend>
+                        <input id="nascimentoPaciente" name="nascimentoPaciente" value="<?= $this->dados->paciente['nascimentoPaciente'];?>" placeholder="__/__/____" type="text" class="mask" rel="99/99/9999" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-20">
+                    <fieldset class="radius" style="height: 25px; margin: 20px 10px 2px 10px !important; position: absolute">
+                        <legend>5 - Peso* &nbsp;&nbsp;</legend>
+                        <input id="pesoPaciente" name="pesoPaciente" value="<?= $this->dados->paciente['pesoPaciente'];?>" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-80">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>3<small>b</small> - Endereço do Paciente* &nbsp;&nbsp;</legend>
+                        <input id="enderecoPaciente" name="enderecoPaciente" value="<?= $dados->paciente['enderecoPaciente'];?>" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-80">
+                    <fieldset class="radius" style="height: 25px; margin: 2px 10px !important">
+                        <legend>4 - Nome da Mãe do Paciente* &nbsp;&nbsp;</legend>
+                        <input id="maePaciente" name="maePaciente" value="<?= $dados->paciente['maePaciente'];?>" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-20">
+                    <fieldset class="radius" style="height: 25px; margin: -5px 10px 2px 10px !important; position: absolute">
+                        <legend>6 - Altura* &nbsp;&nbsp;</legend>
+                        <input id="alturaPaciente" name="alturaPaciente" value="<?= $dados->paciente['alturaPaciente'];?>" class="mask" rel="9,99" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-100">
+            <? $i = count($dados->medicamentos);?>
+                <ul class="medList" style="border: 2px solid #000; margin-left: 10px; margin-right: 10px; border-radius: 20px; margin: 5px 10px 5px 10px; padding: 0" data-li="<?= $i > 0 ? $i : 1?>">
+                    <div class="" style="height: 30px;">
+                        <div class="col-70 text-center font-16 text-bold" style="border-right: 2px solid black; line-height: 30px">
+                            <small>7</small> - Medicamento(s)*
+                        </div>
+                        <div class=" col-30 text-center">
+                            <span><small>8 - </small><b>Quantidade solicitada*</b></span>
+                            <hr style="margin: 0; background-color: black; width: 100%"/>
+                            <div class="col-100">
+                                <div class="col-30 text-center" style="border-right: 2px solid black">
+                                    <b>1º mês</b>
+                                </div>
+                                <div class="col-40 text-center" style="border-right: 2px solid black">
+                                    <b>2º mês</b>
+                                </div>
+                                <div class="col-30 text-center">
+                                    <b class="text-center">3º mês</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <? if($i > 0) {?>
+                        <? for($j = 0; $j < $i; $j++){ ?>
+
+                    <li style="line-height: 25px; height: 25px; border-top: 2px solid black; list-style: none;" class="li_<?= $j+1?>">
+
+                        <div class="text-center" style="float: left; min-height: 1px; border-right: 2px solid black; width: 20px;">
+                            <counter><?= $j+1?></counter>
+                        </div>
+
+                        <div class="text-center" style="float: left; min-height: 1px; border-right: 2px solid black; width:     calc(67% + 2px)" onmouseover="this.children[0].value != '' ? $(this.children[1]).show() : ''" onmouseleave="$(this.children[1]).hide()">
+                            
+                            <input type="text" name="nomeMed[][]" value="<?= $dados->medicamentos[$j]['nomeMed']?>" onkeyup="buscarMedicamento(this)" style="width: 90%; outline: none; background-color: transparent; border: none; margin: 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #000;">
+                            <img src="/WebSocialSaude/zf/public/images/icons/excluir.png" onclick="$('.li_<?= $j+1?>').remove(); excluirLi()" class="exclude_<?= $j+1?>" title="Excluir Medicamento" alt="Clique aqui para excluir o medicamento" style="float: right; cursor: pointer; width: 10px; right: 5px; margin-top: 8px; display: none; z-index: 999; position: relative">
+                        </div>
+                        <div class="col-30">
+                            <div class="text-center" style="border-right: 2px solid black; position: relative; width: calc(30% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_1[][]" value="<?= $dados->medicamentos[$j]['med_mes_1']?>" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                            <div class="text-center" style="border-right: 2px solid black; position: relative; width: calc(40% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_2[][]" value="<?= $dados->medicamentos[$j]['med_mes_2']?>" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                            <div class="text-center" style="position: relative; width: calc(30% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_3[][]" value="<?= $dados->medicamentos[$j]['med_mes_3']?>" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                        </div>
+                    </li>
+                        <? } ?>
+                    <li style="line-height: 25px; height: 25px; border-top: 2px solid black; list-style: none;" id="last_li" class="li_<?=$i+1?>">
+                        <div class="text-center" style="float: left; min-height: 1px; border-right: 2px solid black; width: 20px;">
+                            <counter><?=$i+1?></counter>
+                        </div>
+                        <div class="text-center" style="float: left; min-height: 1px; border-right: 2px solid black; width: calc(67% + 2px)" onmouseover="this.children[0].value != '' ? $(this.children[1]).show() : ''" onmouseleave="$(this.children[1]).hide()">
+                            <input type="text" name="nomeMed[][]" onkeyup="buscarMedicamento(this)" style="width: 90%; outline: none; background-color: transparent; border: none; margin: 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #000;">
+                            <img src="/WebSocialSaude/zf/public/images/icons/excluir.png" onclick="$('.li_<?= $i+1?>').remove(); excluirLi()" class="exclude_<?=$i+1?>" title="Excluir Medicamento" alt="Clique aqui para excluir o medicamento" style="float: right; cursor: pointer; width: 10px; right: 5px; margin-top: 8px; display: none; z-index: 999; position: relative">
+                        </div>
+                        <div class="col-30">
+                            <div class="text-center" style="border-right: 2px solid black; position: relative; width: calc(30% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_1[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                            <div class="text-center" style="border-right: 2px solid black; position: relative; width: calc(40% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_2[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                            <div class="text-center" style="position: relative; width: calc(30% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_3[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                        </div>
+                    </li>
+                    <? } else { ?>
+                    <li style="line-height: 25px; height: 25px; border-top: 2px solid black; list-style: none;" class="li_1">
+                        <div class="text-center" style="float: left; min-height: 1px; border-right: 2px solid black; width: 20px;">
+                            <counter>1</counter>
+                        </div>
+                        <div class="text-center" style="float: left; min-height: 1px; border-right: 2px solid black; width: calc(67% + 2px)" onmouseover="this.children[0].value != '' ? $(this.children[1]).show() : ''" onmouseleave="$(this.children[1]).hide()">
+                            <input type="text" name="nomeMed[][]" onkeyup="buscarMedicamento(this)" style="width: 90%; outline: none; background-color: transparent; border: none; margin: 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #000;">
+                            <img src="/WebSocialSaude/zf/public/images/icons/excluir.png" onclick="$('.li_<?= $j+1?>').remove(); excluirLi()" class="exclude_1" title="Excluir Medicamento" alt="Clique aqui para excluir o medicamento" style="float: right; cursor: pointer; width: 10px; right: 5px; margin-top: 8px; display: none; z-index: 999; position: relative">
+                        </div>
+                        <div class="col-30">
+                            <div class="text-center" style="border-right: 2px solid black; position: relative; width: calc(30% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_1[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                            <div class="text-center" style="border-right: 2px solid black; position: relative; width: calc(40% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_2[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                            <div class="text-center" style="position: relative; width: calc(30% - 3px); float: left; min-height: 1px;">
+                                <input type="text" name="med_mes_3[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center">
+                            </div>
+                        </div>
+                    </li>
+                    <? } ?>
+                </ul>
+            </div>
+            <div class="col-100">
+                <div class="col-35 center-block">
+                    <fieldset class="radius" style="height: 25px; margin: 0 10px 2px 10px !important;">
+                        <legend><small>9</small> - CID-10* &nbsp;&nbsp;</legend>
+                        <input id="cid10" name="cid10" value="<?= $dados->paciente['cid10'];?>" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div class="col-65">
+                    <fieldset class="radius" style="height: 25px; margin: 0 10px 2px 0px !important;">
+                        <legend><small>10</small> - Diagnóstico* &nbsp;&nbsp;</legend>
+                        <input id="diagnosticoPaciente" name="diagnosticoPaciente" value="<?= $dados->paciente['diagnosticoPaciente'];?>" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-100">
+                <fieldset class="radius" style="height: auto; margin: 0 10px 2px 10px !important;">
+                    <legend><small>11</small> - Anamnese* &nbsp;&nbsp;</legend>
+                    <textarea id="anamnesePaciente" name="anamnesePaciente" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%; resize: none;" cols='10' rows='3'><?= $dados->paciente['anamnesePaciente'];?></textarea>
+                </fieldset>
+            </div>
+            <div class="col-100">
+                <fieldset class="radius" style="height: auto; margin: 0 10px 2px 10px !important;">
+                    <legend><small>12</small> - Paciente realizou tratamento prévio ou está em tratamento da doença?* &nbsp;&nbsp;</legend>
+                    <ul class="list">
+                        <li class="list__item">
+                            <label class="label--checkbox" style="background: transparent;">
+                                <input type="radio" name="tratamento" <?= $dados->paciente['tratamento'] ? 'checked' : '';?> value="t" class="checkbox">
+                                SIM. Relatar:
+                            </label>
+                            <input type="text" id="relatoTratamento" name="relatoTratamento" value="<?= $dados->paciente['tratamento'] ? $dados->paciente['relatoTratamento'] : ""; ?>" style="outline: none; border-top: none; border-left: none; border-right: none; vertical-align: 0px; width: 500px; background: transparent;" /> 
+                        </li>
+                        <li class="list__item" style="margin-bottom: -5px; ">
+                            <label class="label--checkbox" style="background: transparent; width: 66px !important; margin: -10px;">
+                                <input type="radio" name="tratamento" <?= $dados->paciente['tratamento'] ? '' : 'checked';?> value="f" class="checkbox">
+                                NÃO
+                            </label>
+                        </li>
+                    </ul>
+                </fieldset>
+            </div>
+            <div class="col-100">
+                <fieldset class="radius" style="height: 150px; margin: 0 10px 2px 10px !important;">
+                    <p class="text-center" style="margin: 0;"><small>13</small> - <b>Atestado de capacidade*</b> &nbsp;&nbsp;</p>
+                    <p class="text-center" style="padding: 5px 0">
+                        A solicitação do medicamento deverá ser realizada pelo paciente. Entretanto, fica dispensada a obrigatoriedade da presença física do 
+                        paciente considerado incapaz de acordo com os artigos 3° e 4° do Código Civil. O paciente é considerado incapaz?
+                    </p>
+                    <label class="label--checkbox" style="background: transparent; width: 55px !important; padding: 15px;">
+                        <input type="radio" class="checkbox" name="atestadoCapacidade" value="f" <?= $dados->paciente['atestadoCapacidade'] ? '' : 'checked';?> style="vertical-align: -5px;">
+                        NÃO
+                    </label>
+                    <label class="label--checkbox" style="background: transparent;">
+                        <input type="radio" class="checkbox" name="atestadoCapacidade" value="t" <?= $dados->paciente['atestadoCapacidade'] ? 'checked' : '';?> style="vertical-align: -5px;">
+                        <span style="width: 280px; position: absolute">
+                            SIM. Indicar o nome do responsável pelo paciente, o qual poderá realizar a solicitação do medicamento
+                        </span>
+                    </label>
+                    <div class="col-30 text-center" style="float: right">
+                        <br>
+                        <input id="nomeResponsavel" name="nomeResponsavel" value="<?= $dados->paciente['nomeResponsavel'];?>" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%; padding: 0; margin: 0;"/>
+                        <hr style="margin-top: -1px;" />
+                        <span>Nome do responsável</span>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-100">
+                <div class="col-45">
+                    <fieldset class="radius" style="height: 25px; margin: 0 5px 2px 10px !important;">
+                        <legend><small>14</small> - Nome do médico solicitante* &nbsp;&nbsp;</legend>
+                        <input id="medicoSolicitante" name="medicoSolicitante" value="<?= $dados->paciente['medicoSolicitante'];?>" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>            
+                <div class="col-30">
+                    <fieldset class="radius" style="height: 25px; margin: 0 10px 2px 5px !important;">
+                        <legend><small>16</small> - Data da solicitação* &nbsp;</legend>
+                        <input id="dataSolicitacao" name="dataSolicitacao" value="<?= $dados->paciente['dataSolicitacao'];?>" rel="99/99/9999" class="mask" placeholder="__/__/____" value="<?= date('d/m/Y'); ?>" type="text" style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+                <div style="position: relative; width: calc(25%); float: left; min-height: 1px;" comment="col-25">
+                    <fieldset class="radius" style="height: 75px; margin: 0 5px 2px 5px !important;">
+                        <legend><small>17 - Assinatura e carimbo do médico*</small></legend>
+                    </fieldset>
+                </div>
+                <div class="col-75" style="margin-top: -42px">
+                    <fieldset class="radius" style="height: 25px; margin: 0 10px 2px 10px !important;">
+                        <legend><small>15</small> - Número do Cartão Nacional de Saúde do médico solicitante* &nbsp;&nbsp;</legend>
+                        <input id="cnsMedicoSolicitante" name="cnsMedicoSolicitante" value="<?= $dados->paciente['cnsMedicoSolicitante'];?>" type="text"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' style="background: transparent; color: #000; border: none; outline: none; width: 100%;"/>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-100">
+                <div class="center-block" style="margin-top: 2px; margin-left: -3px; margin-right: -7px;">
+                    <div style="border: 3px solid black; border-radius: 14px; padding-top: 10px; padding-left: 5px;">
+                        &nbsp;&nbsp;<small>18</small> - <b>CAMPOS ABAIXO PREENCHIDOS POR*:</b>
+                        <br>
+                        &nbsp;
+                        <label class="label--checkbox" style="top: 4px; background: transparent; width: 75px !important;"> <input type="radio" class="checkbox" name="preenchido" <?= $dados->paciente['preenchido'] == "Paciente" ? 'checked' : '';?> value="Paciente"> <span style="vertical-align: 4px">Paciente</span> </label>
+                        <label class="label--checkbox" style="top: 4px; background: transparent; width: 115px !important;"> <input type="radio" class="checkbox" name="preenchido" <?= $dados->paciente['preenchido'] == "Mãe do paciente" ? 'checked' : '';?> value="Mãe do paciente"> <span style="vertical-align: 4px">Mãe do paciente</span> </label>
+                        <label class="label--checkbox" style="top: 4px; background: transparent; width: 178px !important;"> <input type="radio" class="checkbox" name="preenchido" <?= $dados->paciente['preenchido'] == "Responsável" ? 'checked' : '';?> value="Responsável"> <span style="vertical-align: 4px">Responsável <small-text>(descrito no item 13)</small-text></small> </label>
+                        <label class="label--checkbox" style="top: 4px; background: transparent; width: 120px !important;"> <input type="radio" class="checkbox" name="preenchido" <?= $dados->paciente['preenchido'] == "Médico solicitante" ? 'checked' : '';?> value="Médico solicitante"> <span style="vertical-align: 4px">Médico solicitante</span> </label>
+                        <br>
+                        &nbsp;
+                        <label class="label--checkbox" style="background: transparent; width:145px !important;"> 
+                            <input type="radio" class="checkbox" name="preenchido" value="Outro" <?= $dados->paciente['preenchido'] == "Outro" ? 'checked' : '';?> id="checkboxRepresentante" /> 
+                            <span style="vertical-align: 4px">Outro, informar nome:</span> 
+                        </label>
+                        <input type="text" id="nomeRepresentante" name="nomeRepresentante" <?= $dados->paciente['preenchido'] == "Outro" ? "value='".$dados->paciente['nomeRepresentante']."'" : '';?> style="outline: none; border-top: none; border-left: none; border-right: none; vertical-align: 4px; width: 200px; background: transparent;" /> 
+                        &nbsp; <span style="vertical-align: 4px;">e CPF </span>
+                        <input type="text" class="mask" name="cpfSolicitante" rel="999.999.999-99" <?= $dados->paciente['preenchido'] == "Outro" ? "value='".$dados->paciente['cpfSolicitante']."'" : '';?> placeholder="___.___.___-__"  style="outline: none; border: 2px solid black; border-radius: 4px; vertical-align: 4px; padding: 2px; width: 200px; background: transparent;"/>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-100">
+                <div class="col-70" style="width: calc(67%)">
+                    <fieldset class="radius" style="height: auto; margin: 5px 10px 2px 10px !important;">
+                        <legend><small>19</small> - Raça/Cor/Etnia informado pelo paciente ou responsável* &nbsp;&nbsp;</legend>
+                        <ul class="list">
+                            <li class="list__item">
+                                <label class="label--checkbox" style=" background: transparent; width: 65px !important; padding: 0 !imporatnt">
+                                    <input type="radio" name="raca" value="Branca" <?= $dados->paciente['raca'] == "Branca" ? 'checked' : '';?> class="checkbox" style="background: transparent;">
+                                    Branca
+                                </label>
+                                <label class="label--checkbox" style=" background: transparent;">
+                                    <input type="radio" name="raca" value="Amarela" <?= $dados->paciente['raca'] == "Amarela" ? 'checked' : '';?> class="checkbox" style="background: transparent;">
+                                    Amarela
+                                </label>
+                            </li>
+                            <li class="list__item">
+                                <label class="label--checkbox" style="margin-right: 34px; background: transparent !important;; width: 56px !important;">
+                                    <input type="radio" name="raca" value="Preta" <?= $dados->paciente['raca'] == "Preta" ? 'checked' : '';?> class="checkbox" style="background: tranparent !important;">
+                                    Preta
+                                </label>
+                                <label class="label--checkbox" style=" background: transparent !important; width: 168px !important;">
+                                    <input type="radio" name="raca" value="Indígena" <?= $dados->paciente['raca'] == "Indígena" ? 'checked' : '';?> class="checkbox" style="background: transparent !important;">
+                                    Indígena.
+                                    Informar Etnia: &nbsp;
+                                    <input type="text" name="etnia" <?= $dados->paciente['raca'] == "Indígena" ? 'value="'.$dados->paciente['etnia'].'"' : '';?> style="outline: none; border-top: none; border-left: none; border-right: none; vertical-align: 4px; width: 150px; position: absolute; background: transparent;" />
+                                </label>
+                            </li>
+                            <li class="list__item" style="margin: 0">
+                                <label class="label--checkbox" style="margin-right: 32px; background: transparent; width: 60px !important;">
+                                    <input type="radio" name="raca" value="Parda" <?= $dados->paciente['raca'] == "Parda" ? 'checked' : '';?> class="checkbox" style="background: transparent;">
+                                    Parda
+                                </label>
+                                <label class="label--checkbox" style="background: transparent; width: 115px !important;">
+                                    <input type="radio" name="raca" value="Sem informação" <?= $dados->paciente['raca'] == "" ? 'checked' : '';?> class="checkbox" style="background: transparent;">
+                                    Sem informação
+                                </label>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+                <div class="col-33">
+                    <fieldset class="radius" style="height: 27px; margin: 5px 1px 2px 0px !important;">
+                        <legend><small style="font-size: 10px">20 - Telefone(s) para contato do paciente</small>*</legend>
+                    </fieldset>
+                    <fieldset class="radius" style="height: 21px; margin: -4px 1px 2px 0px !important;"></fieldset>
+                </div>
+                <div class="col-70" style="width: calc(67%)">
+                    <fieldset class="radius" style="height: auto; margin: 0 10px 2px 10px !important; padding-bottom: 0">
+                        <legend><small>21 - Número do documento do paciente</small>*</legend>
+                        <ul class="list" style="margin-top: 0">
+                            <li class="list__item" style="margin: 0; padding: 0;">
+                                <label class="label--checkbox" style="background: transparent; width: 50px !important; margin-right: 50px;" onchange="$(this).find('.checkbox').is(':checked') ? $('#documento').val('') && $('#documento').focus() : $('#documento').focusout()">
+                                    <input type="radio" class="checkbox" name="documentoPaciente" <?= $dados->paciente['documentoPaciente'] == "cpf" ? 'checked' : '';?> value="cpf" style="background: transparent;">
+                                    <span style="vertical-align: 4px">CPF</span>
+                                </label>
+                                <span style="vertical-align: 4px">ou</span>
+                                <label class="label--checkbox" style="background: transparent; margin-right: 10px;" onchange="$(this).find('.checkbox').is(':checked') ? $('#documento').val(sessionStorage.getItem('cnsPaciente')) && $('#documento').focus() : $('#documento').focusout()">
+                                    <input type="radio" class="checkbox" name="documentoPaciente" <?= $dados->paciente['documentoPaciente'] == "cns" ? 'checked' : '';?> value="cns" style="background: transparent;">
+                                    <span style="vertical-align: 4px;">CNS</span>
+                                </label>
+                                <input type="text" name="numeroDocumentoPaciente" id="documento" value="<?= $dados->paciente['numeroDocumentoPaciente']; ?>" style="color: #000; border: none; outline: none; border-bottom: 1px solid black; position: absolute; padding-left: 0; margin-top: 1px !important; background: transparent;" />
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+                <div class="col-33">
+                    <fieldset class="radius" style="height: 80px; margin: 0px 1px 2px 0px !important; position: absolute;">
+                        <legend><small style="font-size: 10px">23 - Assinatura do responsável pelo preenchimento</small>*</legend>
+                    </fieldset>
+                </div>
+                <div class="col-70" style="width: calc(67%)">
+                    <fieldset class="radius" style="height: auto; margin: 0 10px 2px 10px !important;">
+                        <legend><small>22 - Correio eletrônico do paciente</small>*</legend>
+                        <input type="text" id="emailPaciente" value="<?= $dados->paciente['emailPaciente'];?>" style="border: none; outline: none; padding-left: 5px; width: 100%; background: transparent; color: #000;" />                
+                        <br>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="center-block" id="obr" style="width: 890px; ">
+            <div class="col-100">
+                <b>* CAMPOS DE PREENCHIMENTO OBRIGATÓRIO</b>
+            </div>
+            <br>
+        </div>
+        <div class="center-block" id="button-group">
+            <div class="center-block" style="width: 890px; margin-top: 15px">
+                <div class="center-block" style="width: 35%">
+                    <a href="#" class="ui-button salvar">Salvar</a>
+                    <a href="#" class="ui-button limpar">Limpar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<? } ?>
+<style>
+    small-text { font-size: 9px; }
+    .list { margin: .45rem 0 0 0; padding: 0 !important; }
+    .list__item { margin: 0 0 .5rem 0; padding: 0; }
+    .label--checkbox { position: relative; margin: .5rem; font-family: Arial, sans-serif; line-height: 135%; cursor: pointer; width: 100px !important; }
+    .checkbox { position: relative !important; top: -0.375rem !important; margin: 0 .5rem 0 0 !important; cursor: pointer !important; }
+    .checkbox:before { 
+        -webkit-transition: all 0.3s ease-in-out !important; -moz-transition: all 0.3s ease-in-out !important; transition: all 0.3s ease-in-out !important; 
+        content: "" !important; position: absolute !important; left: 0 !important; z-index: 1 !important; width: 1rem !important; height: 1rem !important; border: 2px solid #f2f2f2 !important;
+    }
+    .checkbox:checked:before {
+        -webkit-transform: rotate(-45deg) !important; -moz-transform: rotate(-45deg) !important; -ms-transform: rotate(-45deg) !important;
+        -o-transform: rotate(-45deg) !important; transform: rotate(-45deg) !important; height: .5rem !important; border-color: #1eacd7 !important;
+        border-top-style: none !important; border-right-style: none !important;
+    }
+    .checkbox:after { content: "" !important; position: absolute !important; top: -0.125rem !important; left: 0 !important; width: 1.1rem !important; height: 1.1rem !important; background: #fff !important; cursor: pointer !important; }
+    input {background: transparent !important; }
+    #medList, .list { list-style: none; }
+    @-webkit-keyframes slideUp { 0% { -webkit-transform: translateY(6.25rem); transform: translateY(6.25rem); } 100% { -webkit-transform: translateY(0); transform: translateY(0); } }
+    @keyframes slideUp { 0% { -webkit-transform: translateY(6.25rem); transform: translateY(6.25rem); } 100% { -webkit-transform: translateY(0); transform: translateY(0); } }
+    @media print {
+        @page { size: A4; }
+        html, body { width: fit-content; margin: 0 1%; display: block; -webkit-print-color-adjust: exact; padding: 0 !important; zoom: 88% }
+        #contentPage { height: 840px !important; }
+        
+        #last_li { display: none !important; }
+        #obr { display: none !important; }
+        #button-group, .tabs { display: none !important; }
+        #contentPage:not() { display: none !important; }
+
+        #dataSolicitacao { background: transparent; color: #000; border: none; outline: none; width: 100%; -webkit-print-color-adjust: exact; }
+    }
+</style>
+<script>
+    sessionStorage.clear()
+    <? if($dados->paciente['numeroDocumentoPaciente'] != "") {
+        echo " sessionStorage.setItem('cnsPaciente', '".$dados->paciente['numeroDocumentoPaciente']."'); ";
+    } ?>
+    $("#nomePaciente").buscar({
+        url: baseUrl + '/default/paciente/buscar-usuarios',
+        minLength: 3,
+        template: function (ul, item) {
+            return $("<li/>").data("item.autocomplete", item).append("<a>" + item.label + "</a>").appendTo(ul)
+        },
+        callback: function (el, i) {
+            $("#cnsPaciente").text(i.item.data.usu_cartao_sus)
+            $("#maePaciente").val(i.item.data.usu_mae)
+            $("#nascimentoPaciente").val(i.item.data.usu_datanasc)
+
+            $("#enderecoPaciente").val(`${i.item.data.rua_nome ? 'RUA ' + i.item.data.rua_nome + ', ' : ''}${i.item.data.rac_numero ? 'Nº'+i.item.data.rac_numero + ', ' : ''}${i.item.data.rua_bairro ? i.item.data.rua_bairro : ''}`)
+            
+            //if(i.item.data.usu_cartao_sus != ""){
+                $("#documento").val(i.item.data.usu_cartao_sus)
+                $("input.checkbox:radio[value='cns']").prop('checked', true)
+                sessionStorage.setItem('cnsPaciente', i.item.data.usu_cartao_sus)
+            //}
+
+            return true
+        }
+    })
+
+    $("#cid10").buscar({
+        url: baseUrl + '/default/cid/buscar',
+        minLength: 3,
+        template: function (ul, item) {
+
+            return $("<li/>").data("item.autocomplete", item).append("<a>" + item.label + "</a>").appendTo(ul)
+        },
+        callback: function (el, i) {
+            $("#cid10").val(i.item.data.cd10_codigo_cid)
+            $("#diagnosticoPaciente").val(i.item.value)
+            return true
+        }
+    })
+
+    $(document).ready(() => {
+        $("#nomeRepresentante").keyup(el => {
+            el.target.value !== "" ? $("#checkboxRepresentante").attr('checked', 'true') : $("#checkboxRepresentante").removeAttr('checked')
+        })
+        $("#checkboxRepresentante").change((chk) => {
+            $(chk.target).is(":checked") ? $("#nomeRepresentante").focus() : $("#nomeRepresentante").focusout() && $("#nomeRepresentante").val('')
+        })
+
+        $("input, label").removeClass('ui-*')
+
+        <? if($action == "print") { ?>
+            setTimeout(() => {
+                window.print()
+                var receita = confirm("Deseja imprimir a receita?")
+
+                if(receita){
+                    window.open("receita-especial?rel_id=<?=$_GET['id'];?>", "_blank", "fullscreen=yes")
+                }
+            }, 300)
+        <? } ?>
+    })
+
+    function buscarMedicamento(elm){
+        $(elm).buscar({
+            url: baseUrl + '/default/produto/medicamento-controlados',
+            minLength: 3,
+            template: function (ul, item) {
+                return $("<li/>").data("item.autocomplete", item).append(
+                "<a>" + item.label + "</a>").appendTo(ul)
+            },
+            callback: function (el, i) {
+                var count = $(".medList li").length
+                
+                // var recebePosologia = $("#salva_posologia").val();
+                // console.log(typeof(recebePosologia));
+                // if ( recebePosologia == '' ) {
+                //     console.log("if normal")
+                //     informarPosologia();
+                // } else{
+                //     console.log("if js")
+                //     informarPosologiaJS(count);
+                // }
+
+                $(elm).parent().parent().get(0).children[1].children[0].value = i.item.data.pro_nome
+
+                $(".medList").append(`
+                <li style="line-height: 25px; height: 25px; border-top: 2px solid black; list-style: none;" class="li_${count+1}">
+                    <div class="text-center" style="float: left; min-height: 1px; border-right: 2px solid black; width: 20px;">
+                        <counter>${count+1}</counter>
+                    </div>
+                    <div class="text-center" style="float: left; min-height: 1px; border-right: 2px solid black; width: calc(67% + 2px)" onmouseover="this.children[0].value != '' ? $(this.children[1]).show() : ''" onmouseleave="$(this.children[1]).hide()">
+
+                        <input type="text" name="nomeMed[][]" placeholder="Nome do medicamento" onkeyup="buscarMedicamento(this)" style="width: 90%; font-weight: bold; outline: none; background-color: transparent; border: none; margin: 0 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        
+                        <input type="hidden" name="" id="" class="">
+
+                        <img src="/WebSocialSaude/zf/public/images/icons/excluir.png" onclick="$('.li_${count+1} ').remove(); excluirLi()" class="exclude_${count+1}" title="Excluir Medicamento" alt="Clique aqui para excluir o medicamento" style="float: right; cursor: pointer; width: 10px; right: 5px; margin-top: 8px; display: none; z-index: 999; position: relative">
+                    </div>
+                    <div class="col-30">
+                        <div class="text-center" style="border-right: 2px solid black; position: relative; width: calc(30% - 3px); float: left; min-height: 1px;">
+                            <input type="text" name="med_mes_1[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center; font-weight: bold; ">
+                        </div>
+                        <div class="text-center" style="border-right: 2px solid black; position: relative; width: calc(40% - 3px); float: left; min-height: 1px;">
+                            <input type="text" name="med_mes_2[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center; font-weight: bold;">
+                        </div>
+                        <div class="text-center" style="position: relative; width: calc(30% - 3px); float: left; min-height: 1px;">
+                            <input type="text" name="med_mes_3[][]" style="background: transparent; color: #000; border: none; outline: none; width: 90%; text-align: center; font-weight: bold;">
+                        </div>
+                    </div>
+                </li>
+                `)
+                var _h = parseInt($("#contentPage").height()) + 25
+
+                $("#contentPage").height(_h)
+                return
+            }
+        })
+    }
+
+    // function informarPosologia() {
+    //     console.log("normal")
+    //     var recebePrompt = prompt();
+    //     console.log("prompt normal")
+    //     $("#salva_posologia").val(recebePrompt);
+    // }
+
+    // function informarPosologiaJS(count) {
+    //     console.log("JS")
+    //     var recebeCount = count ;
+    //     var recebePrompt = prompt();
+    //     console.log("prompt JS")
+    //     $("#salvaPosologiaJS"+recebeCount).val(recebePrompt);   
+    // }
+
+    function excluirLi(){
+                   
+        $(".medList li").each((i, el) => {    
+            $(el).find('counter').text(i+1)
+        })
+        
+        var _h = parseInt($("#contentPage").height()) - 25
+
+        $("#contentPage").height(_h)
+
+        return
+    }
+</script>

@@ -1,0 +1,63 @@
+<div style="margin-bottom: 10px; height: 100px;">
+    <div class="f" >
+        <table class="grid ui-widget ui-widget-content ui-corner-all" style="boder:1px solid;">
+            <tr>
+                <th class="ui-widget-header d">Data:</th>
+                <td class="ui-state-default"><?= $this->mask($this->ate->ate_data, "data"); ?></td>
+            </tr>
+            <tr>
+                <th class="ui-widget-header d" style="min-width: 150px;">Médico:</th>
+                <td class="ui-state-default" style="min-width: 200px;"><?= $this->escape($this->ate->usr_nome); ?></td>
+            </tr>
+            <tr>
+                <th class="ui-widget-header d" style="min-width: 150px;">Especialidade:</th>
+                <td class="ui-state-default" style="min-width: 200px;"><?= $this->escape($this->ate->esp_nome); ?></td>
+            </tr>
+            <tr>
+                <th class="ui-widget-header d" style="min-width: 150px;">Unidade:</th>
+                <td class="ui-state-default" style="min-width: 200px;"><?= $this->escape($this->ate->uni_desc); ?></td>
+            </tr>
+        </table>
+    </div>
+    <?php 
+    //echo "<pre>".  print_r($this->ate,1);die();
+    if($this->podeReabrirAtendimento($this->ate)):?>
+        <div class="f" style="margin-left: 10px;" >
+            <a href="<?php echo $this->url(array("controller"=>"index","action"=>"iniciar","cod"=>$this->ate->age_codigo,"reabrir"=>"S"));?>" class="ui-button voltar">Reabrir Atendimento</a>
+        </div>
+    <?php endif; ?>
+    <div class="clear"></div>
+</div>
+
+<?php if($this->ate_codigo):?>
+    <div class='abas'> 
+        <ul>
+            <li><a href="#tabs2-1">Atendimento</a></li>
+            <li><a href="#tabs2-2">Medicamento</a></li>
+            <li class="h"><a href="#tabs2-3">Anamnese</a></li>
+            <li><a href="#tabs2-5">Encaminhamento</a></li>
+            <li><a href="#tabs2-6">Procedimento</a></li>
+        </ul>	
+            <div id='tabs2-1'>
+                <?= $this->action("detalhes", "atendimento", "prontuario", array("id" => $this->ate_codigo)); ?>
+            </div>
+            <div id='tabs2-2'>
+                <h2 class="ui-widget">Medicamentos do Posto</h2>
+                <?= $this->action("historico", "receita-medica", "prontuario", array("id" => $this->ate_codigo)); ?>
+
+                <h2 class="ui-widget">Medicamentos Controlado</h2>
+                <?= $this->action("historico", "receita-medica", "prontuario", array("id" => $this->ate_codigo, "tipo" => "controlados")); ?>
+
+                <h2 class="ui-widget">Medicamentos Externo</h2>
+                <?= $this->action("historico", "receita-medica", "prontuario", array("id" => $this->ate_codigo, "tipo" => "externo")); ?>
+            </div>
+
+            <div id='tabs2-5'>
+                <?= $this->action("historico", "encaminhamento", "prontuario", array("id" => $this->ate_codigo)); ?>
+            </div>
+
+            <div id='tabs2-6'>
+                <?= $this->action("historico", "procedimento", "prontuario", array("id" => $this->ate_codigo,"age_codigo"=>$this->ate->age_codigo)); ?>
+            </div>
+    </div>
+<?  endif;?>

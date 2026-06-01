@@ -1,0 +1,31 @@
+  <br />
+<link href='../../../estilo.css' rel='stylesheet' type='text/css'></style>
+<table class="lista">
+	<tr>
+      <th style="font-weight: bold; font-size: 10px; text-align: left" width="20%">PROCEDIMENTO</th>
+      <th style="font-weight: bold; font-size: 10px; text-align: left" width="20%">VEICULO</th>
+      <th style="font-weight: bold; font-size: 10px; text-align: left" width="20%">MOTORISTA</th>
+      <th style="font-weight: bold; font-size: 10px; text-align: left" width="20%">DESTINO</th>
+      <th style="font-weight: bold; font-size: 10px; text-align: left" width="20%">VALOR</th>
+      <th style="font-weight: bold; font-size: 10px; text-align: left" width="20%">DATA</th>
+  	</tr>
+
+  	<?php
+  	$total = 0;
+    foreach ($this->dados as $d) {
+          $total = $total + $d["viausu_despesas"];
+  	?>
+ 	<tr></tr>
+ 	<tr>
+      <td><?= $d["proc_nome"]?></td>
+      <td><?= $d["vei_descricao"]?></td>
+      <td><?= $d["usr_nome"]?></td>
+      <td><?= $d["cid_nome"]?></td>
+      <td><?= $d["viausu_despesas"]?></td>
+      <td><?= $this->data($d["via_data"])?></td>
+      <?php
+      } 
+      ?>
+	</tr>
+	<td style="font-weight: bold; font-size: 10px">TOTAL: <?= $total?></td>
+</table>

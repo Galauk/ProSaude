@@ -1,0 +1,25 @@
+<form method="post"  action="<?=$this->url(array("action"=>"rel-visita-para-internamento"));?>" target="_blank">
+	<input name="filtro" id="filtro" type="hidden" value="s" />
+
+	<input name="tipo" id="tipo" type="hidden" value="<?=$this->action?>"/><br />
+	<label>Profissional:</label>
+	<input name="usr_nome" id="usr_nome"  class="focus"/>
+	<input name="usr_codigo" id="usr_codigo" type="hidden" /><br />
+        
+	<label>Data inicial:</label>
+	<input name="data_inicial" id="data_inicial" class="data" style="width: 80px"/><br />
+	<label>Data final:</label>
+	<input name="data_final" id="data_final" class="data" style="width: 80px" /><br />
+
+	<!-- <label>INE</label>
+    <input type='text' name='nu_ine' id="nu_ine" value=""/>
+    <input type='hidden' name='co_seq_equipe' id="co_seq_equipe" class="field" value="0"/>
+    <br/> -->
+
+	<label>Tipo de Relatório</label>
+    <input type="radio" name="select_relatorio" value="0">Analítico</input>
+    <input type="radio" name="select_relatorio" value="1">Sintético</input>
+
+	<div class="clear"></div>
+	<a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;" class="popup" rel="600x500">Gerar Relatório</a>
+</form>

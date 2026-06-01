@@ -1,0 +1,143 @@
+body {
+    background-color:#FFF;
+}
+#agenda-dia {
+    overflow-y:auto;
+    margin: 10px;
+    width: 22%;
+    border:1px solid #CCC;
+    background-color:#FFF;
+    position: relative;
+    flex:1 0 auto;
+}
+#agenda-dia > span {
+    font-size:200%;
+    color:#999;
+    display:block;
+    text-align:center;
+    margin-top: -40px;
+    font-weight:bold;
+    top: 50%;
+    height: 80px;
+    position: absolute;
+}
+#agenda-dia .paciente {
+    background-color:#FFF;
+    border-top:1px solid #CCC;
+    overflow:hidden;
+    padding:0 9px 5px 9px;
+}
+#agenda-dia .paciente:nth-child(odd) {
+    background-color:#EEE;
+}
+#agenda-dia .paciente:first-child {
+    border-top:0;
+}
+#agenda-dia .paciente strong {
+    margin-top:1px;
+    display:block;
+    font-size:150%;
+}
+#agenda-dia .paciente small {
+    display:block;
+    font-size:100%;
+    text-transform:uppercase;
+    margin:-1px 0 9px 0;
+}
+#agenda-dia .paciente big {
+    font-size:200%;
+    display:block;
+}
+#agenda-dia .paciente span {
+    display:block;
+    font-size:120%;
+    font-weight:bold;
+}
+#agenda-dia .paciente .dir {
+    float:right;
+}
+#agenda-dia .paciente span.dir{
+    clear:right;
+    display:block;
+    font-size:100%;
+    margin-top:-1px;
+}
+#atalhos {
+    display:flex;
+    box-sizing:border-box;
+    border-right: 1px solid #CCC;
+    margin: 10px 10px 0 0;
+}
+#atalhos a{
+    flex:1 1 auto;
+    box-sizing:border-box;
+    text-decoration:none;
+    border: 1px solid #CCC;
+    border-right: 0;
+    color: #00514E;
+    flex-wrap: wrap;
+}
+
+#atalhos i {
+    font-size: 16px;
+    float: left;
+    margin: 0 10px;
+}
+
+#atalhos span {
+    font-size: 14px;
+    float: left;
+    margin: 7px 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+div#colunas-principal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+div#coluna-direita {
+    display: flex;
+    flex-flow: column;
+    flex: 0 0 auto;
+    width:75%;
+}
+
+div#graficos {
+    flex: 1 1 auto;
+    display: flex;
+    padding-bottom: 21px;
+}
+div#graficos > div > div {
+    border:1px solid #CCC;
+    overflow: hidden;
+}
+
+#atalhos a:hover {
+    background-color: #00514E;
+    color: #FFF;
+}
+
+div#graficos-procedimentos {
+    flex: 1 1 auto;
+    width: 50%;
+}
+div#graficos-procedimentos > div {
+    margin: 10px 5px 0 0;
+}
+
+div#graficos-especialidades {
+    flex: 1 1 auto;
+    width: 50%;
+}
+div#graficos-especialidades > div {
+    margin:10px 10px 0 5px;
+}

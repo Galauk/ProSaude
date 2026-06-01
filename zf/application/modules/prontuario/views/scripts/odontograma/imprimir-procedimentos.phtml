@@ -1,0 +1,89 @@
+<div id="print">
+    <div class="space"></div>
+    <? if (count($this->historicoProcaRealizar)>0) { ?>
+        <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+            <thead id="cabecalho">
+                <tr class="ui-widget-header" style="height: 22px">
+                    <td colspan="7"><span class="title">Procedimentos a ser realizados</span></td>
+                </tr>
+                <tr class="ui-widget-header">
+                    <td>Procedimento</td>
+                    <td>Dente</td>
+                    <td>Face</td>
+                    <td>Programado para</td>
+                </tr>
+            </thead>
+            <tbody id="result">
+                    <? foreach($this->historicoProcaRealizar as $hist) { ?>
+                        <tr id="proc-num<?=$hist["odo_proc_codigo"]?>">
+                            <td class="ui-state-default"><?=$hist["proc_nome"]?></td>
+                            <td class="ui-state-default"><?=$hist["odo_proc_dentenum"]?></td>
+                            <td class="ui-state-default"><?=$hist["odo_proc_denteface"]?></td>
+                            <td class="ui-state-default"><?=$this->data($hist["odo_proc_dtprogramada"],Zend_Date::DATE_MEDIUM)?></td>
+                        </tr>
+                    <? } ?>
+                </tbody>            
+            </table>
+    <? } else { ?>
+            <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+                <thead id="cabecalho">
+                    <tr class="ui-widget-header" style="height: 22px">
+                        <td colspan="7"><span class="title">Procedimentos a ser realizados</span></td>
+                    </tr>
+                    <tr class="ui-widget-header">
+                        <td>Procedimento</td>
+                        <td>Dente</td>
+                        <td>Face</td>
+                        <td>Programado para</td>
+                    </tr>
+                </thead>
+                <tbody id="result">
+                    <tr>
+                        <td colspan="4">Nenhum procedimento a realizar até o momento!</td>
+                    </tr>
+                </tbody>
+            </table>
+    <? } ?>
+    <div class="space"></div>
+    <? if (count($this->historicoProcRealizado)>0) { ?>
+        <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+            <thead id="cabecalho">
+                <tr class="ui-widget-header" style="height: 22px">
+                    <td colspan="7"><span class="title">Procedimentos realizados</span></td>
+                </tr>
+                <tr class="ui-widget-header">
+                    <td>Procedimento</td>
+                    <td>Dente</td>
+                    <td>Face</td>
+                </tr>
+            </thead>
+            <tbody id="result">
+                    <? foreach($this->historicoProcRealizado as $histReal) { ?>
+                        <tr id="proc-num<?=$histReal["odo_preal_codigo"]?>">
+                            <td class="ui-state-default"><?=$histReal["proc_nome"]?></td>
+                            <td class="ui-state-default"><?=$histReal["odo_preal_dentenum"]?></td>
+                            <td class="ui-state-default"><?=$histReal["odo_preal_denteface"]?></td>
+                        </tr>
+                    <? } ?>
+                </tbody>            
+            </table>
+    <? } else { ?>
+            <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+                <thead id="cabecalho">
+                    <tr class="ui-widget-header" style="height: 22px">
+                        <td colspan="7"><span class="title">Procedimentos realizados</span></td>
+                    </tr>
+                    <tr class="ui-widget-header">
+                        <td>Procedimento</td>
+                        <td>Dente</td>
+                        <td>Face</td>
+                    </tr>
+                </thead>
+                <tbody id="result">
+                    <tr>
+                        <td colspan="3">Nenhum procedimento a realizar até o momento!</td>
+                    </tr>
+                </tbody>
+            </table>
+    <? } ?>
+</div>

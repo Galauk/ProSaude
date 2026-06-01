@@ -1,0 +1,59 @@
+<?php $this->errorMsg(); ?>
+<?php echo $this->action("form","buscar");?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+<?php if($this->itensUsuario) :?>
+    <tr class="ui-widget-header">
+        <th>Data</th>
+        <th>Paciente</th>
+        <th>Data de nascimento</th>
+        <th>Médico</th>
+        <th>Imagem</th>
+        <th>Opções</th>
+    </tr>
+<?php $i++; endif;?>	
+<?php 
+$i=0;
+?>
+<?php if($this->itensUsuario ):?>            
+        <?php foreach($this->itensUsuario as $item): 
+              $i++;
+              if($item->usr_nome){
+                  $med_nome = $item->usr_nome;
+                  $med_codigo = $item->usr_codigo;
+                  $interno = 1;
+              }else{
+                  $med_nome = $item->med_nome;
+                  $med_codigo = $item->med_codigo;
+                  $interno = 0;
+              }
+        ?>
+            <tr>
+                <td class="data ui-state-default" ><?=$this->data($item->dt_requisicao);?></td>
+                <td class="ui-state-default"><?=$this->escape($item->usu_nome);?></td>
+                <td class="ui-state-default"><?=$this->data($item->usu_datanasc);?></td>
+                <td class="ui-state-default"><?=$med_nome;?></td>
+                <td class="ui-state-default c" width="100">
+                    <a href="<?=$this->url(array("controller"=>"raiox","action"=>"upload","ate_codigo"=>$item->ate_codigo,"usu_codigo"=>$item->usu_codigo,"dt_requisicao"=>$item->dt_requisicao));?>" class="editar"><img src="<?=$this->baseUrl('/public/images/icons/image.png');?>" alt="UPLOAD" title="UPLOAD" /></a>              
+                </td>
+                <td class="ui-state-default" align="center">
+                    <?php if(!$item->ate_codigo):?>
+                           <a href="<?=$this->url(array("controller"=>"raiox",
+                                                        "action"=>"novo",
+                                                        "id"=>$item->usu_codigo,
+                                                        "dt_requisicao"=>$item->dt_requisicao,
+                                                        "med"=>$item->med_codigo,
+                                                        "int"=>$interno));?>" 
+                              class="editar">
+                                <img src="<?=$this->baseUrl('/public/images/icons/editar.png');?>" alt="Editar" tittle="Editar"/>
+                            </a>
+                    <?php endif;?>
+                    
+                </td>
+            </tr>
+            
+        <?php endforeach; ?>
+<?php endif;?>
+ </table>
+<?php if($i==0):?>   
+        <em>Nenhum item encontrado</em>
+<?php endif;?>

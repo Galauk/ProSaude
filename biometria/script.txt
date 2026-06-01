@@ -1,0 +1,9 @@
+CREATE SEQUENCE seq_cadastro_digital
+
+
+CREATE TABLE cadastrodigital
+(
+  id integer NOT NULL,
+  digitalimagem bytea NOT NULL,
+  CONSTRAINT cadastrodigital_pkey PRIMARY KEY (id )
+)

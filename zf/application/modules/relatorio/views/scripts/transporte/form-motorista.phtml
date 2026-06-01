@@ -1,0 +1,20 @@
+<form method="post" action="<?= $this->url(array("action" => "motorista")); ?>" target="_blank">
+   	<label>Motorista:</label>
+        <select name="usr_codigo" id="usr_codigo"> 
+             <option value="">TODOS</option>         
+            <?foreach ($this->motorista as $motorista){?>
+            <option value="<?=$motorista->usr_codigo?>" <? if ($this->dados->usr_codigo == $motorista->usr_codigo) { echo("selected=\"selected\""); } ?>><?=$motorista->usr_nome?></option>         
+            <?}?>           
+        </select><br />
+	
+        
+	<label>Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+       	
+        <div class="clear"></div>
+        <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;" class="popup" rel="500x500">Gerar Relatório</a>
+	
+</form>

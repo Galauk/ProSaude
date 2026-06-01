@@ -1,0 +1,71 @@
+<input id="usu_codigo" value="<?= $this->usu_codigo; ?>" type="hidden" />
+<div id="page">
+	<div id="header">
+		<div id="logo">
+			<img src="<?= $this->baseUrl('/public/images/brasao.jpg') ?>" title="Logo Prefeitura" />
+		</div>
+		<div id="titulo">
+			<h2>Prefeitura Municipal de <?= $this->dadosSecretaria()->cidade; ?></h2>
+			<h3>Secretaria Municipal de Saúde</h3>
+		</div>
+		<div id="barcode">
+			<img src="<?= $this->baseUrl() ?>/public/images/codigo_barras.php?codigo=<?= $this->dados->usu->usu_codigo; ?>&lw=1&hi=18" alt="Código de Barras: <?= $this->dados->usu->usu_codigo; ?>" title="Código de Barras: <?= $this->dados->usu->usu_codigo; ?>" />
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div id="info">
+		<div id="foto">
+			<img src="<?= $this->baseUrl('/public/images/sem_foto_' . $this->dados->usu->usu_sexo . '.png') ?>" alt="Foto do Paciente" title="<?= $this->dados->usu->usu_nome; ?>" />
+		</div>
+		<h2><?= ucwords(strtolower($this->dados->usu->usu_nome)); ?></h2>
+		<div class="f">
+			<label>Sexo:</label> <span><?= $this->mask($this->dados->usu->usu_sexo, "sexo"); ?></span><br />
+			<label>Mãe:</label> <span><?= $this->dados->usu->usu_mae; ?></span><br />
+			<label>End.:</label> <span><?= $this->dados->usu->usu_endereco; ?></span><br />
+			<label>Profis.:</label> <span><?= $this->dados->usu->usu_ocupacao; ?></span>			
+		</div>
+		<div class="f l2">
+			<label>Data Nasc.:</label> <span><?= $this->data($this->dados->usu->usu_datanasc) . " (" . $this->idade($this->dados->usu->usu_datanasc) . ")"; ?></span><br />
+			<label>Est. Civil:</label> <span><?= $this->dados->usu->estado_civil; ?></span><br />
+			<label>Telefone:</label> <span><?= $this->mask($this->dados->usu->usu_fone); ?></span><br />
+			<label>Cartão SUS:</label> <span><?= $this->dados->usu->usu_cartao_sus; ?></span>
+		</div>
+		<div class="clear"></div>
+		<div class="space"></div>
+	</div>
+	<div id="relatorio">
+		<table>
+		<?php foreach($this->dados->atendimentos as $atendimento): ?>
+			<tr>
+				<th>Data</th>
+				<th>Profissional</th>
+				<th>Especialidade</th>
+				<th>Unidade</th>
+			</tr>
+			<tr>
+				<td><?=$this->data($atendimento->age_data);?></td>
+				<td><?=$atendimento->usr_nome;?></td>
+				<td><?=$atendimento->esp_nome;?></td>
+				<td><?=$atendimento->uni_desc;?></td>
+			</tr>
+			<tr>
+				<td colspan="4">Procedimentos: <?=($atendimento->procedimentos?$atendimento->procedimentos:"<em>Nenhum procedimento realizado</em>");?></td>
+			</tr>
+			<tr>
+				<td colspan="4">Exames: <?=($atendimento->exames?$atendimento->exames:"<em>Nenhum exame solicitado</em>");?></td>
+			</tr>
+			<tr>
+				<td colspan="4">Medicamentos: <?=($atendimento->medicamentos?$atendimento->medicamentos:"<em>Nenhum medicamento receitado</em>");?></td>
+			</tr>
+			<tr>
+				<td colspan="4">Encaminhamento: <?=($atendimento->encaminhamentos?$atendimento->encaminhamentos:"<em>Nenhum encaminhamento solicitado</em>");?></td>
+			</tr>
+			<tr><td colspan="4">&nbsp;</td></tr>
+		<?php endforeach; ?>
+		</table>
+	</div>
+	<div class="clear"></div>
+	<div id="footer">
+		<span><?= $this->dadosSecretaria()->endereco; ?></span>
+	</div>
+</div>

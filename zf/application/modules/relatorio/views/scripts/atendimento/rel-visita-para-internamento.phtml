@@ -1,0 +1,73 @@
+  <br />
+<link href='../../../estilo.css' rel='stylesheet' type='text/css'></style>
+<table class="lista">
+  <?php 
+  	//die(var_dump($this->profs));
+  	$total = 0;
+    foreach($this->profs as $prof){
+    	//die(var_dump($prof->usr_nome));
+    	if($this->select == 0){
+    ?>
+    <tr>
+        <th colspan="5" style="font-size: 16px; background-color: #CDC9C9;" ><?= $prof->usr_nome?>(<?= $prof->usr_codigo?>)</th>
+     </tr>
+ <tr>
+      <th style="font-weight: bold; font-size: 10px; text-align: left" width="25%">PACIENTE</th>
+      <th style="font-weight: bold; font-size: 10px; text-align: left" width="25%">DATA DO INTERNAMENTO</th>
+      <th style="font-weight: bold; font-size: 10px; text-align: left" width="25%">MOTIVO DA INTERNAÇÃO</th>
+      <th style="font-weight: bold; font-size: 10px; text-align: left" width="25%">UNIDADE RESPONSÁVEL</th>
+      
+</tr>
+<tr></tr>
+  <?php 
+    //die(var_dump($this->dados))
+    foreach ($this->dados as $dado) {
+    	foreach ($dado as $d) {
+    	//die(var_dump($d));
+    	if($d["usr_codigo"] == $prof->usr_codigo){
+      $total = $total + 1;
+    ?>
+ <tr></tr>
+ <tr>
+      <td><?= $d["usu_nome"]?></td>
+      <td><?= $d["ate_inter_data"]?></td>
+      <td><?= $d["ate_inter_motivo"]?></td>
+      <td><?= $d["uni_desc"]?></td>
+</tr>
+    <p></p>
+    <p></p>
+        <?php 	}
+    			}
+			  }
+        	} else {
+        		?>
+        		<th style="font-weight: bold; font-size: 15px"><?= $prof->usr_nome?>(<?= $prof->usr_codigo?>)
+				<tr>
+			      <td style="font-weight: bold; font-size: 10px" width="50%">UNIDADE</td>
+			      <td style="font-weight: bold; font-size: 10px" width="50%">QUANTIDADE DE INTERNAMENTOS</td>
+		      
+				</tr>
+					<tr></tr>
+				  <?php 
+				  	
+				  	//die(var_dump($this->dados));
+				  foreach ($this->dados as $dado) {
+				  	foreach ($dado as $d) {
+				  		if($d["usr_codigo"] == $prof->usr_codigo){
+				  	$total = $total + $d["total"];
+				  	?>
+				  
+				 	<tr></tr>
+				 <tr>
+				      <td><?= $d["uni_desc"]?></td>
+				      <td><?= $d["total"]?></td>
+				</tr>
+				<?php
+						}
+					}
+				}
+        	}
+    	}?>
+    	<td style="font-weight: bold; font-size: 10px">TOTAL: <?= $total?></td>
+</table>
+<br />

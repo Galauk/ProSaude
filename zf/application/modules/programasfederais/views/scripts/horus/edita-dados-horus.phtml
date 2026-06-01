@@ -1,0 +1,8 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<br />
+<form name="busca" method="post" action="envia-consulta-dados-horus" id="consulta-horus">
+    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>
+    <input size="50" class="focus ui-state-default" name="num_protocolo" id="num_protocolo" value="" type="text" onkeypress='return SomenteNumero(event)'>
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>

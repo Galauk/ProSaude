@@ -1,0 +1,17 @@
+<?php $this->errorMsg(); ?>
+<?php $this->dialog(); ?>
+<p>Escolha o setor desejado e remova as movimentações. (<b>Utilize o CTRL para selecionar vários setores de uma vez.</b>)</p>
+<p><b>Obs: Após enviar as movimentações para remoção, elas não podem se recuperadas.</b></p>
+<br />
+<form name="form" method="post" action="<?= $this->url(array("action" => "zera-movimentacao-envia")); ?>" >
+    <label>Data:</label>
+    <input type="text" name="data" class="data" style="margin-left: 2px;" /><br />
+    <label style="float:left;">Setor:</label>
+    <select multiple="multiple" name="setor[]" id="setor" style="height: 200px; overflow: auto; margin-left: 6px;">
+        <?php 
+        foreach($this->setores as $setor) { ?>
+            <option value='<?=$setor->set_codigo?>'><?=$setor->set_nome?></option>
+        <?php } ?>
+    </select><br />
+    <a href="#" class="ui-button salvar" id="zera-mov-envia" style="margin-left: 186px; margin-top: 6px;">Enviar</a>
+</form>

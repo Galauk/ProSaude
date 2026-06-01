@@ -1,0 +1,153 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<form id="grupo-ativ-coletiva" action='<?= $this->url(array("action" => "salvar")) ?>' method='post'>
+    <div style="margin-top: 10px">
+        <label>Nome do Grupo:</label>
+        <input type="text" name="gac_descricao"
+               id="gac_descricao" value="<?= $this->data->gac_descricao ?>" class="focus input-btn-group"/>
+        <input type="hidden" name="gac_codigo" id="gac_codigo" value="<?= $this->data->gac_codigo ?>"/>
+        <input type="hidden" name="ativCol" id="ativCol" value="1"/>
+        <label>Ativo:</label>
+        <input type="checkbox" name="gac_status" id="gac_status"
+			<?= ($this->data->gac_codigo && $this->data->gac_status != 1 ? "" : "checked='checked'") ?> />
+        <fieldset>
+            <legend>Participantes:</legend>
+            <table width='100%' height="70px" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    <td width='24%'>
+                        Participante<br>
+                        <input type='text' name='part_nome' id="part_nome" class="field"
+                               style="width: 96%; height: 20px;"
+                               onkeypress="buscaParticipante()">
+                        <input type="hidden" name="part_codigo" id="part_codigo"/>
+                        <!-- Informações ocultas para atualização dos dados do cidadão -->
+                        <input type="hidden" name="id_nome" id="id_nome" value="part_nome"/>
+                        <input type="hidden" name="id_codigo" id="id_codigo" value="part_codigo"/>
+                        <input type="hidden" name="id_data" id="id_data" value="part_dtnasc" onchange=""/>
+                        <input type="hidden" name="id_button" id="id_button" value="confirm_paciente"/>
+                        <input type="hidden" name="id_tipo" id="id_tipo" value=""/>
+                    </td>
+                    <td width='10%'>
+                        Data de Nasc.<br>
+                        <input type='text' name='part_dtnasc' id="part_dtnasc"
+                               class="field" style="width: 90%; height: 20px;" readonly>
+                    </td>
+                    <td width='8%'>
+                        Peso(kg)<br>
+                        <input type='text' name='part_peso' id="part_peso" maxlength="7"
+                               class="field" style="width: 90%; height: 20px;" onfocus="formataPeso()">
+                    </td>
+                    <td width='8%'>
+                        Altura(cm)<br>
+                        <input type='text' name='part_altura' id="part_altura"
+                               onkeypress="return SomenteNumero(event)"
+                               class="field" maxlength="3" style="width: 90%; height: 20px;">
+                    </td>
+                    <td width='10%'>
+                        Avaliação alterada?<br>
+                        <input type='checkbox' name='part_aval' id="part_aval"
+                               class="field" value="1"/>
+                    </td>
+                    <td colspan="3">
+                        <fieldset style="height: 50px">
+                            <legend>Programa nacional de controle do tabagismo</legend>
+                            <table width="100%" border="0">
+                                <td width='8%'>
+                                    <input type='checkbox' name='part_fuma' id="part_fuma"
+                                           class="field" value="1"/>Parou de fumar?
+                                </td>
+                                <td width='10%'>
+                                    <input type='checkbox' name='part_grupo' id="part_grupo"
+                                           class="field" value="1"/>Abandonou o grupo?
+                                </td>
+                            </table>
+                        </fieldset>
+                    </td>
+                    <td width="4%">
+                        <button type="button" data-atalho="CTRL+ENTER" id="confirm_paciente"
+                                style="margin-left: 9px; display: none;"
+                                class="ui-button-atalho" onclick="confirmaParticipante()">Confirmar
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <table width="100%"
+                   style="border: 1px solid #cef; padding-right: 12px; display: table; overflow-y: auto; overflow-x: hidden">
+                <tr>
+                    <th width="24%" align="center">Participante</th>
+                    <th width="15%" align="center">Dt. Nasc.</th>
+                    <th width="10%" align="center">Av. alt</th>
+                    <th width="10%" align="center">Peso(Kg)</th>
+                    <th width="10%" align="center">Altura(cm)</th>
+                    <th width="10%" align="center">Cessou háb.?</th>
+                    <th width="10%" align="center">Abandonou?</th>
+                    <th width="5%" align="center">Ações</th>
+                </tr>
+            </table>
+            <div class="div-part">
+                <table width="100%" id="usus_part"
+                       style="display: table; overflow-y: auto; overflow-x: hidden">
+					<?php $y = 0; ?>
+					<?php if (count($this->data->participantes) > 0) { ?>
+						<?php foreach ($this->data->participantes as $val) { ?>
+							<?php $y++; ?>
+                            <tr id='usu_part_qtd<?= $y ?>'
+                                class="participantes <?= ($val->gap_avaliacao_alterada == "1" ? "aval" : "") ?>">
+                                <td width="24%">
+									<?= $val->usu_nome ?>
+                                    <input type='hidden' name='usus_part[<?= $y ?>][usu_codigo]'
+                                           value="<?= $val->usu_codigo ?>"/>
+                                </td>
+                                <td align="center" width="15%">
+									<?= $this->data($val->gap_dt_nascimento, Zend_Date::DATE_MEDIUM) ?>
+                                    <input type='hidden' name='usus_part[<?= $y ?>][gap_dt_nascimento]'
+                                           value="<?= $val->gap_dt_nascimento ?>"/>
+                                </td>
+                                <td align="center" width="10%">
+									<?= ($val->gap_avaliacao_alterada == "1" ? "SIM" : "NÃO") ?>
+                                    <input type='hidden' name='usus_part[<?= $y ?>][gap_avaliacao_alterada]'
+                                           value="<?= $val->gap_avaliacao_alterada ? $val->gap_avaliacao_alterada : 0  ?>"/>
+                                </td>
+                                <td align="center" width="10%">
+									<?= $val->gap_peso ?>
+                                    <input type='hidden' name='usus_part[<?= $y ?>][gap_peso]'
+                                           value="<?= $val->gap_peso ? $val->gap_peso : 0 ?>"/>
+                                </td>
+                                <td align="center" width="10%">
+									<?= $val->gap_altura ?>
+                                    <input type='hidden' name='usus_part[<?= $y ?>][gap_altura]'
+                                           value="<?= $val->gap_altura ? $val->gap_altura : 0 ?>"/>
+                                </td>
+                                <td align="center" width="10%">
+									<?= ($val->gap_cessou_habito_fumar == 1 ? "SIM" : "NÃO") ?>
+                                    <input type='hidden' name='usus_part[<?= $y ?>][gap_cessou_habito_fumar]'
+                                           value="<?= $val->gap_cessou_habito_fumar ? $val->gap_cessou_habito_fumar : 0 ?>"/>
+                                </td>
+                                <td align="center" width="10%">
+									<?= ($val->gap_abandonou_grupo == 1 ? "SIM" : "NÃO") ?>
+                                    <input type='hidden' name='usus_part[<?= $y ?>][gap_abandonou_grupo]'
+                                           value="<?= $val->gap_abandonou_grupo ? $val->gap_abandonou_grupo : 0 ?>"/>
+                                </td>
+                                <td align="center" width="5%">
+                                    <a onclick="excluirConfirmacaoPart(<?= $y ?>)">
+                                        <img src="<?= $this->baseUrl() ?>/public/images/icons/excluir.png"
+                                             alt="Excluir" title="Excluir"/>
+                                    </a>
+                                </td>
+                            </tr>
+						<?php } ?>
+					<?php } else { ?>
+                        <tr id="usus_part_qtd0">
+                            <td colspan="7">Nenhum participante registrado até o momento.</td>
+                        </tr>
+					<?php } ?>
+                    <input type="hidden" id="usus_part_qtd" value="<?= $y ?>"/>
+                </table>
+            </div>
+        </fieldset>
+    </div>
+    <a href="<?= $this->url(array("controller" => "grupo-atividade-coletiva", "action" => "index")); ?>"
+       class="ui-button voltar" data-atalho="ESC">Voltar</a>
+    <a type="button"
+       class="ui-button salvar" data-atalho="ESC">Salvar</a>
+</form>

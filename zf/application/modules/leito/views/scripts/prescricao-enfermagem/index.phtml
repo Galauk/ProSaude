@@ -1,0 +1,51 @@
+<?php $this->dialog();?>
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>">
+    <label>Higiene Corporal:</label>
+    <input type="radio" name="pres_higiene_corporal" id="pres_higiene_corporal" value="E"> Encaminhar 
+    <input type="radio" name="pres_higiene_corporal" id="pres_higiene_corporal" value="R"> Realizar
+    <br/>
+    <label>Higiene Oral:</label>
+    <input type="radio" name="pres_higiene_oral" id="pres_higiene_oral" value="E"> Encaminhar 
+    <input type="radio" name="pres_higiene_oral" id="pres_higiene_oral" value="R"> Realizar
+    <br/>
+    <label>Verificar SSVV de <small>(horas)</small>:</label>
+    <input type="text" name="pres_verificar_sinais" id="pres_verificar_sinais" value="" style="width: 160px;">
+    <br/>
+    <label>Ingesta Hídrica</label>
+    <input type="radio" name="pres_ingesta_hidrica" id="pres_ingesta_hidrica" value="E"> Estimular 
+    <input type="radio" name="pres_ingesta_hidrica" id="pres_ingesta_hidrica" value="R"> Restringir
+    <br/>
+    <label>Ingesta Alimentar</label>
+    <input type="radio" name="pres_ingesta_alimentar" id="pres_ingesta_alimentar" value="E"> Estimular 
+    <input type="radio" name="pres_ingesta_alimentar" id="pres_ingesta_alimentar" value="R"> Restringir
+    <br/>
+    <label>Realizar <b>Curativo</b>:</label>
+    <input type="radio" name="pres_realizar_curativo" id="pres_realizar_curativo" value="A"> Aberto 
+    <input type="radio" name="pres_realizar_curativo" id="pres_realizar_curativo" value="F"> Fechado
+    <br/>
+    <label>Realizar <b>Decúbito</b>:</label>
+    <input type="radio" name="pres_realizar_decubito" id="pres_realizar_decubito" value="S"> Sim 
+    <input type="radio" name="pres_realizar_decubito" id="pres_realizar_decubito" value="N"> Não
+    <br/>
+    <label>Observar:</label>
+    &nbsp;<input type="checkbox" name="pres_observar_padrao_respiratorio" id="pres_observar_padrao_respiratorio"> Padrão Respiratório 
+    <input type="checkbox" name="pres_observar_perfuracao_pereferica" id="pres_observar_perfuracao_pereferica"> Perfusão Periférica
+    <input type="checkbox" name="pres_observar_eliminacoes" id="pres_observar_eliminacoes"> Eliminações
+    <br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;
+    <input type="checkbox" name="pres_observar_queixas" id="pres_observar_queixas"> Queixas
+    <input type="checkbox" name="pres_observar_nivel_consciencia" id="pres_observar_nivel_consciencia"> Nível de consciência
+    <input type="checkbox" name="" id=""> Aceitação Alimentar/Hídrica
+    <br/> <br/>
+    <a href="#" class="ui-button salvar">Salvar</a>
+    <a href="#" class="ui-button imprimir">Imprimir</a>
+</form>
+
+
+
+

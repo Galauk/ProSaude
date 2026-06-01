@@ -1,0 +1,14 @@
+<form method="post" action="<?=$this->url($this->action);?>" target="_blank">
+	<label>Unidade:</label>
+	<input name="uni_desc" id="uni_desc" />
+	<input name="uni_codigo" id="uni_codigo" type="hidden" /><br />
+	
+	<label>Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+	
+	<div class="clear"></div>
+	<a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+</form>

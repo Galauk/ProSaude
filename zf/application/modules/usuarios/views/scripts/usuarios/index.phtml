@@ -1,0 +1,98 @@
+<?php
+$this->errorMsg();
+// echo "<pre>";print_r($this);die();
+// echo "<pre>".  print_r($this->itens,1);
+?>
+<table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+    <tr>
+        <td width=123>
+            <a href="<?=$_SESSION[linkroot].$_SESSION[modulo]?>usuario_acesso.php?acao=form_acesso&amp;id_login=<?=$_SESSION[id_login]?>">
+                <img src="<?=$_SESSION[linkroot].$_SESSION[comum]?>imgs/acesso_por_usuario_on.jpg" border="0" />
+            </a>
+        </td>
+        <td width="85">
+            <a href="<?=$_SESSION[linkroot].$_SESSION[modulo]?>permissoes.php?acao=form_perm&amp;id_login=<?=$_SESSION[id_login]?>">
+                <img src="<?=$_SESSION[linkroot].$_SESSION[comum]?>imgs/permissoes_on.jpg" border="0" />
+            </a>
+        </td>
+        <td width=85>
+            <a href="<?=$_SESSION[linkroot].$_SESSION[modulo]?>permissoes_usuarios.php?acao=form_perm_usu&amp;id_login=<?=$_SESSION[id_login]?>">
+                <img src="<?=$_SESSION[linkroot].$_SESSION[comum]?>imgs/permissoes_po_usuario_on.jpg" border="0" />
+            </a>
+        </td>
+        <td width=50>
+            <a href=<?=$_SESSION[linkroot].$_SESSION[modulo]?>log.php?id_login=<?=$_SESSION[id_login]?>>
+                <img src="<?=$_SESSION[linkroot].$_SESSION[comum]?>imgs/log_on.jpg" border="0" />
+            </a>
+        </td>
+        <td>
+            <a href=<?=$_SESSION[linkroot].$_SESSION[modulo]?>alterarsenha.php?id_login=<?=$_SESSION[id_login]?>>
+                <img src="<?=$_SESSION[linkroot].$_SESSION[comum]?>imgs/alterar_senha_on.jpg" border="0" />
+            </a>
+        </td>
+    </tr>
+</table>
+<br />
+<form name="busca" method="POST" action="/WebSocialSaude/zf/usuarios/usuarios/pesquisa" id="busca-comum">
+    <?php if ($this->conf_valor == 1) { ?>
+        <a href="/WebSocialSaude/zf/usuarios/usuarios/novo" class="ui-button novo ui-corner-bl ui-corner-tr" data-atalho="CTRL+N">Novo</a>
+    <?php } ?>
+    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>
+    <input size="45" class="focus ui-state-default" name="busca" value="" type="text">
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+<?php //echo $this->action('form', 'buscar'); ?>
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%' style="margin-top:04px;">
+    <?php
+   // die(var_dump($this->paginator));
+    $i = 0;
+    if ($this->itens && $this->itens->count()):
+        ?>
+        <tr class='ui-widget-header'>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Tipo do Profissional</th> 
+            <th>Situação</th>
+            <th>Status</th> 
+            <th>Ultimo Acesso</th>  
+            <?php if ($this->conf_valor == 1) { ?><th>Opções</th><?php } ?>
+        </tr>
+        <?php foreach ($this->paginator as $item): ?>
+            <tr>
+                <td class='ui-state-default c' width='50'><?= $this->escape($item->usr_codigo); ?></td>  
+                <td class='ui-state-default c' width='150'><?= $this->escape($item->usr_nome); ?></td>
+                <td class='ui-state-default c' width='150'><?= $this->escape($item->usr_tipo_medico); ?></td>
+                <td class='ui-state-default c' width='150'><?= $this->escape($item->usr_ativo); ?></td>
+                <td class='ui-state-default c' width='50'>
+                <?php if($this->escape($item->status) == "on"){
+                    ?>
+                    <span style="color:green"> ONLINE </span>
+                    <?php
+                } else {
+                    ?>
+                    <span style="color:red"> OFFLINE </span>
+                    <?php
+                } 
+                ?>
+                </td>
+                <td class='ui-state-default c' width='150'><?= $this->escape($item->dt_entrada); ?></td>
+                <?php if ($this->conf_valor == 1) { ?>
+                    <td class='ui-state-default c' width='50'>
+                        <a href='<?= $this->url(array("module" => "usuarios", 'controller' => 'usuarios', 'action' => 'editar', 'id' => $item->usr_codigo), NULL, TRUE); ?>' class='editar'><img src='<?= $this->baseUrl('/public/images/icons/editar.png'); ?>' alt='Editar Itens' title='Editar Itens' /></a>
+                        <a href='<?= $this->url(array("module" => "usuarios", "controller" => "usuarios", "action" => "inativar", "id" => $item->usr_codigo)); ?>' id='excluir' ><img src='<?= $this->baseUrl('/public/images/icons/excluir.png'); ?>' alt='Inativar' title='Inativar' /></a>		
+                    </td>
+                <?php } ?>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <em>Nenhum item encontrado</em>
+<?php endif; ?>
+
+<?php 
+/*
+* Print the pagination of type , drop down or search type or of your choice. 
+*/
+echo $this->paginationControl($this->paginator,
+ 'Sliding',
+ '/pagination.phtml'); ?>

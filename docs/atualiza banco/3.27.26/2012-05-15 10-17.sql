@@ -1,0 +1,15 @@
+﻿INSERT INTO permissoes(perm_descricao, perm_programa) VALUES 
+('Agendamento de Consultas/Exames', 'zf/agenda/agenda'),
+('Agenda: Cadastro de convênios', 'zf/agenda/convenio'),
+('Agenda: Cadastro de itens do convênios', 'zf/agenda/convenio-itens'),
+('Agenda: Exceções na distribuição de vagas', 'zf/agenda/distribuicao'),
+('Agenda: Cadastro de procedimentos', 'zf/agenda/procedimento'),
+('Agedamento Externo', 'zf/default/agendamento-externo'),
+('Configurações (zf)', 'zf/default/configuracao'),
+('Vacina', 'zf/default/vacina'),
+('Leito: Dispensar medicamentos', 'zf/leito/medicamentos'),
+('Leito: Modelos de dispensação', 'zf/leito/modelo-grade'),
+('Prontuário Eletrônico', 'zf/prontuario/index'),
+('Relatório: Atendimento', 'zf/relatorio/atendimento'),
+('Relatório: Materiais', 'zf/relatorio/materiais'),
+('Relatório: Usuario', 'zf/relatorio/usuario');

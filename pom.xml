@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.com.elotech</groupId>
+  <artifactId>WebSocialSaude</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <!-- Info used by the SCM plugin -->
+  <scm>
+    <connection>scm:svn:https://svn.elotech.com.br/repos/elotech/WebSocialSaude/trunk</connection>
+    <developerConnection>scm:svn:https://svn.elotech.com.br/repos/elotech/WebSocialSaude/trunk</developerConnection>
+    <url>https://svn.elotech.com.br/repos/elotech/WebSocialSaude/trunk</url>
+  </scm>
+
+  <build>
+    <sourceDirectory>zf</sourceDirectory>
+	<testDirectory>zf/tests</testDirectory>
+  </build>
+
+  <properties>
+    <sonar.language>php</sonar.language>
+    <sonar.dynamicAnalysis>true</sonar.dynamicAnalysis>
+  </properties>
+  
+</project>

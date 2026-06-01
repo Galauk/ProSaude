@@ -1,0 +1,21 @@
+<?php if ($this->ultimaPreConsulta): ?>
+	<label>Pré-consulta:</label>
+	<a href="#" class="ui-button detalhes pre-consulta" data-pc="<?=$this->ultimaPreConsulta['pc_codigo'];?>">
+		<?=$this->data($this->ultimaPreConsulta['pc_data'],Zend_Date::TIME_MEDIUM);?>
+	</a>
+	<?php if ($this->historicoPreConsulta && count($this->historicoPreConsulta)): ?>
+		<a href="#" id="ver-mais-pre-consultas">Ver mais</a><br />
+		<div id="historico-pre-consulta">
+			<ul>
+				<?php foreach($this->historicoPreConsulta as $item):?>
+					<li>
+						<a href="#" class="ui-button detalhes pre-consulta" data-pc="<?=$item['pc_codigo'];?>">
+							<?=$this->data($item['pc_data'],Zend_Date::TIME_MEDIUM);?>
+						</a>
+					</li>
+				<?php endforeach;?>
+			</ul>
+		</div>
+	<?php endif; ?>
+<?php endif; ?>
+

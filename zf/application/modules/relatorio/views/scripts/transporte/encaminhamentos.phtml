@@ -1,0 +1,49 @@
+<? if ($this->dados) { ?>
+	<table>
+		<? foreach($this->dados as  $item) { ?>
+			<tr>
+				<td colspan="3" bgcolor="#999999"><strong>DADOS ENCAMINHAMENTO</strong></td>
+			</tr>
+			<tr>
+				<?=($item["usu_nome"] ? "<td><strong>Paciente: ".$item["usu_nome"]."</strong></td>" : "<td><strong>Paciente: - </strong></td>")?>
+				<?=($item["via_data"] ? "<td><strong>Data de Saída:</strong> ".$this->data($item["via_data"],Zend_Date::DATE_MEDIUM)."</td>" : "<td><strong>Data de Saída:</strong> - ")?>
+				<?=($item["via_hora"] ? "<td><strong>Horário de Saída:</strong> ".$item["via_hora"]."</td>" : "<td><strong>Horário de Saída:</strong> - </td>")?>  
+			</tr>
+			<tr>
+				<?=($item["usu_rg"] ? "<td><strong>Rg Paciente:</strong> ".$item["usu_rg"]."</td>" : "<td><strong>Rg Paciente:</strong> - </td>")?>
+				<?=($item["vei_descricao"] ? "<td><strong>Veículo:</strong> ".$item["vei_descricao"]."</td>" : "<td><strong>Veículo:</strong> - </td>")?>
+				<?=($item["usr_nome"] ? "<td><strong>Motorista:</strong> ".$item["usr_nome"]."</td>" : "<td><strong>Motorista:</strong> - </td>")?>
+			</tr>
+			<tr>
+				<?=($item["cid_origem"] ? "<td><strong>Cidade de Origem:</strong> ".$item["cid_origem"]."</td>" : "<td><strong>Cidade de Origem:</strong> - </td>")?>
+				<?=($item["cida_destino"] ? "<td><strong>Cidade de Destino:</strong> ".$item["cida_destino"]."</td>" : "<td><strong>Cidade de Destino:</strong> - </td>")?>
+				<?=($item["via_local"] ? "<td><strong>Local de Busca:</strong> ".$item["via_local"]."</td>" : "<td><strong>Local de Busca:</strong> - </td>")?>
+			</tr>
+			<tr>
+				<?=($item["via_motivo"] ? "<td colspan=3><strong>Obs:</strong> ".$item["via_motivo"]."</td>" : "<td colspan=3><strong>Obs:</strong> - </td>")?>
+			</tr>
+			<? if(count($item["acompanhantes"])) { ?>
+				<tr>
+					<td colspan="3" bgcolor="#EAEAEA"><div align="center"><strong>ACOMPANHANTES</strong></div></td>
+				</tr>
+				<? foreach ($item["acompanhantes"] as $acompanhante) { ?>
+					<div align="center">
+						<tr>
+							<td bgcolor="#EAEAEA"></td>
+							<td colspan="2" bgcolor="#EAEAEA"><div align="left">
+								<?=($acompanhante["usu_nome"] ? "<strong>Nome:</strong> ".$acompanhante["usu_nome"]."" : "<strong>Nome:</strong> - ")?>
+							</td>
+
+						</tr>
+					</div>	
+				<? } ?>
+			<? } ?>
+		<? } ?>
+	</table>
+<? } else { ?>
+	<table>
+		<tr>
+			<td colspan="3">Nenhum resultado encontrado.</strong></td>
+		</tr>
+	</table>	
+<? } ?>

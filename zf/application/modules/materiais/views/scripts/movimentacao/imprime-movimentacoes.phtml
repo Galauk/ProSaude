@@ -1,0 +1,98 @@
+<script>window.print();</script>
+<div id="conteudo">
+    <table width="100%">
+        <?php
+        if (count($this->itens)>0) {
+            $i=0;
+            $qtd_total=0;
+            $vlr_total=0;
+            foreach ($this->itens as $item) { 
+                //Controle de tamanho da página pro rodapé
+                $i = $i+10;
+                if ($i==390) { $i=0; }
+                $qtd_total=$item->ite_quantidade+$qtd_total;
+                $vlr_total=$item->ite_vlrtotal+$vlr_total;?>
+                <tr>
+                    <td class="linha_tabela" style="width:9.9%;">
+                        <?=$item->ite_codigo?>
+                    </td>
+                    <?php 
+                    if ($this->dados_mov_tipo=="T") { ?>
+                        <td class="linha_tabela" style="width:38%;">
+                            <?=$item->pro_nome?>
+                        </td>
+                    <?php
+                    } else { ?>
+                        <td class="linha_tabela" style="width:68%">
+                            <?=$item->pro_nome?>
+                        </td>
+                    <?php } ?>
+                    <td class="linha_tabela" style="width:12%">
+                        <?=number_format($item->ite_quantidade,0,'.','')?>
+                    </td>
+                    <td class="linha_tabela" style="width:10%">
+                        <?=$item->ite_lote?>
+                    </td>
+                    <?php 
+                    if ($this->dados_mov_tipo=="T") { ?>
+                        <td class="linha_tabela" style="width:10%;">
+                            <?=$item->ite_validade?>
+                        </td>
+                        <td class="linha_tabela" style="width:10%;">
+                            <?=$item->ite_vlrunit?>
+                        </td>
+                        <td class="linha_tabela" style="width:10%;">
+                            <?=$item->ite_vlrtotal?>
+                        </td>
+                    <?php } ?>
+                </tr>
+            <?php } ?>    
+            <?php 
+            if ($this->dados_mov_tipo=="T") { ?>
+                <tr class="linha_tabela">
+                    <td class="linha_tabela" colspan="2" style="width:50%;"></td>
+                    <td class="linha_tabela" style="width:10%;">
+                        <?=$qtd_total?>
+                    </td>
+                    <td class="linha_tabela" colspan="3" style="width:30%;"></td>
+                    <td class="linha_tabela" style="width:10%">
+                        <?=$vlr_total?>
+                    </td>
+                </tr>
+            <?php 
+            } else { ?>    
+                <tr class="linha_tabela">
+                    <td class="linha_tabela" colspan="2" style="width:80%;"></td>
+                    <td class="linha_tabela" style="width:10%;">
+                        <?=$qtd_total?>
+                    </td>
+                    <td class="linha_tabela" style="width:10%;"></td>
+                </tr>
+            <?php } ?>
+        <?php 
+        } else { ?>
+            <?php 
+            if ($this->dados_mov_tipo=="T") { ?>
+                <tr class="linha_tabela">
+                    <td class="linha_tabela" colspan="7">
+                        Nenhuma movimentação realizada até o momento!
+                    </td>
+                </tr>
+            <?php
+            } else { ?>
+                <tr class="linha_tabela">
+                    <td class="linha_tabela" colspan="5">
+                        Nenhuma movimentação realizada até o momento!
+                    </td>
+                </tr>
+            <?php } ?>
+        <?php } ?>
+    </table>
+    <?php
+    // Pega o número de linha e retira pelo total para dar a distância 
+    if($i != 390){
+        $pixels = 560 - $i;
+    }
+    ?>
+    <div style="height: <?=$pixels?>px;"></div>
+</div>

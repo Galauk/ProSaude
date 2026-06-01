@@ -1,0 +1,180 @@
+<?
+session_start();
+require_once $_SESSION[root].$_SESSION[comum]."class/commonClass.php";
+include_once $_SESSION[root].$_SESSION[comum]."library/php/db.inc.php";
+
+$common = new commonClass();
+echo $common->incJquery();
+echo "<body topmargin=0 leftmargin=0 rightmargin=0>
+      <link href='estilo.css' rel='stylesheet' type='text/css'>";
+	
+     
+
+
+
+ $Age = pg_fetch_array(pg_query("select * from agendamento where age_codigo='$age_codigo'"));
+ 
+	// verificar se já fez o atendimento (atendido=E?)
+ 	if ($Age['age_atendido'] != 'E' )  {
+		echo $common->modalMsg("ERRO", "Paciente Sem Atendimento", "prontuario.php?pagina=4&id_login=$id_login&ate_codigo=$ate_codigo2&age_codigo=$age_codigo&med_codigo=$med_codigo&usu_codigo=$usu_codigo");
+		exit;
+	} 
+ 
+ $usu_codigo = $Age[usu_codigo];
+ //$med_codigo = $Age[med_codigo];
+ $uni_codigo = $Age[uni_codigo];
+ $medInfo=pg_fetch_array(pg_query("select *from medico where med_codigo='$med_codigo'"));
+ $uniInfo=pg_fetch_array(pg_query("select *from unidade where uni_codigo='$uni_codigo'"));
+ $usuario = pg_fetch_array(pg_query("select *from usuario where usu_codigo='$usu_codigo'"));	
+ $atend = pg_fetch_array(pg_query("select cd10_codigo,to_char(ate_data,'DD/MM/YYYY') as ate_data,ate_hora from atendimento where ate_codigo='$ate_codigo'"));
+ $cid = pg_fetch_array(pg_query("select *from cid10 where cd10_codigo = '$atend[cd10_codigo]'"));
+ $ArMes = array("","Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro");
+ $mes = date('m');
+ $mes_desc = $ArMes[$mes];
+
+if(($choice_atestado=="" and $acao=="")) {
+   echo "<form   method='post'action=prontuario.php?pagina=8&id_login=$id_login&age_codigo=$age_codigo&usu_codigo=$usu_codigo&uni_codigo=$uni_codigo&med_codigo=$med_codigo&esp_codigo=$esp_codigo&age_data=$age_data&acao=add>
+	  <input type=hidden name=acao value=add>
+	  <input type=hidden name=id_login value=$id_login>
+	  <input type=hidden name=ate_codigo value=$ate_codigo>
+	  <input type=hidden name=age_codigo value=$age_codigo>
+	  <input type=hidden name=cid_codigo value=$cid[cd10_codigo]>";
+	  
+	  echo $common->menuTab(array('Atestado'));
+	  echo $common->bodyTab('1');
+	  
+	  echo"
+	 <table width=100% cellspacing=0 cellpadding=5 border=0>
+	  <tr bgcolor=e1e1e1>
+	   
+	  </tr>
+	 </table><br><br>";
+   echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	  <tr>
+	   <td>O(a) Sr.(a): $usuario[usu_nome]</td>
+	  </tr>
+	 </table><br>";
+   echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	  <tr>
+	   <td>Esteve em consulta no dia $atend[ate_data], às $atend[ate_hora]</td>
+	  </tr>
+	 </table><br><br>";
+   echo "<table width=98% align=center cellspacing=4 cellpadding=4 border=0>
+	  <tr>
+	   <td width=25><input type=checkbox name=consulta value='S'></td>
+	   <td>Consulta Médica</td>
+	  </tr>
+	  <tr>
+	   <td width=25><input type=checkbox name=filho value='S'></td>
+	   <td>Acompanhando seu filho menor:&nbsp;<input type=text name=acomp_filho class=inputForm size=38></td>
+	  </tr>
+	  <br/>
+	  <tr>
+	   <td width=25><input type=checkbox name=rentornotrab value='S'></td>
+	   <td>Devendo retornar ao trabalho: <input type=text name=retornar_trab class=inputForm size=40></td>
+	  </tr>
+	  <tr>
+	   <td width=25><input type=checkbox name=repousohs value='S'></td>
+	   <td>Devendo permanecer em repouso: <input type=text name=hs_ini class=inputForm size=10>&nbsp;hs. a partir das <input type=text name=hs_final class=inputForm size=10>&nbsp;hs.</td>
+	  </tr>
+	  <tr>
+	   <td width=25><input type=checkbox name=repousohj value='S'></td>
+	   <td>Devendo permanecer em repouso hoje.</td>
+	  </tr>
+	  <tr>
+	   <td width=25><input type=checkbox name=repousodia value='S'></td>
+	   <td>Devendo permanecer em repouso&nbsp;<input type=text name=repdia class=inputForm size=10>&nbsp;dias, a partir desta data.</td>
+	  </tr>
+	  <tr>
+	   <td width=25><input type=checkbox name=tipoobs value='S'></td>
+	   <td><input type=text name=tipoobs_char class=inputForm size=69></td>
+	  </tr>
+	 </table><br><br>";
+   echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	  <tr>
+	   <td>Observação:</td>
+	  </tr>
+	  <tr>
+	   <td><textarea name=obs class=box cols=73 rows=5></textarea></td>
+	  </tr>
+	 </table><br><br>";
+   echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	  <tr>
+	   <td width=30><b>CID:</b></td>
+	   <td><font size=2><b>$cid[cd10_codigo_cid]</b></font>&nbsp;-&nbsp;$cid[cd10_descricao]</td>
+	  </tr>
+	 </table><br><br>";
+   echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	  <tr>
+	   <td align=right>Apucarana, ".date('d')."&nbsp; $mes_desc de ".date('Y')."</td>
+	  </tr>
+	 </table><br><br>";
+   echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	  <tr>
+	   <td align=center><input type='image' src='".$_SESSION[linkroot].$_SESSION[comum]."imgs/imprimir.jpg' /> </td>
+	  </tr>
+	 </table><br><br></form>";
+}
+
+if($acao=="add") {
+	
+  $insert = "insert into atestado 
+	       (ate_codigo,age_codigo,consulta_medica,acompanhando_filho,retorno_trabalho,repouso_hs,repouso_hoje,repouso_dia,tipo_obs,acompanhando,retornoaotrabalho,
+	        repousohs_ini,repousohs_final,repousodias,tipoobs,obs,cid_codigo,dt_atestado)
+       values ('$ate_codigo','$age_codigo','$consulta','$filho','$rentornotrab','$repousohs','$repousohj','$repousodia',
+	       '$tipoobs','$acomp_filho','$retornar_trab','$hs_ini','$hs_final','$repdia','$tipoobs_char',
+	       '$obs','$cid_codigo',NOW())";
+  $sql=pg_query($insert);
+       echo "<SCRIPT LANGUAGE=\"JavaScript\">
+	   			  url = '../print_atestado.php?id_login=$id_login&ate_codigo=$ate_codigo&age_codigo=$age_codigo&usu_codigo=$usu_codigo&uni_codigo=$uni_codigo&med_codigo=$med_codigo&esp_codigo=$esp_codigo&age_data=$age_data&ate_codigo=$ate_codigo&acao=print';
+                  window.open(url,null,'height=700,width=700,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes');
+              </SCRIPT>";
+}
+
+
+
+if($acao=="print") {
+	$medInfo2=pg_fetch_array(pg_query("select *from medico where med_codigo='$med_codigo'"));
+ echo "<table cellspcing=0 cellpadding=0 border=0 align=center>
+	<tr>
+	 <td><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/logo_papeis.jpg></td>
+	 <td valign=top>
+	  <table cellspacing=0 cellpadding=0 border=0>	
+           <tr>
+	    <td>$medInfo2[med_nome]</td>
+	   </tr>
+           <tr>
+	    <td><font size=2 face=arial>$medInfo2[med_endereco]</font></td>
+	   </tr>
+           <tr>
+	    <td>CRM:<font size=2 face=arial>$medInfo2[med_crm]</font></td>
+	   </tr>
+	  </table>
+         </td>
+	</tr>
+	</table>
+	<table cellspcing=0 cellpadding=0 border=0 align=center >
+	<tr>
+	
+	</tr>
+       </table>
+	<table height=454  cellspcing=0 cellpadding=0 border=0 align=center>
+	<tr>
+	 <td bgcolor='#FFFFFF'>";
+include $_SESSION[root].$_SESSION[modulo]."atestado.php";
+ echo "</td>
+	</tr>
+       </table>";
+/*
+	<table width=80% cellspacing=0 cellpadding=0 border=0 align=center>
+	<tr>
+	 <td><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/tira_papeis.jpg width=500 height=3></td>
+	</tr>
+           <tr>
+	    <td align=center><b>$uniInfo[uni_desc]</b>&nbsp;&nbsp;$uniInfo[uni_localizacao]</td>
+	   </tr>
+	  </table>";
+*/
+}
+echo $common->closeTab();
+?>

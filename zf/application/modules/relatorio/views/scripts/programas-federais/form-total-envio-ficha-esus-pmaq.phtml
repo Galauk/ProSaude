@@ -1,0 +1,21 @@
+<form method="post" action="<?=  $this->url(array("action" => "rel-total-envio-ficha-esus-pmaq")); ?>" target="_blank">        
+	<label>Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+       
+        <label>INE</label>
+        <input type='text' name='nu_ine' id="nu_ine" value=""/>
+        <input type='hidden' name='co_seq_equipe' id="co_seq_equipe" class="field" value="0"/>
+        <br/>
+        <label>Tipo</label>
+       <input type="radio" name="odonto_select" value="0">Atenção Básica</input>
+       <input type="radio" name="odonto_select" value="1">Odontologia</input>
+       
+  		<br/>
+</select>
+        <div class="clear"></div>
+        <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;" class="popup" rel="500x500">Gerar Relatório</a>
+	
+</form>

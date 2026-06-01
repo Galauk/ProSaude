@@ -1,0 +1,92 @@
+<link href='<?=$this->baseUrl('/public/css/prontuario/receita-medica/imprimir-anvisa.css')?>' rel='stylesheet' type='text/css'> </link>
+<link href='<?=$this->baseUrl('/public/css/print.css')?>' rel='stylesheet' type='text/css'> </link>
+<head>
+    <script>
+        window.print();
+    </script>
+</head>
+<body>
+<div style="clear:both;"></div>
+<?if($this->seg == 1){
+    $qnt_vias = 2;
+}else{
+    $qnt_vias = 1;
+}
+?>
+<?for($i=1;$i<=$qnt_vias;$i++):?>
+    <div class="div_cabecalho">
+        <div class="identificacao_estabelecimento">
+            <div class="brasao">
+                <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" width="80" height="70"/>
+            </div>
+            <div class="dados_sec">
+                <br/>
+                <b><?=$this->sec[nome_secretaria]?></b><br/>
+                C.N.P.J.:<?=$this->sec[cnpj_secretaria]?><br/>
+                <b><?=$this->usr->uni_desc;?></b>
+            </div>
+            <div class="cod_bar">
+                <div id="img_bar">
+                    <img src="<?=$this->baseUrl()?>/public/images/codigo_barras.php?codigo=<?=$this->dados->codigo;?>&lw=1&hi=18" alt="Código de Barras: <?=$this->dados->codigo;?>" title="Código de Barras: <?=$this->dados->codigo;?>" width="110" />
+                </div>
+            </div>
+        </div>
+        <div id="titulo_impressao"><b><?=$this->tipo_impressao;?></b></div>
+        <div class="dados_titulo">
+            IDENTIFICAÇÃO DO PACIENTE
+        </div>
+
+        <div class="identificacao_responsavel">
+           <div class="dados_form_dir_padrao">
+                Pront / Paciente:<br/> 
+                Idade / Sexo:<br/> 
+                Dt.Nascimento:<br/>
+                CNS:<br/>
+                Endereço:<br/>
+                Dt.Emissão:<br/>
+            </div>
+            <div class="dados_form_esq_padrao">
+                <b><?=$this->dados->usu_prontuario?> / <?=$this->dados->usu_nome?><br/></b>
+                <b><?=$this->idade($this->dados->idade)?> / <?=($this->dados->usu_sexo == "F" ||  $this->dados->usu_sexo == 1? "Feminino" : "Masculino")?></b><br/>
+                <b><?=$this->data($this->dados->usu_datanasc)?> &nbsp;&nbsp;&nbsp;<br/></b>
+                <b><?=($this->dados->usu_cartao_sus == "" ? "-" : $this->dados->usu_cartao_sus)?></b><br/>
+                <b><?=($this->dados->rua_nome == "" ? "SEM ENDEREÇO" : $this->dados->rua_nome.",")?> <?=$this->dados->dom_numero?> - <?=$this->dados->cid_nome?></b><br/>
+                <b><?=date("d/m/Y");?></b>
+            </div>
+        </div>
+
+        <div class="identificacao_responsavel_receb_smpl">
+            <div class="medicamentos_prescricao_smpl">
+<div id="conteudo">
+    <div class="dados_resp_receb">
+        <b>Exames</b>
+    </div>
+    <?php if ($this->dados->itens): ?>
+        <?php foreach ($this->dados->itens as $item): ?>
+            <div class="medItem">
+                <div class="item_exame" ><b><?=$this->escape($item['proc_nome']); ?></b></div>
+                <div class="item_exame" >
+                    <?=($item['proc_solicitado'] == "S" ? "SOLICITADO" : "")?>
+                    <?=($item['proc_avaliado'] == "A"   ? "- AVALIADO" : "")?>
+                </div>
+<!--            <div class="obs_item" ><?//=($item[req_observacao] != "" ? "Obs:" : "")?><b><?//=substr($this->escape(str_replace("<p>","",$item[req_observacao])),0,-10)?></b></div>-->
+                <div class="obs_item" ><?=$item[req_observacao]?></div>
+            </div>
+        <?php endforeach; ?>            
+    <?php endif; ?>
+</div>
+            </div>
+            <div class="assinatura_resp">
+                --------------------------------------------------------------<br/>
+                    <?=$this->dados_usr->usr_nome?><br/>
+                    <?=$this->dados_usr->con_descricao.": ".$this->dados_usr->usr_num_conselho. " - ". $this->dados_usr->cnes_sigla_est?>
+            </div>
+        </div>
+        <div id="endereco">
+             
+            <?=$this->dados_usr->uni_endereco?>, CNPJ:<?=$this->dados_usr->uni_cnpj?>, FONE:<?=$this->dados_usr->cnes_telefone?>
+        </div>
+    </div>
+<?  endfor;?>
+</body>
+

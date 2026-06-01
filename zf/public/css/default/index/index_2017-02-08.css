@@ -1,0 +1,53 @@
+body{
+  /*background-image: url('/WebSocialComum/imgs/fundoSistema.jpg');*/
+  background-size: 100%;
+} 
+
+ul{
+  margin: 60px auto;
+  width: 980px;
+  padding: 0;
+}
+
+ul li{
+  list-style: none;
+  float: left;
+  height: 160px;
+  margin: 15px 6px;
+  text-align: center;
+}
+
+ul li a{
+  width: 200px;
+  height: 140px;
+  display: inline-block;
+  border: 1px solid #DDECFB;
+  background-color: #FFF;
+  padding: 5px;
+}
+
+ul li span{
+  display: block;
+}
+
+ul li a img{
+  width: 200px;
+}
+
+#tudo{
+  width: 1000px;
+  height: 550px;
+  margin: 0 auto;
+}
+
+#anterior,
+#proximo{
+  float: left;
+  width: 40px;
+  height: 550px;
+}
+
+#miniaturas{
+  float: left;
+  width: 900px;
+}

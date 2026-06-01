@@ -1,0 +1,162 @@
+<style type="text/css">
+<!--
+.style1 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+.style2 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 18px;
+}
+.break { page-break-before: always; }
+
+-->
+</style>
+</head>
+
+<body>
+<?php
+function cabeca ($a,$b,$c) {
+$caberario = '
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 1px solid;border-color: #000">
+  <tr>
+    <td class="style2"><strong>'.$b.' - '.$a.'</div>  </strong></td>
+  </tr>
+</table>
+<table width="800" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="111" class="style1" style="border-left:1px solid;border-bottom: 1px solid;border-color: #000"><table width="111" border="0" cellspacing="0" cellpadding="0" >
+      <tr>
+        <td width="111" ><div align="center"><strong>Data</strong></div></td>
+      </tr>
+      <tr>
+        <td><table width="111" border="0" cellspacing="0" cellpadding="0" >
+          <tr>
+            <td width="31" bgcolor="#CCCCCC"><div align="center">Dia</div></td>
+            <td width="40" bgcolor="#CCCCCC"><div align="center">Mes</div></td>
+            <td width="40" bgcolor="#CCCCCC"><div align="center">Ano</div></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td width="450" class="style1" style="border-bottom: 1px solid;border-color: #000">&nbsp;&nbsp;
+        <div align="center"><strong>H&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;S&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O</strong></div></td>
+    <td width="180" class="style1" style="border-bottom: 1px solid;border-color: #000"><table width="180" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="111"><div align="center"><strong>MOVIMENTO</strong></div></td>
+      </tr>
+      <tr>
+        <td><table width="180" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="68" bgcolor="#CCCCCC"><div align="center">Entrada</div></td>
+            <td width="49" bgcolor="#CCCCCC"><div align="center">Saida</div></td>
+            <td width="63" bgcolor="#CCCCCC"><div align="center">Perdas</div></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+    <td width="100" class="style1" style="border-bottom: 1px solid;border-color: #000"><div align="center"><strong>Estoque</strong></div></td>
+    <td width="300" class="style1" style="border-bottom: 1px solid;border-right:1px solid;border-color: #000"><div align="center"><strong>Medico</strong></div></td>
+  </tr>
+  <tr>
+    <td colspan="5" class="style1">';
+
+    return $caberario;
+}
+
+
+
+$i=0;
+      $saldo = '0';
+   foreach ($this->dados as $item) {
+  
+if($item->pro_nome != $pro_nome){
+   $saldo = $item->totalsaldo;
+   $t = $item->totalsaldo;
+    if($pro_nome) { echo '<div class="break"></div>'; $i=0;}
+   $pro_nome = $item->pro_nome;
+   echo cabeca($pro_nome,$item->pro_codigo_dcb);
+
+} 
+#if($item->usu_nome=="") {
+ // echo "FEZES AO QUADRADO 123:".$item->mov_tipo;
+    if($item->mov_tipo=='E') {
+      $nome = "ENTRADA - ".(empty($item->for_nome))?"ENTRADA - FORNECEDOR NAO INFORMADO":$item->for_nome;
+      $qtd = $item->ite_quantidade;
+      $saida = '';    
+      $saldo += $item->ite_quantidade;
+    }
+#}
+if($item->usu_nome != $usu_nome){
+   $usu_nome = $item->usu_nome;
+   $e = explode("-",$item->mov_data);
+   if($item->usr_nome!="") {
+      $medico = $item->usr_nome;
+   } else {
+      $medico = $item->med_nome;
+   }
+
+
+if($item->usu_nome=="") {
+/*    if($item->mov_tipo=='E') {
+      $nome = "ENTRADA - ".(empty($item->for_nome))?"ENTRADA - FORNECEDOR NAO INFORMADO":$item->for_nome;
+      $qtd = $item->ite_quantidade;
+      $saida = '';    
+      $saldo += $item->ite_quantidade;
+    }
+*/    if($item->mov_tipo=='S') {
+      $nome = "DESCONHECIDO";
+      $saida = $item->ite_quantidade;
+    }
+    if($item->mov_tipo=='T') {
+      $nome = 'ENTRADA POR TRANSFERENCIA - '.$item->set_nome;
+      $qtd = $item->ite_quantidade;
+      $saida = '';    
+      $saldo += $item->ite_quantidade;
+    }
+} else{
+  $nome = $item->usu_nome;
+  $qtd='';  
+  $saida = $item->ite_quantidade;
+  $saldo -= $item->ite_quantidade;
+}
+
+$i++;
+   //  echo $i;
+
+    if($i%25==0) { echo '<div class="break"></div>';  echo cabeca($pro_nome,$item->pro_codigo_dcb); }
+
+?>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="111" class="style1"><table width="111" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="31"><div align="center"><?=$e[2]?></div></td>
+            <td width="40"><div align="center"><?=$e[1]?></div></td>
+            <td width="40"><div align="center"><?=$e[0]?></div></td>
+          </tr>
+      </table></td>
+      <td width="450" class="style1">
+       <?=$nome?>
+      </td>
+      <td width="180" class="style1"><table width="180" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="68"><div align="center"><?=$qtd?></div></td>
+            <td width="49"><div align="center"><?=$saida?></div></td>
+            <td width="63"><div align="center"><?=$saida_perca?></div></td>
+          </tr>
+      </table></td>
+      <td width="100" class="style1"><div align="center"><?=$saldo?></div></td>
+      <td class="style1" width="300"><font size=1><?=$medico?></font> </td>
+    </tr>
+  </table>
+
+
+<?php  } ?>    
+    </td>
+  </tr>
+</table></body>
+<?php
+    }
+
+?>

@@ -1,0 +1,80 @@
+#medicamentos{
+  width: 300px;
+}
+
+#cesta ul,
+#medicamentos{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#cesta ul li,
+#medicamentos li{
+  border: 1px solid #333;
+  padding: 3px;
+  margin: 5px 0;
+  display: block;
+  float: left;
+  background-color: #FFF;
+}
+#medicamentos li{
+  cursor: move;
+}
+
+#medicamentos li img.pro_imagem{
+  float: left;
+  border: 1px solid #333;
+  margin: 0 5px 0 0;
+  padding: 3px;
+  background-color: #FFF;
+}
+
+#cesta{
+  width: 390px;
+  border: 1px solid #333;
+  position: fixed;
+  top: 85px;
+  left: 360px;
+  padding: 5px 5px 10px 5px;
+}
+
+#alvo{
+  overflow: auto;
+  max-height: 500px;
+}
+
+#cesta h2{
+  margin: 0 0 10px 0;;
+}
+
+#cesta h3{
+  margin: 0;
+}
+
+
+#cesta .qtd,
+#cesta .drop{
+  display: inline-block;
+}
+
+#cesta .drop{
+  width: 16px;
+  height: 8px;
+  cursor: pointer;
+  margin-left: 5px;
+  padding-top: 7px;
+  background-image: url('/WebSocialSaude/zf/public/images/icons/excluir.png');
+}
+
+.drop-active {
+    background: #ffffCC;
+}
+.drop-hover {
+    background: #ffff66;
+}
+
+/* BUSCAR */
+#buscar a{
+	width: 15px;
+}

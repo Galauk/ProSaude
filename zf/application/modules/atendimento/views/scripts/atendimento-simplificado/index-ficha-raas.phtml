@@ -1,0 +1,21 @@
+<div class="abas">
+    <ul class="tabs">
+        <li><a href="#tabs3-1">Ficha RAAS</a></li>
+        <li><a href="#tabs3-2">Listagem Ficha RAAS</a></li>
+        <li><a href="#tabs3-3">Exportação</a></li>
+
+    </ul>
+    
+    <div id="tabs3-1">
+        <?= $this->action("form-ficha-raas", "atendimento-simplificado","atendimento"); ?>
+    </div>
+    
+    <div id="tabs3-2">
+        <?= $this->action("lista-ficha-raas", "atendimento-simplificado","atendimento"); ?>
+    </div>        
+    <div id="tabs3-3">
+        <?= $this->action("exportacao-raas", "atendimento-simplificado","atendimento"); ?>
+    </div>    
+
+
+</div>

@@ -1,0 +1,214 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<?php 
+    // echo "<pre>";print_r($this->recuperaFichaRaas);die();
+if ($this->codigoAtendimento) {?>
+  
+  <script>
+      window.open('<?=$this->url(array("action" =>"imprimir-beneficios-eventuais",'codigoAtendimento'=>$this->codigoAtendimento));?>', '', '', true);
+  </script>  
+  
+  <?}
+
+  ?>
+  <script>
+    function abrirCarterinhaNova() {
+        var paciente = '<?php echo $this->usu_codigo;?>';
+
+        if(paciente == ""){
+            paciente = $("#usu_codigo").val();
+        }
+
+        url = "/WebSocialSaude/zf/vacina/imprimir-carteirinha/usu/" + paciente;
+        window.open(url, null, "height=620,width=650,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes");
+    }
+</script>
+
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/atendimento/atendimento-simplificado/form-procedimento.css">
+<script src="/WebSocialSaude/zf/public/js/atendimento/atendimento-simplificado/form-ficha-raas.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<?
+
+if($_GET['imprimir'] > 0){ 
+    $codigoAtendimento = $_GET['imprimir']?>
+    
+    <script>    
+        window.open('<?=$this->url(array("action" =>"imprimir-beneficios-eventuais",'codigoAtendimento'=>$codigoAtendimento));?>', '', '', true);
+    </script>
+
+    <?}
+    ?>
+<?
+if($_GET['alert']){
+    if($_GET['alert'] == "error"){?>
+        <script>
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Erro ao cadastrar Ação!',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <? } else if($_GET['alert'] == "errorfaltaacao"){?>
+        <script>
+            Swal.fire({
+                title: 'Erro!',
+                text: "Falha ao cadastrar ação!",
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ok!'
+                
+            }).then((result) => {
+                setaProntuario();
+            })
+
+            function setaProntuario() {
+                var data = sessionStorage.getItem('recebeProntuario');
+                var dataValue = sessionStorage.getItem('recebeProntuarioValue');
+
+                $("#recebeNumeroProntuario").val(data);
+                $("#recebeProntuarioValueHidden").val(dataValue);
+                $("#recebeNumeroProntuarioLabel").text('Prontuario '+data);
+
+            }
+        </script>
+    <?}
+}
+?>
+
+
+<form method="post" action="<?=$this->recuperaAcoes[0][ras_acoes_id]!="" ? $this->url(array("action" => "salvar-editar-acoes-raas")) : $this->url(array("action" => "salvar-acoes-raas")); ?>" id="raas_acoes" name = "raas_acoes">
+    <?php
+        ?>
+            <input type="hidden" name="acoes_id" id="acoes_id" value="<?=$this->recuperaAcoes[0][ras_acoes_id] != "" ? $this->recuperaAcoes[0][ras_acoes_id] : "" ?>">
+        <!--paciente-->
+            <input type="hidden" name="prontuario" id="prontuario" value="<?=$this->message?>">
+
+            <label style="text-align: left; font-size: 14px; height: 20px"  id="recebeNumeroProntuarioLabel">Prontuario <?=$this->msg?></label>
+            É possivel adicionar mais de uma ação por vez!
+            <input type="hidden" name="recebeProntuarioValueHidden" id="recebeProntuarioValueHidden" value="">
+            <br/>
+        <!--unidade-->
+            <input type="hidden" name="ras_uf" id="ras_uf" value="41">
+            <input type="hidden" name="uni_cnes" id="uni_cnes" value="<?=$this->recuperaAcoes[0][ras_cnes] != "" ? $this->recuperaAcoes[0][ras_cnes] : "" ?>"> 
+
+
+        <!--ações-->
+            <label style="padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; background-color: rgb(255, 225, 225)!important; height: 20px;" >Ações:</label>
+
+            <input type="text" id="proc_nome" name="proc_nome" required value="<?=$this->recuperaProc[0][proc_nome]!=""?$this->recuperaProc[0][proc_nome]: $this->dados->proc_nome ?>" onkeypress="buscarAtivos()" style="width: 300px; height: 20px; padding-top: 2px; padding-bottom: 5px;" >
+            <input type="hidden" id="proc_codigo" name="proc_codigo" value="<?=$this->recuperaProc[0][proc_codigo]
+!=""?$this->recuperaProc[0][proc_codigo] : ($this->dados->proc_codigo ? $this->dados->proc_codigo : $this->procedimento[0]->proc_codigo) ?>">
+            <input type="hidden" id="proc_codigo_sus" required name="proc_codigo_sus" value="<?=$this->recuperaProc[0][proc_codigo_sus]=!"" ? $this->recuperaProc[0][proc_codigo_sus] : $this->dados->proc_codigo_sus ?>"><br/>
+        
+            <label style="padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; background-color: rgb(255, 225, 225)!important; height: 20px;" >Data:</label>
+            <input class="date" rel="99/99/9999" type="date" id="data_inicio" name="data_inicio" value="<?=$this->recuperaAcoes[0][ras_val_ini] != "" ? $this->recuperaAcoes[0][ras_val_ini] : "" ?>" style=" padding-bottom: 5px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;">
+
+            <br/>
+            <label style="padding:5px;padding-right: 0px; text-align: left; font-size: 12px; width: 150px; height: 20px;" >Origem das informações: </label>
+
+            <select id="origem_info" name="origem_info" style="  padding-bottom: 7px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;   width: 302px; margin-bottom: 0px !important; height: 30px !important; border-radius: 5px !important; border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #2e6e9e;">
+
+                <option value="RAS"<?=$this->recuperaAcoes[0][ras_org] == 'RAS' ? 'selected' : ''?>>RAS</option>
+                <option value="EXT"<?=$this->recuperaAcoes[0][ras_org] == 'EXT' ? 'selected' : ''?>>EXT</option>
+            </select><br/>
+            <label style="padding:5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; height: 20px;">Local de realização: </label>
+            <select id="local" name="local" style="  padding-bottom: 5px;padding-right: 0px; padding-top: 3px; width: 299px; height: 20px;   width: 302px; margin-bottom: 0px !important; height: 30px !important; border-radius: 5px !important; border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #2e6e9e;">
+                <option value="C"<?=$this->recuperaAcoes[0][ras_local_realizacao] == 'C' ? 'selected' : ''?>>CAPS</option>
+                <option value="T" <?=$this->recuperaAcoes[0][ras_local_realizacao] == 'T' ? 'selected' : ''?>>TERRITORIO</option>
+            </select>
+            <br/>
+            <label style="padding:5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; height: 20px;">Serviço:</label>
+            <input type="text" name="servico" value="115" style="width: 300px; height: 20px; padding-top: 2px; padding-bottom: 5px;"> <br/>
+
+            <label style="padding:5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; height: 20px;">Classificação:</label>
+            <input style="width: 300px; height: 20px; padding-top: 2px; padding-bottom: 5px;" class="foo" type="number" id="rasclass" name="rasclass" min="0" max="999" maxlength="3"value="<?=$this->recuperaAcoes[0][ras_class]==""? "" :$this->recuperaAcoes[0][ras_class] ?>"><p>
+
+            <div id="observacao" style="display: inline-flex;">
+                <label style="margin-right: 11px;margin-left: 50px">Observações: </label>
+                <textarea name="ras_obs" id="ras_obs" class="tinymce" style="padding-left: 5px;padding-right: 5px; paddding-top: 15px !important; width:800 !important; margin-top: 20px;" rows="10"><?=$this->recuperaAcoes[0][ras_obs]==""? "" :$this->recuperaAcoes[0][ras_obs] ?></textarea>
+            </div>
+            <?php 
+        if($this->recuperaAcoes[0][ras_acoes_id]!=""){?>
+                <input type="hidden" name="proc_qnt" id="proc_qnt" value="<?=$this->recuperaAcoes[0][ras_qnt]?>">
+                <input type="hidden" name="proc_data" id="proc_data" value="<?=$this->recuperaAcoes[0][ras_dataexe]?>">
+            <?}
+        ?>
+        <div id="dadosProcAtendSimp" style="height: auto;">
+
+            <?php
+
+        //echo "<pre>";print_r($this->procedimento);die();
+                foreach ($this->procedimento as $procedimento) {
+                    echo
+                    '
+                    <div class="procAtendSimp" id=procAtendSimp' . $procedimento->proc_codigo . '>
+                    <span class="titProcAtendSimp">
+                    <font color=#3DA305>' . $procedimento->proc_codigo_sus . '</font> / ' . substr($procedimento->proc_nome, 0, 80) . '...' . '
+                    </span>
+                    <div class="excProcAtendSimp">
+                    <img src="/WebSocialSaude/zf/public/images/icons/excluir.png" onclick="excluiProcedimento(' . $procedimento->proc_codigo . ')" title="Excluir Horários" alt="Clique aqui para excluir os horários do dia" style="cursor: pointer;position: relative;top: -5px;"/>
+                    <input type="hidden" name="procedimento[]" value=' . $procedimento->proc_codigo . ' />
+                    <input type="hidden" name="procedimento_cod_sus[]" value=' . $procedimento->proc_codigo_sus . ' />
+                    </div>
+                    <div>
+                    <label style="width: 114px!important; background-color: rgb(255, 225, 225)!important;" for="">Quantidade</label>
+                    <input  style="padding: 5px;border-radius: 4px;" value ='.($procedimento->quantidade_total_do_procedimento =="" ? '---' : $procedimento->quantidade_total_do_procedimento).' id = "quantidadeTotalDoProcedimento[]" name ="quantidadeTotalDoProcedimento[]" type="number"/>
+                    </div>
+
+                    <div>
+                    <label style="width: 114px!important; background-color: rgb(255, 225, 225)!important;" for="">Valor</label>
+                    <input value ='.($procedimento->data_do_beneficio == ""? '---' : $procedimento->data_do_beneficio).' class="dataBeneficio" id="dataDoBeneficio[]" name ="dataDoBeneficio[]"  onkeypress="dataBeneficio()" type="date"/>
+                    </div>
+                    </div>
+                    ';
+                }
+            ?>
+            <?php  ?>
+            </div>
+
+    <div class="div-footer center-block" style="width: 365px; margin-top: 15px">
+        <a href="#" class="ui-button salvar">Salvar</a>
+        <a href="<?=$this->url(array("action"=>"index-ficha-raas", "module"=>"atendimento","controller" => "atendimento-simplificado","param"=>"1"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>
+
+    </div>
+</form>
+
+<script type="text/javascript">
+    var foo = document.querySelector(".foo");
+
+    //Cria uma função que será usando no keyup e no blue
+    var f = maxNumber(999);
+
+    foo.addEventListener('keyup', f);
+    foo.addEventListener('blur', f);
+
+    function maxNumber(max)
+    {
+        var running = false;
+        
+        return function () {
+            //Para evitar conflito entre o blur e o keyup
+            if (running) return;
+            
+            //Bloqueia multiplas chamadas do blur e keyup
+            running = true;
+            
+            //Se o input for maior que 15.4 ele irá fixa o valor maximo no value
+            if (parseFloat(this.value) > max) {
+                this.value = 999;
+            }
+            
+            //Habilita novamente as chamadas do blur e keyup
+            running = false;
+        };
+    }
+
+    <?php if($this->recuperaProc[0][proc_nome]!=""){?>
+
+     $(document).ready(adicionaProcedimentosBeneficios);
+
+    <?}?>
+</script>

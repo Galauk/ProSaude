@@ -1,0 +1,38 @@
+<?php //echo "<pre>";print_r($this->itens);die(); ?>
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Procedimento</th>
+        <th>Profissional</th>
+		<?php if($this->obs != 'S'){?>
+			<th>CID</th>			
+		<?php } ?>
+        <?php if(!$this->imprimi){?>			
+              <th>Opções</th>
+        <?php } ?>
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<?php if($this->obs == 'S'){		
+			$proc_nome = substr($this->escape($item->proc_nome),0,27)."...";
+		}else{			
+			$proc_nome = $this->escape($item->proc_nome);
+		}
+	?>
+	<tr>
+		<td class="ui-state-default"><?=$proc_nome?></td>
+                <td class="ui-state-default"><?php echo $this->escape($item->usr_nome);?></td>
+		<?php if($this->obs != 'S'){?>
+                    <td class="ui-state-default"><?=$this->mask($item->cd10_descricao, "empty", "<em>Não informado.</em>");?></td>		
+                <?php } ?>
+                <?php if(!$this->imprimi){?>			
+                    <td class="ui-state-default c" width="30">
+                            <a href="<?=$this->url(array("module"=>"prontuario","controller" => "procedimento","action"=>"excluir","id"=>$item->pat_codigo));?>" class="excluir"><img src="<?=$this->baseUrl('/public/images/icons/excluir.png');?>" alt="Excluir" title="Excluir" /></a>
+                    </td>
+                <?php } ?>
+               
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php else: ?>
+<em>Nenhum procedimento realizado</em>
+<?php endif; ?>

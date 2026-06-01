@@ -1,0 +1,16 @@
+<?php $this->errorMsg(); ?>
+<form method="post" action="<?= $this->url(array("action" => "salvar-apelido")); ?>" id="form">
+
+   
+    <label>Procedimento:</label>
+    <input type="text" id="proc_nome" name="proc_nome" value="<?=$this->dados->proc_nome?>"class="focus" />
+    <input type="hidden" id="proc_codigo" name="proc_codigo" value="<?=$this->dados->proc_codigo?>">
+    <br/>
+    <label>Apelido:</label>
+    <input type="text" id="proc_apelido" name="proc_apelido" value="<?=$this->dados->proc_apelido?>" style="text-transform:uppercase;" />
+    <br/>
+    <div class="space"></div>
+
+    <a href="#" class="ui-button salvar-icon" onclick="enviar()">Salvar</a>
+    <a href="#" class="ui-button limpar">Limpar</a>
+</form>

@@ -1,0 +1,32 @@
+<input type="hidden" name="ate_codigo" id="ate_codigo" value="<?=$this->ate_codigo;?>">
+<input type="hidden" name="usu_codigo" id="usu_codigo" value="<?=$this->usu_codigo;?>">
+<input type="hidden" name="dt_requisicao" id="dt_requisicao" value="<?=$this->dt_requisicao;?>">
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="70%">
+    <tr class="ui-widget-header">
+        <th>Anexo</th>
+        <th>Procedimento</th>
+        <th>Observacao</th>
+    </tr>
+    <? foreach ($this->procedimentos as $procedimento){
+        
+        echo "
+            <tr class='procedimento' style='cursor:pointer;'>
+                <td class='ui-state-default' align='center'>";
+                    if($this->verificaAnexoArquivos($procedimento->req_codigo)){ 
+                        echo "<img src=".$this->baseUrl('/public/images/icons/clips.png')." alt='UPLOAD' title='UPLOAD' />";
+                    }
+        echo "  </td>
+                <td class='ui-state-default'>
+                    <b>".$procedimento->proc_nome."<input type=hidden class='req_codigo' value=".$procedimento->req_codigo.">&nbsp;&nbsp;&nbsp;";
+        echo "      </b><br/><br/>
+                </td>
+                <td class='ui-state-default'> 
+                    $procedimento->req_observacao
+                </td>
+            </tr>
+            ";
+    } ?>
+</table>
+<br/>
+<a href="<?=$this->url(array("module"=>"default","controller"=>"raiox","action"=>"index"),NULL,TRUE);?>" class="ui-button voltar">Voltar</a>
+<div id="oculta"></div>

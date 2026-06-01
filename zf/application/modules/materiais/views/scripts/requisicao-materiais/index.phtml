@@ -1,0 +1,97 @@
+<div class="menu_small" id="entrada" data-tipo="E" data-acao="entrada/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-add-icon-small.png");?>" alt="Entrada" title="Entrada" />
+</div>
+<div class="menu_small" id="saida" data-tipo="S" data-acao="saida/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-delete-icon-small.png");?>" alt="Saída" title="Saída" />
+</div>
+<div class="menu_small" id="transferencia" data-tipo="T" data-acao="transferencia/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-go-icon-small.png");?>" alt="Transferência" title="Transferência" />
+</div>
+<div class="menu_small" id="controle-movimentos" data-tipo="C" data-acao="controle-movimentos/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/counter-count-up-icon-small.png");?>" alt="Controle Movimentos" title="Controle Movimentos" />
+</div>
+<div class="menu_small" data-tipo="R" data-acao="requisicao-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/requisicao_small.png");?>" alt="Requisiçao Materiais" title="Requisicao Materiais" />
+</div>
+<div class="menu_small" data-tipo="EV" data-acao="envio-de-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/envio_small.png");?>" alt="Envio de Materiais" title="Envio de Materiais" />
+</div>
+<div class="menu_small" data-tipo="M" data-acao="movimentacao/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/Menu-icon.png");?>" alt="Movimentações" title="Movimentações" />
+</div>
+<div class="clear"></div><br/><br/>
+<?php $this->errorMsg(); 
+//echo "<pre>".  print_r($this->itens,1);
+?>
+
+<form name="busca" method="POST" action="<?= $this->url(array("action" => "buscar")); ?>" id="busca-comum">
+    <a href="/WebSocialSaude/zf/materiais/requisicao-materiais/form" class="ui-button novo ui-corner-bl ui-corner-tr" data-atalho="CTRL+N">Novo</a>
+    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>
+    <input size="50" class="focus ui-state-default" name="busca" value="" type="text">
+    <label class="ui-corner-bl ui-corner-tr">Tipo de Movimento:</label>
+    <select name="rem_status">
+        <option value="A">Todos</option>
+        <option value="S">Solicitado</option>
+        <option value="E">Enviado</option>
+        <option value="F">Finalizado</option>
+    </select>
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+
+<?php
+$i=0;
+//echo "<pre>".print_r($this->itens,1);die();
+if(!empty($this->itens)):?>
+    <tr class='ui-widget-header'>
+           <th align=center>Cód.</th>
+           <th align=center>Data</th>
+           <th align=center>Requisitante</th> 
+           <th align=center>Solicitado</th>
+           <th align=center>Usr.Solicitante</th>
+           <th align=center>Observação</th>
+           <th colspan="2" align=center>Ações</th>
+       </tr>
+    <?php
+    foreach($this->itens as $item):?>
+        <?php 
+        if ($item[rem_status] == "E") { 
+            $class="blink"; 
+        } else { 
+            $class = "ui-state-default"; 
+        }
+        ?>
+        
+        <tr class="<?=$class?>">
+            <td width='30'><?=$item[rem_codigo]?></td>  
+            <td width='50'><?=$this->data($item[rem_data])?></td>
+            <td width='150'><?=$item[set_nome_req]?></td>
+            <td width='150'><?=$item[set_nome_sol]?></td>
+            <td width='50'><?=$item[usr_nome]?></td>
+            <td width='100'><?=$item[rem_observacao]?></td>
+                <td width='50' align="center">
+                    <?if($item[rem_status] == "S"):?>
+                        <a href='<?=$this->url(array("module"=>"materiais", 'controller'=>'requisicao-materiais','action'=>'editar','id'=>$item[rem_codigo]), NULL, TRUE);?>' class='editar'><img src='<?=$this->baseUrl('/public/images/icons/editar.png');?>' alt='Editar Itens' title='Editar Itens' /></a>
+                    <?else:?>
+                        <a href='<?=$this->url(array("module"=>"materiais", 'controller'=>'requisicao-materiais','action'=>'confirm','id'=>$item[rem_codigo]), NULL, TRUE);?>'>
+                            <img src='<?=$this->baseUrl('/public/images/icons/accept.png');?>' alt='Confirmar Requisição de Materiais' title='Confirmar Requisição de Materiais' />
+                        </a>
+                    <?endif;?>
+                </td>
+                <td width='50' align="center">
+                    <?$action = $this->url(array("modulo" => "materiais", "module" => "materiais","controller" => "requisicao-materiais", "action" => "imprimir","rem_codigo" => $item[rem_codigo]));?>
+                    <a href="<?=$action?>" class="popup" rel="630x540">
+                        <img src='<?=$this->baseUrl('/public/images/icons/printer.png');?>' alt='Imprimir Requisição' title='Imprimir Requisição' />
+                    </a>
+                </td>    
+            
+        </tr>
+    <?php endforeach; ?>
+    </table>
+<?php else:?>
+        <em>Nenhum item encontrado</em>
+<?php endif;?>
+
+        
+      

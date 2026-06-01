@@ -1,0 +1,166 @@
+<br />
+<link href='../../../estilo.css' rel='stylesheet' type='text/css'></style>
+
+
+<table class="lista">
+<tr>
+        <th colspan="6" style="font-size: 16px;" >Cadastro Individual</th>
+</tr>
+ <tr  style="font-size: 13px;">
+    <th width="10%">Ficha</td>
+    <th width="10%">Campo</td>
+    <th width="10%">Código</td>
+    <th width="20%">Paciente</td>
+    <th width="20%">Data de Nascimento</td>
+    <th width="30%">Erro</td>         
+      
+</tr>
+<? if (count($this->dadosCadind) > 0) { ?>
+    <?php foreach ($this->dadosCadind as $item) { ?> 
+        <tr style="font-size: 13px;">
+             <td ><?= $item["ficha"]?></td>
+             <td><?= $item["campo"]?></td>
+             <td><?= $item["codigo"]?></td>
+             <td><?= $item["usu_nome"]?></td>
+             <td><?= $item["usu_datanasc"]?></td>
+             <td><?= $item["mensagem"]?></td>
+
+        </tr>
+    <?php } ?>
+   <? } else { ?>
+            <tr>
+                <td colspan='3'>Nenhum resultado encontrado!</td>
+            </tr>
+    <? } ?>
+</table>
+<br />
+<table class="lista">
+<tr>
+        <th colspan="6" style="font-size: 16px;" >Procedimentos</th>
+</tr>
+  <tr  style="font-size: 13px;">
+    <th  width="10%">Ficha</td>
+      <th width="10%">Campo</td>
+      <th width="10%">Procedimento</td>
+      <th width="20%">Paciente</td>
+      <th width="20%">Profissional</td>
+      <th width="30%">Erro</td>          
+      
+</tr>
+<? if (count($this->dadosProc) > 0) { ?>
+    <?php foreach ($this->dadosProc as $item) { ?> 
+         <tr  style="font-size: 13px;">
+             <td><?= $item["ficha"]?></td>
+             <td><?= $item["campo"]?></td>
+             <td><?= $item["codigo"]?></td>
+             <td><?= $item["usu_nome"]?></td>
+             <td><?= $item["usr_nome"]?></td>
+             <td><?= $item["mensagem"]?></td>
+
+        </tr>
+    <?php } ?>
+   <? } else { ?>
+            <tr>
+                <td colspan='3'>Nenhum resultado encontrado!</td>
+            </tr>
+    <? } ?>
+            </table>
+<br />
+<table class="lista">
+   <tr>
+        <th colspan="6" style="font-size: 16px;" >Atendimento Individual</th>
+   </tr>
+  <tr  style="font-size: 13px;">
+      <th width="10%">Ficha</td>
+      <th width="10%">Campo</td>
+      <th width="10%">Código</td>
+      <th width="20%">Paciente</td>
+      <th width="20%">Profissional</td>
+      <th width="30%">Erro</td>         
+      
+</tr>
+<? if (count($this->dadosAteind) > 0) { ?>
+    <?php foreach ($this->dadosAteind as $item) { ?> 
+         <tr  style="font-size: 13px;">
+             <td><?= $item["ficha"]?></td>
+             <td><?= $item["campo"]?></td>
+             <td><?= $item["codigo"]?></td>
+             <td><?= $item["usu_nome"]?></td>
+             <td><?= $item["usr_nome"]?></td>
+             <td><?= $item["mensagem"]?></td>
+
+        </tr>
+    <?php } ?>
+   <? } else { ?>
+            <tr>
+                <td colspan='3'>Nenhum resultado encontrado!</td>
+            </tr>
+    <? } ?>
+            </table>
+<br />
+<table class="lista">
+    <tr>
+        <th colspan="6" style="font-size: 16px;" >Visita Domiciliar</th>
+   </tr>
+  <tr  style="font-size: 13px;">
+      <th width="10%">Ficha</td>
+      <th width="10%">Campo</td>
+      <th width="10%">Código</td>
+      <th width="20%">Paciente</td>
+      <th width="20%">Profissional</td>
+      <th width="30%">Erro</td>      
+      
+</tr>
+<? if (count($this->dadosAteDom) > 0) { ?>
+    <?php foreach ($this->dadosAteDom as $item) { ?> 
+         <tr  style="font-size: 13px;">
+             <td><?= $item["ficha"]?></td>
+             <td><?= $item["campo"]?></td>
+             <td><?= $item["codigo"]?></td>
+             <td><?= $item["usu_nome"]?></td>
+             <td><?= $item["usr_nome"]?></td>
+             <td><?= $item["mensagem"]?></td>
+
+        </tr>
+    <?php } ?>
+   <? } else { ?>
+            <tr>
+                <td colspan='3'>Nenhum resultado encontrado!</td>
+            </tr>
+    <? } ?>
+            </table>
+<br />
+
+<table class="lista">
+    <tr>
+        <th colspan="6" style="font-size: 16px;" >Atendimento Odontológico</th>
+    </tr>
+  <tr  style="font-size: 13px;">
+      <th width="10%">Ficha</td>
+      <th width="10%">Campo</td>
+      <th width="10%">Código</td>
+      <th width="20%">Paciente</td>
+      <th width="20%">Profissional</td>
+      <th width="30%">Erro</td>          
+      
+</tr>
+<? if (count($this->dadosAteOdo) > 0) { ?>
+    <?php foreach ($this->dadosAteOdo as $item) { ?> 
+         <tr  style="font-size: 13px;">
+             <td><?= $item["ficha"]?></td>
+             <td><?= $item["campo"]?></td>
+             <td><?= $item["codigo"]?></td>
+             <td><?= $item["usu_nome"]?></td>
+             <td><?= $item["usr_nome"]?></td>
+             <td><?= $item["mensagem"]?></td>
+
+        </tr>
+    <?php } ?>
+   <? } else { ?>
+            <tr>
+                <td colspan='3'>Nenhum resultado encontrado!</td>
+            </tr>
+    <? } ?>
+            </table>
+<br />
+

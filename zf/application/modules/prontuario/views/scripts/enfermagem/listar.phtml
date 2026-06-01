@@ -1,0 +1,23 @@
+<?php if ($this->itens->count()): ?>
+	<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+		<tr class="ui-widget-header">
+			<th width="100">Código Pac.</th>
+			<th>Paciente</th>
+			<th width="5%">Idade</th>
+			<th>Mãe</th>
+			<th width="10%">Municipio</th>
+
+		</tr>
+	<?php foreach ($this->itens as $item): ?>
+		<tr onclick="iniciarPe('<?=$item->pe_codigo;?>');" class="a">
+			<td class="ui-widget ui-state-default c"><?= $this->escape($item->usu_codigo); ?></td>
+			<td class="ui-widget ui-state-default"><?= $this->escape($item->usu_nome); ?></td>
+			<td class="ui-widget ui-state-default c"><?= $this->idade($item->usu_datanasc); ?></td>
+			<td class="ui-widget ui-state-default"><?= $this->escape($item->usu_mae); ?></td>
+			<td class="ui-widget ui-state-default c"><?= $this->escape($item->usu_end_cidade); ?></td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
+<?php else: ?>
+	<em>Nenhum paciente na fila de atendimento.</em>
+<?php endif; ?>

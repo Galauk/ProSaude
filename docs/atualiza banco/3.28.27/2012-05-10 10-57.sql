@@ -1,0 +1,9 @@
+INSERT INTO procedimentos_sisprenatal (proc_sis_codigo, proc_codigo, proc_sis_nome_generico, proc_sispn_validade) VALUES (15, 4755, 'VDRL', '30');
+INSERT INTO procedimentos_sisprenatal (proc_sis_codigo, proc_codigo, proc_sis_nome_generico, proc_sispn_validade) VALUES (17, 4741, 'HBSAG', '30');
+INSERT INTO procedimentos_sisprenatal (proc_sis_codigo, proc_codigo, proc_sis_nome_generico, proc_sispn_validade) VALUES (18, 5408, 'TOXOPLASMOSE', '30');
+INSERT INTO procedimentos_sisprenatal (proc_sis_codigo, proc_codigo, proc_sis_nome_generico, proc_sispn_validade) VALUES (19, 4675, 'HIV', '30');
+INSERT INTO procedimentos_sisprenatal (proc_sis_codigo, proc_codigo, proc_sis_nome_generico, proc_sispn_validade) VALUES (20, 4781, 'URINA', '30');
+INSERT INTO procedimentos_sisprenatal (proc_sis_codigo, proc_codigo, proc_sis_nome_generico, proc_sispn_validade) VALUES (21, 4628, 'HEMATOCRITO', '30');
+INSERT INTO procedimentos_sisprenatal (proc_sis_codigo, proc_codigo, proc_sis_nome_generico, proc_sispn_validade) VALUES (22, 4621, 'HB', '30');
+INSERT INTO procedimentos_sisprenatal (proc_sis_codigo, proc_codigo, proc_sis_nome_generico, proc_sispn_validade) VALUES (25, 4562, 'GLICOSE', '30');
+INSERT INTO procedimentos_sisprenatal (proc_sis_codigo, proc_codigo, proc_sis_nome_generico, proc_sispn_validade) VALUES (26, 4965, 'ABORH', '30');

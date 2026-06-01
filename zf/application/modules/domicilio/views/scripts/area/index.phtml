@@ -1,0 +1,37 @@
+<?php $this->errorMsg(); 
+//echo "<pre>".  print_r($this->itens,1);
+?>
+<?php echo $this->action('form','buscar');?>
+
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    
+<?php
+$i=0;
+if($this->itens && $this->itens->count()):
+?>
+    <tr class='ui-widget-header'>
+           <th>Código</th>
+           <th>Área</th>
+           <th>Responsavel</th> 
+           <th>Observação</th>
+           <th>Opções</th>
+       </tr>
+<?php
+foreach($this->itens as $item):?>
+        <tr>
+            <td class='ui-state-default c' width='80'><?=$this->escape($item->area_codigo);?></td>  
+            <td class='ui-state-default c' width='150'><?=$this->escape($item->area_desc);?></td>
+            <td class='ui-state-default c' width='150'><?=$this->escape($item->usr_nome);?> </td>
+            <td class='ui-state-default c' width='80'><?=$item->area_obs;?></td>
+          
+            <td class='ui-state-default c' width='80'>
+                <a href='<?=$this->url(array("module"=>"domicilio", 'controller'=>'area','action'=>'editar','id'=>$item->area_codigo), NULL, TRUE);?>' class='editar'><img src='<?=$this->baseUrl('/public/images/icons/editar.png');?>' alt='Editar Itens' title='Editar Itens' /></a>
+                <a href='#' id='excluir' onclick="excluir(<?=$item->area_codigo?>)"><img src='<?=$this->baseUrl('/public/images/icons/excluir.png');?>' alt='Excluir' title='Excluir' /></a>		
+				
+            </td>
+        </tr>
+<?php endforeach; ?>
+</table>
+<?php else:?>
+        <em>Nenhum item encontrado</em>
+<?php endif;?>

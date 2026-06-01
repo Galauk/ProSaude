@@ -1,0 +1,178 @@
+<?php
+session_start();
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/db.inc.php";
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+	cabecario($hotkey = true);
+
+echo "<style type='text/css'>
+			.quebra_pagina{
+			page-break-before:always;
+			}
+			tr{
+			font-size:12px;
+			}
+			</style>";
+echo "<link href=\"../estilo.css\" rel=\"stylesheet\" type=\"text/css\">\n";			
+
+?>
+<script language="JavaScript" type="text/javascript" src="../funcoes.js"></script>
+<script src=script.js></script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>GPS - Software de Gestão Pública</title>
+<script src="funcoes.js"></script>
+<script type="text/javascript" src="../ajax_motor.js"></script>
+<script language="JavaScript">
+var maxDay = new Array(31,29,31,30,31,30,31,31,30,31,30,31);
+function CheckDate(d,t) {
+	   date_array = new Array(3);
+	   date_array[0]=(String(d).substr(0,2))    // dia
+	   date_array[1]=(String(d).substr(3,2))    // mes
+	   date_array[2]=(String(d).substr(6,4))    // ano
+	//alert(date_array[0]+"~~~~"+date_array[1]+"~~~~"+date_array[2]);
+	   if (date_array[0] > maxDay[date_array[1]-1]) {
+	       alert ("Dia invalido da data " + t)
+	       return 1;
+	   }
+	   if (date_array[1] > 12) {
+	       alert ("Mes invalido da data " + t)
+	       return 1;
+	   }
+	   if (date_array[2] < 2006) {
+	       alert ("Ano invalido da data " + t)
+	       return 1;
+	   }
+	}
+function Emite_relatorio() {
+	pro_cod = document.getElementById('pro_cod').value;
+	pro_cod_sist = document.getElementById('pro_cod_sist').value;
+	data_ini = document.getElementById('data_ini').value;
+	data_fim = document.getElementById('data_fim').value;
+    estocador = document.getElementById('centro_estocador').value;
+
+	if(data_ini == ""){
+		alert('O campo data Inical esta vazia!')
+		document.getElementById('data_ini').focus()
+		return false
+	}
+	if(data_ini == ""){
+		alert('O campo data Final esta vazia!')
+		document.getElementById('data_fim').focus()
+		return false
+	}
+	
+
+    if (CheckDate(data_ini,"INICIAL")==1) {
+	    document.getElementById('data_ini').focus()
+      	return false
+	 }
+	if (CheckDate(data_fim,"FINAL")==1) {
+	    document.getElementById('data_fim').focus()
+      	return false
+	 }
+	
+	parent.open("relatorio/rel_QtdeMedicamentoDispensadosPorPeriodo.php?pro_cod_sist="+pro_cod_sist+"&estocador="+estocador+"&data_ini="+data_ini+"&data_fim="+data_fim+"&pro_cod="+pro_cod,null,"height=400,width=750,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes");
+	return true;
+}
+
+function pacientes(codigo,nome,nascimento,mae,cidade) {
+	document.getElementById("pac_nome").value = codigo;
+}
+
+function hotkey(eventname) {
+	if( eventname.keyCode == 118 ) {
+		window.open('../list_pacientes.php?id_login=$id_login',null,'height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes');
+        return false;
+	}
+}
+</script>
+</head>
+<body>
+<fieldset>
+<legend>Quantidade de medicamentos dispensados por per&iacute;odo</legend>
+<form method="post" action="relatorio/QtdeMedicamentoDispensadosPorPeriodo.php" onsubmit="return Emite_relatorio()">
+	<table>
+		
+		<tr>
+			<td width='30'>Medicamentos (SISTEMA): </td>
+			<td>
+            <select name="pro_cod" id="pro_cod" class="box">
+                <option value="-1">----Todos----</option>
+                <?
+				// Lista os produtos
+				$query = pg_query("SELECT pro_codigo,pro_nome FROM produto ORDER BY pro_nome ASC") or die(pg_last_error());
+						while($row = pg_fetch_array($query)) {
+				?>
+				<option value="<?=$row[pro_codigo]?>"><?=$row[pro_nome]?></option>
+				<?
+					}
+				?>
+
+            </select>
+            </td>
+		</tr>
+        
+		<tr>
+			<td width='30'>Medicamentos (CONVERSAO): </td>
+			<td>
+            <select name="pro_cod_sist" id="pro_cod_sist" class="box">
+                <option value="-1">----Todos----</option>
+                <?
+				// Lista os produtos
+				$query = pg_query("SELECT pro_codigo,pro_nome FROM produto_bkp ORDER BY pro_nome ASC") or die(pg_last_error());
+						while($row = pg_fetch_array($query)) {
+				?>
+				<option value="<?=$row[pro_codigo]?>"><?=$row[pro_nome]?></option>
+				<?
+					}
+				?>
+
+            </select>
+            </td>
+		</tr>
+        <tr>
+			<td width='30'>Data In&iacute;cio: </td>
+			<td><input type="text" name="data_ini" id="data_ini" size="15" class="box" maxlength="10" onKeypress="return Ajusta_Data(this, event);"></td>
+		</tr>
+		
+		<tr>
+			<td width='30'>Data Final: </td>
+			<td><input type="text" name="data_fim" id="data_fim" size="15" class="box" maxlength="10" onKeypress="return Ajusta_Data(this, event);"></td>
+		</tr>
+		
+		<tr>
+			<td width='30'>Centro Estocador: </td>
+			<td><select name="centro_estocador" id="centro_estocador" class="box">
+                <option value="-1">----Todos----</option>
+                <?
+				// Lista os produtos
+				$sql = "SELECT s.set_codigo, 
+								   set_nome 
+							  FROM Setor s
+							  JOIN usuarios_setores us
+								on us.set_codigo=s.set_codigo
+							WHERE set_estoque = 'S'
+							  AND usr_codigo = ".$_SESSION[id_login]."
+							ORDER BY set_nome";
+				$query = pg_query($sql) or die(pg_last_error());
+				$resultado = pg_num_rows($query);
+					if ($resultado != 0) {
+						while($row = pg_fetch_array($query)) {
+				?>
+				<option value="<?=$row[set_codigo]?>"><?=$row[set_nome]?></option>
+				<?
+						}
+					}
+				?>
+            </select></td>
+		</tr>
+		
+		<tr>
+			<td><input type="image" src="<?= $_SESSION[linkroot].$_SESSION[comum];?>imgs/gerar_relatorio_on.jpg"></td>
+			<td align="right"><a href="../rel_index.php?id_login=<?=$id_login?>&opcao=8#tabs-4"><img src=<?= $_SESSION[linkroot].$_SESSION[comum];?>imgs/voltar_on.gif border=0></a></td>
+		</tr>
+	</table>
+
+</form>
+</fieldset>
+</body>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+</head>
+
+	<header>
+
+		<div>
+			<label class="labelMigrate" for="dataInicial" 
+					style="width: 150px;background: #daebf9;font-size: 22px;padding: 8px;border-radius: 5px;">
+				Data Inicial : </label>
+			<input  id="dataInicial" type="date" 
+					style="width: 250px;font-size: 20px;border-radius: 4px;margin-left: 5px;">
+		</div>
+
+		<br>
+
+		<div>
+			<label class="labelMigrate" for="dataFinal"
+					style="width: 150px;background: #daebf9;font-size: 22px;padding: 8px;border-radius: 5px;">
+			Data Final : </label>
+			<input  id="dataFinal" type="date"
+					style="width: 250px;font-size: 20px;border-radius: 4px;margin-left: 17px;">
+		</div>
+
+		<br>
+
+		<div>
+			<fieldset style="width: 386px;border-radius: 9px;">
+				<legend style="font-size: 20px;">Tipo da Busca</legend>
+				Procedimento : <input id="validaTipoProcedimento" name = "tipoDaBusca" type="radio" onclick="pesquisaPorProcesimento()"> <br>
+				Paciente :  <input id="validaTipoPaciente" name = "tipoDaBusca" type="radio" onclick="pesquisaPorPaciente()">
+			</fieldset>
+
+			<div id="buscaPorProcedimento" style="display: none">
+				<label  class="labelMigrate" 
+					style="width: 150px;background: #daebf9;font-size: 22px;padding: 8px;border-radius: 5px;">
+				Procedimento : </label>
+	            <input  type="text" id="pro_nome" tabindex="3" value=""
+						style="width: 450px;font-size: 20px;border-radius: 4px;margin-left: 5px;">		
+	            <input type="hidden" id="id_cli_medicos" name="nome" />
+			</div>
+
+			<div id="buscaPorPaciente" style="display: none">
+				<label  class="labelMigrate" 
+					style="width: 150px;background: #daebf9;font-size: 22px;padding: 8px;border-radius: 5px;">
+				Paciente : </label>
+	            <input  type="text" id="usr_nome" tabindex="3" value=""
+						style="width: 450px;font-size: 20px;border-radius: 4px;margin-left: 5px;">		
+	            <input type="hidden" id="usu_codigo" name="nome" />
+			</div>
+
+		</div>
+		
+		<br>
+
+		<button id="botaoBuscarProcedimento" type="button" onclick="recuperaAgendamentoPorPeriodo()"
+				style="padding: 6px;font-size: 18px;border-radius: 4px;padding-right: 28px;padding-left: 28px; display: none;" 
+				>Buscar
+		</button>
+
+		<button id="botaoBuscarPaciente" type="button" onclick="recuperaAgendamentoPorPeriodoPaciente()"
+				style="padding: 6px;font-size: 18px;border-radius: 4px;padding-right: 28px;padding-left: 28px; display: none;" 
+				>Buscar
+		</button>
+
+	</header>
+	
+	<body>
+		<div id="resultadoAgendaMigrate">
+			
+		</div>
+	</body>
+	
+	<footer>
+		
+	</footer>
+
+</html>

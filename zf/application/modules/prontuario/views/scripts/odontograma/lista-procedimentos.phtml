@@ -1,0 +1,44 @@
+<div class="space"></div>
+<? if (count($this->historicoProcaRealizar)>0) { ?>
+    <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+        <thead id="cabecalho">
+            <tr class="ui-widget-header">
+                <td>Procedimento</td>
+                <td>Dente</td>
+                <td>Face</td>
+                <td>Programado Para</td>
+                <td>Realizado</td>
+            </tr>
+        </thead>
+        <tbody id="result">
+                <? foreach($this->historicoProcaRealizar as $hist) { ?>
+                    <tr id="proc-num<?=$hist["odo_proc_codigo"]?>">
+                        <td class="ui-state-default"><?=$hist["proc_nome"]?></td>
+                        <td class="ui-state-default"><?=$hist["odo_proc_dentenum"]?></td>
+                        <td class="ui-state-default"><?=$hist["odo_proc_denteface"]?></td>
+                        <td class="ui-state-default"><?=$this->data($hist["odo_proc_dtprogramada"],Zend_Date::DATE_MEDIUM)?></td>
+                        <td class="ui-state-default c pc">
+                            <img src="/WebSocialSaude/zf/public/images/icons/excluir2.png" id="proc-codigo<?=$hist["odo_proc_codigo"]?>" onclick="salvarProcedimentoRealizado(<?=$hist["odo_proc_codigo"]?>);" title="Clique para alterar" style="cursor:pointer;" >
+                        </td>
+                        <? // <td class="ui-state-default"></td> ?>
+                    </tr>
+                <? } ?>
+            </tbody>            
+        </table>
+<? } else { ?>
+        <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+            <thead id="cabecalho">
+                <tr class="ui-widget-header">
+                    <td>Procedimento</td>
+                    <td>Dente</td>
+                    <td>Face</td>
+                    <td>Realizado</td>
+                </tr>
+            </thead>
+            <tbody id="result">
+                <tr>
+                    <td colspan="4">Nenhum procedimento a realizar até o momento!</td>
+                </tr>
+            </tbody>
+        </table>
+<? } ?>

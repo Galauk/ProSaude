@@ -1,0 +1,247 @@
+<?php $this->errorMsg(); ?>
+<?php $this->dialog();
+//echo $this->acompanhantes;
+//echo "<pre>". print_r($this->acompanhantes,1);die();
+// echo "<pre>";print_r($this->unidades);die();
+// echo "<pre>";print_r($this->itens);die();
+// echo "<pre>";print_r($this->dadosViagem);die();
+?>
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/grid.css?<?=time()?>">
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/transporte/viagem-usuario/form.css">
+
+<form class="col-md-12"  method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar")); ?>">
+    <div class="col-md-5">
+        <input type="hidden" name="acompanhantes[]" id="acompanhantes" value="<?=$this->acompanhantes?>" />
+        <input type="hidden" name="viausu_codigo" id="viausu_codigo" value="<?=$this->dadosViagem->viausu_codigo?>" />
+        <input type="hidden" name="via_codigo" id="via_codigo"   value="<?= $this->dados->via_codigo?>" />
+        <input type="hidden" name="disponivel" id="disponivel"   value="<?= $this->disponivel?>" />
+        <label>Data Viagem:</label>
+        <?=(!$this->dados->via_data ? "" : $this->data($this->dados->via_data,Zend_Date::DATE_MEDIUM));?><br />
+
+        <label>Veículo:</label>    
+            <?=$this->dados->vei_descricao." / ".$this->dados->vei_placa?>
+        <br />
+        
+      
+        <label>Paciente:</label>
+        <input type="text" name="usu_nome" id="usu_nome" value="<?=$this->dadosViagem->usu_nome?>" /><br />
+        <input type="hidden" name="usu_codigo" id="usu_codigo" value="<?=$this->dadosViagem->usu_codigo?>">
+        
+        <div>
+            <fieldset>
+                <legend>Endereço do Paciente</legend>
+                <label style="width: 190px!important;" for="">Endereço : </label>
+                <input type="text" placeholder="Rua" name = "recebeNomeDaRua" id="recebeNomeDaRua" value="<?=$this->dadosViagem->rua_nome != '' ? $this->dadosViagem->rua_nome : 'Não informado' ?>">
+
+                <input style="float: right;" type="text" placeholder="Bairro" name = "recebeNomeDoBairro" id="recebeNomeDoBairro" value="<?=$this->dadosViagem->bai_nome != '' ? $this->dadosViagem->bai_nome : 'Não informado' ?>">
+
+                <input style="float: right;margin-top: 3px" type="text" placeholder="Número" name = "recebeNumeroRua" id="recebeNumeroRua" value="<?=$this->dadosViagem->dom_numero != '' ? $this->dadosViagem->dom_numero : 'Não informado' ?>">
+
+                <input type="hidden" id="recebeDomCodigo" name="recebeDomCodigo">
+            </fieldset>
+        </div>
+
+        <div style="width: 526px;">
+            <fieldset>
+                <legend>Local de Embarque do Paciente :</legend>
+                
+                <div>
+                    Casa do Paciente : <input type="radio" name="localEmbarqueDoPaciente" id="casaDoPaciente" value="1"
+                    <?=$this->dadosViagem->dom_codigo_paciente_embarque == 0 ? "disabled" : '' ?> <?=$this->dadosViagem->local_embarque_do_paciente == 1 ? 'checked' : ''?> >
+                </div>
+                
+                <div>
+                    Unidade de Saude : <input type="radio" name="localEmbarqueDoPaciente" id="unidadeSaude" value="2" 
+                    <?=$this->dadosViagem->local_embarque_do_paciente == 2 ? 'checked' : ''?>>
+                </div>
+
+                <div>
+                    Outros : <input type="radio" name="localEmbarqueDoPaciente" id="outrosLocais" value="3"
+                    <?=$this->dadosViagem->local_embarque_do_paciente == 3 ? 'checked' : ''?>>
+                </div>
+
+            </fieldset>
+        </div>
+
+        <label>Necessita de Alimentação?</label>
+        <input type="radio" name="viausu_alimentacao" value="FALSE"  <?=($this->dadosViagem->viausu_alimentacao ? ($this->dadosViagem->viausu_alimentacao == FALSE ? 'checked=checked' : '') : 'checked=checked') ?>> Não
+        <input type="radio" name="viausu_alimentacao" value="TRUE" <?=($this->dadosViagem->viausu_alimentacao == TRUE ? 'checked=checked' : '')?>> Sim<br />
+        
+        <label>Necessita de Pernoite?</label>
+        <input type="radio" name="viausu_pernoite" value="FALSE" <?=($this->dadosViagem->viausu_pernoite ? ($this->dadosViagem->viausu_pernoite == FALSE ? 'checked=checked' : '') : 'checked=checked') ?>> Não
+        <input type="radio" name="viausu_pernoite" value="TRUE" <?=($this->dadosViagem->viausu_pernoite == TRUE ? 'checked=checked' : '')?>> Sim<br />
+
+        <label for="necessitaMaca">Necessita de Maca</label>
+        <input type="radio" name="necessitaMaca" id="necessitaMaca" value="F" <?=$this->dadosViagem->necessita_maca == 0 ? "checked" : ''?>> Não
+        <input type="radio" name="necessitaMaca" id="necessitaMaca" value="T" <?=$this->dadosViagem->necessita_maca != 0 ? "checked" : ''?>> Sim <br>
+
+        <?php 
+        $a1 = $this->acompanhantes[0];
+        $a2 = $this->acompanhantes[1];
+        $a3 = $this->acompanhantes[2];
+        $a4 = $this->acompanhantes[3];
+        //die(var_dump($a2)); ?>
+        <label>Acompanhante:</label>
+        <input type="text" name="usu_nome_1" id="usu_nome_1"  class="buscaAcom" value="<?= $a1["usu_nome_"] ?>" /><img src="<?=$this->baseUrl("/public/images/icons/add.png");?>" id="addPac" style="cursor:pointer; margin-left: 10px;"><br />
+        <input type="hidden" name="usu_codigo_1" id="usu_codigo_1" value="<?= $a1["usu_codigo_"] ?>">
+        <input type="hidden" name="acom_codigo_1" id="acom_codigo_1" value="<?= $a1["acom_codigo"] ?>">
+        <input type="hidden" name="acom_1" id="acom_1" value="1">
+
+        <input type="text" name="usu_nome_2" id="usu_nome_2"  style="margin-left:184px;" value="<?= $a2["usu_nome_"] ?>" />
+        <br/>
+        <input type="hidden" name="usu_codigo_2" id="usu_codigo_2" value="<?= $a2["usu_codigo_"] ?>">
+        <input type="hidden" name="acom_codigo_2" id="acom_codigo_2" value="<?= $a2["acom_codigo"] ?>">
+        <input type="hidden" name="acom_2" id="acom_2" value="2">
+
+        <input type="text" name="usu_nome_3" id="usu_nome_3"  style="margin-left:184px;" value="<?= $a3["usu_nome_"] ?>" />
+        <br/>
+        <input type="hidden" name="usu_codigo_3" id="usu_codigo_3"  value="<?= $a3["usu_codigo_"] ?>">
+        <input type="hidden" name="acom_codigo_3" id="acom_codigo_3" value="<?= $a3["acom_codigo"] ?>">
+        <input type="hidden" name="acom_3" id="acom_3" value="3">
+
+        <input type="text" name="usu_nome_4" id="usu_nome_4"  style="margin-left:184px;" value="<?= $a4["usu_nome_"] ?>" />
+        <br/>
+        <input type="hidden" name="usu_codigo_4" id="usu_codigo_4"  value="<?= $a4["usu_codigo_"] ?>">
+        <input type="hidden" name="acom_codigo_4" id="acom_codigo_4" value="<?= $a4["acom_codigo"] ?>">
+        <input type="hidden" name="acom_4" id="acom_4" value="4">
+  
+    </div>
+
+    <div class="col-md-5">
+        
+        <label>Despesas<small>(R$)</small></label>
+        <input type="text" name="viausu_despesas" id="viausu_despesas" class="float" rel="9,2" value="<?=$this->dadosViagem->viausu_despesas?>" style="width:50px;"/><br />
+
+        <div>
+            <label for="">Unidades : </label>
+            <select id="recuperaCodigo" name="recuperaCodigo">
+                <?php
+
+                    for ($count = 0; $count < count($this->unidades); $count++) { ?>
+                        <option value="<?=$this->unidades[$count][uni_codigo]?>" <?=($this->dadosViagem->uni_codigo_paciente_embarque == $this->unidades[$count][uni_codigo] || $this->unidades[$count][uni_codigo] == 512) ? "selected" : '' ?> >
+                            <?=$this->unidades[$count][uni_desc]?>
+                        </option>  
+                    <?}
+                ?>
+            </select>
+        </div>
+        
+        <label>Outros Destinos:</label>
+        <input type="text" placeholder="Outro Local de Embarque" name="outroLocalDeEmbarque" id="outroLocalDeEmbarque" 
+            value="<?=$this->dadosViagem->outros_paciente_embarque?>" />
+
+        <br/>
+        
+
+        <label>Cidade Origem:</label>
+        <input type="text" placeholder="PALOTINA-PR" name="busca1" id="busca1" value="<?=$this->dadosViagem->busca1?>" />
+
+        <br/>
+        <input type="hidden" name="cid_codigo" id="cid_codigo" value="<?=$this->dadosViagem->cid_codigo?>">
+        
+        <label>Cidade Destino:</label>
+        <input type="text" name="busca2" id="busca2" value="<?=$this->dadosViagem->busca2?>" />
+
+        <br/>
+        <input type="hidden" name="cid_codigo_2" id="cid_codigo_2" value="<?=$this->dadosViagem->cid_codigo_2?>">  
+        
+        <label>KM:</label>
+        <input type="text" name="viausu_km" id="viausu_km" value="<?=$this->dadosViagem->viausu_km?>"  style="width:50px;"/><br />
+        
+        <label class="">Observação:</label>
+
+        <div class="textarea">
+            <textarea name="viausu_observacao" id="viausu_observacao"  class="tinymce" >
+                <?=$this->dadosViagem->viausu_observacao?>
+            </textarea>		
+        </div>
+        <br />
+    </div>
+    
+    <div class="col-md-12">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>
+        </div>
+
+        <div class="col-md-4">
+            <a href="<?=$this->url(array("action"=>"index", "module"=>"transporte","controller" => "viagem-usuario"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+        </div>
+
+        <div class="col-md-2"></div>
+        
+    </div>
+
+</form>
+
+<?if($this->itens && $this->itens->count()){?>
+    <table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+        <tr class='ui-widget-header'>
+               <th>Paciente</th>
+               <th>Fone. Residência</th>
+               <th>Celular</th>
+               <th>Cidade de Origem</th>
+               <th>Cidade de Destino</th> 
+               <th>Local de Embarque</th>
+               <th>Hora de Embarque</th>
+                
+               <th>Necessita de Maca</th>
+               <th>Local de embarque do Paciente</th>           
+
+               <th>Opções</th>
+        </tr>
+    <?php
+    $i=0;
+
+    foreach($this->itens as $item){?>
+            <tr>
+                <td class='ui-state-default' width='200'><?=$this->escape($item->usu_nome);?></td>
+                <td class='ui-state-default' width='200'><?=$this->escape($item->dom_telefone);?></td>
+                <td class='ui-state-default' width='200'><?=$this->escape($item->usu_celular);?></td>
+                <td class='ui-state-default c' width='80'><?=$this->escape($item->cid_nome_origem);?></td>  
+                <td class='ui-state-default c' width='80'><?=$this->escape($item->cid_nome_destino);?></td>
+                <td class='ui-state-default c' width='150'><?=$this->escape($item->via_local);?> </td>
+                <td class='ui-state-default c' width='30'><?=$this->escape($item->via_hora);?></td>
+
+                <td class='ui-state-default c' width='30'>
+                    <?php if ($item->necessita_maca == 0) {?>
+                        Não 
+                    <?} else{?>
+                        Sim
+                    <?}?>
+                </td>
+
+                
+                <td class='ui-state-default c' width='30'>
+                    <?php
+
+                        if ($item->uni_codigo_paciente_embarque != 0) {
+                            echo $item->uni_desc;
+                        }
+
+                        if ($item->dom_codigo_paciente_embarque != 0) {
+                            echo $item->bai_nome." ".$item->rua_nome;
+                        }
+
+                        if ($item->outros_paciente_embarque != '') {
+                            echo $item->outros_paciente_embarque;
+                        }
+                    ?>
+                </td>
+
+                <td class='ui-state-default c' width='80'>
+                    <a href='<?=$this->url(array("module"=>"transporte", 'controller'=>'viagem-usuario','action'=>'editar','id'=>$item->viausu_codigo), NULL, TRUE);?>' class='editar'>
+                        <img src='<?=$this->baseUrl('/public/images/icons/editar.png');?>' alt='Editar Itens' title='Editar Itens' />
+                    </a>
+
+                    <a href='<?=$this->url(array('controller'=>'viagem-usuario','action'=>'excluir','id'=>$item->viausu_codigo));?>' class='excluir'>
+                        <img src='<?=$this->baseUrl('/public/images/icons/excluir.png');?>' alt='Excluir' title='Excluir' />
+                    </a>
+
+                </td>
+            </tr>
+    <?php } ?>        
+    </table>
+
+<?php } ?>
+<?//$this->action("mapa", "viagem-usuario", "transporte", array("term" => $this->term)); ?>

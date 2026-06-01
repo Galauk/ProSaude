@@ -1,0 +1,246 @@
+<style>
+
+    .linhaVerde{
+        padding: 6px;
+    }
+
+    .titulo {
+        padding: 7px;
+    }
+
+</style>
+
+<div>
+
+    <h3>Estratificação de Risco : <?=$this->recebeDados[0][est_nomeficha]?></h3>
+    <h3>Data : <?=$this->recebeDados[0][to_char]?></h3>
+
+
+</div>
+
+<table style = "width: 670px;">
+
+    <tr>
+
+    <th bgcolor = "#528f53" class = "titulo">Pergunta </th> 
+    <th bgcolor = "#528f53" class = "titulo">Resposta</th>
+
+    </tr>
+
+
+    <?php
+
+        $comparador = 9999;
+
+        $nomeDoGrupo = '';
+
+        
+        for ($contador=0; $contador < count($this->recebeDados); $contador++) {
+
+                if ($comparador != $this->recebeDados[$contador][id_grupoperg]) {
+
+                    $nomeDoGrupo =  $this->recebeDados[$contador][est_gruponome];
+
+                } else{
+
+                    $nomeDoGrupo = '';
+
+                }?>
+
+                <tr>
+                    <td bgcolor="#89bee9" class = "nomeDoGrupo" COLSPAN="3">  <strong><?=strtoupper($nomeDoGrupo)?></strong> </td>
+                </tr>
+
+                <tr>
+
+                    <td class = "linhaVerde" bgcolor = "#aed1b3" >
+                    
+                        <?=strtoupper($this->recebeDados[$contador][est_pergunta])?>
+
+                    </td>
+                    
+                    <td class = "linhaVerde" bgcolor = "#aed1b3">
+
+                        <input name = "respostas<?=$this->recebeDados[$contador][id_perg]?>" <?=$this->recebeDados[$contador][ref_res_resposta] == '1' ? 'checked' : ''?> type="radio">Sim
+
+                        <input name = "respostas<?=$this->recebeDados[$contador][id_perg]?>" <?=$this->recebeDados[$contador][ref_res_resposta] != "1" ? 'checked' : ''?> type="radio">Não
+
+                    </td>
+                    
+                </tr>
+
+                <?
+                    $comparador = $this->recebeDados[$contador][id_grupoperg];
+
+                ?>
+
+            <?}
+    
+    ?>
+
+</table>
+<br>
+<br>
+<table style = "width: 670px; text-align : center">
+
+    <tr>
+        <th bgcolor = "#528f53" class = "titulo">Pontos</th>
+        <th bgcolor = "#528f53" class = "titulo">Riscos</th>
+        <th bgcolor = "#528f53" class = "titulo">Recomendações</th>
+        <th bgcolor = "#528f53" class = "titulo">Monitoramento</th>
+    </tr>
+    
+    <?
+       
+       if ( $this->recebeDados[0][est_score] == $this->recebeDados[0][est_nivelbaixo_inicio] ||  $this->recebeDados[0][est_score] <= $this->recebeDados[0][est_nivelbaixo_fim] ) {?>
+        
+        <tr id = "" style = "background-color: #d4ecff">
+
+            <td id="testeEstratificacao" class = "linhadescricao">
+
+                <?=$this->recebeDados[0][est_nivelbaixo_inicio]."-".$this->recebeDados[0][est_nivelbaixo_fim];?>
+                
+            </td>
+
+            <td class = "linhadescricao">Baixo Risco</td>
+
+            <td class = "linhadescricao">
+                <?=$this->recebeDados[0][est_recomendacao_nivel_baixo]?>
+            </td>
+            
+            <td class = "linhadescricao">
+                <?=$this->recebeDados[0][baixo]?>
+            </td>
+        </tr>
+
+    <?} else{ ?>
+
+        <tr id = "">
+
+        <td id="testeEstratificacao" class = "linhadescricao">
+
+            <?=$this->recebeDados[0][est_nivelbaixo_inicio]."-".$this->recebeDados[0][est_nivelbaixo_fim];?>
+            
+        </td>
+
+        <td class = "linhadescricao">Baixo Risco</td>
+
+        <td class = "linhadescricao">
+            <?=$this->recebeDados[0][est_recomendacao_nivel_baixo]?>
+        </td>
+
+        <td class = "linhadescricao">
+            <?=$this->recebeDados[0][baixo]?>
+        </td>
+        </tr>
+
+    <?}
+
+    if ( $this->recebeDados[0][est_score] <= $this->recebeDados[0][est_nivelmedio_inicio] || $this->recebeDados[0][est_score] >= $this->recebeDados[0][est_nivelmedio_inicio] ) {?>
+        
+        <tr id = "linhaDeMedioRisco" style = "background-color: #ffffd4">
+            <td class = "linhadescricao">
+
+                <?=$this->recebeDados[0][est_nivelmedio_inicio]."-".$this->recebeDados[0][est_nivelmedio_fim];?>
+                
+
+            </td>
+
+            <td class = "linhadescricao">Médio Risco</td>
+
+            <td class = "linhadescricao">
+
+                <?=$this->recebeDados[0][est_recomendacao_nivel_medio]?>
+
+            </td>    
+            
+            <td class = "linhadescricao">
+                <?=$this->recebeDados[0][medio]?>        
+            </td>
+        </tr>
+        
+    <?} else{ ?>
+
+        <tr id = "linhaDeMedioRisco" >
+            <td class = "linhadescricao">
+
+                <?=$this->recebeDados[0][est_nivelmedio_inicio]."-".$this->recebeDados[0][est_nivelmedio_fim];?>
+                
+
+            </td>
+
+            <td class = "linhadescricao">Médio Risco</td>
+
+            <td class = "linhadescricao">
+
+                <?=$this->recebeDados[0][est_recomendacao_nivel_medio]?>
+
+            </td>    
+            
+            <td class = "linhadescricao">
+                <?=$this->recebeDados[0][medio]?>        
+            </td>
+        </tr>
+
+    <?}
+
+    if ( $this->recebeDados[0][est_score] >= $this->recebeDados[0][est_nivelalto_inicio] ) {?>
+        
+        <tr id = "linhaDeAltoRisco" style = "background-color : #ffd4dd">
+            <td class = "linhadescricao">
+
+                <?=$this->recebeDados[0][est_nivelalto_inicio]?>
+                
+
+            </td>
+
+            <td class = "linhadescricao">Alto Risco</td>
+            
+            <td class = "linhadescricao">
+                <?=$this->recebeDados[0][est_recomendacao_nivel_alto]?>
+            </td>  
+            
+            <td class = "linhadescricao">
+        
+                <?=$this->recebeDados[0][alto]?>        
+                
+            </td>
+
+        </tr> 
+        
+    <?} else{ ?>
+
+        <tr id = "linhaDeAltoRisco">
+            <td class = "linhadescricao">
+
+                <?=$this->recebeDados[0][est_nivelalto_inicio]?>
+                
+
+            </td>
+
+            <td class = "linhadescricao">Alto Risco</td>
+            
+            <td class = "linhadescricao">
+                <?=$this->recebeDados[0][est_recomendacao_nivel_alto]?>
+            </td>  
+            
+            <td class = "linhadescricao">
+        
+                <?=$this->recebeDados[0][alto]?>        
+                
+            </td>
+
+        </tr> 
+
+    <?}?>
+
+    
+</table>
+<br>
+<br>
+
+<h2>
+
+    <label for=""><strong>Total :</strong></label><strong><?=$this->recebeDados[0][est_score]?></strong>
+
+</h2>

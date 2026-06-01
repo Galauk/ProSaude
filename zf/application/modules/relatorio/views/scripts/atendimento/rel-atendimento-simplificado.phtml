@@ -1,0 +1,55 @@
+<br />
+<table>
+
+    <?php if(count($this->dados) > 0) {
+        $i=0;
+    ?> 
+        <?php foreach($this->dados as $item) { ?>
+        <?php $i++;?>
+            <tr style="height: 24px;"> 
+                <td><?=$item[proc_codigo_sus]?></td>
+                <td colspan="2"><?=$item[proc_nome]?></td>
+                <td><b>Total:<?=$item[count]?></b></td>
+            </tr>
+        
+         <?php $usr_codigo_param = "";?>
+        <?php foreach($item["dados"] as $detalhes_profissional) { 
+
+         //   echo "<pre>"; print_r($item);
+
+                $unidesc = $detalhes_profissional[uni_desc];
+            if($detalhes_profissional[uni_desc]==$unidesc) {
+                echo "<tr><td><h3>".$detalhes_profissional[uni_desc]."</h3></td></tr>";
+                $unidesc ="";
+            } else {
+            ?>
+            <?php if($usr_codigo_param != $detalhes_profissional[usr_codigo]):?>
+                <tr style="height: 24px;"> 
+                    <td><font size="1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Profissional:</font></td>
+                    <td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><?=$detalhes_profissional[usr_nome]?></b></td>
+                    <td><b>Total:<?=$detalhes_profissional[qtde_prof]?></b></td>
+                </tr>
+            <?php
+                endif;
+                $usr_codigo_param = $detalhes_profissional[usr_codigo];  
+            ?>
+            <tr style="height: 24px;"> 
+               <td></td>
+               <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$detalhes_profissional[usu_nome]?></td>
+               <td><b>Data:</b><?=$this->data($detalhes_profissional[ate_data])?></td>
+               <td></td>
+           </tr>
+        <?php 
+        }
+                 }
+    ?>    
+    <?php } ?>
+            <tr>
+                <td colspan="4" style="text-align: right"><b>Total:</b> <?=$i;?></td>
+            </tr>
+    <?php } else { ?>
+            <tr style="height: 24px;"> 
+                <td colspan="4">Nenhuma informação encontrada para a busca realizada!</td>
+            </tr>
+    <?php } ?>
+</table>

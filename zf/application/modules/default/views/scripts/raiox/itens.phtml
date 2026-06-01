@@ -1,0 +1,46 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<div class="space"></div>
+
+<form method="post" action="<?= $this->url(array("action" => "imprimir-selecionados")); ?>">
+<input type="hidden" id="imprimir" value="<?=($this->selecionados?implode(",",$this->selecionados):"0");?>" />
+	<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+		<tr class="ui-widget-header">
+			<th width="10"><img src="<?=$this->baseUrl('/public/images/icons/imprimir.png');?>" alt="I" title="Selecione os exames para serem impresso" /></th>
+			<th>Procedimento</th>
+                        <?php if($this->obs != 'S'){?>
+                          <th>Observacao</th>
+                        <?}?>                        
+			<?php if(!$this->imprimi){ ?>	
+				<th width="30">Opções</th>
+			<?php }?>
+			
+		</tr>
+		<?php foreach($this->itens as $item): ?>
+		<?php if($this->obs == 'S'){
+			$proc = substr($this->escape($item->proc_nome),0,15)."...";
+		}else{
+			$proc = $this->escape($item->proc_nome);
+		}?>
+				
+		<tr>
+			<td class="ui-state-default"><?php echo $this->formCheckbox("imprimir[]",$item->req_codigo, array('checked' => ($this->selecionados && in_array($item->req_codigo,$this->selecionados))));?></td>
+			<td class="ui-state-default"><?=$proc?></td>
+                        <?php if($this->obs != 'S'){?>
+                          <td class="ui-state-default escape"><?=str_replace("<p>&nbsp;</p>","",$item->req_observacao);?></td>
+                        <?}?>
+                        
+			<?php if(!$this->imprimi){ ?>	
+			<td class="ui-state-default c">								
+                            <a href="<?=$this->url(array("module"=>"default","controller"=>"raiox","action"=>"excluir-item","id"=>$item->req_codigo,"usu_codigo"=>$item->usu_codigo));?>" class="excluir"><img src="<?=$this->baseUrl('/public/images/icons/excluir.png');?>" alt="Excluir" title="Excluir" /></a>
+					
+			</td>
+			<?php }?>
+		</tr>
+		<?php endforeach; ?>
+	</table>
+	<div class="space"></div>
+	
+</form>
+<?php else: ?>
+<br /><em>Nenhum exame adicionado ainda.</em>
+<?php endif; ?>

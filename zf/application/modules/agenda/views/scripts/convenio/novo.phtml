@@ -1,0 +1,71 @@
+<?php $this->dialog(); ?>
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" id="form-conv">
+    <?php $this->errorMsg(); ?>
+    <label>Tipo de Convênio:</label>
+    <input type="radio" name="tipo_convenio" id="tipo_convenio_s" value="S" <?= $this->dados->tipo_convenio != 'C' ? "checked" : "" ?>> Simples
+    <input type="radio" name="tipo_convenio" id="tipo_convenio_c" value="C" <?= $this->dados->tipo_convenio == 'C' ? "checked" : "" ?>> Completo<br/>
+    <label>Local:</label>
+    <input type="text" id="nome_convenio_geral" name="nome_convenio" value="<?= ($this->dados->med_nome); ?>" <?= $this->dados->med_nome ? "readonly" : ""; ?> class="focus" />
+    <input type="hidden" id="codigo_convenio" name="codigo_convenio" value="<?= $this->dados->med_codigo; ?>" />
+    <input type="hidden" id="prestador_servico" name="prestador_servico" value="" style="width: 20px" /><br />
+    <?php /* --------------------------------------------------------------/
+      SERÁ UTILIZADO QUANDO A PARTE NOVA DE COTAS JÁ ESTIVER EM ANDAMENTO
+      <label>Cota Mensal:</label>
+      <input type="text" id="nome_convenio_geral" name="cota_mensal" value="<?=($this->dados->med_nome); ?>" class="focus" style="width: 80px;" /><br />
+      <label>Cota Diária:</label>
+      <input type="text" id="nome_convenio_geral" name="cota_diaria" value="<?=($this->dados->med_nome); ?>" class="focus" style="width: 80px;" /><br />
+      <label>Convênios:</label>
+      <input type="checkbox" value="T" name="sabado" value="<?= $this->escape($this->dados->usu_nome); ?>" />Unimed
+      <input type="checkbox" value="T" name="domingo" /> SUS<br />
+     * 
+     */ ?>
+    <label>Atende aos:</label>
+    <input type="checkbox" value="T" name="sabado" id="sabado" value="T" <?= $this->dados->conv_sabado == 'T' ? "checked" : "" ?>/>Sábados
+    <input value="T" name="domingo" id="domingo" type="checkbox" <?= $this->dados->conv_domingo == 'T' ? "checked" : "" ?>/> <label class="not" for="domingo">Domingos</label><br>
+    <div id="conv_tipo_valor">
+        <input type="hidden" name="conv_codigo" value="<?= $this->dados->conv_codigo ?>"/>
+        <fieldset style="width: 600px;">
+            <legend>Parâmetros mensais</legend>
+            <label>Dia de renovação:</label>
+            <input name="dia_mes" style="width:100px;" type="number" max="31" min="1" value="<?= $this->dados->dia_mes ?>">
+            <small>(Dia do mês para limitar os períodos mensais)</small>
+            <label>Valor Máximo Mensal (R$):</label>
+            <input name="conv_valor_mensal" style="width:100px;" class="float ui-state-default" rel="9,2" value="<?= $this->moeda($this->dados->conv_valor_mensal) ?>" type="text"><br/>
+<!--            <label>Margem para alerta (%):</label>
+            <input name="margem_mensal" style="width:100px;" type="number" value="< ?= $this->dados->margem_mensal ?>">
+            <small>(Margem sobre o valor mensal para emitir alerta)</small>-->
+        </fieldset>
+        <fieldset style="width: 600px;">
+            <legend>Parâmetros contratuais</legend>
+            <div id="valor_contratual">
+                <label>Período do contrato:</label>
+                <input name="data_inicial" id="data_inicial" style="width:85px;" value="<?= $this->data($this->dados->data_inicial) ?>">
+                <input name="data_final" id="data_final" style="width:85px;" value="<?= $this->data($this->dados->data_final) ?>">
+            </div>
+            <label>Valor Máximo Contratual (R$):</label>
+            <input name="conv_valor_total" style="width:100px;" class="float ui-state-default" rel="9,2" value="<?= $this->moeda($this->dados->conv_valor_total) ?>" type="text"><br/>
+<!--            <label>Margem para alerta (%):</label>
+            <input name="margem_total" style="width:100px;" type="number" value="< ?= $this->dados->margem_total ?>">
+            <small>(Margem sobre o valor total para emitir alerta)</small>-->
+        </fieldset>
+        <fieldset style="width: 600px;">
+            <legend>Parâmetros de atendimento</legend>
+            <label>Máx atendimentos (dia):</label>
+            <input name="max_dia" style="width:100px;" type="number" value="<?= $this->dados->max_dia ?>">
+            <small>(vazio = ilimitado)</small><br/>
+            <label>Máx atendimentos (mês):</label>
+            <input name="max_mes" style="width:100px;" type="number" value="<?= $this->dados->max_mes ?>">
+            <small>(vazio = ilimitado)</small><br/>
+            <label>Máx atendimentos (total):</label>
+            <input name="max_total" style="width:100px;" type="number" value="<?= $this->dados->max_total ?>">
+            <small>(vazio = ilimitado)</small>
+        </fieldset>
+    </div>
+    <label>Status:</label>
+    <input type="radio" name="conv_status" value=true checked> Ativo
+    <input type="radio" name="conv_status" value=false> Inativo<br/>
+    <div class="clear"></div>
+    <div class="space"></div>
+    <a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>
+    <a href="<?= $this->url(array("controller" => "convenio", "action" => "index", "id" => $item->coni_codigo)); ?>"  class="ui-button voltar" data-atalho="ESC">Voltar</a>
+</form>

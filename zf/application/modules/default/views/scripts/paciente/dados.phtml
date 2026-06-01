@@ -1,0 +1,31 @@
+<table class="grid ui-widget ui-widget-content ui-corner-all">
+	<?php if($this->obs != "S"){ ?>
+		<tr>
+			<th class="ui-widget-header d" style="min-width: 150px;">Núm. Prontuário:</th>
+			<td class="ui-state-default" style="min-width: 200px;"><?=$this->escape($this->dados->usu_prontuario);?></td>
+		</tr>
+	<?php } ?>
+	<tr>
+		<th class="ui-widget-header d" style="min-width: 150px;">Nome Completo:</th>
+		<td class="ui-state-default" style="min-width: 200px;"><?=$this->escape($this->dados->usu_nome);?></td>
+	</tr>
+	<tr>
+		<th class="ui-widget-header d">Data de Nasc.:</th>
+		<td class="ui-state-default"><?=$this->mask($this->dados->usu_datanasc, "data")." (".$this->idade($this->dados->usu_datanasc).")";?></td>
+	</tr>
+	
+	<tr>
+		<th class="ui-widget-header d">Sexo:</th>
+		<td class="ui-state-default"><?=$this->mask($this->dados->usu_sexo, "sexo");?></td>
+	</tr>
+	<?php if($this->obs != "S"){ ?>
+		<tr>
+			<th class="ui-widget-header d">Nome da Mãe:</th>
+			<td class="ui-state-default"><?=$this->escape($this->dados->usu_mae);?></td>
+		</tr>
+		<tr>
+			<th class="ui-widget-header d">Nome do Pai:</th>
+			<td class="ui-state-default"><?=$this->escape($this->dados->usu_pai);?></td>
+		</tr>
+	<?php } ?>
+</table>

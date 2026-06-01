@@ -1,0 +1,7 @@
+a.txt
+bio.properties
+cadastrar.php
+EloBiometriaApplet-DigitalPersona.jar
+java.policy
+script.txt
+validar.php

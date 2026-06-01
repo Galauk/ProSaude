@@ -1,0 +1,74 @@
+<div style='font-weight:bold; margin-bottom: 5px;'>
+<head>
+    <script>
+        window.print();
+    </script>
+</head>
+</div>
+<!-- <table>
+    <tr style='font-weight:bold;' align="right">
+        <td >Unidade</td>
+        <td ><?=$i?></td>
+        <td >Total</td>
+        <td ><?=$valor?></td>
+    </tr>
+</table> -->
+<table>
+    <!-- <div class="cabecalho">
+        <div class="brasao">
+        <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" height="80" width="80"/>
+        </div>
+    <div class="dados_cabecalho">
+        <font size="2">PREFEITURA DO MUNICIPIO DE <?=$this->nome_cidade?></font><br/>
+        <b><?=$this->secretaria->nome_secretaria?></b><br/>
+        <b><?=$this->convenio->med_nome?></b><br/>
+
+        <b><?=$this->med_nome?></b>
+
+        <?=$this->usr->uni_endereco?>, CNPJ:<?=$this->usr->uni_cnpj?>, FONE:<?=$this->usr->cnes_telefone?>
+    </div> -->
+    <tr>
+        <th>Nº Exame</th>
+        <th>Data</th>
+        <th>Exame</th>
+        <th>Quantidade</th>
+        <th>Valor</th>
+        <th>Valor Total</th>
+        <th>Paciente</th>
+    </tr>
+<?
+$i = 0;
+$valor = 0;
+
+foreach ($this->dados as $item){
+    if($item->proc_codigo != null){
+    $i++;
+    $valor += $item->agei_valor;
+?>
+    <tr>
+        <td><?=$item->age_codigo?></td>
+        <td><?
+        $source = $item->age_data_insert;
+        $date = new DateTime($source);
+        echo $date->format('d/m/Y');
+        ?></td>
+        <td><?=$item->proc_nome?>(<?=$item->proc_codigo?>)</td>
+        <td>1</td>
+        <td><?=$item->agei_valor?></td>
+        <td><?=$item->agei_valor?></td>
+        <td><?=$item->usu_nome?></td>
+    </tr>
+
+<?
+$total += 50;
+    }
+} ?>
+</table>
+<table>
+    <tr style='font-weight:bold;' align="right">
+        <td >Quantidade</td>
+        <td ><?=$i?></td>
+        <td >Total</td>
+        <td ><?=$valor?></td>
+    </tr>
+</table>

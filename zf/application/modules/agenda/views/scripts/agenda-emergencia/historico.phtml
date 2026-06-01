@@ -1,0 +1,31 @@
+<?php if ($this->itens && $this->itens->count()): ?>
+	<table class="ui-widget ui-widget-content ui-corner-all pad">
+		<tr class="ui-widget-header">
+			<th width="80">Data</th>
+			<th>Exame</th>
+			<th>Local</th>
+			<th width="80">Situação</th>
+			<th width="80">Opções</th>
+		</tr>
+		<?php foreach ($this->itens as $item): ?>
+			<tr data-ate_codigo="<?=$item->ate_codigo;?>">
+				<td class="ui-widget-content c"><?= $this->data($item->agei_data); ?></td>
+				<td class="ui-widget-content"><?= $this->escape($item->proc_nome); ?></td>
+				<td class="ui-widget-content"><?= $this->escape($item->med_nome); ?></td>
+				<td class="ui-widget-content c"><?= $this->statusDoAgei($item->agei_status); ?></td>
+				<td class="ui-widget-content c">
+					<a href="<?=$this->url(array("action"=>"imprimir","age"=>$item->age_codigo));?>" class="popup" rel="600x500">
+						<img src="<?=$this->baseUrl("/public/images/icons/imprimir.png");?>" alt="Imprimir" title="Imprimir" />
+					</a>
+					
+					<?php if ($this->podeCancelarAgendaExame($item)): ?>
+					<img data-agei="<?=$item->agei_codigo;?>" src="<?=$this->baseUrl("/public/images/icons/excluir.png");?>" alt="Excluir" title="Excluir" class="excluir" />
+					<?php endif; ?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+	</table>
+
+<?php else: ?>
+	<em>Nenhum exame encontrado.</em>
+<?php endif; ?>

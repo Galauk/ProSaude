@@ -1,0 +1,149 @@
+    
+<div id="page">
+    
+    <div id="header">
+        <div id="logo">
+            <img src="<?= $this->baseUrl('/public/images/brasao.jpg') ?>" title="Logo Prefeitura" />
+        </div>
+        <div id="titulo">
+            <h2>Prefeitura Municipal de <?=$this->dadosSecretaria()->cidade;?></h2>
+            <h3>Secretaria Municipal de Saúde</h3>
+            <h3>RELATÓRIO ATIVIDADES</h3>
+        </div>
+        <div class="clear"></div>
+    </div>
+    
+    <?php
+    if(count($this->atividades) > 0){
+        $controleCodigoUnidade = 0; 
+        foreach($this->atividades as $atividade):
+
+            if($controleCodigoUnidade != $atividade[uni_codigo]){
+                $controleCodigoUnidade = $atividade[uni_codigo];
+            ?>      
+            <div class="divUnidade">
+                <div class="divNomeUnidade">
+                    Unidade : <?=$atividade[uni_desc]?>
+                </div>
+                <div class="divParticipantes">
+                    Nº Participantes Total: <?=$this->totalParticipantes[$controleCodigoUnidade]?>
+                </div>
+            </div>
+
+            <?php 
+            }
+            ?>
+
+            <div class="divAtividade">
+
+                <table>
+                    <tr>
+                        <td bgcolor="#F8F8F8"><strong>DATA</strong></td>
+                        <td bgcolor="#F8F8F8"><strong>ATIVIDADE</strong></td>
+                        <td bgcolor="#F8F8F8"><strong>RESPONSAVEL</strong></td>
+                        <td bgcolor="#F8F8F8"><strong>HORA INICIO</strong></td>
+                        <td bgcolor="#F8F8F8"><strong>HORA FIM</strong></td>
+                        <td bgcolor="#F8F8F8"><strong>EQUIPE(INE)</strong></td>
+                    </tr>
+                    <tr>
+                        <td><?=$atividade[data_atividade]?></td>
+                        <td><?=$atividade[no_cds_tipo_ativ_col]?></td>
+                        <td><?=$atividade[usr_nome]?></td>
+                        <td><?=$atividade[hora_inicio]?></td>
+                        <td><?=$atividade[hora_fim]?></td>
+                        <td><?=$atividade[cod_equipe_ine] ? $atividade[cod_equipe_ine] : '----------'?></td>
+                    </tr>
+                </table>
+
+                <div class="divInformacoes">
+                    <table>
+                        <tr>
+                            <td bgcolor="#F8F8F8"><strong>TEMA</strong></td>
+                        </tr>
+                        <?php
+                        if(count($atividade[temas]) > 0){
+                            foreach ($atividade[temas] as $tema):
+                            ?>
+                                <tr>
+                                    <td><?=$tema[no_cds_ativ_col_tema]?></td>
+                                </tr>   
+                            <?php    
+                            endforeach;
+                        }else{
+                        ?>
+                            <tr>
+                                <td>----</td>
+                            </tr> 
+                        <?php    
+                        }
+                        ?>
+                    </table>
+                </div>
+
+                <div class="divInformacoes">
+                    <table>
+                        <tr>
+                            <td bgcolor="#F8F8F8"><strong>PUBLICO</strong></td>
+                        </tr>
+                        <?php
+                        if(count($atividade[publicos]) > 0){
+                            foreach ($atividade[publicos] as $publico):
+                            ?>
+                                <tr>
+                                    <td><?=$publico[no_cds_ativ_col_publico_alvo]?></td>
+                                </tr>   
+                            <?php    
+                            endforeach;
+                        }else{
+                        ?>
+                            <tr>
+                                <td>----</td>
+                            </tr> 
+                        <?php    
+                        }
+                        ?>
+                    </table>
+                </div>
+
+                <div class="divInformacoes">
+                    <table>
+                        <tr>
+                            <td bgcolor="#F8F8F8"><strong>PRATICA</strong></td>
+                        </tr>
+                        <?php
+                        if(count($atividade[praticas]) > 0){
+                            foreach ($atividade[praticas] as $pratica):
+                            ?>
+                                <tr>
+                                    <td><?=$pratica[no_cds_ativ_col_pratica]?></td>
+                                </tr>   
+                            <?php    
+                            endforeach;
+                        }else{
+                        ?>
+                            <tr>
+                                <td>----</td>
+                            </tr> 
+                        <?php    
+                        }
+                        ?>
+                    </table>
+                </div>
+
+                <div class="divTotalParticipantesDaAtividade">
+                    Total Participantes : <?=$atividade[qt_participante_ativ]?>
+                </div>
+
+            </div>
+
+        <?php endforeach; 
+    }else{
+    ?>    
+        <div class="divNenhumResultado">
+            <h3>NENHUM RESULTADO ENCONTRADO.</h3>
+        </div>
+    <?php
+    }?>
+    
+</div>
+

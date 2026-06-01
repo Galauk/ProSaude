@@ -1,0 +1,249 @@
+<script language=javascript>
+
+function imprimir() {
+       window.print();
+}
+</script>
+<script language="JavaScript" type="text/javascript" src="funcoes.js"></script>
+
+<body>
+
+<?php
+//------------------------------------------------------------------>
+// -> Inclusao principal para montagem do sistema
+//------------------------------------------------------------------>
+	session_start();
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/db.inc.php";
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+//----------------  Dados Recebidos  ---------------->
+
+$dt_i=$dt_inicial;
+$dt_f=$dt_final;
+
+//echo "Inicial-->".$dt_inicial."<br>";
+//echo "Final---->".$dt_final."<br>";
+//echo "Setor---->".$set_codigo."<br>";
+//echo "Produto-->".$pro_codigo."<br>";
+
+$titulo="Movimento de Produtos em Centro Estocador, Por Periodo";    //       NOME DO RELATÓRIO
+
+if ($set_codigo) {
+    $sql = "SELECT setor.set_codigo, setor.set_nome " .  //       Pega Setor
+           "  FROM setor " .
+           " WHERE setor.set_codigo = $set_codigo";
+    $query=pg_query($sql);
+    while($row=pg_fetch_array($query)) {
+          $SetNome=$row[0]." - ".$row[1];
+    }
+} else {  $SetNome = "TODOS";  }
+
+if ($pro_codigo) {
+    $sql = "SELECT produto.pro_nome, produto.pro_codigo " .  //       Pega Produto
+           "  FROM produto " .
+           " WHERE produto.pro_codigo = $pro_codigo";
+    $query=pg_query($sql);
+    while($row=pg_fetch_array($query)) {
+          $ProNome=$row[0]." - ".$row[1];
+    }
+}
+
+function cabeca($Tit, $dtIni, $dtFin, $SetNo, $ProNo, $tpCab) {
+
+        //---------  Cabeçalho do Relatorio  ----------------->
+
+         if ($tpCab == 1) {
+            include "cabecalho.php";
+ 	        echo "<table style=\"font-size:09px;font-family:Tahoma,Arial;\" border=0 width=100% align=center cellspacing=0 cellpadding=0 topmargin=0 leftmargin=0>\n";
+ 	     }
+        //---------  Cabeçalho dos Dados  ----------------->
+
+         if ($tpCab == 0) {
+             echo " <tr>\n";
+		 	 echo "  <td width='6%' align=left  > Data </td>\n";
+			 echo "  <td width='12%' align=center> N.Nota/Mov </td>\n";
+			 echo "  <td > Setor Destino/Fornecedor </td>\n";
+			 echo "  <td > Tipo </td>\n";
+			 echo "  <td > Quantidade </td>\n";
+			 echo "  <td > Saldo </td>\n";
+			 echo "  <td > Saldo Atual </td>\n";
+			 echo " </tr>\n";
+			 echo " <tr>\n";
+			 echo "  <td align=center cellspacing=0 cellpadding=0 colspan=6>&nbsp;</td>\n";
+             echo " </tr>\n";
+         }
+}
+
+function cabecatotal($saldo){
+	echo "<tr>
+			<td colspan=6></td>
+			<td style=\"font-size:14px;font-family:Tahoma,Arial;color:#FF0000; \">
+				<strong>".number_format($saldo, 0, ',', '.')."</strong>
+			</td>
+		</tr>";        	
+}
+
+//-------------  Rotina Captação dos Dados  --------------->
+
+//                ---- Saldo Anterior ---                  >
+
+if ($set_codigo) {
+    $LclPrMedio=$set_codigo;
+} else {
+    $row=pg_fetch_row(pg_query("select * from conf_estoque"));
+    $LclPrMedio=$row[1];
+}
+if ($pro_codigo) {
+    $row=pg_fetch_row(pg_query("select calcula_estoque($pro_codigo,$set_codigo,to_date('$dt_inicial', 'dd/mm/yyyy')-1)"));
+    $Saldo=$row[0];
+    $SaldoAnterior=explode(".",$row[0]);
+    echo "select calcula_estoque($pro_codigo,$set_codigo,to_date('$dt_inicial', 'dd/mm/yyyy')-1)";
+}
+ echo "select calcula_estoque($pro_codigo,$set_codigo,to_date('$dt_inicial', 'dd/mm/yyyy')-1)";
+//              ---- Captação Movimentos ---               >mov_data,set_nome,mov_nr_nota,mov_tipo,ite_quantidade,
+$sql ="SELECT   m.mov_data,
+				s.setor,
+				m.mov_nr_nota,
+				m.mov_tipo, 
+				im.ite_quantidade
+  		 FROM itens_movimento im
+  		 JOIN movimento m
+    	   ON m.mov_codigo = im.mov_codigo
+         JOIN setor s
+	       ON m.set_entrada = s.set_codigo
+ 		WHERE im.pro_codigo = $pro_codigo
+   		  AND set_saida = $set_codigo
+   		  AND mov_data between to_date('$dt_inicial','dd/mm/yyyy') and to_date('$dt_final', 'dd/mm/yyyy')
+   		  
+	UNION ALL
+	
+		SELECT  m.mov_data,
+				s.setor,
+				m.mov_nr_nota,
+				m.mov_tipo, 
+				im.ite_quantidade 
+	  		 FROM itens_movimento im
+	  		 JOIN movimento m
+	    	   ON m.mov_codigo = im.mov_codigo
+    	     JOIN setor s
+	           ON m.set_entrada = s.set_codigo
+	 		WHERE im.pro_codigo = $pro_codigo
+	   		   AND set_entrada = $set_codigo
+	   		   AND mov_data between to_date('$dt_inicial','dd/mm/yyyy') and to_date('$dt_final', 'dd/mm/yyyy') ORDER BY mov_data desc";
+
+/*$sql = "SELECT data, mov_nr_nota, setor, nomesetorsolicit, desc_movimentacao, sinal, ite_quantidade, pro_codigo 
+          FROM v_movimentacao
+         WHERE ";
+$sql .= " pro_codigo = $pro_codigo ";
+$sql .= " AND  codsetor = $set_codigo ";
+$sql .= "   AND    mov_data between to_date('$dt_inicial','dd/mm/yyyy') and to_date('$dt_final', 'dd/mm/yyyy') ";
+$sql .= " ORDER BY mov_data asc ";*/
+
+//vSQL($sql,"1");
+//print $sql;
+$query=pg_query($sql);
+
+if (pg_num_rows($query) == 0) {
+    echo " <tr>\n";
+    echo "  <td width='10'>&nbsp;</td>\n";
+    echo "  <td>NÃO TEM DADOS PARA ESTES PARÂMETROS<br><br></td>\n";
+    echo " </tr>\n";
+
+    echo "<table  width=100% cellspacing=0 cellpadding=0 border=0 align=center>\n";
+    echo " <tr>\n";
+    echo "  <td width='80'>&nbsp;</td>\n";
+    echo "  <td>Data INICIAL.( ".$dt_inicial." )<br></td>\n";
+    echo " </tr>\n";
+    echo " <tr>\n";
+    echo "  <td width='80'>&nbsp;</td>\n";
+    echo "  <td>Data FINAL....( ".$dt_final." )<br></td>\n";
+    echo " </tr>\n";
+    echo " <tr>\n";
+    echo "  <td width='80'>&nbsp;</td>\n";
+    echo "  <td>PRODUTO.....( ".$pro_codigo." )<br></td>\n";
+    echo " </tr>\n";
+    echo " <tr>\n";
+    echo "  <td width='80'>&nbsp;</td>\n";
+    echo "  <td>SETOR...........( ".$set_codigo." )<br></td>\n";
+    echo " </tr>\n";
+}
+
+//----------------  Rotina de Impressão  ------------------>
+$soma = "SELECT sum(x.sal_qtde) AS soma 
+		   FROM(SELECT *
+			      FROM saldo 
+			     WHERE pro_codigo = $pro_codigo order by sal_data desc) AS x";
+$exeSoma = pg_query($soma);
+$resSoma = pg_fetch_array($exeSoma);
+$saldoDaSoma = $resSoma['soma'];
+$valortotal = $saldoDaSoma;
+$lin = 99;
+
+// Zebragem
+$controle = 0;
+while($res = pg_fetch_array($query)) {
+	 if ($lin > 20) {
+          if ($lin== 99) {
+              cabeca($titulo, $dt_inicial, $dt_final, $SetNome, $ProNome,  '1');
+//              $Saldo=$SaldoAnterior;
+          }
+
+         cabeca($titulo, $dt_inicial, $dt_final, $SetNome, $ProNome, '0');
+         cabecatotal($saldoDaSoma);
+
+         $lin=0;
+      }
+	  if($res['mov_tipo'] == 'E'){
+		$saldoDaSoma = $saldoDaSoma - $res['ite_quantidade'];
+	  }
+	 if($res['mov_tipo'] == 'S'){
+			$saldoDaSoma = $saldoDaSoma + $res['ite_quantidade'];
+		  }
+	 if($res['mov_tipo'] == 'T' && $res['set_entrada'] == $set_codigo){
+			$saldoDaSoma = $saldoDaSoma - $res['ite_quantidade'];
+		  }
+ 	if($res['mov_tipo'] == 'T' && $res['set_saida'] == $set_codigo){
+			$saldoDaSoma = $saldoDaSoma + $res['ite_quantidade'];
+		  }
+	
+	 
+      switch ($row[5]) {
+	     case "-":    $Saldo=$Saldo-$row[6];  break;
+	     case "+":	  $Saldo=$Saldo+$row[6];  break;
+      }
+		
+		$c1 = "";
+		$c2 = "#F2F2F2";
+		
+		if ($controle == 0) {
+		  $cor = $c1;
+		  $controle++;
+		} else {
+		  $cor = $c2;
+		  $controle = 0;
+		}
+	
+if($res[mov_tipo] == 'E')
+	$res[mov_tipo] = "Entrada de Produtos";
+	
+if($res[mov_tipo] == 'S')
+	$res[mov_tipo] = "Saida de Produtos";
+	
+if($res[mov_tipo] == 'T')
+	$res[mov_tipo] = "Transferência de Produtos";
+	
+	  echo " <tr bgcolor='$cor'>\n";
+      echo "  <td>$res[mov_data]</td>\n";
+      echo "  <td align=center>$res[mov_nr_nota]</td>\n";
+      echo "  <td>$res[set_nome]</td>\n";
+      echo "  <td>$res[mov_tipo]</td>\n";
+      echo "  <td>".number_format($res['ite_quantidade'], 0, ',', '.')."</td>\n";
+      echo "  <td>".number_format($saldoDaSoma, 0, ',', '.')."</td>\n";
+  	  echo "  <td></td>\n";
+      echo " </tr>\n";  	 
+	  
+}
+
+
+echo "</table>";
+
+?>

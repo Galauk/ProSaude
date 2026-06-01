@@ -1,0 +1,21 @@
+<br />
+<table>
+    <tr style="height: 24px">
+        <td><strong>PRODUTO</strong></td>
+        <td><strong>CENTRO ESTOCADOR</strong></td>
+        <td><strong>PACIENTE ATENDIDOS</strong></td>
+    </tr>
+    <? if (count($this->dados) > 0) { ?>
+        <? foreach ($this->dados as $item) { ?>
+            <tr>
+                <td><?=$item->pro_nome?></td>
+                <td><?=$item->set_nome?></td>
+                <td><?=$item->soma?></td>
+            </tr>
+        <? } ?>
+    <? } else { ?>
+            <tr>
+                <td colspan='3'>Nenhum resultado encontrado!</td>
+            </tr>
+    <? } ?>
+</table>

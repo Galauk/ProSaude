@@ -1,0 +1,20 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th width="80">Data</th>
+		<th>Médico</th>
+		<th>Procedimento</th>
+		<th>Unidade</th>
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<tr>
+		<td class="ui-state-default c"><?=$this->data($item->dt_requisicao);?></td>
+		<td class="ui-state-default"><?=$this->escape($item->usr_nome);?></td>
+		<td class="ui-state-default"><?=$this->escape($item->proc_nome);?></td>
+		<td class="ui-state-default"><?=$this->escape($item->uni_desc);?></td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php else: ?>
+<em>Nenhum exame encontrado.</em>
+<?php endif; ?>

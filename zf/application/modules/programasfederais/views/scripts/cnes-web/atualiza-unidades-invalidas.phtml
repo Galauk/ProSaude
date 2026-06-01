@@ -1,0 +1,25 @@
+<div id="geral" style="width: 100%">
+    <div id="usuarios">
+        <form method="post" action="<?= $this->url(array("controller"=>"cnes-web","action" => "salvar-unidade")); ?>">
+            <table class="table">
+                <?php foreach($this->unidades_invalidas as $invalida):?>
+                    <tr class="uni_<?=$invalida->uni_codigo?>">
+                        <td>
+                            <?=$invalida->uni_desc?>
+                        </td>
+                        <td>
+                            <input type="text" class="cnes" onkeypress="return SomenteNumero(event)" onchange="validaCnes(this.value,'<?=$invalida->uni_codigo?>')"  maxlength="11"  name='<?=$invalida->uni_codigo?>' id="<?=$invalida->uni_codigo?>" value="" placeholder="CNES">
+                            <a href="#" onclick="inativa_unidade(<?=$invalida->uni_codigo?>)"><img src="<?=$this->baseUrl("/public/images/icons/excluir2.png");?>" alt="Inativar" title="Inativar" /></a>
+                        </td>
+                    </tr>
+                <?php endforeach;?>
+                    <tr>
+                        <td colspan="2">
+                            <a href="#" class="ui-button salvar ui-state-disabled" >Iniciar Atualização</a>
+                        </td>
+                    </tr>
+            </table>
+            
+        </form>
+    </div>
+</div>

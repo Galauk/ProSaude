@@ -1,0 +1,34 @@
+<form method="post"  action="<?=$this->url(array("action"=>"rel-estratificacao-risco"));?>" target="_blank">
+	<input name="filtro" id="filtro" type="hidden" value="s" />
+
+	<input name="tipo" id="tipo" type="hidden" value="<?=$this->action?>"/><br />
+	<label>Profissional:</label>
+	<input name="usr_nome" id="usr_nome"  class="focus"/>
+	<input name="usr_codigo" id="usr_codigo" type="hidden" /><br />
+
+	<label>Unidade:</label>
+	<input name="uni_desc" id="uni_desc"  class="focus"/>
+	<input name="uni_codigo" id="uni_codigo" type="hidden" /><br />
+        
+	<label>Data inicial:</label>
+	<input name="data_inicial" id="data_inicial" class="data" style="width: 80px"/><br />
+	<label>Data final:</label>
+	<input name="data_final" id="data_final" class="data" style="width: 80px" /><br />
+
+	<label>Grupo de Risco</label>
+	<select name="select_grupo" id="select_grupo">
+		<option value="0">Todos</option>
+		<option value="1">Grupo 1 (Idoso)</option>
+		<option value="2">Grupo 2 (Gestante, Doenças Cronicas e Recém-nascido)</option>
+		<option value="3">Ambos</option>
+	</select>
+	<br>
+	<label>Tipo de Relatório</label>
+    <input type="radio" name="select_relatorio" value="0">Analítico</input>
+    <input type="radio" name="select_relatorio" value="1">Sintético</input>
+	<br>
+	
+
+	<div class="clear"></div>
+	<a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;" class="popup" rel="600x500">Gerar Relatório</a>
+</form>

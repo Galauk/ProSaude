@@ -1,0 +1,41 @@
+<div class="space"></div>
+<?php 
+/***
+A variável "vagas" pode vir em formato array (caso passe nas primeiras validações e precise renderizar o calendário),
+ou pode vir apenas uma string (caso caia nas validações iniciais e venha com a mensagem de erro para ser exibida)
+***/
+if (is_array($this->vagas)){ ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="70%" id="grade">
+	<?php
+        //A chamada é feita com o valor 3, para utilizar o novo campo de valor do procedimento
+        echo $this->thTabelaData($this->data_inicial, $this->data_final, 3); 
+        //Adicionada variável para controlar o valor total dos procedimentos
+        $valorTotal = 0;
+        ?>
+	<?php foreach($this->vagas as $coni_codigo => $dias): // para cada exame ?>
+	<tr>
+		<th class="ui-widget-header" style="font-size: 10px; max-width: 200px">
+			<?=trim(substr($this->nomeProcs[$coni_codigo],0,34).(strlen($this->nomeProcs[$coni_codigo])>34 ? "..." : "" ));?>
+		</th>
+		<th class="ui-widget-header" style="font-size: 10px; max-width: 200px">
+			<?="R$ ".trim($this->valorProcs[$coni_codigo]);?>
+		</th>
+		<th style="width: 20px">
+                    <input readonly="readonly" type="text" style="width:60px;font-size: 10px;" name="coni[<?=$coni_codigo;?>]" value="" id="coni_<?=$coni_codigo;?>" class="hidden-coni" data-coni="<?=$coni_codigo;?>" />
+		</th>
+		<?php $index = 0; foreach($dias as $dia): // para cada dia ?>
+                <td class="c <?=($dia['vagas']==0?"sem-vaga":"com-vaga");?>" data-dia="<?=$dia['dia'];?>" data-coni="<?=$coni_codigo;?>" data-vagas="<?=$dia['vagas'];?>" data-index="<?=(++$index);?>" data-mensagem="<?=$dia['mensagem'];?>"><a style="text-decoration:none;" href="#" title="<?=$dia['mensagem'];?>"><div>&nbsp;</div></a></td>
+		<?php endforeach; ?>
+	</tr>
+	<?php
+        $valorTotal += $this->valorProcs[$coni_codigo];
+        endforeach; 
+        ?>
+        <tr>
+            <th style="font-size: 12px; max-width: 200px">TOTAL: </th>
+            <th style="font-size: 12px; max-width: 200px"><?= "R$ ".$valorTotal; ?> </th>
+        </tr>
+</table>
+<?php } else { 
+    echo("<div style='text-align:center; color:red; font-size:15px;'><b>$this->vagas</b></div>"); 
+} ?>

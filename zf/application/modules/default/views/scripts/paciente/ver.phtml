@@ -1,0 +1,14 @@
+<h2 class="ui-widget"><?=$this->escape($this->itens->current()->proc_nome);?></h2>
+<table class="grid ui-widget ui-widget-content ui-corner-all">
+	<tr>
+		<td colspan="2" style="display: hidden"></td>
+		<th class="ui-widget-header" style="min-width: 150px;">Valor de referência</th>
+	</tr>
+	<?php foreach($this->itens as $item):?>
+	<tr>
+		<th class="ui-widget-header d" style="min-width: 150px;"><?=$this->escape($item->ite_itemdoexame);?></th>
+		<td class="ui-state-default" style="min-width: 200px;"><?=$this->escape($item->vlr_valor." ".$item->ite_tipo_medida);?></td>
+		<td class="ui-state-default" style="min-width: 200px;"><?=$this->escape($item->vlr_valordereferencia);?></td>
+	</tr>
+	<?php endforeach; ?>
+</table>

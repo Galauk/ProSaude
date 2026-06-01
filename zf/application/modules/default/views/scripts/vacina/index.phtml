@@ -1,0 +1,277 @@
+<div class="f">
+    <style>
+        .inputPadding { padding: 5px !important; border-radius: 3px; outline: none; }
+        .spacer{ margin-bottom: 10px; }
+        .tipo {
+            width: 200px !important;
+            height: 30px !important;
+            display: inline-block;
+            float: left;
+            font-size: 16px !important;
+            line-height: 1.25 !important;
+            margin-left: 5px !important;
+            font-weight: bold !important;
+            margin-right: 5px !important;
+        }
+    </style>
+	<form id="upperForm">
+        <div class="spacer" style="width: 525px">
+	    	<label class="tipo">Turno<font color="red">*</font>: &nbsp;</label>
+            <? date_default_timezone_set('America/Sao_Paulo'); ?>
+	    	<select class="ui-state-default inputPadding" id="turno" name="turno" style="width: 312px;">
+		        <option value=""> Selecione </option>
+		        <option value="1"
+		            <?= ($this->atendimento['turno'] == '1') || (date('H:i') > '05:59' && date('H:i') < '12:00') ? 'selected' : '' ?>>Manhã
+		        </option>
+		        <option value="2"
+		            <?= ($this->atendimento['turno'] == '2') || (date('H:i') >= '12:00' && date('H:i') < '18:00') ? 'selected' : '' ?>>Tarde
+		        </option>
+		        <option value="3"
+		            <?= ($this->atendimento['turno'] == '3') || (date('H:i') > '18:00' && date('H:i') < '23:59') ? 'selected' : '' ?>>Noite
+		        </option>
+	    	</select>
+		</div>
+
+        <div class="spacer">
+            <label class="tipo">Paciente:&nbsp;</label>
+            <input id="usu_nome" name="usu_nome" class="inputPadding" />
+            <input class="inputPadding" id="usu_codigo" name="usu_codigo" type="hidden" /><br />
+        </div>
+
+        <div class="spacer">
+            <label class="tipo">Nome da Mãe:&nbsp;</label>
+            <input class="inputPadding" id="usu_mae" name="usu_mae" /><br />
+        </div>
+
+        <div class="spacer">
+            <label class="tipo">Prontuário:&nbsp;</label>
+            <input class="inputPadding" id="usu_prontuario" name="usu_prontuario" /><br />
+        </div>
+
+        <div class="spacer">
+            <label class="tipo">Data de Nasc.:&nbsp;</label>
+            <input class="inputPadding" id="usu_datanasc" name="usu_datanasc" />
+        </div>
+
+        <div class="spacer">
+            <label class="tipo" >Campanha: &nbsp;</label>
+            <select class="ui-state-default inputPadding" style="width: 312px" name="campanha" id="campanha">
+                <option value="">Selecione</option>
+                <? foreach($this->campanhas as $campanha) { ?>
+                    <option value="<?=$campanha['cam_vac_codigo']?>" <?= $_GET['cam_codigo'] ? 'selected' : ''; ?>><?=$campanha['cam_vac_codigo']?> - <?=$campanha['descricao']?></option>
+                <? } ?>
+            </select>
+            <img src="/WebSocialSaude/zf/public/images/icons/add.png" alt="Nova Campanha" title="Nova Campanha" onclick="javascript: addCampanha()" style="margin-top: 7px; position: absolute; margin-left: 2px; cursor: pointer;" id="add_campanha">
+        </div>
+       
+	</form>
+</div>
+<div class="f" style="margin-left: 10px;">
+	<? if(APPLICATION_ENV == "development") { ?>
+	<a class="ui-button atualizar" href="#" id="rec-estoque">Estoque</a><br />
+	<a class="ui-button atualizar ui-state-disabled" href="#" id="rec-vacinas">Vacinas Aplicas</a><br />
+    <? } ?>
+	<a class="ui-button imprimir ui-state-disabled" data-atalho="CTRL+P" href="javascript:void(0)" id="print-atestado">Imprimir Atestado</a><br />
+	<a class="ui-button imprimir ui-state-disabled popup" rel="650x750" data-atalho="CTRL+C" href="javascript:void(0)" id="print-carteirinha">Imprimir Carteirinha</a>
+	<br>
+    <a class="ui-button limpar" href="#" onclick="document.getElementById('upperForm').reset(); eraseCookie('form_tmp'); window.location.reload()">Limpar campos</a>
+</div>
+<div class="f" style="margin-left: 10px;">
+	<h4>Legenda</h4>
+	<div class="legenda vacA"></div> Aplicada<br />
+	<div class="legenda vacP"></div> Preenchida<br />
+	<div class="legenda vacZ"></div> Aprazada<br />
+	<div class="legenda vacR"></div> Vários Reforços<br />
+</div>
+<div class="clear"></div>
+<div id="vacina-dialog" title="Selecione a data e/ou a ação" style="display: none;">
+    <form>
+        <div class="spacer" style="display: inline">
+            <div class="spacer">
+                <label class="tipo">Data:</label>
+                <input type="text" id="data-vac" name="data" class="data mask inputPadding" rel="99/99/9999" style="width: 280px">
+            </div>
+        </div>
+        <br>
+        <div class="spacer" style="margin-bottom: 0 !important">
+            <label class="tipo" style="width: 120px; float: left">Situação:</label>
+            <select class="inputPadding" name="usu_condicao" id="usu_condicao" multiple style="width: 292px;">
+                <option value="">Gestante</option>
+                <option value="">Puérpera</option>
+                <option value="">Comunicante de Hanseníase</option>
+                <option value="">Usuário Renal Crônico</option>
+                <option value="">Viajante</option>
+            </select>
+        </div>
+        <br>
+        <div class="spacer" style="display: inline">
+            <label class="tipo" style="width: 120px">Tipo de Atendimento:</label>
+            <select class="ui-state-default inputPadding" style="width: 292px" name="tipo_ate_vacina" id="tipo_ate_vacina">
+                <option value="">Selecione</option>
+                <option value="7">POPULAÇÃO GERAL</option>
+                <option value="1">INDÍGENAS</option>
+                <option value="2">ASSENTADOS</option>
+                <option value="3">ACAMPADOS</option>
+                <option value="4">MILITARES</option>
+                <option value="5">QUILOMBOLA</option>
+                <option value="6">POPULAÇÃO PRIVADA DE LIBERDADE</option>
+            </select>
+        </div>
+        <br>
+        <br>
+        <div class="spacer" style="display: inline">
+            <label class="tipo" style="width: 100px">Estratégia: &nbsp;</label>
+            <select class=" ui-state-default inputPadding" style="width: 292px" name="estrategia" id="estrategia">
+                <option value="">Selecione</option>
+                <? foreach($this->estrategias as $estrategia) { ?>
+                <option value="<?=$estrategia['vac_est_codigo']?>"><?=$estrategia['vac_est_codigo']?> - <?=$estrategia['descricao']?></option>
+                <? } ?>
+            </select>
+            <!-- <img src="/WebSocialSaude/zf/public/images/icons/add.png" alt="Nova Campanha" title="Nova Campanha" onclick="javascript: addEstrategia()" style="margin-top: 7px; position: absolute; margin-left: 2px; cursor: pointer;" id="add_campanha"> -->
+        </div>
+        
+        <br>
+    </form>
+</div>
+<div class="clear"></div>
+<div id="vacina-dose-dialog" title="Selecione a data e/ou a ação" style="display: none;">
+    <form>
+        <div class="spacer" style="display: inline">
+            <div class="spacer">
+                <label class="tipo">Data:</label>
+                <input type="text" id="data-vac-dose" name="data" class="data mask inputPadding" rel="99/99/9999" style="width: 280px">
+            </div>
+        </div>
+        <br>
+        <div class="spacer" style="margin-bottom: 0 !important">
+            <label class="tipo" style="width: 120px; float: left">Situação:</label>
+            <select class="inputPadding" name="usu_condicao" id="usu_condicao" multiple="true" style="width: 292px;">
+                <option value="1">Gestante</option>
+                <option value="2">Puérpera</option>
+                <option value="3">Comunicante de Hanseníase</option>
+                <option value="4">Usuário Renal Crônico</option>
+                <option value="5">Viajante</option>
+            </select>
+        </div>
+        <br>
+        <div class="spacer" style="display: inline">
+            <label class="tipo" style="width: 120px">Dose:</label>
+            <select class="ui-state-default inputPadding" style="width: 292px" name="dose" id="dose">
+                <option value="">Selecione</option>
+            </select>
+        </div>
+        <br><br>
+        <div class="spacer" style="display: inline">
+            <label class="tipo" style="width: 120px">Tipo de Atendimento:</label>
+            <select class="ui-state-default inputPadding" style="width: 292px" name="tipo_ate_vacina" id="tipo_ate_vacina">
+                <option value="">Selecione</option>
+                <option value="7">POPULAÇÃO GERAL</option>
+                <option value="1">INDÍGENAS</option>
+                <option value="2">ASSENTADOS</option>
+                <option value="3">ACAMPADOS</option>
+                <option value="4">MILITARES</option>
+                <option value="5">QUILOMBOLA</option>
+                <option value="6">POPULAÇÃO PRIVADA DE LIBERDADE</option>
+            </select>
+        </div>
+        <br>
+        <br>
+        <div class="spacer" style="display: inline">
+            <label class="tipo" style="width: 100px">Estratégia: &nbsp;</label>
+            <select class=" ui-state-default inputPadding" style="width: 292px" name="estrategia" id="estrategia">
+                <option value="">Selecione</option>
+                <? foreach($this->estrategias as $estrategia) { ?>
+                <option value="<?=$estrategia['vac_est_codigo']?>"><?=$estrategia['vac_est_codigo']?> - <?=$estrategia['descricao']?></option>
+                <? } ?>
+            </select>
+            <!-- <img src="/WebSocialSaude/zf/public/images/icons/add.png" alt="Nova Campanha" title="Nova Campanha" onclick="javascript: addEstrategia()" style="margin-top: 7px; position: absolute; margin-left: 2px; cursor: pointer;" id="add_campanha"> -->
+        </div>
+        <br>
+    </form>
+</div>
+<div class="clear"></div>
+<div id="vacina-tratamento-dialog" title="Selecione a data e/ou a ação" style="display: none;">
+    <form>
+        <div class="spacer" style="display: inline">
+            <div class="spacer">
+                <label class="tipo">Data:</label>
+                <input type="text" id="data-vac-trat" name="data" class="data mask inputPadding" rel="99/99/9999" style="width: 280px">
+            </div>
+        </div>
+        <br>
+        <div class="spacer" style="margin-bottom: 0 !important">
+            <label class="tipo" style="width: 120px; float: left">Situação:</label>
+            <select class="inputPadding" name="usu_condicao" id="usu_condicao" multiple="true" style="width: 292px;">
+                <option value="1">Gestante</option>
+                <option value="2">Puérpera</option>
+                <option value="3">Comunicante de Hanseníase</option>
+                <option value="4">Usuário Renal Crônico</option>
+                <option value="5">Viajante</option>
+            </select>
+        </div>
+        <br>
+        <div class="spacer" style="display: inline">
+            <label class="tipo" style="width: 120px">Tratamento:</label>
+            <select class="ui-state-default inputPadding" style="width: 292px" name="tratamento" id="tratamento">
+                <option value="">Selecione</option>
+            </select>
+        </div>
+        <br><br>
+        <div class="spacer" style="display: inline">
+            <label class="tipo" style="width: 120px">Tipo de Atendimento:</label>
+            <select class="ui-state-default inputPadding" style="width: 292px" name="tipo_ate_vacina" id="tipo_ate_vacina">
+                <option value="">Selecione</option>
+                <option value="7">POPULAÇÃO GERAL</option>
+                <option value="1">INDÍGENAS</option>
+                <option value="2">ASSENTADOS</option>
+                <option value="3">ACAMPADOS</option>
+                <option value="4">MILITARES</option>
+                <option value="5">QUILOMBOLA</option>
+                <option value="6">POPULAÇÃO PRIVADA DE LIBERDADE</option>
+            </select>
+        </div>
+        <br>
+        <br>
+        <div class="spacer" style="display: inline">
+            <label class="tipo" style="width: 100px">Estratégia: &nbsp;</label>
+            <select class=" ui-state-default inputPadding" style="width: 292px" name="estrategia" id="estrategia">
+                <option value="">Selecione</option>
+                <? foreach($this->estrategias as $estrategia) { ?>
+                <option value="<?=$estrategia['vac_est_codigo']?>"><?=$estrategia['vac_est_codigo']?> - <?=$estrategia['descricao']?></option>
+                <? } ?>
+            </select>
+            <!-- <img src="/WebSocialSaude/zf/public/images/icons/add.png" alt="Nova Campanha" title="Nova Campanha" onclick="javascript: addEstrategia()" style="margin-top: 7px; position: absolute; margin-left: 2px; cursor: pointer;" id="add_campanha"> -->
+        </div>
+        <br>
+    </form>
+</div>
+<div id="addCampanha-dialog" title="Nova campanha" style="display: none">
+    <form id="formCampanha" method="POST" action="#">
+        <div style="display: inline">
+            <label style="width: 100px">Campanha:</label>
+            <input type="text" id="descricao" name="descricao" required class="ui-state-default" style="width: 250px" autocomplete="false">
+        </div>
+        <div style="height: 6px;"></div>
+        <div style="display: inline">
+            <label style="width: 100px; vertical-align: 40px;">Vacina:</label>
+            <select id="vacina" name="vacina" class="ui-state-default" multiple style="width: 252px; height: 100px !important">
+                <option value="" selected disabled>Escolha</option>
+            </select>
+        </div>
+        <div style="height: 6px;"></div>
+        <div style="display: inline">
+            <label style="width: 100px">Válido de:</label>
+            <input type="text" id="validade_de" name="validade_de" class="data mask ui-state-default" rel="99/99/9999" style="width: 250px">
+        </div>
+        <div style="height: 6px;"></div>
+        <div style="display: inline">
+            <label style="width: 100px">Válido até:</label>
+            <input type="text" id="validade_ate" name="validade_ate" class="data mask ui-state-default" rel="99/99/9999" style="width: 250px">
+        </div>
+        <input type="hidden" name="ativo" value="true">
+    </form>
+</div>
+
+<div id="carteirinha_campanha">
+<?=$this->action("carteirinha","vacina");?>
+</div>

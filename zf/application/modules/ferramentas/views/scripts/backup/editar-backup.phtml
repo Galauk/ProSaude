@@ -1,0 +1,26 @@
+<form method="post" action="<?= $this->url(array("action" => "deletar")); ?>" id="salvar-bk">
+    <label class="f">Backups:</label>
+        <div style="margin-left: 5px;" class="f">
+            <select size="10" style="width: 300px;" id="backup-itens">
+                <option value="0" disabled="disabled">Selecione o(s) Backup(s)</option>
+            </select>
+        </div>
+        <div class="clear"></div>
+        <div class="space"></div>
+
+    <label class="f">Arquivo Selecionado:</label>
+        <input type="text" name="bk_nome" id="bk_nome" class="focus" />
+        <input type="hidden" name="bk_nome_bk" id="bk_nome_bk" />
+        <div class="clear"></div>
+        <div class="space"></div>
+    <!-- <label class="f">Destino do Download:</label>
+        <input type="text" name="bk_nome" id="bk_nome" class="focus" />
+        <input type="hidden" name="bk_nome_bk" id="bk_nome_bk" />
+        <div class="clear"></div>
+        <div class="space"></div> -->
+        <input type="hidden" name="root" id="root" value="<?=$_SESSION["root"]?>">
+        <input type="hidden" name="modulo" id="modulo" value="<?=$_SESSION["modulo"]?>">
+    <a href="#" id="deletar" class="ui-button excluir3">Deletar</a>
+    <a href="#" id="download" class="ui-button transferir">Download</a>
+    
+</form>

@@ -1,0 +1,70 @@
+<div id="conteudo">
+    <?php if(count($this->relatorio) > 0):?>
+        <table width="100%">
+            <tr>
+                <th width="250">
+                    Setor
+                </th>
+                <th width="60" >
+                    Data
+                </th>
+                <th width="200">
+                    Tipo de Entrada
+                </th>
+                <th width="150" >
+                    Fornecedor
+                </th>
+                <th width="100" >
+                    Usuário
+                </th>
+            </tr>
+            <?php foreach($this->relatorio as $itens):?>
+            <tr>
+                <td><?=$itens[set_nome]?></td>
+                <td><?=$this->data($itens[mov_data])?></td>
+                <td><?=$itens[mov_entrada]?></td>
+                <td><?=$itens[for_nome]?></td>
+                <td><?=$itens[usr_nome]?></td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <table>
+                         <tr>
+                            <th width="308">
+                                Produto
+                            </th>
+                            <th width="180">
+                                Lote
+                            </th>
+                            <th width="160">
+                                Validade
+                            </th>
+                            <th width="110">
+                                Quantidade
+                            </th>
+                        </tr>
+                        <?php foreach ($itens[$itens[mov_codigo]] as $produto):?>
+                        <tr>
+                            <td>
+                                <?=$produto[pro_nome]?>
+                            </td>
+                            <td>
+                                <?=$produto[ite_lote]?>
+                            </td>
+                            <td>
+                                <?=$this->data($produto[ite_validade])?>
+                            </td>
+                            <td>
+                                <?=round($produto[ite_quantidade])?>
+                            </td>
+                        </tr>
+                        <?php endforeach;?>
+                    </table>
+                </td>
+            </tr>
+            <?php endforeach;?>
+        </table>
+    <?php else:?>
+        <em>Nenhum Item encontrado</em>
+    <?php endif;?>
+</div>

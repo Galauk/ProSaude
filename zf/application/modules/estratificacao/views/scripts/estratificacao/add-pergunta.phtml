@@ -1,0 +1,102 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/estratificacao/add-pergunta.css">
+<script src="/WebSocialSaude/zf/public/js/estratificacao/estratificacao.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+
+
+<form name="busca" id = "formPergunta" method="post" action="<?=$this->url(array("action" => "add-pergunta"))?>">
+    
+    <div style = "display: inline-block;width: 500px;">
+    
+        <label style= "padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; background-color: rgb(255, 225, 225)!important; height: 20px;">Grupo:</label>
+        
+        <select name="gruposelect" id="gruposelect" onchange = "escolhaUmGrupo()">
+            
+            <option value="0" >Escolha um Grupo</option>
+
+            <? foreach ($this->grupos as $item) { ?>
+
+                <option value="<?=$item[id_grupoperg]?>">
+                    <?=$item[est_gruponome]?>
+                </option>
+
+            <?}?>
+
+        </select>
+
+    </div>
+    
+    <div hidden id = "escolherGrupo">
+
+        <p>Deseja realmente escolher este grupo ?</p>
+
+
+        
+    </div>
+
+    <div hidden id ="botoes">     
+
+        <div style = "display : inline-block">
+                    
+            <a onclick="abrePergunta()" class="ui-button">
+                <div>
+                    <img src="/WebSocialSaude/zf/public/images/icons/add.png">
+                </div>
+
+                Adiconar Pegunta
+            </a>
+
+        </div>
+            
+        <div style = "display : inline-block">
+                        
+            <a onclick="abrePergunta()" class="ui-button">
+                <div>
+                    <img src="/WebSocialSaude/zf/public/images/icons/atualizar.png">
+                </div>
+    
+                Trocar Grupo
+            </a>
+                
+        </div>
+
+    </div>
+    
+    <br>
+
+    <!-- botao para adicionar pergunta -->
+
+    <div id="dadosPerguntas" style="height: auto;">
+
+        <?php
+        //echo "<pre>";print_r($this->procedimento);die();
+            foreach ($this->perguntas as $perguntas) {
+                echo
+                '
+                <div class="atePerg" id="atePerg">
+                <input type="hidden" name="" value=""/>
+                <div>
+                    <label style= "padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; background-color: rgb(255, 225, 225)!important; height: 20px;">Pergunta:</label>
+                    <input class="ui-state-default" type="text" name="pergunta[pergunta][]" id="pergunta[pergunta][]" style="width: 300px; height: 20px; padding-top: 2px; padding-bottom: 5px;">
+                </div>
+                <div>
+                    <label  style= "padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; background-color: rgb(255, 225, 225)!important; height: 20px;">Valor:</label>
+                    <input class="ui-state-default" type="number" name="pergunta[valor][]" id="pergunta[valor][]"" style="width: 50px; height: 20px; padding-top: 2px; padding-bottom: 5px;">
+                </div>
+                ';
+            }
+        ?>
+    </div>
+    <div class="div-footer center-block" style="width: 365px; margin-top: 15px">
+        <a href="#" class="ui-button salvar">Salvar</a>
+
+    </div>
+
+
+
+    
+
+</form>

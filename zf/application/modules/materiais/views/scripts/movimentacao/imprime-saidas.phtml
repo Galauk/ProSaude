@@ -1,0 +1,166 @@
+<script>window.print();</script>
+<table>
+    <!-- IINICIO RODAPÉ -->
+    <tfoot>
+        <tr>
+            <td>
+                <div id="footer">
+                    <div id="endereco">
+                        <?=$this->secretaria->endereco_secretaria?>, CNPJ:<?=$this->secretaria->cnpj_secretaria?>, FONE:<?=$this->secretaria->telefone_secretaria?>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+    <!-- FIM RODAPÉ -->
+    <!--CABEÇALHO-->
+    <thead>
+        <tr>
+            <td colspan="4">
+                <div class="cabecalho">
+                    <div class="brasao">
+                        <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" height="95" width="95"/>
+                    </div>
+                    <div class="dados_cabecalho">
+                        <b><?=$this->secretaria->nome_secretaria?></b><br/>
+                        C.N.P.J.:<?=$this->secretaria->cnpj_secretaria?><br/>
+                        <b><?=$this->usr->uni_desc;?></b>
+                    </div>
+                </div>
+                <div id="titulo_impressao">
+                    <b><?=$this->tipo_impressao;?></b>
+                </div>
+                <div class="dados_mov">
+                    <table width="100%" border="0">
+                        <tr>
+                            <td class="dados_mov_label">Código:</td>
+                            <td><b><?=$this->dados_mov?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="dados_mov_label">Data:</td>
+                            <td>
+                                <b><?=$this->data($this->dados_mov_data,
+                                        Zend_Date::DATE_MEDIUM)?></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dados_mov_label">Fornecedor/Paciente:</td>
+                            <td><b><?=$this->dados_mov_forn?><?=$this->dados_usu_nome?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="dados_mov_label">Nº da nota:</td>
+                            <td><b><?=$this->dados_mov_nota?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="dados_mov_label">
+                                Centro Estocador:
+                            </td>
+                            <td><b><?=$this->dados_mov_centroo?></b></td>
+                        </tr>
+                        <tr>
+                            <td class="dados_mov_label">
+                                Observação:
+                            </td>
+                            <td><b><?=$this->dados_mov_observacao?></b></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="dados_mov_cabecalho">
+                    <tr>
+                        
+                        <td class="linha_tabela_cabecalho" style="width:60%;">
+                            <b>Produto</b>
+                        </td>
+                        
+                        <td class="linha_tabela_cabecalho" style="width:10%;">
+                            <b>Lote</b>
+                        </td>
+                        <td class="linha_tabela_cabecalho" style="width:10%;">
+                            <b>Validade</b>
+                        </td>
+                        <td class="linha_tabela_cabecalho" style="width:15%;">
+                            <b>Fabricante</b>
+                        </td>
+                        <td class="linha_tabela_cabecalho" style="width:5%;">
+                            <b>Quantidade</b>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </thead>
+    <!--FIM DO CABEÇALHO-->
+    <!--INICIO CONTEÚDO -->
+    <tbody>
+        <tr>
+            <td>
+                <table class="dados_mov_conteudo">
+                    <?php
+                    if (count($this->itens)>0) {
+                        $i=0;
+                        $qtd_total=0;
+                        $vlr_total=0;
+                        foreach ($this->itens as $item) { 
+                            //Controle de tamanho da página pro rodapé
+                            $i = $i+32;
+                            if ($i==640) { $i=0; }
+                            $qtd_total=$item->ite_quantidade+$qtd_total;
+                            $vlr_total=$item->ite_vlrtotal+$vlr_total;?>
+                            <tr>
+                                
+                                <td class="linha_tabela" style="width:53%;">
+                                    <?=$item->pro_nome?>
+                                </td>
+                                
+                                <td class="linha_tabela" style="width:10%;">
+                                    <?=$item->ite_lote?>
+                                </td>
+                                <td class="linha_tabela" style="width: 10%">
+                                    <?=$item->ite_validade?>
+                                </td>
+                                <td class="linha_tabela" style="width:15%;">
+                                   <?=($item->fab_descricao == "" || $item->fab_descricao == NULL ? "Não Informado" : $item->fab_descricao)?>
+                                </td>
+                                <td class="linha_tabela" style="width:5%;">
+                                    <?=number_format($item->ite_quantidade
+                                            ,0,'.','')?>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                        <tr>
+                            <td class="linha_tabela" colspan="3" 
+                                style="width:80%;">
+                                    <span style="float: right;"> 
+                                        <b>Total:</b>
+                                    </span>    
+                            </td>
+                            <td class="linha_tabela" style="width:10%;">
+                                <?=$qtd_total?>
+                            </td>
+                            <td style="width:10%;"></td>
+                        </tr>
+                    <?php 
+                    } else { ?>
+                        <tr>
+                            <td class="linha_tabela" colspan="5">
+                                Nenhuma movimentação realizada até o momento!
+                            </td>
+                        </tr>
+                    <?php } ?>
+                    <?php
+                    // Pega o número de linha e retira pelo total para dar a distância 
+                    if($i != 640) {
+                        $pixels = 640 - $i;
+                    }
+                    ?>
+                    <tr style="height: <?=$pixels?>px;"></tr>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+    <!--FIM CONTEÚDO-->
+</table>

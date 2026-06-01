@@ -1,0 +1,57 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<br />
+<form name="busca" method="post" action="envia-consulta-dados-horus" id="consulta-horus">
+    <label class="ui-corner-bl ui-corner-tr">Buscar(Num. Protocolo):</label>
+    <input size="50" class="focus ui-state-default" name="num_protocolo" id="num_protocolo" value="" type="text" onkeypress='return SomenteNumero(event)'>
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+<br />
+<table>
+    <?php if (isset($this->qtdDadosEnviado)) { ?>
+        <tr border="1">
+            <td colspan="3" style="width: 30%">
+                Você esta visualizando os dados do protocolo: <strong><?=$this->numProtocolo?></strong>
+            </td>
+            <?php/*
+            <td colspan="1" style="width: 70%">
+                <img style="float: left; margin-top: 2px;" src="<?=$this->baseUrl()?>/public/images/icons/excluir.png" alt="Excluir" title="Excluir">
+                <a style="margin-left: 2px;" href="#" onclick="excluiProtocolo(<?=$this->numProtocolo?>)" >
+                    Excluir dados do protocolo
+                </a>
+            </td>*/?>    
+        </tr>
+        <tr>
+            <td class="odd" colspan="3"><strong><?=$this->qtdDadosEnviado?></strong> produtos enviados com sucesso, o horus não exibe quais produtos foram enviados.</td>
+        </tr>
+    <?php } ?>
+</table>
+<table>
+    <?php if (isset($this->dadosInconsistente["qtdFalha"])) { ?>
+        <tr>
+            <td colspan="3"><strong><?=$this->dadosInconsistente["qtdFalha"] != "" ? $this->dadosInconsistente["qtdFalha"] : "0"?></strong> produto(s) enviado inconsistente.</td>
+        </tr>
+    <?php } ?>
+    <tr>
+        <th colspan="3">Listagem de inconsistências </th>
+    </tr>
+    <tr>
+        <th>Retorno</th>
+        <th>Tipo de Envio</th>
+        <th>Valor Inconsistente</th>
+    </tr>
+    <?php if (count($this->dadosInconsistente) > 0) { ?>
+        <?php foreach($this->dadosInconsistente as $item => $value) { ?>
+                <tr class="odd">
+                    <td><?=$value["dsCampo"]." ".$value["dsMotivo"]?></td>
+                    <td><?=$value["tipoXml"]?></td>
+                    <td><?=$value["valorInconsistente"]?></td>
+                </tr>
+        <?php } ?>
+    <?php } else { ?>
+            <tr>
+                <td colspan="3">Nenhuma informação encontrada até o momento! Efetue uma busca!</td>
+            </tr>
+    <?php } ?>
+</table> 
+

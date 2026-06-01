@@ -1,0 +1,131 @@
+<?php $this->errorMsg(); ?>
+<?php $this->dialog();
+//echo"<pre>".print_r($this->dados,1); 
+// error_reporting(E_ALL);
+
+?>
+
+<? if(!$this->edicao){ ?>
+
+<form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar-rota")); ?>">
+    <input type="hidden" name="via_codigo" id="via_codigo" value="<?= $this->dados->via_codigo?>" />
+    <label>Descrição:</label>
+    <input class="inputPadding " type="text" name="rotdescri" id="rotdescri" value="<?=(!$this->dados->rotdescri ? "" : $this->dados->rotdescri);?>" class="" />
+    
+    <br />
+    <label>Estado:</label>
+    <select class="ui-state-default inputPadding" name="est_codigo" id="est_codigo" style="width: 302px" onchange="getCidades(this.value)">     
+        <? foreach ($this->estados as $estado){ ?>
+        <option value="<?=$estado->uf_sigla?>" <?=$estado->uf_sigla == "PR" ? 'selected' : '' ?>><?=$estado->uf_sigla?></option>         
+        <? } ?>           
+    </select>
+    <br />
+    <div id="div_block" style="display: inline !important">
+        <label>Cidade:</label>
+        <select class="ui-state-default inputPadding cid_codigo" name="cid_codigo[]" id="cid_codigo" style="width: 302px">
+            <option value="" disabled selected>Selecione o estado....</option>
+        </select>
+        <a href="javascript: novaCidade()" class="ui-button add" style="margin-left: 15px;" >Adicionar cidade</a>
+
+        <!-- <img src="/WebSocialSaude/zf/public/images/icons/add.png" alt="" onclick="javascript: novaCidade()" style="cursor: pointer; margin-top: 2px; position: absolute; margin-left: 2px;"> -->
+    </div>
+    <br />
+    <br />
+    
+    <a href="#" class="ui-button salvar" style="margin-left: 185px;">Salvar</a>
+	<a href="<?=$this->url(array("action"=>"rota", "module"=>"transporte","controller" => "viagem"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+</form>
+<div class="space"></div>
+<? } else { ?>
+    <form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar-rota")); ?>">
+    <? //echo "<pre>"; print_r($this->rota->toArray()); exit;?>
+    <input type="hidden" name="rotcodigo" id="rotcodigo" value="<?= $this->rota['rotcodigo']?>" />
+    <label>Descrição:</label>
+    <input class="inputPadding " type="text" name="rotdescri" id="rotdescri" value="<?=(!$this->rota['rotdescri'] ? "" : $this->rota['rotdescri']);?>" class="" />
+    
+    <br />
+    <label>Estado:</label>
+    <select class="ui-state-default inputPadding" name="est_codigo" id="est_codigo" style="width: 302px" onchange="getCidades(this.value)">     
+        <? foreach ($this->estados as $estado){ ?>
+        <option value="<?=$estado->uf_sigla?>" <?=(($estado->uf_sigla == "PR") || $estado->uf_sigla == $this->rota['uf']) ? 'selected' : '' ?>><?=$estado->uf_sigla?></option>         
+        <? } ?>           
+    </select>
+    <br />
+    <div id="div_block" style="display: inline !important">
+        <label>Cidade:</label>
+        <? if(count(explode(",", $this->rota['cid_codigo'])) > 1){ ?>
+        <select class="ui-state-default inputPadding cid_codigo" name="cid_codigo[]" id="cid_codigo" style="width: 302px" data-cid_codigo="<?= explode(",", $this->rota['cid_codigo'])[0]?>">
+            <option value="" disabled selected>Selecione o estado....</option>
+        </select>
+        <a href="javascript: novaCidade()" class="ui-button add" style="margin-left: 15px;" >Adicionar cidade</a>
+        <? for($i = 1; $i < count(explode(",", $this->rota['cid_codigo'])) ; $i++){ ?>
+        <br>
+        <label>Cidade:</label>
+        <select class="ui-state-default inputPadding cid_codigo" name="cid_codigo[]" id="cid_codigo" style="width: 302px" data-cid_codigo="<?= explode(",", $this->rota['cid_codigo'])[$i]?>">
+            <option value="" disabled selected>Selecione o estado....</option>
+        </select>
+            <? } ?>
+        <? } else { ?>
+            <select class="ui-state-default inputPadding cid_codigo" name="cid_codigo[]" id="cid_codigo" style="width: 302px" data-cid_codigo="<?= $this->rota['cid_codigo']?>">
+                <option value="" disabled selected>Selecione o estado....</option>
+            </select>
+        <? } ?>
+        <!-- <img src="/WebSocialSaude/zf/public/images/icons/add.png" alt="" onclick="javascript: novaCidade()" style="cursor: pointer; margin-top: 2px; position: absolute; margin-left: 2px;"> -->
+    </div>
+    <br />
+    <br />
+    
+    <a href="#" class="ui-button salvar" style="margin-left: 185px;">Salvar</a>
+	<a href="<?=$this->url(array("action"=>"rota", "module"=>"transporte","controller" => "viagem"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+</form>
+<div class="space"></div>
+
+<? } ?>
+
+<script>
+    function getCidades(uf){
+        setTimeout(() => {
+            $.get(baseUrl+"/transporte/viagem/get-cidades", {uf: uf}, function(response){
+                if(!!response){
+                    if(response.length > 0){
+                        let selects = document.querySelectorAll(".cid_codigo")
+                        let sels = selects.forEach(_item => {
+                            if(_item.value == ""){
+                                $(_item).empty()
+                                
+                                $(_item).append(`<option value="" selected>Carregando...</option>`)
+
+                                setTimeout(function(){
+                                    $(_item).empty()
+                                    $(_item).append(`<option value="">Selecione</option>`)
+
+                                    response.forEach(function(item){
+                                        $(_item).append(`<option value="${item.cid_codigo}" ${$(_item).data('cid_codigo') == item.cid_codigo ? 'selected' : ''}>${item.cid_nome}</option>`)
+                                    })
+                                }, 1500)
+                            }
+                        })   
+                    }
+                }
+            })
+        }, 500)
+    }
+
+    $(document).ready(getCidades($("#est_codigo").val()))
+
+    function novaCidade(){
+
+        const div = `
+        <br>
+        <label>Cidade:</label>
+        <select class="ui-state-default inputPadding cid_codigo" name="cid_codigo[]" id="cid_codigo" style="width: 302px">
+            <option value="" disabled selected>Selecione o estado....</option>
+        </select>
+        `
+
+        $("#div_block").append(div)
+
+        getCidades($("#est_codigo").val())
+    }
+
+</script>

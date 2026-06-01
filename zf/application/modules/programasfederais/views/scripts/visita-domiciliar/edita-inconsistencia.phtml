@@ -1,0 +1,21 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<form name="edita_inc" method="post" action="<?= $this->url(array("action" =>"salvar-edita-inconsistencias")); ?>">
+    <input type="hidden" name="esv_codigo" value="<?=$this->dados->esv_codigo?>" />
+    <label>INE:</label>
+    <input name="esv_ine" class="ui-state-default" value="<?=$this->dados->esv_ine?>" onkeypress="return SomenteNumero(event)" maxlength="10" /><br />
+    <label>CNS profissional:</label>
+    <input name="esv_profissional_cns" class="ui-state-default" value="<?=$this->dados->esv_profissional_cns?>" /><br />
+    <label>Data de nasc. paciente:</label>
+    <input name="esv_usu_datanasc" class="ui-state-default mask" rel='99/99/9999' value="<?=$this->data($this->dados->esv_usu_datanasc,Zend_Date::DATE_MEDIUM)?>" /><br />
+    <label>CNS paciente:</label>
+    <input name="esv_usu_cns" class="ui-state-default" value="<?=$this->dados->esv_usu_cns?>" /><br />
+    <label>Sexo:</label>
+    <select name="esv_usu_sexo" class='ui-state-default'>
+        <option value="0 L" <?=($this->dados->esv_usu_sexo == '0 L' ? 'selected' : '')?>>Masculino</option>
+        <option value="1 L" <?=($this->dados->esv_usu_sexo == '1 L' ? 'selected' : '')?>>Feminino</option>
+    </select><br />
+    <a href="#" class="ui-button salvar">Salvar</a>
+    <a href="#" class="ui-button limpar">Limpar</a>
+</form>
+<div class="space"></div>

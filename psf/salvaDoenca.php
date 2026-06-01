@@ -1,0 +1,5 @@
+<?
+include"../db.inc.php";
+
+
+?>

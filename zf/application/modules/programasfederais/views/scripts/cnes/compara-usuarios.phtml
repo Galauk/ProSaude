@@ -1,0 +1,47 @@
+<form name="compara-prestadores" action="<?=$this->url(array("action"=>"salvar-comparacao-usuarios"))?>" method="post">
+<table style="width: 1000px;">
+    <tr>
+        <th>Usuários CNES</th>
+        <th>Usuários Atuais</th>
+    </tr>
+    <?php if (count($this->dados) > 0) { ?>
+            <?php foreach ($this->dados as $dadosCnes) { ?>
+                    <tr>
+                        <td style="border: 1px solid #919B9C;"><span style="margin-left: 04px;"><?=$dadosCnes["nome_prof"]?></span></td>
+                        <td>
+                            <table style="border: 1px solid #919B9C;">
+                                <td>
+                                    <input type="radio" name="usr|<?=$dadosCnes["cpf_prof"]?>" value="novo|<?=$dadosCnes["nome_prof"]?>" /> Novo
+                                </td>
+                                <?php foreach ($dadosCnes as $usuarios) { ?>    
+                                    <?php foreach ($usuarios as $dadosUsr) { ?>
+                                        <tr>
+                                            <td>
+                                                <input type="radio" name="usr|<?=$dadosCnes["cpf_prof"]?>" value="<?=$dadosUsr["usr_codigo"]?>|<?=$dadosCnes["cpf_prof"]?>" />
+                                                <?=$dadosUsr["usr_nome"]?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                <?php } ?>
+                            </table>
+                        </td>
+                    </tr>
+            <?php } ?>
+    <?php } else {  ?>
+            <tr height="26">
+                <td style="border: 1px solid #919B9C;" colspan="2">
+                    <span style="margin-left: 04px;">Nenhum usuário ser comparado!</span>
+                </td>
+            </tr>
+            <tr height="26">
+                <td style="border: 1px solid #919B9C;" colspan="2">
+                    <span style="margin-left: 04px;">Procedimento considerado como realizado!</span>
+                </td>
+            </tr>        
+    <?php } ?>
+</table>
+<?php if (count($this->dados) > 0) { ?>    
+    <a href="#" class="ui-button salvar" style="margin-top: 06px;">Salvar</a>
+<?php } ?>
+<a href="<?=$this->url(array("controller"=>"cnes","action"=>"orientacoes"));?>"  class="ui-button voltar" data-atalho="ESC" style="margin-top: 06px;">Voltar</a>
+</form>

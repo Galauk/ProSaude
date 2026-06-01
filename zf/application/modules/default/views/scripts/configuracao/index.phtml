@@ -1,0 +1,133 @@
+<?php $this->dialog(); ?>
+<div class='abas'> 
+    <ul class="tabs">
+        <?foreach ($this->categorias as $categoria):?>
+            <li><a href="#tabs1-<?=$categoria[cac_codigo]?>"><?=$categoria[cac_descricao]?></a></li>
+        <?endforeach;?>
+        <li><a href="#tabs1-0">REALOCA&Ccedil;&Atilde;O DE PACIENTE</a></li>
+    </ul>
+    <form method="post" action="<?=$this->url(array("action"=>"salvar"));?>">
+        <?foreach ($this->dados as $ind=>$itens):?>
+            <div id='tabs1-<?=$ind?>'>        
+                <?php foreach($itens[itens] as $item): ?>
+                    <label><?=$item[conf_label];?>: </label>
+                    <?php 
+                    if($item[conf_readonly]=='t'){
+                            $attr = array("readonly"=>"readonly","disabled"=>"disabled");
+                    } else {
+                            $attr = array();
+                    }
+                    switch ($item[conf_tipo]) {
+                            case Application_Model_Configuracao::STRING:
+                                    echo $this->formText("config[".$item[conf_codigo]."]", $item[conf_valor_string], $attr);
+                                    break;
+                            case Application_Model_Configuracao::BOOL:
+                                    echo $this->radio("config[".$item[conf_codigo]."]", $item[conf_valor_bool]?"t":"f", array("t"=>"Sim","f"=>"Não"), $attr);
+                                    break;
+                            case Application_Model_Configuracao::INT:
+                                    echo $this->formText("config[".$item[conf_codigo]."]", $item[conf_valor_int], $attr);
+                                    break;
+                            case Application_Model_Configuracao::DATA:
+                                    echo $this->formText("config[".$item[conf_codigo]."]", $this->data($item[conf_valor_data],'dd/MM/YYYY',FALSE),array_merge(array("class"=>"data"),$attr));
+                                    break;
+
+                            default:
+                                    break;
+                    }
+
+                    ?>
+                    <input type="hidden" name="tipo[<?=$item[conf_codigo];?>]" value="<?=$item[conf_tipo];?>" />
+                    <br />
+
+                <?php endforeach; ?>
+                <a href="#" class="ui-button salvar">Salvar</a>
+            </div>
+        <?endforeach;?>
+	
+    </form>
+        <script>
+            $(function(){
+                var tbl = $('#tbl-agendamentos');
+                var frm = $('#frm-realocacao');
+                var btn = $('#btn-salvar');
+                var npt = $('#buscar_paciente');
+                var hdn = $('#usu_codigo');
+                $('.slc-status').live('change', function(){
+                    $('.slc-status:not(:focus)').val('');
+                });
+                btn.click(function(e){
+                    e.preventDefault();
+                    var d = frm.serializeArray();
+                    var dados = {};
+                    for(var i in d){
+                      if(d[i].name == 'age_atendido' && d[i].value.length > 0){
+                        dados['age_atendido'] = d[i].value;
+                        dados['age_codigo'] = d[Number(i)+1].value;
+                      }
+                    }
+                    if(d.hasOwnProperty('3') && d[3].value.length > 0){
+                        $.ajax({
+                            url:frm.attr('action'),
+                            type:'POST',
+                            dataType:'JSON',
+                            data:dados,
+                            success:function(d){
+                                if(d.success){
+                                    mensagem('Sucesso!', 'Paciente realocado com sucesso!');
+                                    npt.val('');
+                                    hdn.val('');
+                                    tbl.html('');
+                                } else {
+                                    mensagem('Erro!', 'Ocorreu um erro ao realocar o paciente!');
+                                }
+                            },
+                            error:function(){
+                                mensagem('Erro!', 'Erro ao tentar realocar o paciente!');
+                            }
+                        });
+                    }
+                });
+                npt.buscar({
+                    callback: function(event, ui){
+                        if(ui.item.id){
+                            $.post(baseUrl+'/paciente/get-paciente-agendamento', {usu_codigo:ui.item.id}, function(d){
+                                var html = '';
+                                for(var a in d){
+                                    html += '<tr>';
+                                    html += '<td class="ui-widget ui-widget-content">'+d[a].age_data+'</td>';
+                                    html += '<td class="ui-widget ui-widget-content">'+d[a].usr_nome+'</td>';
+                                    html += '<td class="ui-widget ui-widget-content">'+d[a].status+'</td>';
+                                    html += '<td class="ui-widget ui-widget-content">';
+                                    html += '<select name="age_atendido" class="slc-status"><option value=""></option>';
+                                    for(o in d[a].opcoes){
+                                        html += '<option value="'+o+'">'+d[a].opcoes[o]+'</option>';
+                                    }
+                                    html += '</select><input type="hidden" name="age_codigo" value="'+d[a].age_codigo+'"></td></tr>';
+                                }
+                                tbl.html(html);
+                            });
+                        }
+                    }
+                });
+            });
+
+        </script>
+        <div id='tabs1-0'>
+            <form id="frm-realocacao" action="<?= $this->url(array('module'=>'agendamento', 'controller'=>'agendamento', "action" => "realocar-paciente")); ?>" method="post">
+                <label>Paciente:</label>
+                <input type="hidden" name="usu_codigo" id="usu_codigo" value="">
+                <input type="text" name="buscar_paciente" id="buscar_paciente" value="">
+                <table class="grid ui-widget ui-widget-content ui-corner-all" width="70%">
+                    <tr class="ui-widget-header">
+                        <th width="20%">Data do Agendamento</th>
+                        <th width="40%">M&eacute;dico</th>
+                        <th>Status</th>
+                        <th width="18%">Alterar Para</th>
+                    </tr>
+                    <tbody id="tbl-agendamentos"></tbody>
+                </table>
+                <a href="#" id="btn-salvar" class="ui-button ui-corner-bl ui-corner-tr"><div><img src="/WebSocialSaude/zf/public/images/icons/salvar.png"></div>Salvar</a>
+            </form>
+        </div>
+        <div><a href="<?= $this->url(array('module'=>'default', 'controller'=>'configuracao', "action" => "corrige")); ?>" class="ui-button ui-corner-bl ui-corner-tr"><div><img src="/WebSocialSaude/zf/public/images/icons/salvar.png"></div>Corrige Itens Movimento</a><input type="text" name="corrige" id="corrige" value="<?= $this->corrige ?>"></div>
+</div>

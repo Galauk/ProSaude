@@ -1,0 +1,9 @@
+01BPA (Consolidado)                                 201906
+02BPA (Individualizado)                             201906
+03AIH (Proc. Principal)                             201906
+04AIH (Proc. Especial)                              201906
+05AIH (Proc. Secundário)                            201906
+06APAC (Proc. Principal)                            201906
+07APAC (Proc. Secundário)                           201906
+08RAAS (Atenção Domiciliar)                         201906
+09RAAS (Atenção Psicossocial)                       201906

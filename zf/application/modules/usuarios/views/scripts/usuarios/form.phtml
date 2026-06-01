@@ -1,0 +1,165 @@
+<form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar")); ?>">
+<div class='abas'>
+    <ul class="tabs">
+            <li><a href="#tabs2-1">Usuários</a></li>
+            <li><a href="#tabs2-3">Setores</a></li>
+    </ul>
+    <div id='tabs2-1'>
+        <input type="hidden" name="usr_codigo" value="<?=$this->dados->usr_codigo;?>">
+        <label>Nome:<font color="red">*</font></label>
+        <input type="text" name="usr_nome" id="usr_nome" value="<?=$this->dados->usr_nome;?>">
+        <br/>
+        <label>CPF:<font color="red">*</font></label>
+        <input name="usr_cpf" id="usr_cpf"  class="mask" rel="999.999.999-99" maxlength="20" value="<?=$this->dados->usr_cpf?>" /><br />
+        <label>Cartão SUS:<font color="red">*</font></label>
+        <input name="cnes_cod_cns" id="cnes_cod_cns"  onChange="validador_cns(this.value)" onkeypress="return SomenteNumero(event)"  maxlength="20" value="<?=$this->dados->cnes_cod_cns?>" /><br />
+        <label>Tipo de Usuário:</label>
+        <select  name='usr_tipo_medico' class="ui-state-default" style="width: 200px;">
+            <option value=''>--SELECIONE--</option>
+            <option value='M' <?= ($this->dados->usr_tipo_medico == "M" ? "selected" : ""); ?>>Medico(a)</option>
+            <option value='E' <?= ($this->dados->usr_tipo_medico == "E" ? "selected" : ""); ?>>Enfermeiro(a)</option>
+            <option value='A' <?= ($this->dados->usr_tipo_medico == "A" ? "selected" : ""); ?>>Aux. Enfermagem</option>
+            <option value='F' <?= ($this->dados->usr_tipo_medico == "F" ? "selected" : ""); ?>>Farmáceutico(a)</option>
+            <option value='B' <?= ($this->dados->usr_tipo_medico == "B" ? "selected" : ""); ?>>Bioquimico(a)</option>
+            <option value='D' <?= ($this->dados->usr_tipo_medico == "D" ? "selected" : ""); ?>>Dentista</option>
+            <option value='P' <?= ($this->dados->usr_tipo_medico == "P" ? "selected" : ""); ?>>Psic&oacute;logo(a)</option>
+            <option value='C' <?= ($this->dados->usr_tipo_medico == "C" ? "selected" : ""); ?>>Comum</option>
+            <option value='R' <?= ($this->dados->usr_tipo_medico == "R" ? "selected" : ""); ?>>Regulador</option>
+            <option value='G' <?= ($this->dados->usr_tipo_medico == "G" ? "selected" : ""); ?>>SUPORTE</option>
+        </select>
+        <br/>
+        <label>Tipo de Conselho:</label>
+        <select  name='con_codigo' id="con_codigo" class="ui-state-default" onchange="mostraNumeroConselho()" style="width: 200px;">
+            <option value=''>--SELECIONE--</option>
+            <? foreach ($this->conselho as $conselho):?>
+            <option value="<?=$conselho->con_codigo?>" <?= ($this->dados->con_codigo == $conselho->con_codigo ? "selected" : ""); ?>> <?=$conselho->con_descricao?></option>
+            <? endforeach;?>
+        </select>
+        <br/>
+        <label>Estado do Conselho:</label>
+        <select  name='cnes_sigla_uf' id="cnes_sigla_uf" class="ui-state-default" style="width: 200px;">
+            <option value=''>--SELECIONE--</option>
+            <?php foreach ($this->uf as $uf):?>
+                <option value="<?=$uf->uf_codigo?>" <?= ($this->dados->cnes_sigla_uf == $uf->uf_sigla ? "selected" : ""); ?>> <?=$uf->uf_sigla?></option>
+            <?php endforeach;?>
+        </select>
+        <br/>
+        <div id="num_conselho" style="display:none">
+            <label>Número do Conselho:</label>
+            <input type="text" name="usr_num_conselho" id="usr_num_conselho"  value="<?= $this->dados->usr_num_conselho ; ?>" /><br />
+        </div>
+        <label>Local de Trabalho:</label>
+        <input type="hidden" name="uni_codigo" id="uni_codigo" value="">
+        <input type="text" name="uni_desc" id="uni_desc"  value="" />
+       <!-- <label>Todas Unidades<small>(Admin):</small></label>
+        <input type="checkbox" name="todas_unidades" id="todas_unidades" value="T" onchange="bloqueia()">-->
+
+        
+        <table class="tb_unidades" style="width: 487px; border: 1px solid; border-color: #ffce0d; <?php echo (count($this->unidades) < 1 ? "display: none;" : "")?> " border="0">
+            <?php if(count($this->unidades) > 0):?>
+                <?php foreach($this->unidades as $unidades):?>
+                    <tr class="tr_<?=$unidades[uni_codigo]?> l_uni">
+                        <td>
+                            <?=$unidades[uni_desc]?>
+                        </td>
+                        <td>
+                            <img src="<?=$this->baseUrl('/public/images/icons/excluir2.png');?>" alt="Deletar" title="deletar" style ="cursor: pointer;" onClick="deleteUnu(<?=$unidades[unu_codigo]?>,<?=$unidades[uni_codigo]?>)">
+                        </td>
+                        <td >
+                            <img style="cursor:pointer;" src='<?=$this->baseUrl("/public/images/icons/dentista.png");?>' title="Especialidade" alt="especialidade" onClick="adicionaEspecialidade(<?=$unidades[uni_codigo]?>)">
+                        </td>
+                    </tr>
+                    <?php if(!empty($this->especialidades)):?>
+                        <?php foreach($this->especialidades as $especialidades):?>
+                            <?php if($especialidades[uni_codigo] == $unidades[uni_codigo]):?>
+                                <tr class="tr_esp_<?=$unidades[uni_codigo]?>_<?=$especialidades[esp_codigo]?> l_esp">
+                                    <td colspan=2 style="background-color: #49afcd;">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<?=$especialidades[esp_nome]?>
+                                        <input type="hidden" name="esp_codigo_u[<?=$unidades[uni_codigo]?>]" class="esp_codigo_u" value="<?=$especialidades[esp_codigo]?>">
+                                        <input type="hidden" name="uni_codigo_<?=$especialidades[esp_codigo]?>" class="esp_codigo_u" value="<?=$unidades[uni_codigo]?>">
+                                    </td>
+                                    <td style="background-color: #49afcd;">
+                                        <img src="<?=$this->baseUrl('/public/images/icons/excluir2.png');?>" alt="Deletar" title="deletar" style ="cursor: pointer;" onClick="deleteMes(<?=$especialidades[mes_codigo]?>,<?=$especialidades[esp_codigo]?>,<?=$unidades[uni_codigo]?>)">
+                                    </td>
+                                </tr>
+                            <?php endif;?>
+                        <?php endforeach;?>
+                    <?php endif;?>
+
+                <?php endforeach;?>
+            <?php endif;?>
+        </table>
+
+        <div style=" width: 100%;">
+            <div style="width: 690px; float: left;">
+                <label>Login:</label>
+                <input type="text" name="usr_login" id="usr_login"  value="<?= $this->dados->usr_login ; ?>" onkeyup="verificaExistente()"/>
+            </div>
+            <div id="login_existente" style=" width: 200px; float: left;"> </div>
+            </div>
+            <input type="hidden" name="login_invalido" id="login_invalido" value="0">
+        <div style="clear:both;"></div>
+        <label>Senha:</label>
+        <input type="password" name="usr_senha" id="usr_senha" class="password password_strength" onkeyup="esconde_forca_senha();" value="<??>" />
+        <label>Confirmação:</label>
+        <input type="password" name="usr_senha_confirm" id="usr_senha_confirm" class="password" value="<??>" />
+        <br />
+        <label>E-mail:</label>
+        <input type="text" name="usr_email" id="usr_email"  value="<?= $this->dados->usr_email ; ?>" /><br />
+
+        <label>Módulos:</label>
+        <select class="ui-state-default" name="usr_modulos" style="width: 200px;">
+            <option value='S' >Saúde</option>
+            <option value='A'>Ação Social</option>
+            <option value='T'>Todos</option>
+        </select>
+        <br/>
+        <label>Situação</label>
+        <input type="radio" name="usr_ativo"  value="S" <?= ($this->dados->usr_ativo != "N" ? "checked=checked" : ""); ?> >Ativo
+        <input type="radio" name="usr_ativo"  value="N" <?= ($this->dados->usr_ativo == "N" ? "checked=checked" : ""); ?>>Inativo
+        <div id='conf-cadastro' style="display:none;">
+            <label>Especialidade:</label>
+            <input type="hidden" name="esp_codigo" id="esp_codigo" value="">
+            <input type="text" name="esp_nome" id="esp_nome" onkeyup="chamaBuscaEsp()" value="<? ?>" />
+            <table class="tb_especialidades" style="width: 200px; border: 1px solid; border-color: #ffce0d; <?php (!empty($this->especialidades) ? "display: none;" : "")?> " border="0">
+
+                <?php// if(!empty($this->especialidades)):?>
+                    <?php /*foreach($this->especialidades as $especialidades):>
+                        <tr class="tr_esp_<?=$especialidades[esp_codigo]?> l_esp esp_codigo">
+                            <td>
+                                <?=$especialidades[esp_nome]>
+                            </td>
+                            <td>
+                                <img src="<?=$this->baseUrl('/public/images/icons/excluir2.png');>" alt="Deletar" title="deletar" style ="cursor: pointer;" onClick="deleteMes(<?=$especialidades[mes_codigo]?>,<?=$especialidades[esp_codigo]?>)">
+                            </td>
+                        </tr>
+                    <?endforeach;>
+                <?endif;*/?>
+            </table>
+        </div>
+    </div>
+
+    <div id='tabs2-3'>
+        <label>Setor:</label>
+        <input type="hidden" name="set_codigo" id="set_codigo" value="">
+        <input type="text" name="set_nome" id="set_nome" onkeyup="chamaBuscaSet()" value="<??>" />
+        <table class="tb_setores" style="width: 487px; border: 1px solid; border-color: #ffce0d;<?(!empty($this->setores) ? "display: none;" : "")?> " border="0">
+            <?if(!empty($this->setores)):?>
+                <?foreach($this->setores as $setores):?>
+                    <tr class="tr_set_<?=$setores[set_codigo]?> l_uni">
+                        <td>
+                            <?=$setores[set_nome]?>
+                        </td>
+                        <td>
+                            <img src="<?=$this->baseUrl('/public/images/icons/excluir2.png');?>" alt="Deletar" title="deletar" style ="cursor: pointer;" onClick="deleteUset(<?=$setores[uset_codigo]?>,<?=$setores[set_codigo]?>)">
+                        </td>
+                    </tr>
+                <?endforeach;?>
+            <?endif;?>
+        </table>
+
+    </div>
+    <a href="<?=$this->url(array("action"=>"index", "module"=>"usuarios","controller" => "usuarios"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>
+    <a href="#" class="ui-button salvar"  >Salvar</a>
+</div>
+</form>

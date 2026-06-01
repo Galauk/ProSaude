@@ -1,0 +1,8 @@
+.blink{
+    border: 1px solid #cccccc; background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #1c94c4;
+    animation: blink 2s step-end infinite;
+}
+
+@keyframes blink {
+        50% {background-color: RED}
+}

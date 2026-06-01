@@ -1,0 +1,54 @@
+<?php $this->errorMsg(); ?>
+<form name="busca" method="POST" action="<?= $this->baseUrl(); ?>/programasfederais/consumo-alimentar/buscar"
+      id="form-busca">
+    <a href="<?= $this->baseUrl(); ?>/programasfederais/consumo-alimentar/form"
+       class="ui-button novo ui-corner-bl ui-corner-tr" data-atalho="CTRL+N">Novo</a>
+    <label style="width: 70px" class="ui-corner-bl ui-corner-tr">Buscar:</label>
+    <input size="50" class="focus ui-state-default" name="busca" value="" type="text">
+    <select name="tipo_busca" class="ui-state-default">
+        <option value="">Tipo de busca</option>
+        <option value="1">Cidadão</option>
+        <option value="2">Profissional</option>
+        <option value="3">Data de Atendimento</option>
+    </select>
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    <tr class='ui-widget-header'>
+        <th>Data</th>
+        <th>Profissional</th>
+        <th>Cidadão</th>
+        <th>Opções</th>
+    </tr>
+    <?php
+    if (count($this->dados) > 0) {
+        foreach ($this->dados as $item) { ?>
+            <tr>
+                <td class='ui-state-default'><?= $this->data($item->ate_data) ?></td>
+                <td class='ui-state-default'><?= $item->usr_nome ?></td>
+                <td class='ui-state-default'><?= $item->usu_nome ?></td>
+                <td class='ui-state-default c' width='80'>
+                    <?php if($item->uuid_ficha == null){   ?>
+                    <a href='<?= $this->url(array("action" => "form", "module" => "programasfederais", "controller" => "consumo-alimentar", "id" => $item->co_seq_cds_consumo_alimentar), NULL, TRUE); ?>'
+                       class='editar'>
+                        <img src='<?= $this->baseUrl('/public/images/icons/editar.png'); ?>' alt='Editar Itens'
+                             title='Editar Itens'/>
+                    </a>
+                    <a href="<?= $this->baseUrl(); ?>/programasfederais/consumo-alimentar/excluir/id/<?= $item->co_seq_cds_consumo_alimentar ?>"
+                       class="excluir"/>
+                    <img src="<?= $this->baseUrl(); ?>/public/images/icons/excluir.png" alt="Excluir Item"
+                         title="Excluir Item"/>
+                    </a>
+                    <?php } else { ?>
+                        <img src="<?= $this->baseUrl(); ?>/public/images/icons/alert.png" alt="Atendimento exportado para E-SUS" title="Atendimento exportado para E-SUS"/>
+                    <?php } ?>
+                </td>
+            </tr>
+            <?php
+        } ?>
+        <?php
+    } else { ?>
+        <td colspan="6">Nenhum item encontrado</td>
+        <?php
+    } ?>
+</table>

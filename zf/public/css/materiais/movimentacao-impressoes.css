@@ -1,0 +1,137 @@
+thead {display: table-header-group;}
+tfoot {display: table-footer-group;}
+//tbody { display: table-row-group }
+
+.header {
+    display: table-header-group;
+    margin-top: 15px;
+    height: 160px;
+}
+
+#titulo_impressao{
+    width: 620px;
+    height: 20px;
+    margin-left: 15px;
+    margin-bottom: 4px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 14px;
+    border:2px solid #000 !important;
+}
+
+.cabecalho{
+    width: 620px;
+    height: 100px;
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+    margin: 0px 15px 0px 15px;
+    margin-bottom: 4px;
+}
+
+.brasao{
+    float: left;
+    height: 100px;
+    width: 100px;
+}
+
+.dados_cabecalho{
+    margin-top: 25px;
+    float: left;
+    height: 80px;
+    width: 515px;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+
+#endereco{
+    border: 2px solid;
+    border-width:2px 2px 2px 2px !important;
+    font-size: 10px;
+    font-family: sans-serif;
+    width: 620px;
+    margin-left: 15px;
+    text-align: center;
+}
+
+.dados_mov{
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+    width: 620px;
+    height: auto;
+    font-family: sans-serif;
+    font-size: 11px;
+    margin: 0px 15px 0px 15px;
+}
+
+.dados_mov_cabecalho {
+    width: 624px;
+    height: 30px;
+    margin-left: 15px;
+    margin-bottom: -4px;
+    margin-top: 4px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 14px;
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+}
+
+.dados_mov_conteudo {
+    width: 624px;
+    height: auto;
+    margin-left: 15px;
+    margin-bottom: 4px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 14px;
+    border:solid #000 !important;
+    border-width:0px 2px 2px 2px !important;
+}
+
+.dados_mov_label{
+    width: 170px; 
+    text-align: right;
+}
+
+.dados_titulo{
+    margin: 0px 15px 0px 15px;
+    border:solid #000 !important;
+    border-width:2px 2px 0px 2px !important;
+    height: 13px;
+    font-family: sans-serif;
+    font-size: 11px;
+    text-align: center;
+    width: 440px;
+}
+
+#conteudo{
+    height: auto;
+    width: 624px;
+    margin: 0px 15px 10px 15px;
+    border:solid #000 !important;
+    border-width:0px 2px 2px 2px !important;
+    //border: 1px dotted;
+}
+
+table{
+  //border-collapse: collapse;
+  width: 100%
+}
+
+.linha_tabela{
+  border: 1px dotted;
+  padding: 2px 5px;
+  font-size: 08px;
+  text-align: left;
+  height: 26px;
+}
+
+.linha_tabela_cabecalho{
+  border: 1px dotted;
+  padding: 2px 5px;
+  font-size: 10px;
+  text-align: left;
+  height: 24px;
+}
+

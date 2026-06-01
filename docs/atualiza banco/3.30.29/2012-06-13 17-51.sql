@@ -1,0 +1,1 @@
+﻿DROP TABLE tem_vaga, varcount, vacinas_part;

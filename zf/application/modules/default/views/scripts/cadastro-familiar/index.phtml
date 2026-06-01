@@ -1,0 +1,222 @@
+<?php 
+	// echo "<pre>";print_r($this->recebeFamilias);die();
+?>
+<a style = "
+				padding: 7px 12px 3px;
+	            background-image: url(/WebSocialSaude/zf/public/images/btn-bg.png);
+	            background-repeat: round;
+	            background-size: contain;
+	            border: 1px solid #ACACAC;
+	            margin-bottom: 3px;
+	            color: #000;
+	            border-radius: 5px;
+        	" 
+	type="button" class="ui-button ui-corner-bl ui-corner-tr" onclick="cadastrarNovaFamilia()">Nova Família</a>
+
+<div id="formularioParaCadastroFamiliar" style="display: none">
+	<form id="formularioDoResponsavel" action="" method="POST">
+		<fieldset id="" class="fieldsetDoCadastro">
+			<input type="hidden" value="" id="numeroDoProntuarioFamiliar" class="numeroDoProntuarioFamiliar" >
+			<legend>Dados Obrigatórios do Responsável Familiar</legend>
+			<div class="divFormularioFamiliar">
+				<label for="membroResponsavel">Responsavel Familiar : </label>
+				<input type="text" id="membroResponsavel" name="membroResponsavel" class="inputsFormularioFamiliar">
+				<input type="hidden" value="" id="usuCodigoResponsavel" name="usuCodigoResponsavel" class="">
+			</div>
+
+			<div class="divFormularioFamiliar">
+				<select name="descricaoDoGrauParentesco" id="descricaoDoGrauParentesco">
+					<?php 
+						foreach ($this->recebeGrauParentesco as $grauParentesco) { ?>
+							<option id="<?=$grauParentesco[tgp_codigo]?>" name="<?=$grauParentesco[tgp_codigo]?>" value="<?=$grauParentesco[tgp_codigo]?>"> <?=$grauParentesco[tgp_descricao]?>
+								
+							</option>
+					<?}?>				
+				</select>	
+			</div>
+			
+			<div class="divFormularioFamiliar">
+				<label for="rendaMensal">Renda Mensal : </label>
+				<input onKeyPress="return(moeda(this,'.',',',event))" type="text" id="rendaMensal" name="rendaMensal" class="inputsFormularioFamiliar">
+			</div>
+
+		</fieldset>
+		<button style="    
+						padding: 8px 13px 4px;
+	    				background-image: url(/WebSocialSaude/zf/public/images/btn-bg.png);
+	    				background-repeat: round;
+	    				background-size: contain;
+	    				border: 1px solid #ACACAC;
+						margin-bottom: 3px;
+	    				color: #000;
+	    				border-radius: 5px;
+    				"
+    				onclick="salvarResponsavelFamiliar()" type="button" id="salvarResponsavel" class="salvarResponsavel">Salvar Responsavel</button>
+	</form>
+
+
+	<form id="formularioDosNovosIntegrantes" class="" name="formularioDosNovosIntegrantes">
+		<fieldset class="fieldsetDoNovoMembro" disabled="true">
+			<legend>Demais Integrantes</legend>
+			<div class="divFormularioFamiliar">
+				<label for="novoMembro">Novo Integrante : </label>
+				<input onkeypress="buscarMembro(this)" type="text" id="novoMembro" name="novoMembro" class="inputsFormularioFamiliar" >
+				<input type="hidden" value="" id="usuCodigoNovoMembro" name="usuCodigoNovoMembro" class="usuCodigoNovoMembro">
+
+			</div>
+
+			<div class="divFormularioFamiliar">
+				<select name="descricaoDoGrauParentesco" id="descricaoDoGrauParentesco">
+					<?php 
+						foreach ($this->recebeGrauParentesco as $grauParentesco) { ?>
+							<option id="<?=$grauParentesco[tgp_codigo]?>" name="<?=$grauParentesco[tgp_codigo]?>" value="<?=$grauParentesco[tgp_codigo]?>"> <?=$grauParentesco[tgp_descricao]?>
+								
+							</option>
+					<?}?>				
+				</select>
+			</div>
+			
+			<div class="divFormularioFamiliar">
+				<label for="rendaMensalDoNovoMembro">Renda Mensal : </label>
+				<input onKeyPress="return(moeda(this,'.',',',event))" type="text" id="rendaMensalDoNovoMembro" name="rendaMensalDoNovoMembro" class="inputsFormularioFamiliar" >
+			</div>
+
+			<button style="
+							padding: 8px 13px 4px;
+		    				background-image: url(/WebSocialSaude/zf/public/images/btn-bg.png);
+		    				background-repeat: round;
+		    				background-size: contain;
+		    				border: 1px solid #ACACAC;
+							margin-bottom: 3px;
+		    				color: #000;
+		    				border-radius: 5px;
+	    				" 
+				id="botaoSalvarMembro" type="button" name="botaoSalvarMembro" onclick="salvarNovoMembroFamiliar($(this).parent().parent())">Salvar Integrante</button>
+
+		</fieldset>
+	</form>	
+</div>
+
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%' style="margin-top:04px;">
+	<tr class="ui-widget-header">
+		<th>Prontuario Familiar</th>
+		<th>Nome do Responsavel</th>
+		<th>Renda Familiar</th>
+		<th>Número de Membros</th>
+
+		<th>Adicionar Membro</th>
+		<th>Editar</th>
+	</tr>
+	<?php foreach ($this->recebeFamilias as $familia) { ?>
+	<tr>
+		<td class="ui-state-default c" width="50" name="colunaNumeroDoProntuarioFamiliar" id="colunaNumeroDoProntuarioFamiliar">
+			<?=$familia[tcf_prontuario_familiar]?>
+		</td>
+
+		<td class="ui-state-default c" width="50" name="usuarioResponsavel" id="usuarioResponsavel">
+			<?=$familia[usu_nome]?>
+		</td>
+
+		<td class="ui-state-default c" width="50" name="rendaFamiliar" id="rendaFamiliar">
+			R$ <?=number_format($familia[tcf_renda_familiar], 2, ',' , '.')?>
+		</td>
+
+		<td class="ui-state-default c" width="50" name="numeroMembros" id="numeroMembros">
+			<?=$familia[tcf_numero_membros]?>
+		</td>
+		
+		<td class="ui-state-default c" width="50">
+			<a class="ui-button novo ui-corner-bl ui-corner-tr" onclick="inserirIntegrantes(<?=$familia[tcf_prontuario_familiar]?>)" >Adicionar
+			</a>
+		</td>
+
+		<td class="ui-state-default c" width="50">
+			<a onclick="listarFamiliares(<?=$familia[tcf_prontuario_familiar]?>)" class="ui-button ui-corner-bl ui-corner-tr">Listar
+				<img src="http://localhost:8083/WebSocialComum/imgsBotoes/editar_on.png" height="16" border="0">
+			</a>
+		</td>
+
+	<? } ?>
+</table>
+
+<div id="inserir_membro" style="display: none">
+	<form action="" method="POST" name="formMembro" id="formMembro" style="background-color: #ecf5fb;">
+		<fieldset id="campoDosIntegrantes">
+			<div id="familiares">
+				
+			</div>
+			<legend>Adicionar Familiar</legend>
+
+			<label>Adicionar Integrante :</label>
+			<input onkeypress="buscarMembro(this)" type="text" name="usu_nome" id="usu_nome" value="" class="focus"/>
+			<input type="hidden" value="" id="numeroDoProntuarioFamiliarBotao" class="numeroDoProntuarioFamiliarBotao" >
+
+			<input type="hidden" name="tcf_prontuario_familiar" id="tcf_prontuario_familiar" value="">
+
+			<!-- console.log(this.value) -->
+			<!-- <p style="display: inline-block;">Grau parentesco : </p> -->
+	        
+	        <select name="descricaoDoGrauParentescoBotao" id="descricaoDoGrauParentescoBotao">
+				<?php 
+					foreach ($this->recebeGrauParentesco as $grauParentesco) { ?>
+						<option id="<?=$grauParentesco[tgp_codigo]?>" name="<?=$grauParentesco[tgp_codigo]?>" value="<?=$grauParentesco[tgp_codigo]?>"> <?=$grauParentesco[tgp_descricao]?>
+						</option>
+				<?}?>				
+			</select>
+			<br>
+			<label for="rendaMensalBotao">Renda Mensal :</label>
+			<input onKeyPress="return(moeda(this, '.', ',', event))" type="text" id="rendaMensalBotao" name="rendaMensalBotao" class="">
+			
+			<br>
+	        <a href="#" onclick="salvarNovoMembroFamiliarBotao($(this).parent().parent())" class="ui-button novo ui-corner-bl ui-corner-tr">Adicionar Integrante</a>
+
+	        <!-- <button type="button"  class="ui-button novo ui-corner-bl ui-corner-tr" onclick="salvarMembro()">Adiconar Membro</button> -->
+
+		</fieldset>
+	</form>
+</div>
+</tr>
+
+<table style="display: none;" id="listaDosFamiliares" class='grid ui-widget ui-widget-content ui-corner-all' >
+
+	<tr class="ui-widget-header">
+		<th>Nome</th>
+		<th>Renda Familiar</th>
+		<th>Grau Parentesco</th>
+		<th>Excluir</th>
+	</tr>
+
+</table>
+
+<div id="alertaDeResponsavel" style="display: none">
+	<p>"Esse usuário é dado como responsável familiar, logo ao ser excluido toda a família será apagada. Deseja continuar ?"</p>
+</div>
+
+<script>
+    $("#membroResponsavel").buscar({
+	    url: baseUrl + '/default/paciente/buscar-usuarios',
+	    minLength: 3,
+	    template: function (ul, item) {
+	        return $("<li/>").data("item.autocomplete", item).append(
+	        "<a>" + item.label + "</a>").appendTo(ul)
+	    },
+	    callback: function (el, i) {
+	        $("#usuCodigoResponsavel").val(i.item.data.usu_codigo)
+	        return true
+	    }
+	})
+    function buscarMembro(input){
+		$(input).buscar({
+		    url: baseUrl + '/default/paciente/buscar-usuarios',
+		    minLength: 3,
+		    template: function (ul, item) {
+		        return $("<li/>").data("item.autocomplete", item).append(
+		        "<a>" + item.label + "</a>").appendTo(ul)
+		    },
+		    callback: function (el, i) {
+		        $("#usuCodigoNovoMembro").val(i.item.data.usu_codigo)
+		        return true
+		    }
+		})
+    }
+</script>

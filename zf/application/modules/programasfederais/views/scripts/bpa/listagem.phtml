@@ -1,0 +1,499 @@
+<div class="center-block" style="width: 76%">
+    <form onsubmit="return false">
+        <div class="ui-widget">
+            <label for="CNES">UNIDADE:</label>
+            <b><?= $this->dadosListagem['unidade']['uni_desc']; ?></b>
+        </div>
+        <div class="ui-widget">
+            <label for="CNES">CNES:</label>
+            <b><?= $this->dadosListagem['unidade']['uni_cnes']; ?></b>
+        </div>
+    </form>
+    <form class="center-block" action="#" id="mainForm" onsubmit="return false" >
+        <div class="ui-widget">
+            <label for="data">COMPETÊNCIA:</label>
+            <select class="ui" name="mes" id="mes">
+                <? for($i = 0; $i < 12; $i++){ ?>
+                <option value="<?= $i + 1; ?>" <?= $i + 1 == $_GET['mes'] ? 'selected' : ''; ?> ><?= $i + 1  ?></option>
+                <? } ?>
+            </select>
+            <select class="ui" name="ano" id="ano">
+                <? for($i = 2017; $i <= date(Y); $i++){ ?>
+                <option value="<?= $i ; ?>" <?= $i == $_GET['ano'] ? 'selected' : ''; ?> ><?= $i ?></option>
+                <? } ?>
+            </select>
+            <button type="button" onclick="javascript: getTable($('#mainForm'));">Buscar</button>
+        </div>
+    </form>
+</div>
+
+<br>
+
+<?
+    $dados = $this->dadosListagem['dados'];
+    $c = 0;    
+?>
+
+<div class="container">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <? foreach($this->dadosListagem['profissionais'] as $valor) {?>
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading<?= $valor['usr_codigo']?>">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#<?= $valor['usr_codigo'] ?>" aria-expanded="false" aria-controls="collapse<?= $valor['usr_codigo']?>">
+                    <?= $valor['usr_nome']?>
+                    </a>
+                </h4>
+                <div class="pull-right">        
+                    <a href="#" class="ui-button novo ui-corner-bl ui-corner-tr" onclick="novoRegistro(<?= $valor['usr_codigo']?>)" style="top: -23px;">
+                        Novo registro
+                    </a>
+                </div>
+            </div>
+            <div id="<?= $valor['usr_codigo']?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<?= $valor['usr_codigo']?>">
+                <div class="panel-body">
+                    <div class="">
+                        <table class="  ">
+                            <thead>
+                                <tr >
+                                    <th style="border-right: 1px solid #000 !important; border-bottom: 2px solid #000 !important; border-left: 1px solid #000 !important; min-width: 435px">PROCEDIMENTO</th>
+                                    <th style="border-right: 1px solid #000 !important; border-bottom: 2px solid #000 !important; min-width: 230px;">CÓDIGO CLASSIFICAÇÃO SUS</th>
+                                    <th style="border-right: 1px solid #000 !important; border-bottom: 2px solid #000 !important; min-width: 100px">QUANTIDADE</th>
+                                    <th style="border-right: 1px solid #000 !important; border-bottom: 2px solid #000 !important; min-width: 100px">CBO</th>
+                                    <th style="border-right: 1px solid #000 !important; border-bottom: 2px solid #000 !important; min-width: 100px">IDADE</th>
+                                    <th style="border-right: 1px solid #000 !important; border-bottom: 2px solid #000 !important; min-width: 130px">AÇÃO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?
+                                $row = [];
+
+                                // echo "<pre>";
+                                //print_r($dados);
+                                // die();
+
+                                foreach($dados as $val) {
+                                    if($val['usr_codigo'] == $valor['usr_codigo']){
+                                        $row[] = $val;
+                                    }
+                                }
+                                
+                                foreach($row as $linha){ ?>
+                                <tr id="<?=$linha['uuid']?>" style="">
+                                
+                                <? //echo "<pre>"; print_r($row); echo "</pre>"; ?>
+                                    
+                                    <td style="border-right: 1px solid #000 !important; border-left: 1px solid #000 !important;border-bottom: 1px dashed #000; "><small><?= $linha['proc_nome']; ?></small></td>
+                                    <td style="border-right: 1px solid #000 !important; border-bottom: 1px dashed #000; text-align: center"><small><?= $linha['proc_codigo_sus']; ?></small></td>
+                                    <td style="border-right: 1px solid #000 !important; border-bottom: 1px dashed #000; text-align: center"><small><?= $linha['quantidade']; ?></small></td>
+                                    <td style="border-right: 1px solid #000 !important; border-bottom: 1px dashed #000; text-align: center"><small><?= $linha['cod_cbo']; ?></small></td>
+                                    <td style="border-right: 1px solid #000 !important;border-bottom: 1px dashed #000; "></td>
+                                    <td style="border-right: 1px solid #000 !important;border-bottom: 1px dashed #000; ">
+                                        <? if(isset($linha['uuid'])){ ?>
+                                        <a href="#" onclick="deletarProcedimento(<?=$linha['uuid']?>)">
+                                            <img src="/WebSocialComum/imgs/apagar_on.jpg" border="0" class="center-block">
+                                        </a>
+                                        <? } ?>
+                                    </td>
+                                </tr>
+                                <? } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <? } ?>
+    </div>
+</div>
+
+<div id="novoRegistro" style="display: none">
+    <div id="tipoAtendimento">
+        <label >Tipo: </label>
+        <button type="button" id="typeC">Consolidado</button>
+        <button type="button" id="typeI">Individualizado</button>
+    </div>
+    <br>
+    <form action="#" method="post" onsubmit="return false" id="form-typeI" style="display: none">
+        <input type="hidden" name="usr_codigo" id="usr_codigo" value="">
+        <input type="hidden" name="bpa_tipo" value="I">
+        <div>
+            <label for="pac">Paciente: </label>
+            <input type="text" name="pac" id="pac" >
+            <input type="hidden" name="usu_codigo">
+        </div>
+        
+        <div>
+            <label>Data:</label>
+            <input type="text" placeholder="__/__/____" name="data_atendimento" id="data_atendimento" class="mask data-futura focus" rel="99/99/9999" tabindex="1" value="<?=$this->atendimento->ate_codigo_formatado?>"/><br />
+        </div>
+
+        <div>
+            <label >Procedimentos<font color="red">*</font>:</label>
+            <input type="text" id="proc_nome" name="proc_nome" value="<?= $this->dados->proc_nome; ?>" tabindex="4" onkeypress="buscaProcedimentos()" />
+            <input type="hidden" id="proc_codigo" name="proc_codigo" value="<?=($this->dados->proc_codigo ? $this->dados->proc_codigo : $this->procedimento[0]->proc_codigo); ?>" />
+            <input type="hidden" id="proc_codigo_sus" name="proc_codigo_sus" value="<?= $this->dados->proc_codigo_sus; ?>" /><br />
+        </div>
+
+        <div>
+            <label><abbr title="Código Internacional de Doença">CID</abbr>:</label>
+            <select name="cd10_codigo" id="cid" disabled="disabled">
+                <option value="0">-- Selecione um procedimento --</option>
+            </select>
+        </div>
+
+        <div id="dadosProcAtendSimp" style="height: auto;">
+            <!-- Aqui o conteúdo é alimentado pelo jQuery -->
+
+            <?php //#96579 ?>
+            <?php //tenta passa por um for each para listar todos os procedimentos?>
+            <?php // copia do que se é executado pelo JQuerry tratando tirando o js?>
+            <?php
+            foreach ($this->procedimento as $procedimento){
+            echo
+            '<div class="procAtendSimp" id=procAtendSimp'.$procedimento->proc_codigo.'>
+                <span class="titProcAtendSimp">
+                '.$procedimento->proc_codigo_sus.' - '.substr($procedimento->proc_nome,0,32).'...'.'
+                </span>
+            <div class="excProcAtendSimp">
+                <img src="/WebSocialSaude/zf/public/images/icons/excluir.png" onclick="excluiProcedimento('.$procedimento->proc_codigo.')" title="Excluir Horários" alt="Clique aqui para excluir os horários do dia" style="cursor: pointer" />
+                <input type="hidden" name="procedimento[]" value='.$procedimento->proc_codigo.' />
+            </div>
+            </div>';
+            }
+            ?>
+            <?php //#96579?>
+        </div>
+
+        <div style="position: absolute;" class="f" id="ciap-div">
+                <label>Busca Ciap:</label>
+                <input type="text" id="ds_ciap" value="" />
+                <input type="hidden" id="co_seq_ciap" name="co_seq_ciap" value="" style="width: 20px" />
+                <input type="hidden" name="conf_ciap" id="conf_ciap" /><br />
+                <label class="f"> CIAP:</label>&nbsp;
+
+                <div style="width: 450px; float: left; margin: 0 0 0 8px;">
+                    <select size="4" style="float: left; width: 100%; margin: 0 0 0 -4px; max-width: 100%;" id="ciap">
+                        <?php//#96579 ?>
+                        <?php// ira pegar a lsita de ciap, e a lista de ciap do atendimento e não listar os ciaps do atendimento ?>
+                        <?php
+                        if(count($this->ciap_selecionados) > 0){
+                            foreach ($this->ciap as $ciap):
+                                //variavel contador
+                                $contador = 0;
+                                foreach ($this->ciap_selecionados as $ciap_selecionado):
+                                    if ($ciap->co_seq_ciap <> $ciap_selecionado->co_seq_ciap){
+                                        $contador = $contador + 1;
+                                }endforeach; if($contador == count($this->ciap_selecionados)){?>
+                                    <option value="<?php echo $ciap->co_seq_ciap?>"><?php echo $ciap->ds_ciap?></option>
+                            <?php }endforeach;
+                        }else{
+                            foreach ($this->ciap as $ciap):?>
+                                <option value="<?php echo $ciap->co_seq_ciap?>"><?php echo $ciap->ds_ciap?></option>
+                            <?php endforeach;
+                        }?>
+                    </select>
+
+                    <strong style="width: 100%; height: 25px; line-height: 25px; margin: 5px 0 0; float: left; text-align: center;">CIAPs adicionados</strong>
+                    <select size="3" size="3" style="float: left; width: 100%; margin: 0 0 0 -4px; max-width: 100%;" id="ciap-selecionados" name="ciap-selecionados[]" multiple="">
+                        <?php
+                            if(count($this->ciap_selecionados) > 0){
+                                foreach($this->ciap_selecionados as $ciap_sel){ ?>
+                                    <option selected value='<?=$ciap_sel->co_seq_ciap?>' >
+                                        <?=$ciap_sel->ds_ciap?>
+                                    </option>
+                            <?php
+                                }
+                            }else{ ?>
+                                <option value='0' disabled='disabled'>Nenhum Ciap</option>
+                            <?php
+                            }
+                        ?>
+
+                    </select>
+
+                </div>
+
+            </div>
+    </form>
+    <form action="#" onsubmit="return false" id="form-typeC" style="display: none">
+        <input type="hidden" name="bpa_tipo" value="C">
+        <input type="hidden" name="usr_codigo">
+        <div>
+            <label for="procedimento">Procedimento: </label>
+            <input type="text" id="procedimento" onkeyup="buscaProcedimentos(this)">
+            <input type="hidden" name="proc_codigo">
+        </div>
+        <div>
+            <label for="quantidade">Quantidade: </label>
+            <input type="text" name="quantidade" id="quantidade">
+        </div>
+        <div>
+            <label for="bpa_data">Data:</label>
+            <input type="text" name="bpa_data" id="bpa_data" class="mask data-futura focus" rel="99/99/9999" tabindex="1"/><br />
+        </div>
+        
+
+    </form>
+</div>   
+
+<script src="<?= $this->baseUrl('/public/js/programasfederais/bpa/index.js'); ?>"></script>
+<script>
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    function deletarProcedimento(id){
+        var ask = confirm("Deseja realmente apagar esse registro?")
+
+        if(ask){
+            $.post(baseUrl+"/programasfederais/bpa/deletar-procedimento", {_id: id}, response => {
+                if(JSON.parse(response).result === "ok"){
+                    alert("Registros apagados com sucesso!")
+                    window.location.reload()
+                }
+            })
+        }
+    }
+        
+    function getTable(elm){
+        
+        var values = $(elm).serializeArray().reduce((acc, f) => {
+            acc[f.name] = f.value
+            return acc
+        }, {})
+
+        /*$.get(baseUrl+"/programasfederais/bpa/get-table", {dados: values}, (res) => {
+            console.log(res);
+            //$(".table tbody").html(res)
+            
+        })*/
+
+        document.location.href = baseUrl+'/programasfederais/bpa/listagem?'+$(elm).serialize()
+        
+    }
+
+    function novoRegistro(id){
+        $("#novoRegistro:hidden form #usr_codigo").val(id)
+
+        $("#novoRegistro:hidden form div > input").val('')
+
+        $("#tipoAtendimento button").on('click', e => {
+            $("#novoRegistro form").hide()
+            $("#form-"+e.target.id).show()
+
+            $("#tipoAtendimento button").removeAttr('style')
+            $(e.target).css({'color': '#64ce39'})
+
+            $()
+        })
+
+        $.get(baseUrl + "/atendimento/atendimento-simplificado/get-ciap", retorno => {
+            var dados = JSON.parse(retorno)
+        })
+        //$("#novoRegistro:hidden form div").find("#ciap").append('')
+        
+        $("#novoRegistro").dialog({
+            modal: true,
+            title: "Novo registro",
+            width: 650,
+            height: 410,
+            buttons:{
+                "Cancelar": () => {
+                    $("#novoRegistro form:visible input").val('')
+                    $("#novoRegistro form:visible").hide()
+                    $("#novoRegistro").dialog("destroy")
+                },
+				"Salvar e fechar": () => {
+                    var json = formToJSON($("#novoRegistro form:visible"))
+
+                    if(!json.usr_codigo || json.usr_codigo == ""){
+                        json.usr_codigo = id
+                    }
+
+                    $.post(baseUrl + "/programasfederais/bpa/salvar", json, response => {
+                        
+                    })
+
+                    $("#novoRegistro").dialog("destroy")
+                    document.location.reload()
+                }
+			}
+        })
+
+        $("#novoRegistro #proc").buscar({
+            url: baseUrl + '/procedimento/buscar/',
+            minLength: 3,
+            template: function(ul, item) {
+                return $("<li></li>").data("item.autocomplete", item).append(
+                        "<a>" + item.label + "</a>").appendTo(ul)
+            },
+            callback: function(u, item) {
+                $("#novoRegistro input[name='proc_codigo']").val(item.item.id)
+            }
+        })
+
+        $("#novoRegistro #pac").buscar({
+            url: baseUrl + '/paciente/buscar-usuarios/',
+            minLength: 3,
+            template: function(ul, item) {
+                return $("<li></li>").data("item.autocomplete", item).append(
+                        "<a>" + item.label + "</a>").appendTo(ul)
+            },
+            callback: function(u, item) {
+                console.log(item.item.id)
+                $("#novoRegistro form:visible input[name='usu_codigo']:hidden").val(item.item.id)
+            }
+        })
+
+        $("#ds_ciap").buscar({
+            url: baseUrl+'/prontuario/atendimento/buscar-ciap/',
+            suffix: '_2',
+            search: function(){
+                $("#ciap").empty();
+            },
+            template : function(ul, item) {
+                ul.hide();			
+                $("<option />").val(item.id).html(item.label).appendTo("#ciap");
+                return false;
+            },
+            callback: function(event, ui){
+                $s("#ciap").focus();
+            }
+        })
+
+        $("#ciap")
+        .bind('dblclick', selecionarCiap)
+        .bind('keydown', selecionarCiap);
+        
+        $("#ciap-selecionados")
+        .bind('dblclick', deselecionarCiap)
+        .bind('keydown', deselecionarCiap);
+    }
+
+    function buscaProcedimentos(elm = null){
+        if(elm != null){
+            $(elm).buscar({
+                url: baseUrl + "/procedimento/buscar",
+                minLength: 3,
+                template: function(ul, item) {
+                    return $("<li></li>").data("item.autocomplete", item).append(
+                            "<a>" + item.label + "</a>").appendTo(ul)
+                },
+                callback: function(u, item) {
+                    $(elm).parent().find('input[name="proc_codigo"]:hidden').val(item.item.id)
+                    return true
+                }
+            })
+        } else {
+            $("#proc_nome").buscar({
+                url: baseUrl + "/procedimento/buscar",
+                template: function(ul, item) {
+                    return $("<li></li>").data("item.autocomplete", item).append(
+                            "<a>" + item.label + "</a>").appendTo(ul);
+                },
+                callback: function() {
+                    var url = baseUrl + "/prontuario/cid/procedimento/id/"+$("#proc_codigo").val();
+                    $("#cid")
+                    .attr("disabled","disabled")
+                    .html("<option value=\"0\">Carregando...</option>")
+                    .load(url, function(r){
+                            if(r == ""){
+                                $(this).html("<option value=\"0\">Nenhum CID relacionado</option>");
+                                adicionaProcedimentos();
+                            }else{
+                                $("#cid").removeAttr("disabled").focus();
+                                $("#cid").prepend("<option value=\"\" selected=selected>--SELECIONE--</option>")
+
+                                $("#cid").change(function(){
+                                    adicionaProcedimentos();
+                                    $("#cid").html("<option value='0'>-- Selecione um procedimento --</option>");
+                                    $("#cid").attr("disabled","disabled");
+                                });
+                            }
+                    });
+                    
+                    return true;
+                }
+            })
+        }
+    }
+
+    function adicionaProcedimentos() {
+        //alert($("#procAtendSimp"+$("#proc_codigo").val()).length);
+        if ($("#procAtendSimp" + $("#proc_codigo").val()).length == 0) {
+            $("#dadosProcAtendSimp").append("\
+                <div class='procAtendSimp' id='procAtendSimp" + $("#proc_codigo").val() + "'>\n\
+                    <span class='titProcAtendSimp'>\n\
+                        " + $("#proc_codigo_sus").val() + " - " + $("#proc_nome").val().substr(0, 32) + " ...\n\
+                    </span>\n\
+                    <div class='excProcAtendSimp'>\n\
+                        <img src='" + baseUrl + "/public/images/icons/excluir.png' onclick='excluiProcedimento(" + $("#proc_codigo").val() + ")' title='Excluir Horários' alt='Clique aqui para excluir os horários do dia' style='cursor: pointer' />\n\
+                        <input type='hidden' name='procedimento[]' value='"+$("#proc_codigo").val()+"' />\n\
+                        <input type='hidden' name='cid[]' value='"+$("#cid").val()+"' />\n\
+                    </div>\n\
+                </div>");
+        }
+    }
+
+    function selecionarCiap(e){
+        $("#conf_ciap").val("1");
+        // só pode ser a tecla 39 (seta para direita)
+        if(e.keyCode && e.keyCode != 39 || e.charCode)
+            return;
+        
+        if(!$("#ciap option:selected").size())
+            return;
+
+        // se o primeiro for 0, limpar select
+        if($("#ciap-selecionados option:first").val() == "0"){
+            $("#ciap-selecionados").empty();
+        }
+        
+        // add
+        $("#ciap-selecionados").append(
+            $("#ciap option:selected")
+        );
+        
+    }
+
+    function deselecionarCiap(e){
+        // só pode ser a tecla 39 (seta para esquerda)
+
+        if(e.keyCode && e.keyCode != 37 || e.charCode)
+                return;
+
+        // remover
+        $("#ciap-selecionados option:selected").appendTo("#ciap");
+
+        // se não houver mais opções, add "Nenhum"
+        if($("#ciap-selecionados option").size() == 0){
+                $("#ciap-selecionados").empty().append('<option value="0" disabled="disabled">Nenhum ciap selecionado</option>');
+                $("#conf_ciap").val("");
+        }
+        
+    }
+
+    function excluiProcedimento(procCodigo) {
+        confirme("Confirme:", "Deseja realmente excluir este item?", 300, 150, function() {
+            $("#procAtendSimp" + procCodigo).remove();
+            
+        var cont = 0;
+        $("#dadosProcAtendSimp").children("[class='procAtendSimp']").each(function(){
+            cont++;
+        });
+        if (cont==0) { $("#proc_codigo").val(""); } else { $("#proc_codigo").val(cont); }    
+            
+        });
+    }
+
+   
+    //getTable($('#mainForm'))
+    
+</script>

@@ -1,0 +1,172 @@
+<?=$this->dialog();?>
+<!-- 
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=' crossorigin='anonymous' />
+  -->       
+<input type="hidden" name="imprimir_primeiro_horario" value="<?=$this->imprimir_primeiro_horario?>" id="imprimir_primeiro_horario">
+<form method="post" action="<?= $this->url(array("controller"=>"agendamento","action" => "salvar")); ?>" id="salvar-agenda">
+    <div style="width: 600px;float:left;" class="f">
+        <input type="hidden" name="usr_tipo_medico" id="usr_tipo_medico" value="<?=$this->dados_sessao[usr_tipo_medico]?>" />
+        <input type="hidden" name="age_horario" id="age_horario" value="<?=$this->dados_sessao[age_horario]?>" />
+        <input type="hidden" name="age_data" id="age_data" value="<?=$this->dados_sessao[age_data]?>" />
+        <input type="hidden" name="coni_codigo" id="coni_codigo" value="<?=$this->dados_sessao[coni_codigo]?>" />
+        
+        <label>Paciente:</label>
+        <input type="text" name="usu_nome" id="usu_nome" value="" class="focus" onkeypress ="document.getElementById('tipo_de_busca').value == '' ? buscaParticipante() : buscaParticipanteTipo()" />
+        
+        <select id="tipo_de_busca" name="tipo_de_busca" style="width:120px;">
+            <option value="">Tipo de Busca</option>
+            <option value="1">Nome</option>
+            <option value="2">Nome da Mae</option>
+            <option value="3">Prontuario</option> 
+            <option value="4">Cartao SUS</option>
+            <option value="5">Data de Nascimento</option>
+        </select>
+
+	    <input type="hidden" name="usu_codigo" id="usu_codigo" value="" />
+        <!-- Informações ocultas para atualização dos dados do cidadão -->
+        <input type="hidden" name="id_nome" id="id_nome" value="usu_nome" />
+        <input type="hidden" name="id_codigo" id="id_codigo" value="usu_codigo" />
+        <input type="hidden" name="id_data" id="id_data" value="" />
+        <input type="hidden" name="id_button" id="id_button" value="" />
+        <input type="hidden" name="id_tipo" id="id_tipo" value="A" />
+	    <br />
+
+        <label>Local:</label>
+        <input type="text" id="med_nome" name="med_nome" value="<?=$this->dados_sessao[med_nome]?>" />
+        <input type="hidden" id="codigo_convenio" name="codigo_convenio" value="<?=$this->dados_sessao[codigo_convenio]?>" />
+        <input type="hidden" id="prestador_servico" name="prestador_servico" value="<?=$this->dados_sessao[prestador_servico]?>" style="width: 20px" />
+        <input type="hidden" id="conv_codigo" name="conv_codigo" value="<?=$this->dados_sessao[conv_codigo]?>" style="width: 20px" /><br />
+        <input type="hidden" name="esp_codigo_config" id="esp_codigo_config" value="<?=$this->dados_sessao[esp_codigo_config]?>" />
+
+
+        <div id="escondida" <?($this->dados_sessao[usr_codigo_medico] ? "" : "style='display: none'")?>>
+            <label>Profissional:</label>
+            <input type="text" id="usr_nome" name="usr_nome" value="<?=$this->dados_sessao[usr_nome]?>" onKeypress="mostraMedico()" />
+            <input type="hidden" id="usr_codigo" name="usr_codigo_medico" value="<?=$this->dados_sessao[usr_codigo_medico]?>" />
+            <input type="hidden" id="interno" name="interno" value="<?=$this->dados_sessao[interno]?>" style="width: 20px" />
+            <input type="hidden" name="esp_codigo_selecionado" id="esp_codigo" value="<?=$this->dados_sessao[esp_codigo_selecionado]?>" />
+            <br />
+        </div>
+ 
+        <div style="display: none" id="med_esp">
+            <label>Especialidade:</label>
+            <input type="hidden" name="esp_codigo_sessao" id="esp_codigo_sessao" value="<?=$this->dados_sessao[esp_codigo]?>" />
+            <select class='ui-state-default' name="esp_codigo" id="esp"></select>
+        </div>
+	<div class="clear"></div>
+	<? if(count($this->tipo_atendimento)):?>
+    <label>Tipo de Atendimento:</label>
+    <select class='ui-state-default' name="tat_codigo" id="tat_codigo" onchange="habilitarOuNaoBotaoSalvar()" style="width: 305px;">
+        <optgroup label="Tipos de atendimento" />
+            <?php foreach ($this->tipo_atendimento01 as $tipo01):?>
+                    <option value="<?=$tipo01->tat_codigo?>" onclick="mostraTipoConsulta()"> 
+                        <?=$tipo01->tat_tipo?>
+                    </option>
+            <?endforeach;?>
+        </optgroup>
+        <optgroup label="Demanda Espontânea" />
+            <?php foreach ($this->tipo_atendimento02 as $tipo02):?>
+                    <option value="<?=$tipo02->tat_codigo?>" onclick="mostraTipoConsulta()"> 
+                        <?=$tipo02->tat_tipo?>
+                    </option>
+            <?endforeach;?>
+        </optgroup>
+            <optgroup label="Procedimentos" />
+            <?php foreach ($this->tipo_atendimento03 as $tipo03):?>
+                    <option value="<?=$tipo03->tat_codigo?>" onclick="mostraTipoConsulta()"> 
+                        <?=$tipo03->tat_tipo?>
+                    </option>
+            <?endforeach;?>
+        </optgroup>
+    </select>
+    <?php/*
+    <select class='ui-state-default' name="tat_codigo" id="tat_codigo" onchange="habilitarOuNaoBotaoSalvar()" style="width: 305px;">
+        <option value="">--SELECIONE--</option>
+        <?php foreach ($this->tipo_atendimento as $tipo):?>
+            <option value="<?=$tipo->tat_codigo?>" onclick="mostraTipoConsulta()"> 
+                <?=$tipo->tat_tipo?>
+            </option>
+        <?endforeach;?>
+    </select>*/?>
+    <br/>
+    <?endif;?>
+
+    <div>
+        <label>Estratificacao de risco:</label>
+        <select name='est_codigo'>
+            <option></option>
+            <? foreach($this->estratificacoes as $estratificacao){ 
+                ?>
+                <option value="<?=$estratificacao->est_codigo?>"><?=$estratificacao->est_nome?></option>
+            <? } ?>
+        </select>
+    </div>
+
+
+    <? if(count($this->tipoConsulta)):?>
+    <div id="tipo_consulta" style="display: none;">
+        <label>Tipo de Consulta:</label>
+        <select class='ui-state-default' name="tp_cod" id="tp_cod" onchange="habilitarOuNaoBotaoSalvar()" style="width: 305px;">
+            <option value="">--SELECIONE--</option>
+            <? foreach ($this->tipoConsulta as $tipo){?>
+            <option value="<?=$tipo->tp_cod?>" id="tp_consulta<?=$tipo->tp_cod?>"> <?=$tipo->tp_nome?></option>
+            <? } ?>
+        </select>
+    </div>
+    <?endif;?>
+    <div style="display: none;" style="width: 540px; height: 154px; float:left; margin-top: 06px;">
+        <label style="width: 110px; float: left;">Observações: </label>
+        <textarea  name="agee_observacao" class="tinymce"><?=$this->atendimento->ate_reclamacao?></textarea>
+    </div>
+</div>
+    <? if(count($this->dados_paciente)):?>
+        <div style="width: 300px;width: 50%;float: right;padding: 0px;margin: 0;width: 50%;height: 100%;" class="f">
+            <label style="width: 80px;">Prontuário:</label>
+            <input type="text" id="usu_prontuario" name="usu_prontuario" readonly="readonly" style="width: 200px"/><br/>
+            <label style="width: 80px;">Mãe:</label>
+            <input type="text" id="usu_mae" name="usu_mae" readonly="readonly" style="width: 200px"/><br/>
+            <label style="width: 80px;">Data de Nascimento:</label>
+            <input type="text" id="usu_datanasc" name="usu_datanasc" readonly="readonly" style="width: 200px"/><br/>
+            <label style="width: 80px;">Cidade:</label>
+            <input type="text" id="cid_nome" name="cid_nome" readonly="readonly" style="width: 200px"/><br/>
+            <label style="width: 80px;">Bairro:</label>
+            <input type="text" id="rua_bairro" name="rua_bairro" readonly="readonly" style="width: 200px"/><br/>
+            <label style="width: 80px;">Rua:</label>
+            <input type="text" id="rua_nome" name="rua_nome" readonly="readonly" style="width: 200px"/><br/>
+            <label style="width: 80px;">Numero:</label>
+            <input type="text" id="dom_numero" name="dom_numero" readonly="readonly" style="width: 200px"/><br/>
+            <label style="width: 80px;">Responsável:</label>
+            <input type="text" id="usu_nome_resp" name="usu_nome_resp" readonly="readonly" style="width: 200px"/><br/>
+            <label style="width: 80px;">Área:</label>
+            <input type="text" id="equipe" name="equipe" readonly="readonly" style="width: 200px"/><br/>
+            <label style="width: 80px;">Idade Gestacional:</label>
+            <input type="text" id="ate_idade_gest" name="ate_idade_gest" readonly="readonly" style="width: 200px"/><br/>
+            <label style="width: 80px;">C. SUS:</label>
+            <input type="text" id="usu_cartao_sus" name="usu_cartao_sus" readonly="readonly" style="width: 200px"/><br/>
+        </div>
+    <?endif;?>
+    <div class="clear"></div>
+    <div class="space"></div>
+    <div class="space"></div>
+    <div>
+	<label>Data:</label>
+	<input class="data" id="data" style="width: 80px" value="<?= date("d/m/Y"); ?>" />
+	<a href="#" class="ui-button atualizar ui-state-disabled" data-atalho="CTRL+R" id="atualizar-grid">Atualizar</a><br />
+
+	<div class="space"></div>	
+	<div id="calendario">
+		<em>Selecione algum profissional</em>
+	</div>
+        
+        <div id="horario">
+	</div>
+
+	<div class="space"></div>
+        <div id="botao_historico" style="text-align: center; display: none;">
+            <a href="#" class="ui-button detalhes">Historico do Paciente</a>
+        </div>
+	<div id="historico" style="display: none;" class="divRolagem"></div>	
+	<div class="space"></div>
+        <a href="#" class="ui-button ui-state-disabled salvar" onclick="salvarAgendamento();" >Salvar</a>
+    </div>
+</form>

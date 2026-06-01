@@ -1,0 +1,129 @@
+#topo{
+border: solid 0px;
+}
+#topo #historico{
+	color: #1c94c4;
+	font-size: 30px;
+	text-align: center;
+	width: 600px;
+	border: solid 2px;
+	border-color: #1c94c4;
+	height: 78px;
+	margin-left: 500px;
+}
+#topo #foto{
+  float:left;
+  border: 1px solid;
+  width: 80px;
+  height: 80px;  
+  background-color: #FFF;
+
+ 
+}
+#topo #foto img{	
+	width: 80px;
+	height: 80px; 
+}
+#topo #dados_pac{
+	float:left;
+	width: 500px;
+	margin-bottom: 5px;
+}
+#classificacao{
+	width: 82px;
+	
+	text-align: center;
+}
+#exame{
+	margin-top: 5px;
+	width: 300px;
+	
+}
+#obs{
+	
+	margin-top: 5px;
+	width: 300px;
+	
+}
+#atendimento{
+	margin-top: 5px;
+	float: left;
+	width: 700px;
+}
+#esquerda{
+	float: left;		
+	margin-right: 10px;
+	
+}
+#direita{
+	float: left;
+	margin-left: 10px;
+			
+
+}
+#pre{	
+	margin-top: 5px;
+	width: 300px;
+	
+}
+#em{	
+	margin-top: 5px;
+	width: 300px;
+	
+}
+#pai{
+	height: 400px;
+	
+}
+.abas ul li a{	
+	cursor: move;
+}
+.abas ul li a:hover{
+	color: #000;
+}
+#prioridade{
+	float: right;
+	background-color: #008800;
+	width: 100px;
+	height: 100px;
+}
+
+#ficha{
+	margin-left: 100px;
+	width:225px;
+
+}
+
+#cancelar,#finalizar{
+	width:205px;
+}
+
+
+#menu{
+	display: none !important;
+  float: left !important;
+  width: 0px !important;
+}
+
+#menu ul{
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#menu ul li{
+  width: 0px !important;
+  heigth: 0px !important;
+  margin: 0 0 0px 0 !important;
+  padding: 0px 0px !important;
+  text-align: right !important;
+}
+
+#menu ul li a {
+  text-decoration: none !important;
+}
+
+#corpo{
+  margin-left: 0px !important;
+}
+

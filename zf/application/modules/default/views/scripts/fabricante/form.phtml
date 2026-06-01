@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <?php $this->errorMsg(); ?>
+        <?php $this->dialog();?>
+        <form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar")); ?>">
+                <input type="hidden" name="fab_codigo" id="fab_codigo"   value="<?= $this->fab_codigo?>" />
+
+                <label>Descrição:</label>
+                <input type="text" name="fab_descricao" id="fab_descricao" style="text-transform: uppercase;"   value="<?= $this->fab_descricao?>" required /><br />
+
+                <label>C.N.P.J:</label>	
+                <input type="text" name="fab_cnpj" id="fab_cnpj" style=" text-transform:uppercase; "   class="mask" rel="99.999.999/9999-99" value="<?=$this->fab_cnpj?>" /><br />
+
+                <label>Endereço:</label>
+                <input type="text" name="fab_endereco" id="fab_endereco"  value="<?= $this->fab_endereco ; ?>" /><br />
+                
+                <!--<label>Código exportação:</label>
+                <input type="text" name="codigo_exportacao" id="codigo_exportacao"  value="<?= $this->codigo_exportacao ; ?>" /><br />-->
+
+                <button type="submit" class="ui-button salvar ui-corner-bl ui-corner-tr"><div><img src="/WebSocialSaude/zf/public/images/icons/salvar.png"></div>Salvar</button>
+                <a href="<?=$this->url(array("action"=>"index", "module"=>"default","controller" => "fabricante"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+
+        </form>
+        <div class="space"></div>
+    </body>
+</html>

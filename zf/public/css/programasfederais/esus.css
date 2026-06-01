@@ -1,0 +1,27 @@
+table {
+    width: 100%;
+    border: 2px solid #cef;
+    text-align: left;
+    margin-top: 10px;
+}
+th {
+    font-weight: bold;
+    background-color: #acf;
+    border-bottom: 1px solid #cef;
+    font-size: 12px;
+    height: 30px;
+}
+td,th {
+    margin-left: 4px;
+    padding: 0px 0px; 
+    font-size: 10px;
+}
+
+.odd {
+    background-color: #def; }
+.odd td {
+    border-bottom: 1px solid #dedede; }
+
+ul li {
+    margin-bottom: 8px;
+}

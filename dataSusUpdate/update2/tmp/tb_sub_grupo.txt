@@ -1,0 +1,59 @@
+0301Consultas / Atendimentos / Acompanhamentos                                                          201906
+0801Ações relacionadas ao estabelecimento                                                               201906
+0201Coleta de material                                                                                  201906
+0101Ações coletivas/individuais em saúde                                                                201906
+0701Órteses, próteses e materiais especiais não relacionados ao ato cirúrgico                           201906
+0601Medicamentos de dispensação excepcional                                                             201906
+0501Coleta e exames para fins de doação de orgãos, tecidos e células e de transplante                   201906
+0401Pequenas cirurgias e cirurgias de pele, tecido subcutâneo e mucosa                                  201906
+0202Diagnóstico em laboratório clínico                                                                  201906
+0102Vigilância em saúde                                                                                 201906
+0802Ações relacionadas ao atendimento                                                                   201906
+0702Órteses, próteses e materiais especiais relacionados ao ato cirúrgico                               201906
+0602Medicamentos estratégicos                                                                           201906
+0502Avaliação de morte encefálica                                                                       201906
+0402Cirurgia de glândulas endócrinas                                                                    201906
+0302Fisioterapia                                                                                        201906
+0203Diagnóstico por anatomia patológica e citopatologia                                                 201906
+0803Autorização / Regulação                                                                             201906
+0603Medicamentos de âmbito hospitalar e urgência                                                        201906
+0403Cirurgia do sistema nervoso central e periférico                                                    201906
+0303Tratamentos clínicos (outras especialidades)                                                        201906
+0503Ações relacionadas à doação de orgãos e tecidos para transplante                                    201906
+0504Processamento de tecidos para transplante                                                           201906
+0404Cirurgia das vias aéreas superiores, da face, da cabeça e do pescoço                                201906
+0204Diagnóstico por radiologia                                                                          201906
+0604Componente Especializado da Assitencia Farmaceutica                                                 201906
+0304Tratamento em oncologia                                                                             201906
+0305Tratamento em nefrologia                                                                            201906
+0405Cirurgia do aparelho da visão                                                                       201906
+0205Diagnóstico por ultrasonografia                                                                     201906
+0505Transplante de orgãos, tecidos e células                                                            201906
+0506Acompanhamento e intercorrências no pré e pós-transplante                                           201906
+0206Diagnóstico por tomografia                                                                          201906
+0406Cirurgia do aparelho circulatório                                                                   201906
+0306Hemoterapia                                                                                         201906
+0307Tratamentos odontológicos                                                                           201906
+0207Diagnóstico por ressonância magnética                                                               201906
+0407Cirurgia do aparelho digestivo, orgãos anexos e parede abdominal                                    201906
+0208Diagnóstico por medicina nuclear in vivo                                                            201906
+0308Tratamento de lesões, envenenamentos e outros, decorrentes de causas externas                       201906
+0408Cirurgia do sistema osteomuscular                                                                   201906
+0409Cirurgia do aparelho geniturinário                                                                  201906
+0309Terapias especializadas                                                                             201906
+0209Diagnóstico por endoscopia                                                                          201906
+0410Cirurgia de mama                                                                                    201906
+0310Parto e nascimento                                                                                  201906
+0210Diagnóstico por radiologia intervencionista                                                         201906
+0411Cirurgia obstétrica                                                                                 201906
+0211Métodos diagnósticos em especialidades                                                              201906
+0412Cirurgia torácica                                                                                   201906
+0212Diagnóstico e procedimentos especiais em hemoterapia                                                201906
+0213Diagnóstico em vigilância epidemiológica e ambiental                                                201906
+0413Cirurgia reparadora                                                                                 201906
+0414Bucomaxilofacial                                                                                    201906
+0214Diagnóstico por teste rápido                                                                        201906
+0415Outras cirurgias                                                                                    201906
+0416Cirurgia em oncologia                                                                               201906
+0417Anestesiologia                                                                                      201906
+0418Cirurgia em nefrologia                                                                              201906

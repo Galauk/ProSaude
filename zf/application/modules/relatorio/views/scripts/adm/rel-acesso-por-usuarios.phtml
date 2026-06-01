@@ -1,0 +1,21 @@
+<link href='../../../estilo.css' rel='stylesheet' type='text/css'></style>
+<table class="lista">
+
+    <?php $usuariosOld = ""; ?> 
+    <?php foreach ($this->where as $log) { ?> 
+         <?php $log->log_data = substr($log->log_data, 0,-15); ?>
+              
+                <th style="text-align: left;  color: blue; padding-left: 10em;">
+                    <?php if($usuariosOld = "" || $usuariosOld != $log->usr_nome){ ?>
+                    <h2><strong><?=($log->usr_nome)?>:</strong></h2>
+                </th>
+                    <?php } ?>
+                <tr>
+                    <td style="text-align:left; padding:0.1em 20em;"><h4>DATA DO ÚLTIMO ACESSO: <?=($log->log_data)?></h4></td>
+                </tr>
+
+<?php $usuariosOld = $log->usr_nome;  } ?>
+
+</table>
+
+

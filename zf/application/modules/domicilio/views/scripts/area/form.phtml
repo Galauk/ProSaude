@@ -1,0 +1,17 @@
+<form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar")); ?>">
+    <input type="hidden" name="area_codigo" value="<?=$this->dados->area_codigo;?>">
+    <label>Área</label>
+    <input type="text" name="area_desc" id="area_desc" value="<?=$this->dados->area_desc;?>">
+    <br/>
+    <label>Responsável</label>
+    <input type="text" name="usr_nome" id="usr_nome"  value="<?= $this->dados->usr_nome ; ?>" /><br />
+    <input type="hidden" name="usr_codigo" id="usr_codigo" value="<?= $this->dados->usr_codigo?>">
+    <br/>
+    <label>Observações:</label>
+    <div class="textarea" style="width: 487px">
+        <textarea name="area_obs" class="tinymce" style="width: 487px"><?=$this->dados->area_obs;?></textarea>
+    </div>
+    <br/>
+    <a href="<?=$this->url(array("action"=>"index", "module"=>"domicilio","controller" => "area"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+    <a href="#" class="ui-button salvar"  >Salvar</a>
+</form>

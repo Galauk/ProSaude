@@ -1,0 +1,24 @@
+<?php $this->dialog(); ?>
+<form method="post" action="<?=$this->url(array("action"=>"rua"));?>">
+	<label>Logradouro correto:</label>
+        <input type="text" name="rua_nome" id="rua_nome" />
+	<input type="hidden" name="rua_codigo" id="rua_codigo" /><br />
+
+	<label>Logradouros duplicados:</label>
+	<input id="rua_nome_2" />
+	<input id="rua_codigo_2" type="hidden" /><br />
+
+	<div class="f">
+		<label>Selecionados:</label>
+	</div>
+	<div class="f2" style="margin-left: 5px;">
+		<select id="busca" style="width: 350px; height: 200px" multiple="multiple"></select>
+	</div>
+	<div class="f2" style="margin-left: 5px;">
+		<select name="rua_codigo_duplicado[]" id="duplicados" style="width: 350px; height: 200px" multiple="multiple"></select>
+	</div>
+	<div class="clear space"></div>
+
+	<a href="#" class="ui-button salvar-icon" data-atalho="CTRL+S">Salvar</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+</form>

@@ -1,0 +1,117 @@
+<div id="conteudo">
+    <?if(count($this->produtos) > 0):?>
+        <table width="100%">
+            <tr>
+                <th style="">
+                    Produto
+                </th>
+                <th style="" >
+                    Valor Unitário<small>(Médio)</small>
+                </th>
+                <th style="" >
+                    Qtde. De Consumo
+                </th>
+                <th style="" >
+                    Valor Total
+                </th>
+                <th style="" >
+                    Valor Percentual
+                </th>
+                <th style="" >
+                    Qtde. Percentual
+                </th>
+                <th style="" >
+                    Classificação ABC
+                </th>
+            </tr>
+            <?foreach($this->produtos as $produto):?>
+                <tr>
+                    <td>
+                        <?=$produto->pro_nome?>
+                    </td>
+                    <td>
+                        <?=  number_format($produto->vlr_unitario,2)?>
+                    </td>
+                    <td>
+                        <?=  number_format(round($produto->total_qtde),0)?>
+                    </td>
+                    <td>
+                        <?=number_format($produto->vlr_total_item,2)?>
+                    </td>
+                    <td>
+                        <?
+                            $percentual_vlr = number_format(($produto->vlr_total_item / $this->total_lista[vlr_total]) * 100,2) ;
+                            $percentual_qtde = number_format(($produto->total_qtde / $this->total_lista[qtde_total]) * 100,2);
+                            echo $percentual_vlr. "%";
+                        ?>
+                    </td>
+                    <td>
+                        <?echo number_format($percentual_qtde,2). "%";?>
+                    </td>
+                    <td><? echo number_format($percentual_vlr,2); ?>
+                        <?if($percentual_vlr >= 75 && $percentual_vlr <= 85 && $percentual_qtde >= 10 && $percentual_qtde <= 20){
+                            echo "A";
+                        }else if($percentual_vlr >= 15 && $percentual_vlr <= 50 && $percentual_qtde >= 10 && $percentual_qtde <= 20){
+                            echo "B";
+                        }else if ($percentual_vlr >= 60 && $percentual_vlr <= 80 && $percentual_qtde >= 5 && $percentual_qtde <= 10){
+                            echo "C";
+                        }
+?>
+                    </td>
+                </tr>
+            <?endforeach;?>
+        </table>
+    <?else:?>
+        <em>Nenhum Item encontrado</em>
+    <?endif;?>
+</div>
+
+
+
+<!-- 
+<?php
+ /*
+ $dataPoints = array(
+    array("x" => 1483381800000 , "y" => 650),
+    array("x" => 1483468200000 , "y" => 700),
+    array("x" => 1484505000000 , "y" => 930)
+ );*/
+ 
+?>
+<head>
+<script>
+window.onload = function () {
+ 
+var chart = new CanvasJS.Chart("chartContainer", {
+    animationEnabled: true,
+    theme: "light2",
+    title:{
+        text: "Curva ABC"
+    },
+    axisX: {
+        valueFormatString: "DD MMM"
+    },
+    axisY: {
+        title: "Total Number of Visits",
+        maximum: 1200
+    },
+    data: [{
+        type: "splineArea",
+        color: "#6599FF",
+        xValueType: "dateTime",
+        xValueFormatString: "DD MMM",
+        yValueFormatString: "#,##0 Visits",
+        dataPoints: <?php echo json_encode($dataPoints); ?>
+    }]
+});
+ 
+chart.render();
+ 
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+ -->

@@ -1,0 +1,31 @@
+  <br />
+<table>
+ <tr>
+      <td style="font-weight: bold; font-size: 15px">RUA</td>
+      <td style="font-weight: bold; font-size: 15px">NUMERO</td>
+      <td style="font-weight: bold; font-size: 15px">BAIRRO</td>
+      <td style="font-weight: bold; font-size: 15px">CEP</td>
+      <td style="font-weight: bold; font-size: 15px">RESPONSÁVEL</td>
+      <td style="font-weight: bold; font-size: 15px">INE</td>
+      <td style="font-weight: bold; font-size: 15px">MORADORES</td>
+      
+</tr>
+<tr></tr>
+  <?php foreach ($this->dados as $item) { ?>
+ <tr></tr>
+ <tr>
+      <td><?= $item["rua"]?></td>
+      <td><?= $item["numero"]?></td>
+      <td><?= $item["bairro"]?></td>
+      <td><?= $item["cep"]?></td>
+      <td><?= $item["responsavel"] != "sem responsavel" ? $item["responsavel"] : "-"?></td>
+      <td><?= $item["ine"] != "" ? $capeta["ine"] : "-"?></td>
+      <td><?= $item["moradores"]?></td>
+     
+</tr>
+    <p></p>
+    <p></p>
+  <?php $i++; ?>
+<?php } ?>
+            </table>
+<br />

@@ -1,0 +1,102 @@
+<script language="JavaScript" type="text/javascript" src="funcoes.js"></script>
+<script>
+var dtInicial
+var dtFinal
+var codSetor
+var codProduto
+
+function VerData() {
+
+  dtInicial = document.frm_PosEstLocalEstoq.dt_inicial.value;
+  dtFinal   = document.frm_PosEstLocalEstoq.dt_fim.value;
+  codSetor  = document.frm_PosEstLocalEstoq.set_codigo.value;
+  codProduto  = document.frm_PosEstLocalEstoq.pro_codigo.value;
+
+  if (dtInicial == '') {
+      alert ("Data Estoque INVALIDO");
+      document.frm_PosEstLocalEstoq.dt_inicial.focus();
+      return false;
+  }
+  if (dtFinal == '') {
+      alert ("Data Estoque INVALIDO");
+      document.frm_PosEstLocalEstoq.dt_fim.focus();
+      return false;
+  }
+  window.open('ProdutoNaoConsolid.php?dt_inicial=' + dtInicial   +
+                                        '&dt_final=' + dtFinal     +
+                                      '&set_codigo=' + codSetor    +
+                                      '&pro_codigo=' + codProduto    
+                                      , null 
+                                      ,"height=400,width=750,status=yes,resizable=yes, toolbar=no,menubar=no,location=no,scrollbars=yes");
+}
+</script>
+
+<?
+$data = date("d/m/Y");
+
+//------------------------------------------------------------------>
+// -> Inclusao principal para montagem do sistema
+//------------------------------------------------------------------>
+	session_start();
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+	cabecario();
+
+echo " <link href=\"../estilo.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+
+echo " <form name=\"frm_PosEstLocalEstoq\" method=\"post\" action=\"$PHP_SELF\">\n";
+echo "<input type=hidden name=id_login value=$id_login>";
+echo "  <fieldset>";
+echo "   <legend>Produtos n&atilde;o Consolidados</legend> \n";
+
+echo "    <table style=\"width:85%;margin-left:70px;margin-right:0px;\" border='0'  cellspacing='1' cellpadding='1'>\n";
+echo "     <tr>\n";
+echo "      <td valign='middle'>Data Inicial</td>\n";
+echo "      <td><input type='text' class='box' name='dt_inicial' size='12' value='$data' onKeypress='return Ajusta_Data(this, event);'></td>\n";
+echo "     </tr>\n";
+echo "     <tr>\n";
+echo "      <td valign='middle'>Data Final</td>\n";
+echo "      <td><input type='text' class='box' name='dt_fim' size='12' value='$data' onKeypress='return Ajusta_Data(this, event);'></td>\n";
+echo "     </tr>\n";
+echo "     <tr>\n";
+echo "      <td valign='middle'>Setor</td>\n";
+echo "      <td><select name='set_codigo' class=box>\n";
+		          /*$UniQuery=pg_query("SELECT set_codigo, set_nome FROM Setor where set_estoque = 'S' ORDER BY set_nome");*/
+					$select = "select uni_codigo from usuarios where usr_codigo = $id_login";
+					$uni = db_get($select);
+					if($uni != "")
+					{
+					  $and_sql = " AND uni_codigo = $uni ";
+					}
+					$sql = "SELECT set_codigo, set_nome FROM Setor
+							WHERE set_estoque = 'S'
+							$and_sql
+							ORDER BY set_nome";
+					$UniQuery = db_query($sql);
+		          while($SetArray=pg_fetch_array($UniQuery)) {
+		               echo ($set_codigo==$SetArray[set_codigo])?"<option value='$SetArray[set_codigo]' selected> $SetArray[set_nome]</option>":"<option value='$SetArray[set_codigo]' > $SetArray[set_nome]</option>\n";
+		          }
+echo "          </select>\n";
+echo "      </td>\n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+echo "      <td valign='middle'>Produto</td>\n";
+echo "      <td><select name='pro_codigo' class=box>\n";
+echo "      		<option value=''>-- Todos os Produtos --</option>\n";
+		          $UniQuery=pg_query("SELECT pro_codigo, pro_nome FROM Produto ORDER BY pro_nome");
+		          while($SetArray=pg_fetch_array($UniQuery)) {
+		               echo ($pro_codigo==$SetArray[pro_codigo])?"<option value='$SetArray[pro_codigo]' selected> $SetArray[pro_nome]</option>":"<option value='$SetArray[pro_codigo]' > $SetArray[pro_nome]</option>\n";
+		          }
+echo "          </select>\n";
+echo "      </td>\n";
+echo "     </tr>\n";
+
+
+echo "     <tr>\n";
+echo "      <td> <input type=image  src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/gerar_relatorio_on.jpg OnClick='VerData()'  name='enviar' value='ENVIAR'> </td>\n";
+echo "      <td colspan=2> <a href=../rel_index.php?id_login=$id_login&opcao=7><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border =0> </a></td></tr>\n";
+echo "     </tr>\n";
+echo "    </table>\n";
+
+echo "  </fieldset>\n";
+echo " </form>\n";

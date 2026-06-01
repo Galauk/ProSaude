@@ -1,0 +1,23 @@
+
+Exportando....
+
+Total Atendimento Indivual: 4
+Atendimento Individual: 1 Serial:
+Atendimento Individual: 2 Serial:72142ec6-316c-0656-0c6b-71ea496760d3
+Atendimento Individual: 3 Serial:8ebecd3d-1e25-e173-b7d2-b01c99239ffa
+Atendimento Individual: 4 Serial:35bf5648-974d-8523-e3c0-07e2e8a9666e
+Total Cadastro Domiciliar: 0
+Total Cadastro Indivual: 0
+Total Atividade Coletiva: 1
+Atividade Coletiva: 1 Serial:
+Total Atendimento Odontologico: 0
+Total Procedimento: 9
+Procedimentos: 1 Serial:
+Procedimentos: 2 Serial:20a46ab9-0581-9dcc-8e55-8475aa81ed5f
+Procedimentos: 3 Serial:48698044-8f7b-1b4b-e6c4-1bffc3181552
+Procedimentos: 4 Serial:f277060b-b494-9552-c8e5-edb420bdb909
+Procedimentos: 5 Serial:331f1f41-72ff-b7b0-fc17-c65653f5754e
+Procedimentos: 6 Serial:f4e2b94c-1e58-e7e5-ff08-214eb4cf2bcf
+Procedimentos: 7 Serial:b6dbcaa7-9042-1a3c-c677-6b90e9f3d0f0
+Procedimentos: 8 Serial:542a5e2c-dea6-a3c9-9d5e-a2504465e3e2
+Procedimentos: 9 Serial:b24a21c3-2ce1-5372-e5e1-082b772076b3

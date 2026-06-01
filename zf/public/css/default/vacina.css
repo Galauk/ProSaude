@@ -1,0 +1,72 @@
+#carteirinha{
+	margin-top: 10px;
+}
+
+#reforco-dialog table{
+	width: 100%
+}
+
+#carteirinha table,
+#reforco-dialog table{
+	border-collapse: collapse;
+	cursor: default;
+}
+
+#carteirinha table tr th,
+#carteirinha table tr td,
+#reforco-dialog table tbody tr td{
+	padding: 3px;
+}
+
+#carteirinha table tr td{
+	height: 36px;
+	width: 66px;
+	text-align: center;
+}
+
+#carteirinha table tr td.ui-state-disabled{
+	background-color: #AAA;
+}
+
+#carteirinha table tr td em{
+	font-size: 0.75em;
+}
+
+.vac, .trat, .dose{
+	cursor: pointer;
+}
+
+.vacA,
+.vacP,
+.vacZ{ background-image: none;}
+
+.vacA{ background-color: #C9D7FA}
+.vacP{ background-color: #D5EBD3}
+.vacR{ background-image: url('/WebSocialSaude/zf/public/images/reforco-bg.png'); }
+.vacZ{ background-color: #F1C0E3}
+
+.aviso{ color: #990}
+.vencida{ color: #F00}
+
+.fechado,
+.sem-estoque{
+	color: #900;
+	background-color: #DDD;
+	background-image: none;
+}
+.fechado{color: #000;}
+
+.abrir,
+.descartar{
+	cursor: pointer;
+	width: 24px;
+}
+
+.tooltip{
+	display: none;
+}
+
+#easyTooltip{
+	margin-left: 10px;
+	padding: 3px;
+}

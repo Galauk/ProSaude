@@ -1,0 +1,104 @@
+#grade{
+}
+
+.agenda_com_alteracao,
+.agenda_sem_alteracao{
+  padding: 0;
+}
+
+.agenda_com_alteracao input{ 
+  background-color: blue; 
+  color: #FFF;
+}
+
+.agenda_alterando input{ 
+  background-color: red; 
+  color: #FFF;
+}
+
+.agenda_com_alteracao input,
+.agenda_sem_alteracao input,
+.gram_mes input{
+  border: 1px solid transparent;
+  width: 100%;
+  height: 23px;
+  text-align: center;
+}
+
+.agenda_com_alteracao input:hover,
+.agenda_sem_alteracao input:hover,
+.gram_mes input:hover{
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+#myMenu,
+#myMenuMes{ display: none; }
+
+#legenda div{
+  border: 1px solid #ccc;
+  width: 20px;
+  height: 10px;
+  display: inline-block;
+}
+
+.marcada input{
+    border: 1px solid transparent;
+    width: 100%;
+    height: 23px;
+    text-align: center;
+    background-color: #ADD8E6;	
+}
+
+#legenda .agenda_com_alteracao{background-color: blue;}
+#legenda .agenda_alterando {background-color: red;}
+#legenda .marcada {background-color: #ADD8E6;}
+
+
+.destaque{
+	background-color: #cccccc;
+	
+}
+
+.com-vaga{
+	background-image: none;
+	background-color: #ccffcc;	
+	cursor: pointer;
+}
+.com-vaga.destaque{
+	background-color: #008800;		
+}
+
+.sem-vaga{
+	background-image: none; 
+	background-color: #ffcccc;
+	cursor: not-allowed;
+}
+.sem-vaga.destaque{
+	background-color: #F00;
+}
+
+#easyTooltip{
+	margin-left: 10px;
+	padding: 3px;
+	display: none;
+}
+
+.dow0,
+.dow6{
+	background-color: #DDD;
+}
+
+.marcada{
+	background-image: none;
+	background-color: #ADD8E6;	
+	cursor: pointer;
+}
+
+.marcada.destaque{
+	background-color: #1E90FF;
+}
+
+#grah_motivo{
+    color: #838B8B;
+}

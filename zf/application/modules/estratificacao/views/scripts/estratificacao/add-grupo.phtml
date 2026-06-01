@@ -1,0 +1,15 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/estratificacao/add-grupo.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+<form name="busca" method="post" action="<?=$this->url(array("action" => "add-grupo"))?>">
+
+    <label style= "padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; background-color: rgb(255, 225, 225)!important; height: 20px;">Nome do grupo:</label>
+    <input type="text" name="grupo" id="grupo">
+
+    <a type ="button" class="ui-button salvar" >Salvar</a>
+
+</form>
+

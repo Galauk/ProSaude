@@ -1,0 +1,20 @@
+<form method="post" id="form" action="<?= $this->url(array("action" => "rel-paciente")); ?>" target="_blank">
+    <input name="tipo" id="tipo" type="hidden" value="<?=$this->action?>"/>
+    <input name="interno" id="interno" type="hidden" value=""/>
+	<label>Solicitante:</label>
+        <input name="usr_nome" id="usr_nome" value=""/>
+        <input name="usr_codigo" id="usr_codigo" type="hidden" value="" /><br />
+        
+        <label>Paciente:</label>
+        <input name="usu_nome" id="usu_nome" value=""/>
+        <input name="usu_codigo" id="usu_codigo" type="hidden" value=""/><br />
+        
+	<label>Data inicial:</label>
+	<input name="data_inicial" id="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" id="data_final" style="width: 80px" /><br />
+
+        <div class="clear"></div>
+        <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>	
+</form>

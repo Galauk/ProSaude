@@ -1,0 +1,47 @@
+<?php $this->dialog(); ?>
+<div id="modal-proc" title="Procedimentos" style="display: none"></div>
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>">
+	<input type="hidden" name="ate_codigo" id="ate_codigo" value="<?=$this->ate_codigo;?>" />
+	<input type="hidden" name="obs" value="<?=$this->obs;?>" />
+	<input type="hidden" name="io_codigo" id="io_codigo" value="<?=$this->io_codigo;?>" />
+	<?php $this->errorMsg(); ?>	
+	<?php if(!$this->bloquear):?>
+
+	<label>Procedimento:</label>
+	<input type="hidden" id="esp_codigo" value="<?= $this->esp_codigo;?>">
+	<input type="hidden" id="proc_codigo" name="proc_codigo" value="" />
+	<input type="text" id="proc_nome" name="proc_nome" value="" />&nbsp;
+	<a href="#" id="btn-listar-todos" class="ui-button">
+		<div>
+			<img src="/WebSocialSaude/zf/public/images/icons/historico.png" alt="Listar todos os procedimentos">
+		</div>Listar todos
+	</a>
+	<br/>
+	
+	<label><abbr title="Código Internacional de Doença">CID</abbr>:</label>
+		<select name="cd10_codigo" id="cid" disabled="disabled">
+			<option value="0">-- Selecione um procedimento --</option>
+		</select><br />
+	
+	<div class="space"></div>
+	
+	<a href="#" class="ui-button salvar">Salvar</a>	
+		<?php else: ?>
+		<span class="info">É preciso fazer um <a href="<?=$this->url(array("controller"=>"atendimento"));?>">atendimento</a> antes de efetuar algum procedimento.</span>
+	<?php endif; ?>
+</form>
+<div class="space"></div>
+
+<div class='abas'> 
+	<ul class="tabs">
+		<li><a href="#tabs2-1">Procedimentos realizados</a></li>
+	</ul>
+	<div id='tabs2-1'>
+		<?php if(!$this->obs){?>
+			<?php echo $this->action("itens", "procedimento", "prontuario"); ?>
+		<?php }else{
+			echo $this->action("itens-internacao", "procedimento", "prontuario",array("io_codigo" => $this->io_codigo));
+		} ?>
+	</div>
+</div>
+

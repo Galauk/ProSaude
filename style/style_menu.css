@@ -1,0 +1,156 @@
+body {
+	padding:0;
+	margin:0;
+}
+
+#nav *, 
+#nav { /* TODAS AS LISTAS */
+	font-family: arial, helvetica, serif;
+	font-size:11px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+#nav li { /* TODOS ITENS DA LISTA */
+	float: left;
+	position: relative;
+	width:auto;
+	border-bottom:1px double #687a54;
+	border-left:1px thin #687a54;
+	border-top:1px thin #687a54;
+	border-right:1px thin #687a54;
+	background-color: #dcedcd;
+}
+
+#nav li ul { /* SEGUNDO NIVEL DA LISTA */
+	display: none;
+	position: absolute;
+	top: 2.3em;
+	left: 0;
+}
+
+#nav li>ul { /* to override top and left in browsers other than IE, which will position to the top right of the containing li, rather than bottom left */
+	top: 2.3em;
+	left: 0px;
+}
+
+/*#nav li:hover ul, li.over ul {  lists nested under hovered list items 
+	display: block;
+}*/
+
+#nav li:hover ul ul, 
+#nav li.over ul ul { 
+	display:none; 
+	float: left;
+}
+
+#nav li:hover ul, 
+#nav li li:hover ul, 
+#nav li.over ul,
+#nav li li.over ul { 
+	display: block; 
+}
+
+#nav *{
+	/*background: #F7F7F7;*/
+	color: #000;
+	
+}
+#nav img {
+	border: 0;
+	vertical-align: text-bottom;
+}
+
+#nav li {
+	padding: Opx;
+ 	white-space: nowrap;
+}
+
+
+#nav li a{
+	padding: 5px;
+	width:auto;
+	text-decoration:none;
+	display:block;
+}
+#nav li a:hover{
+	background:#c2e0a9;
+	color:#005900;
+}
+
+#nav li ul li{
+	width:170px;
+	height:100%;
+	text-decoration:none;
+	display:block;
+	padding:0;
+	clear:both;
+}
+#nav li ul li a{
+	padding: 3px;
+	width:auto;
+	text-decoration:none;
+	display:block;
+}
+#nav li ul li a:hover{
+	background:#c2e0a9;
+	color:#005900;	
+}
+
+	#nav li ul li ul li{
+		display:none;
+		margin-top:-27px;
+		margin-left:170px;
+		padding-left:1px;
+		width:170px;
+		height:100%;
+		text-decoration:none;
+		display:block;
+		padding:0;
+	}
+	#nav li ul li ul li a{
+		padding: 3px;
+		width:auto;
+		text-decoration:none;
+		display:block;
+	}
+	#nav li ul li ul li a:hover{
+		background:#c2e0a9;
+		color:#005900;
+	}	
+
+#nav A:link {
+	color: black; TEXT-DECORATION: none
+}
+#nav A:active {
+	COLOR: black; TEXT-DECORATION: none
+}
+#nav A:visited {
+	COLOR: black; TEXT-DECORATION: none
+}
+#nav A:hover {
+	COLOR: black; TEXT-DECORATION: none
+}
+#nav2 td a img{
+	vertical-align:middle;
+}
+#nav2 td{
+	padding:4px;	
+	width:35px;
+	height:35px;
+	/*border:1px double #CCC;*/
+	text-align:center;
+	vertical-align:middle;
+}
+#nav2 td a{
+	border:1px double #dcedcd;
+	/*border:1px double #F7F7F7;*/
+	display:block;
+	width:100%;
+	height:35px;
+}
+#nav2 td a:hover{
+	padding:0px;
+	background:#c2e0a9;
+	border:1px double #687a54;
+}

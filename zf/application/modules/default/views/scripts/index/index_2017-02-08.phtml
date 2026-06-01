@@ -1,0 +1,24 @@
+<?php /* <ul>
+  <li><a href="<?=$this->url(array("controller"=>"vacina"), NULL, TRUE);?>" title="Vacina"><img width="150" src="<?=$this->baseUrl("/public/images/prints/vacina.png");?>" alt="Vacina" /></a></li>
+  <li><a href="<?=$this->url(array("controller"=>"prontuario"), NULL, TRUE);?>" title="Prontuário Eletrônico"><img width="150" src="<?=$this->baseUrl("/public/images/prints/prontuario.png");?>" alt="Prontuário Eletrônico" /></a></li>
+  <li><a href="/WebSocialSaude/portadeEntrada/portadeentrada2.php" title="Porta de Entrada"><img width="150" src="<?=$this->baseUrl("/public/images/prints/porta_de_entrada.png");?>" alt="Porta de Entrada" /></a></li>
+  <li><a href="<?=$this->url(array("controller"=>"agendamento-externo"), NULL, TRUE);?>" title="Agendamento Externo"><img width="150" src="<?=$this->baseUrl("/public/images/prints/agendamento_externo.png");?>" alt="Agendamento Externo" /></a></li>
+  <li><a href="/WebSocialSaude/rel_index.php" title="Relatórios"><img width="150" src="<?=$this->baseUrl("/public/images/prints/relatorios.png");?>" alt="Relatórios" /></a></li>
+  <li><a href="/WebSocialSaude/materiais.php" title="Materiais"><img width="150" src="<?=$this->baseUrl("/public/images/prints/materiais.png");?>" alt="Materiais" /></a></li>
+  </ul>
+
+ */ ?>
+<div id="tudo">
+
+	<div id="anterior"></div>
+	
+	<div id="miniaturas">
+		<ul>
+			<?php foreach ($this->itens as $item): ?>
+				<li style="display:none"><a href="../<?= $item->ma_url; ?>"><img src="<?= $this->baseUrl("/public/images/prints/" . ($item->ma_print ? $item->ma_print : "none") . ".png"); ?>" alt="<?= $item->ma_title; ?>" /></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+
+	<div id="proximo"></div>
+</div>

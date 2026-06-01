@@ -1,0 +1,172 @@
+<?php
+
+Zend_Loader::loadClass("Elotech_Db_Table_Abstract");
+class Application_Model_DbTable_BPA extends Elotech_Db_Table_Abstract {
+
+    protected $_name = 'bpa';
+    protected $_primary = 'bpa_codigo';
+    protected $_dependentTables = array();
+    //FINANCIAMENTO :01 - PAB
+        //FINANCIAMENTO :02 - FAEC
+        // ""      ""   :06 - MAC
+        
+        //TIPO : 01 CONSOLIDADO
+        //TIPO : 02 INDIVIDUALIZADO
+
+    public function getProcedimentosBPAPorPeriodo($tp_financiamento=FALSE,$data=FALSE,$origem=FALSE,$origem_codigo=FALSE){
+		
+        if(empty($data))
+            return false;
+        $sqlUnidade = $this->select(FALSE)
+                    ->setIntegrityCheck(FALSE)
+                    ->from("bpa","")
+                    ->join(array("proc"=>"procedimento"),"proc.proc_codigo=bpa.proc_codigo",array("sum((proc_codigo_sus):: integer)","count(*)"))
+                    ->join(array("tf"=>"tb_financiamento"),"tf.co_financiamento=proc.proc_cofinan and proc_cofinan = '$tp_financiamento'","")
+                    ->join(array("rpr" => "rl_procedimento_registro"),"rpr.co_procedimento=proc.proc_codigo_sus and co_registro = 1","")
+                    ->where("to_char(bpa_data,'MM/YYYY') = '$data'")
+                    ->join(array("uni" => "unidade"),"uni.uni_codigo=bpa.uni_codigo","");
+                    
+    if(!empty($origem_codigo)) {
+            $sqlUnidade->where("bpa.uni_codigo=$origem_codigo");
+    }
+        
+        
+        $sqlMedico = $this->select(FALSE)
+                    ->setIntegrityCheck(FALSE)
+                    ->from("bpa","")
+                    ->join(array("proc"=>"procedimento"),"proc.proc_codigo=bpa.proc_codigo",array("sum((proc_codigo_sus):: integer)","count(*)"))
+                    ->join(array("tf"=>"tb_financiamento"),"tf.co_financiamento=proc.proc_cofinan and proc_cofinan = '$tp_financiamento'","")
+                    ->join(array("rpr" => "rl_procedimento_registro"),"rpr.co_procedimento=proc.proc_codigo_sus and co_registro = 1","")
+                    ->where("to_char(bpa_data,'MM/YYYY') = '$data'")
+                    ->join(array("med" => "medico"),"med.med_codigo=bpa.med_codigo","");
+        
+    if(!empty($origem_codigo))  {
+            $sqlMedico->where("bpa.med_codigo=$origem_codigo");
+    }
+        $sql = $this->select()
+                        ->union(array($sqlUnidade, $sqlMedico));
+        
+        return $this->fetchAll($sql);
+    }
+    
+   public function getRegistrosBpa($tp_financiamento=FALSE,$data="U",$origem=FALSE,$origem_codigo=FALSE){
+	  // die($origem_codigo);
+        $sqlUnidade = $this->select(FALSE)
+                    ->setIntegrityCheck(FALSE)
+                    //Aqui coloquei direto no bpa as exigencias que o procedimento tem, nesse caso, coloquei uma coluna que faz a soma da existencia do codigo de detalhe exigencia 12 com o procedimento
+                    ->from("bpa","")
+                    ->join(array("proc"=>"procedimento"),"proc.proc_codigo=bpa.proc_codigo",array("qtde"=>"count((proc.proc_codigo_sus):: integer)","proc_codigo_sus"))
+                
+                    ->join(array("tf"=>"tb_financiamento"),"tf.co_financiamento=proc.proc_cofinan and proc_cofinan = '$tp_financiamento'","")
+                    ->join(array("rpr" => "rl_procedimento_registro"),"rpr.co_procedimento=proc.proc_codigo_sus and co_registro = 1","")
+                    //novo
+                    ->join(array("usu" => "usuario"),"usu.usu_codigo=bpa.usu_codigo",array("idade"=>"(CASE WHEN (select count(*) from rl_procedimento_detalhe where co_procedimento=proc.proc_codigo_sus and co_detalhe = '012') > 0  THEN date_part('year',age(usu_datanasc)) ELSE 000 END)"))
+                    //novo
+                    //antigo
+                    //->join(array("usu" => "usuario"),"usu.usu_codigo=bpa.usu_codigo",array("idade"=>"(CASE WHEN rpd.co_detalhe = '012' THEN 000 ELSE date_part('year',age(usu_datanasc)) END)"))
+                    //antigo
+                    ->join(array("usr"=>"usuarios"),"usr.usr_codigo=bpa.usr_codigo","")
+                    ->join(array("mesp"=>"medico_especialidade"),"mesp.med_codigo=usr.usr_codigo","")
+                    ->join(array("esp"=>"especialidade"),"esp.esp_codigo=mesp.esp_codigo","cod_cbo")
+
+                    ->group(array("proc_codigo_sus","cod_cbo","cnes","idade"))
+                    ->where("to_char(bpa_data,'MM/YYYY') = '$data'")
+					->where("proc_codigo_sus in (select co_procedimento from rl_procedimento_ocupacao rpo where co_ocupacao = esp.cod_cbo )")
+                    ->join(array("uni" => "unidade"),"uni.uni_codigo=bpa.uni_codigo",array("cnes"=>"uni_cnes"));
+			if(!empty($origem_codigo))	{	
+				$sqlUnidade->where("bpa.uni_codigo=$origem_codigo");
+				$sqlUnidade->where("mesp.uni_codigo=$origem_codigo");
+            }
+		//	die($sqlUnidade);
+			
+        $sqlMedico = $this->select(FALSE)
+                    ->setIntegrityCheck(FALSE)
+                    ->from("agenda","")
+					->join(array("agei"=>"agenda_itens"),"agei.age_codigo=agenda.age_codigo","")
+					->join(array("coni"=>"convenio_itens"),"coni.coni_codigo=agei.coni_codigo","")
+					->join(array("proc"=>"procedimento"),"proc.proc_codigo=coni.proc_codigo",array("qtde"=>"count((proc.proc_codigo_sus):: integer)","proc_codigo_sus"))
+					->join(array("usu" => "usuario"),"usu.usu_codigo=agenda.usu_codigo",array("idade"=>"(CASE WHEN (select count(*) from rl_procedimento_detalhe where co_procedimento=proc.proc_codigo_sus and co_detalhe = '012') > 0  THEN date_part('year',age(usu_datanasc)) ELSE 000 END)"))
+					->join(array("abr"=>"agenda_bioquimicos_responsavel"),"abr.age_codigo=agenda.age_codigo","")
+					->join(array("usr"=>"usuarios"),"usr.usr_codigo=abr.usr_codigo","")
+					->join(array("mes"=>"medico_especialidade"),"mes.med_codigo=usr.usr_codigo","")
+                    ->join(array("esp"=>"especialidade"),"esp.esp_codigo=mes.esp_codigo","cod_cbo")
+					->join(array("uni"=>"unidade"),"uni.uni_codigo=mes.uni_codigo","uni_cnes")
+                    ->group(array("proc.proc_codigo_sus","cod_cbo","idade","uni_cnes"))
+                    ->where("to_char(agei_data,'MM/YYYY') = '$data'")
+					->where("agei_status = 'R'")
+					->where("mes.uni_codigo is not null")
+					->where("mes.mes_ativo = 'A'");
+         if(!empty($origem_codigo))  {
+            $sqlMedico->where("med_codigo_coleta = $origem_codigo");
+       }                   
+
+//die($sqlMedico);
+
+        $sql = $this->select()
+                        ->union(array($sqlUnidade, $sqlMedico))
+			->order("cnes");				
+        
+         $retorno = $this->fetchAll($sql);
+		 return $retorno->toArray();
+    }
+    
+    public function getRegistrosIndividualizadoBpa($tp_financiamento=FALSE,$data=FALSE,$origem=FALSE,$origem_codigo=FALSE){
+        $sqlUnidade = $this->select(FALSE)
+                    ->setIntegrityCheck(FALSE)
+                    ->from("bpa",array("bpa_data"=>"to_char(bpa.bpa_data,'YYYYMMDD')","ci_codigo","bpa_autorizacao"))
+                    ->join(array("proc"=>"procedimento"),"proc.proc_codigo=bpa.proc_codigo",array("qtde"=>"count((proc_codigo_sus):: integer)","proc_codigo_sus"))
+                    ->join(array("tf"=>"tb_financiamento"),"tf.co_financiamento=proc.proc_cofinan and proc_cofinan = '$tp_financiamento'","")
+                    ->join(array("rpr" => "rl_procedimento_registro"),"rpr.co_procedimento=proc.proc_codigo_sus and co_registro = 2","")
+                    ->join(array("esp"=>"especialidade"),"esp.esp_codigo=bpa.esp_codigo","cod_cbo")
+                    ->join(array("usu" => "usuario"),"usu.usu_codigo=bpa.usu_codigo",array("idade"=>"date_part('year',age(usu_datanasc))","usu_cartao_sus","usu_sexo","usu_nome","usu_datanasc","etnia"=>"etn_codigo","raca"=>"rac_codigo"))
+                    ->join(array("cid_nasc"=>"cidade"),"cid_nasc.cid_codigo=usu.cid_codigo_nasc",array("ibge_nasc"=>"cid_codigo_ibge"))
+                    ->join(array("dom"=>"domicilio"),"dom.dom_codigo=usu.dom_codigo",array("dom_numero","dom_complemento","dom_telefone"))
+                    ->join("rua","rua.rua_codigo=dom.rua_codigo",array("rua_cep","co_tipo_logradouro","rua_nome"))
+                    ->join(array("bai"=>"bairro"),"bai.bai_codigo=ru
+.bai_codigo","bai_nome")
+                    ->join(array("usr"=>"usuarios"),"usr.usr_codigo=bpa.usr_codigo","cnes_cod_cns")
+                    ->joinLeft(array("cid"=>"cid10"),"cid.cd10_codigo=bpa.bpa_cd10_codigo","cd10_codigo_cid")
+                    ->joinLeft(array("ueq"=>"usuarios_equipe"),"usr.usr_codigo=ueq.usr_codigo","")
+                    ->joinLeft(array("eqp"=>"tb_equipe"),"eqp.uni_codigo=bpa.uni_codigo and ueq.co_equipe=eqp.co_seq_equipe",array("nu_ine","co_seq_equipe","ds_area"))
+                    ->group(array("bpa_data","ci_codigo","bpa_autorizacao","proc_codigo_sus","cod_cbo","idade","usu_cartao_sus","usu_sexo","usu_nome","usu_datanasc","etnia","raca","dom_numero","dom_complemento","cnes","dom_telefone","rua_cep","co_tipo_logradouro","rua_nome","bai_nome","cnes_cod_cns","cd10_codigo_cid","nu_ine","co_seq_equipe","ds_area","cnes","cnpj","cid_codigo_ibge"))
+                    ->where("to_char(bpa_data,'MM/YYYY') = '$data'")
+                    ->where("proc_codigo_sus not in (select co_procedimento from rl_procedimento_registro rpr2 where co_registro = '1' )")
+                    ->join(array("uni" => "unidade"),"uni.uni_codigo=bpa.uni_codigo",array("cnes"=>"uni_cnes","cnpj"=>"uni_cnpj"));
+         if(!empty($origem_codigo))  {					
+           $sqlUnidade->where("bpa.uni_codigo=$origem_codigo");
+   }     
+       //   die($sqlUnidade);
+        $sqlMedico = $this->select(FALSE)
+                    ->setIntegrityCheck(FALSE)
+                    ->from("bpa",array("bpa_data"=>"to_char(bpa.bpa_data,'YYYYMMDD')","ci_codigo","bpa_autorizacao"))
+                    ->join(array("proc"=>"procedimento"),"proc.proc_codigo=bpa.proc_codigo",array("qtde"=>"count((proc_codigo_sus):: integer)","proc_codigo_sus"))
+                    ->join(array("tf"=>"tb_financiamento"),"tf.co_financiamento=proc.proc_cofinan and proc_cofinan = '$tp_financiamento'","")
+                    ->join(array("rpr" => "rl_procedimento_registro"),"rpr.co_procedimento=proc.proc_codigo_sus and co_registro = 2","")
+                    ->join(array("esp"=>"especialidade"),"esp.esp_codigo=bpa.esp_codigo","cod_cbo")
+                    ->join(array("usu" => "usuario"),"usu.usu_codigo=bpa.usu_codigo",array("idade"=>"date_part('year',age(usu_datanasc))","usu_cartao_sus","usu_sexo","usu_nome","usu_datanasc","etnia"=>"etn_codigo","raca"=>"rac_codigo"))
+                    ->join(array("cid_nasc"=>"cidade"),"cid_nasc.cid_codigo=usu.cid_codigo_nasc",array("ibge_nasc"=>"cid_codigo_ibge"))
+                    ->join(array("dom"=>"domicilio"),"dom.dom_codigo=usu.dom_codigo",array("dom_numero","dom_complemento","dom_telefone"))
+                    ->join("rua","rua.rua_codigo=dom.rua_codigo",array("rua_cep","co_tipo_logradouro","rua_nome"))
+                    ->join(array("bai"=>"bairro"),"bai.bai_codigo=rua.bai_codigo","bai_nome")
+                    ->join(array("usr"=>"usuarios"),"usr.usr_codigo=bpa.usr_codigo","cnes_cod_cns")
+                    ->join(array("cid"=>"cid10"),"cid.cd10_codigo=bpa.bpa_cd10_codigo","cd10_codigo_cid")
+                    ->join(array("ueq"=>"usuarios_equipe"),"usr.usr_codigo=ueq.usr_codigo","")
+                    ->join(array("eqp"=>"tb_equipe"),"eqp.uni_codigo=bpa.uni_codigo and ueq.co_equipe=eqp.co_seq_equipe",array("nu_ine","co_seq_equipe","ds_area"))
+                    ->group(array("bpa_data","ci_codigo","bpa_autorizacao","proc_codigo_sus","cod_cbo","idade","usu_cartao_sus","usu_sexo","usu_nome","usu_datanasc","etnia","raca","dom_numero","dom_complemento","med_cnes","dom_telefone","rua_cep","co_tipo_logradouro","rua_nome","bai_nome","cnes_cod_cns","cd10_codigo_cid","nu_ine","co_seq_equipe","ds_area","cnes","cnpj","cid_codigo_ibge"))
+                    ->where("to_char(bpa_data,'MM/YYYY') = '$data'")
+                    ->where("proc_codigo_sus not in (select co_procedimento from rl_procedimento_registro rpr2 where co_registro = '1' )")
+                    ->join(array("med" => "medico"),"med.med_codigo=bpa.med_codigo",array("cnes"=>"med_cnes","cnpj"=>"med_cnpj"));
+         if(!empty($origem_codigo))  {        
+            $sqlMedico->where("bpa.med_codigo=$origem_codigo");
+		}
+       // die($sqlMedico);
+        $sql = $this->select()
+		->union(array($sqlUnidade, $sqlMedico))
+		->order("cnes");
+        die($sql);
+           
+        $retorno = $this->fetchAll($sql);       
+        return $retorno->toArray();
+    }
+}
+

@@ -1,0 +1,36 @@
+<form method="post" action="<?=$this->url(array("controller"=>"procedimento","action"=>"buscar-apelido"));?>">
+	<input type="hidden" name="buscar" value="1" id="buscar" />
+        <a href="<?=$this->url(array("controller"=>"procedimento","action"=>"form-apelido"));?>" class="ui-button novo">Adicionar</a>
+        <input type="text" name="buscar" value="" id="buscar" />
+	<a href="#" class="ui-button submit buscar">Buscar</a>
+</form>
+<div class="space"></div>
+
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+    	
+<?php 
+$i=0;
+if($this->itens && $this->itens->count()):
+foreach($this->itens as $item): ?>
+        <?php if($i < 1) :?>
+            <tr class="ui-widget-header">
+		<th>Código</th>
+                <th>Procedimento</th>
+		<th>Apelido</th>
+                <th style="width: 80px">Opções</th>
+            </tr>
+        <?php $i++; endif;?>
+        <tr>
+            <td class="ui-state-default" width="80"><?=$this->escape($item->proc_codigo);?></td>
+            <td class="ui-state-default c" ><?=$this->escape($item->proc_nome);?></td>
+            <td class="ui-state-default c" ><?=$this->escape($item->proc_apelido);?></td>
+            <td class="ui-state-default c" width="100">
+                <a href="<?=$this->url(array("controller"=>"procedimento","action"=>"editar-apelido","id"=>$item->proc_codigo));?>" class="editar"><img src="<?=$this->baseUrl('/public/images/icons/editar.png');?>" alt="Editar" title="Editar" /></a>
+                <a href="<?=$this->url(array("controller"=>"procedimento","action"=>"excluir-apelido","id"=>$item->proc_codigo));?>" class="excluir"><img src="<?=$this->baseUrl('/public/images/icons/excluir.png');?>" alt="Excluir" title="Excluir" /></a>
+            </td>
+        </tr>
+<?php endforeach; ?>
+</table>
+<?php else:?>
+        <em>Nenhum item encontrado</em>
+<?php endif;?>

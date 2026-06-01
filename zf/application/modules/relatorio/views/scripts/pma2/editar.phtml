@@ -1,0 +1,560 @@
+<form method="post" action="<?=$this->url(array("action"=>"salvar"));?>">
+<input type="hidden" name="pma" value="<?=$this->pma_codigo;?>" />
+
+<table id="cabecalho">
+	<tr>
+		<th>Relatório<br />PMA2</th>
+		<th colspan="6">SECRETARIA MUNICIPAL DE SAÚDE<br />SISTEMA DE INFORMAÇÃO DE ATENÇÃO BÁSICA</th>
+	</tr>
+	<tr>
+		<td colspan="2">MUNICIPIO<br /><?=$this->dados['CABECALHO.MUNICIPIO'];?></td>
+		<td>SEGMENTO<br /><?=$this->dados['CABECALHO.SEGMENTO'];?></td>
+		<td>UNIDADE<br /><?=$this->dados['CABECALHO.UNIDADE'];?></td>
+		<td>ÁREA<br /><?=$this->dados['CABECALHO.AREA'];?></td>
+		<td>MÊS<br /><?=$this->dados['CABECALHO.MES'];?></td>
+		<td>ANO<br /><?=$this->dados['CABECALHO.ANO'];?></td>
+	</tr>
+	<tr>
+		<th colspan="7">RELATÓRIO DE PRODUÇÃO E DE MARCADORES PARA AVALIAÇÃO</th>
+	</tr>
+</table>
+<div class="space"></div>
+
+<div id="col1">
+	<table>
+		<tr class="b2">
+			<th colspan="4">Atividades/Produção</th>
+		</tr>
+		<tr>
+			<td rowspan="12" class="c b2" style="width: 13px;">C<br />O<br />N<br />S<br />&nbsp;<br />M<br />É<br />D<br />I<br />C<br />A</td>
+			<td colspan="2">residentes fora da área de abrangência</td>
+			<td style="width: 40px" class="d">
+				<input name="d[CONSULTA.FORA_DA_AREA]" id="CONSULTA_FORA_DA_AREA" value="<?=$this->dados['CONSULTA.FORA_DA_AREA'];?>" />
+				<input id="c_CONSULTA_FORA_DA_AREA" value="<?=$this->calc['CONSULTA.FORA_DA_AREA'];?>" data-usr="<?=$this->info['CONSULTA.FORA_DA_AREA']->usr_nome;?>" data-data="<?=$this->info['CONSULTA.FORA_DA_AREA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td rowspan="10" class="c">Residente<br />na área de<br />abrangência<br />da equipe</td>
+			<td class="c">&lt; 1</td>
+			<td class="d">
+				<input name="d[CONSULTA.MENOR_DE_1_ANO]" id="CONSULTA_MENOR_DE_1_ANO" value="<?=$this->dados['CONSULTA.MENOR_DE_1_ANO'];?>" />
+				<input id="c_CONSULTA_MENOR_DE_1_ANO" value="<?=$this->calc['CONSULTA.MENOR_DE_1_ANO'];?>" data-usr="<?=$this->info['CONSULTA.MENOR_DE_1_ANO']->usr_nome;?>" data-data="<?=$this->info['CONSULTA.MENOR_DE_1_ANO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="c">1 - 4</td>
+			<td class="d">
+				<input name="d[CONSULTA.DE_1_A_4]" id="CONSULTA_DE_1_A_4" value="<?=$this->dados['CONSULTA.DE_1_A_4'];?>" />
+				<input id="c_CONSULTA_DE_1_A_4" value="<?=$this->calc['CONSULTA.DE_1_A_4'];?>" data-usr="<?=$this->info['CONSULTA.DE_1_A_4']->usr_nome;?>" data-data="<?=$this->info['CONSULTA.DE_1_A_4']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="c">5 - 9</td>
+			<td class="d">
+				<input name="d[CONSULTA.DE_5_A_9]" id="CONSULTA_DE_5_A_9" value="<?=$this->dados['CONSULTA.DE_5_A_9'];?>" />
+				<input id="c_CONSULTA_DE_5_A_9" value="<?=$this->calc['CONSULTA.DE_5_A_9'];?>" data-usr="<?=$this->info['CONSULTA.DE_5_A_9']->usr_nome;?>" data-data="<?=$this->info['CONSULTA.DE_5_A_9']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="c">10 - 14</td>
+			<td class="d">
+				<input name="d[CONSULTA.DE_10_A_14]" id="CONSULTA_DE_10_A_14" value="<?=$this->dados['CONSULTA.DE_10_A_14'];?>" />
+				<input id="c_CONSULTA_DE_10_A_14" value="<?=$this->calc['CONSULTA.DE_10_A_14'];?>" data-usr="<?=$this->info['CONSULTA.DE_10_A_14']->usr_nome;?>" data-data="<?=$this->info['CONSULTA.DE_10_A_14']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="c">15 - 19</td>
+			<td class="d">
+				<input name="d[CONSULTA.DE_15_A_19]" id="CONSULTA_DE_15_A_19" value="<?=$this->dados['CONSULTA.DE_15_A_19'];?>" />
+				<input id="c_CONSULTA_DE_15_A_19" value="<?=$this->calc['CONSULTA.DE_15_A_19'];?>" data-usr="<?=$this->info['CONSULTA.DE_15_A_19']->usr_nome;?>" data-data="<?=$this->info['CONSULTA.DE_15_A_19']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="c">20 - 39</td>
+			<td class="d">
+				<input name="d[CONSULTA.DE_20_A_39]" id="CONSULTA_DE_20_A_39" value="<?=$this->dados['CONSULTA.DE_20_A_39'];?>" />
+				<input id="c_CONSULTA_DE_20_A_39" value="<?=$this->calc['CONSULTA.DE_20_A_39'];?>" data-usr="<?=$this->info['CONSULTA.DE_20_A_39']->usr_nome;?>" data-data="<?=$this->info['CONSULTA.DE_20_A_39']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="c">40 - 49</td>
+			<td class="d">
+				<input name="d[CONSULTA.DE_40_A_49]" id="CONSULTA_DE_40_A_49" value="<?=$this->dados['CONSULTA.DE_40_A_49'];?>" />
+				<input id="c_CONSULTA_DE_40_A_49" value="<?=$this->calc['CONSULTA.DE_40_A_49'];?>" data-usr="<?=$this->info['CONSULTA.DE_40_A_49']->usr_nome;?>" data-data="<?=$this->info['CONSULTA.DE_40_A_49']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="c">50 - 59</td>
+			<td class="d">
+				<input name="d[CONSULTA.DE_50_A_59]" id="CONSULTA_DE_50_A_59" value="<?=$this->dados['CONSULTA.DE_50_A_59'];?>" />
+				<input id="c_CONSULTA_DE_50_A_59" value="<?=$this->calc['CONSULTA.DE_50_A_59'];?>" data-usr="<?=$this->info['CONSULTA.DE_50_A_59']->usr_nome;?>" data-data="<?=$this->info['CONSULTA.DE_50_A_59']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="c">60 ou mais</td>
+			<td class="d">
+				<input name="d[CONSULTA.60_OU_MAIS]" id="CONSULTA_60_OU_MAIS" value="<?=$this->dados['CONSULTA.60_OU_MAIS'];?>" />
+				<input id="c_CONSULTA_60_OU_MAIS" value="<?=$this->calc['CONSULTA.60_OU_MAIS'];?>" data-usr="<?=$this->info['CONSULTA.60_OU_MAIS']->usr_nome;?>" data-data="<?=$this->info['CONSULTA.60_OU_MAIS']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="c">Total</td>
+			<td class="d"><input id="CONSULTA_SUBTOTAL" value="0" readonly="readonly" /></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="c b2">Total geral de consultas</td>
+			<td class="b2 d"><input id="CONSULTA_TOTAL" value="0" readonly="readonly" /></td>
+		</tr>
+		
+		<tr>
+			<td rowspan="8" colspan="2" class="c b2">Tipo de<br />Atendimento<br />de Médico e<br />de Enfermeiro</td>
+			<td>Puericultura</td>
+			<td class="d">
+				<input name="d[TIPO.PUERICULTURA]" value="<?=$this->dados['TIPO.PUERICULTURA'];?>" />
+				<input id="c_TIPO_PUERICULTURA" value="<?=$this->calc['TIPO.PUERICULTURA'];?>" data-usr="<?=$this->info['TIPO.PUERICULTURA']->usr_nome;?>" data-data="<?=$this->info['TIPO.PUERICULTURA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Pré-Natal</td>
+			<td class="d">
+				<input name="d[TIPO.CANCER]" value="<?=$this->dados['TIPO.CANCER'];?>" />
+				<input id="c_TIPO_CANCER" value="<?=$this->calc['TIPO.CANCER'];?>" data-usr="<?=$this->info['TIPO.CANCER']->usr_nome;?>" data-data="<?=$this->info['TIPO.CANCER']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Prevenção do Câncer Cérvico-Uterino</td>
+			<td class="d">
+				<input name="d[TIPO.PRE_NATAL]" value="<?=$this->dados['TIPO.PRE_NATAL'];?>" />
+				<input id="c_TIPO_PRE_NATAL" value="<?=$this->calc['TIPO.PRE_NATAL'];?>" data-usr="<?=$this->info['TIPO.PRE_NATAL']->usr_nome;?>" data-data="<?=$this->info['TIPO.PRE_NATAL']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>DST/AIDS</td>
+			<td class="d">
+				<input name="d[TIPO.DST]" value="<?=$this->dados['TIPO.DST'];?>" />
+				<input id="c_TIPO_DST" value="<?=$this->calc['TIPO.DST'];?>" data-usr="<?=$this->info['TIPO.DST']->usr_nome;?>" data-data="<?=$this->info['TIPO.DST']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Diabetes</td>
+			<td class="d">
+				<input name="d[TIPO.DIABETES]" value="<?=$this->dados['TIPO.DIABETES'];?>" />
+				<input id="c_TIPO_DIABETES" value="<?=$this->calc['TIPO.DIABETES'];?>" data-usr="<?=$this->info['TIPO.DIABETES']->usr_nome;?>" data-data="<?=$this->info['TIPO.DIABETES']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Hipertensão Arterial</td>
+			<td class="d">
+				<input name="d[TIPO.HIPERTENSAO]" value="<?=$this->dados['TIPO.HIPERTENSAO'];?>" />
+				<input id="c_TIPO_HIPERTENSAO" value="<?=$this->calc['TIPO.HIPERTENSAO'];?>" data-usr="<?=$this->info['TIPO.HIPERTENSAO']->usr_nome;?>" data-data="<?=$this->info['TIPO.HIPERTENSAO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Hanseníase</td>
+			<td class="d">
+				<input name="d[TIPO.HANSENIASE]" value="<?=$this->dados['TIPO.HANSENIASE'];?>" />
+				<input id="c_TIPO_HANSENIASE" value="<?=$this->calc['TIPO.HANSENIASE'];?>" data-usr="<?=$this->info['TIPO.HANSENIASE']->usr_nome;?>" data-data="<?=$this->info['TIPO.HANSENIASE']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="b2">Tuberculose</td>
+			<td class="b2 d">
+				<input name="d[TIPO.TUBERCULOSE]" value="<?=$this->dados['TIPO.TUBERCULOSE'];?>" />
+				<input id="c_TIPO_TUBERCULOSE" value="<?=$this->calc['TIPO.TUBERCULOSE'];?>" data-usr="<?=$this->info['TIPO.TUBERCULOSE']->usr_nome;?>" data-data="<?=$this->info['TIPO.TUBERCULOSE']->data;?>" type="hidden" />
+			</td>	
+		</tr>
+		
+		<tr>
+			<td rowspan="5" colspan="2" class="c b2">Solicitação<br />médica<br />de exames<br />complementares</td>
+			<td>Patologia Clínica</td>
+			<td class="d">
+				<input name="d[EXAMES.PATOLOGIA]" value="<?=$this->dados['EXAMES.PATOLOGIA'];?>" />
+				<input id="c_EXAMES_PATOLOGIA" value="<?=$this->calc['EXAMES.PATOLOGIA'];?>" data-usr="<?=$this->info['EXAMES.PATOLOGIA']->usr_nome;?>" data-data="<?=$this->info['EXAMES.PATOLOGIA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Radiodiagnóstico</td>
+			<td class="d">
+				<input name="d[EXAMES.RADIODIAGNOSTICO]" value="<?=$this->dados['EXAMES.RADIODIAGNOSTICO'];?>" />
+				<input id="c_EXAMES_RADIODIAGNOSTICO" value="<?=$this->calc['EXAMES.RADIODIAGNOSTICO'];?>" data-usr="<?=$this->info['EXAMES.RADIODIAGNOSTICO']->usr_nome;?>" data-data="<?=$this->info['EXAMES.RADIODIAGNOSTICO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Citopatógico cérvico-vaginal</td>
+			<td class="d">
+				<input name="d[EXAMES.CITOPATOLOGIA]" value="<?=$this->dados['EXAMES.CITOPATOLOGIA'];?>" />
+				<input id="c_EXAMES_CITOPATOLOGIA" value="<?=$this->calc['EXAMES.CITOPATOLOGIA'];?>" data-usr="<?=$this->info['EXAMES.CITOPATOLOGIA']->usr_nome;?>" data-data="<?=$this->info['EXAMES.CITOPATOLOGIA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Ultrassonografia obstétrica</td>
+			<td class="d">
+				<input name="d[EXAMES.ULTRASSONOGRAFIA]" value="<?=$this->dados['EXAMES.ULTRASSONOGRAFIA'];?>" />
+				<input id="c_EXAMES_ULTRASSONOGRAFIA" value="<?=$this->calc['EXAMES.ULTRASSONOGRAFIA'];?>" data-usr="<?=$this->info['EXAMES.ULTRASSONOGRAFIA']->usr_nome;?>" data-data="<?=$this->info['EXAMES.ULTRASSONOGRAFIA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="b2">Outros</td>
+			<td class="b2 d">
+				<input name="d[EXAMES.OUTROS]" value="<?=$this->dados['EXAMES.OUTROS'];?>" />
+				<input id="c_EXAMES_OUTROS" value="<?=$this->calc['EXAMES.OUTROS'];?>" data-usr="<?=$this->info['EXAMES.OUTROS']->usr_nome;?>" data-data="<?=$this->info['EXAMES.OUTROS']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		
+		<tr>
+			<td rowspan="3" colspan="2" class="c b2">Encaminhamentos<br />médicos</td>
+			<td>Atend. Especializado</td>
+			<td class="d">
+				<input name="d[ENCAMINHAMENTO.ESPECIALIZADO]" value="<?=$this->dados['ENCAMINHAMENTO.ESPECIALIZADO'];?>" />
+				<input id="c_ENCAMINHAMENTO_ESPECIALIZADO" value="<?=$this->calc['ENCAMINHAMENTO.ESPECIALIZADO'];?>" data-usr="<?=$this->info['ENCAMINHAMENTO.ESPECIALIZADO']->usr_nome;?>" data-data="<?=$this->info['ENCAMINHAMENTO.ESPECIALIZADO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Internação Hospitalar</td>
+			<td class="d">
+				<input name="d[ENCAMINHAMENTO.INTERNACAO]" value="<?=$this->dados['ENCAMINHAMENTO.INTERNACAO'];?>" />
+				<input id="c_ENCAMINHAMENTO_INTERNACAO" value="<?=$this->calc['ENCAMINHAMENTO.INTERNACAO'];?>" data-usr="<?=$this->info['ENCAMINHAMENTO.INTERNACAO']->usr_nome;?>" data-data="<?=$this->info['ENCAMINHAMENTO.INTERNACAO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td class="b2">Urgência/Emergência</td>
+			<td class="b2 d">
+				<input name="d[ENCAMINHAMENTO.URGENCIA]" value="<?=$this->dados['ENCAMINHAMENTO.URGENCIA'];?>" />
+				<input id="c_ENCAMINHAMENTO_URGENCIA" value="<?=$this->calc['ENCAMINHAMENTO.URGENCIA'];?>" data-usr="<?=$this->info['ENCAMINHAMENTO.URGENCIA']->usr_nome;?>" data-data="<?=$this->info['ENCAMINHAMENTO.URGENCIA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		
+		<tr class="b2">
+			<td colspan="3" class="c">Internação Domiciliar</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.INTERNACAO_DOMICILIAR]" value="<?=$this->dados['PROCEDIMENTOS.INTERNACAO_DOMICILIAR'];?>" />
+				<input id="c_PROCEDIMENTOS_INTERNACAO_DOMICILIAR" value="<?=$this->calc['PROCEDIMENTOS.INTERNACAO_DOMICILIAR'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.INTERNACAO_DOMICILIAR']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.INTERNACAO_DOMICILIAR']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		
+		<tr>
+			<td rowspan="13" class="c b2">P<br />R<br />O<br />C<br />E<br />D<br />I<br />M<br />E<br />N<br />T<br />O<br />S</td>
+			<td colspan="2">Atendimento específico para AT</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.AT]" value="<?=$this->dados['PROCEDIMENTOS.AT'];?>" />
+				<input id="c_PROCEDIMENTOS_AT" value="<?=$this->calc['PROCEDIMENTOS.AT'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.AT']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.AT']->data;?>" type="hidden" />
+				</td>
+		</tr>
+		<tr>
+			<td colspan="2">Visita de Inspeção Sanitária</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.INSPECAO_SANITARIA]" value="<?=$this->dados['PROCEDIMENTOS.INSPECAO_SANITARIA'];?>" />
+				<input id="c_PROCEDIMENTOS_INSPECAO_SANITARIA" value="<?=$this->calc['PROCEDIMENTOS.INSPECAO_SANITARIA'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.INSPECAO_SANITARIA']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.INSPECAO_SANITARIA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Atend. individual Enfermeiro</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.INDIVIDUAL_ENFERMEIRO]" value="<?=$this->dados['PROCEDIMENTOS.INDIVIDUAL_ENFERMEIRO'];?>" />
+				<input id="c_PROCEDIMENTOS_INDIVIDUAL_ENFERMEIRO" value="<?=$this->calc['PROCEDIMENTOS.INDIVIDUAL_ENFERMEIRO'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.INDIVIDUAL_ENFERMEIRO']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.INDIVIDUAL_ENFERMEIRO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Atend.individual <small>outros prof. nível superior</small></td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.INDIVIDUAL_OUTROS]" value="<?=$this->dados['PROCEDIMENTOS.INDIVIDUAL_OUTROS'];?>" />
+				<input id="c_PROCEDIMENTOS_INDIVIDUAL_OUTROS" value="<?=$this->calc['PROCEDIMENTOS.INDIVIDUAL_OUTROS'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.INDIVIDUAL_OUTROS']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.INDIVIDUAL_OUTROS']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Curativos</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.CURATIVOS]" value="<?=$this->dados['PROCEDIMENTOS.CURATIVOS'];?>" />
+				<input id="c_PROCEDIMENTOS_CURATIVOS" value="<?=$this->calc['PROCEDIMENTOS.CURATIVOS'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.CURATIVOS']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.CURATIVOS']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Inalações</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.INALACOES]" value="<?=$this->dados['PROCEDIMENTOS.INALACOES'];?>" />
+				<input id="c_PROCEDIMENTOS_INALACOES" value="<?=$this->calc['PROCEDIMENTOS.INALACOES'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.INALACOES']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.INALACOES']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Injeções</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.INJECOES]" value="<?=$this->dados['PROCEDIMENTOS.INJECOES'];?>" />
+				<input id="c_PROCEDIMENTOS_INJECOES" value="<?=$this->calc['PROCEDIMENTOS.INJECOES'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.INJECOES']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.INJECOES']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Retirada de pontos</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.RETIRADA_DE_PONTOS]" value="<?=$this->dados['PROCEDIMENTOS.RETIRADA_DE_PONTOS'];?>" />
+				<input id="c_PROCEDIMENTOS_RETIRADA_DE_PONTOS" value="<?=$this->calc['PROCEDIMENTOS.RETIRADA_DE_PONTOS'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.RETIRADA_DE_PONTOS']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.RETIRADA_DE_PONTOS']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Terapia da Reidratação Oral</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.REIDRATACAO]" value="<?=$this->dados['PROCEDIMENTOS.REIDRATACAO'];?>" />
+				<input id="c_PROCEDIMENTOS_REIDRATACAO" value="<?=$this->calc['PROCEDIMENTOS.REIDRATACAO'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.REIDRATACAO']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.REIDRATACAO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Sutura</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.SUTURA]" value="<?=$this->dados['PROCEDIMENTOS.SUTURA'];?>" />
+				<input id="c_PROCEDIMENTOS_SUTURA" value="<?=$this->calc['PROCEDIMENTOS.SUTURA'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.SUTURA']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.SUTURA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Atend. Grupo - Educação em Saúde</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.ATENDIMENTO_GRUPO]" value="<?=$this->dados['PROCEDIMENTOS.ATENDIMENTO_GRUPO'];?>" />
+				<input id="c_PROCEDIMENTOS_ATENDIMENTO_GRUPO" value="<?=$this->calc['PROCEDIMENTOS.ATENDIMENTO_GRUPO'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.ATENDIMENTO_GRUPO']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.ATENDIMENTO_GRUPO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">Procedimentos Coletivos I (PC I)</td>
+			<td class="d">
+				<input name="d[PROCEDIMENTOS.COLETIVOS]" value="<?=$this->dados['PROCEDIMENTOS.COLETIVOS'];?>" />
+				<input id="c_PROCEDIMENTOS_COLETIVOS" value="<?=$this->calc['PROCEDIMENTOS.COLETIVOS'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.COLETIVOS']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.COLETIVOS']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="b2">Reuniões</td>
+			<td class="b2 d">
+				<input name="d[PROCEDIMENTOS.REUNIOES]" value="<?=$this->dados['PROCEDIMENTOS.REUNIOES'];?>" />
+				<input id="c_PROCEDIMENTOS_REUNIOES" value="<?=$this->calc['PROCEDIMENTOS.REUNIOES'];?>" data-usr="<?=$this->info['PROCEDIMENTOS.REUNIOES']->usr_nome;?>" data-data="<?=$this->info['PROCEDIMENTOS.REUNIOES']->data;?>" type="hidden" />
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div id="col2">
+	<table>
+		<tr class="b2">
+			<th colspan="2">Marcadores</th>
+		</tr>
+		<tr>
+			<td>Valvulopatias reumáticas em pessoas de 5 a 14 anos</td>
+			<td class="d">
+				<input name="d[MARCADORES.VALVULOPATIAS]" value="<?=$this->dados['MARCADORES.VALVULOPATIAS'];?>" />
+				<input id="c_MARCADORES_VALVULOPATIAS" value="<?=$this->calc['MARCADORES.VALVULOPATIAS'];?>" data-usr="<?=$this->info['MARCADORES.VALVULOPATIAS']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.VALVULOPATIAS']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Acidente Vascular Cerebral</td>
+			<td class="d">
+				<input name="d[MARCADORES.AVC]" value="<?=$this->dados['MARCADORES.AVC'];?>" />
+				<input id="c_MARCADORES_AVC" value="<?=$this->calc['MARCADORES.AVC'];?>" data-usr="<?=$this->info['MARCADORES.AVC']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.AVC']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Infarto Agudo do Miocárdio</td>
+			<td class="d">
+				<input name="d[MARCADORES.INFARTO]" value="<?=$this->dados['MARCADORES.INFARTO'];?>" />
+				<input id="c_MARCADORES_INFARTO" value="<?=$this->calc['MARCADORES.INFARTO'];?>" data-usr="<?=$this->info['MARCADORES.INFARTO']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.INFARTO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>DHEG (forma grave)</td>
+			<td class="d">
+				<input name="d[MARCADORES.DHEG]" value="<?=$this->dados['MARCADORES.DHEG'];?>" />
+				<input id="c_MARCADORES_DHEG" value="<?=$this->calc['MARCADORES.DHEG'];?>" data-usr="<?=$this->info['MARCADORES.DHEG']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.DHEG']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Doença Hemolítica Perinatal</td>
+			<td class="d">
+				<input name="d[MARCADORES.DHP]" value="<?=$this->dados['MARCADORES.DHP'];?>" />
+				<input id="c_MARCADORES_DHP" value="<?=$this->calc['MARCADORES.DHP'];?>" data-usr="<?=$this->info['MARCADORES.DHP']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.DHP']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Fraturas de colo de fêmur em &gt; 50 anos</td>
+			<td class="d">
+				<input name="d[MARCADORES.FRATURAS_FEMUR]" value="<?=$this->dados['MARCADORES.FRATURAS_FEMUR'];?>" />
+				<input id="c_MARCADORES_FRATURAS_FEMUR" value="<?=$this->calc['MARCADORES.FRATURAS_FEMUR'];?>" data-usr="<?=$this->info['MARCADORES.FRATURAS_FEMUR']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.FRATURAS_FEMUR']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Meningite tuberculosa em menores de 5 anos</td>
+			<td class="d">
+				<input name="d[MARCADORES.MENINGITE]" value="<?=$this->dados['MARCADORES.MENINGITE'];?>" />
+				<input id="c_MARCADORES_MENINGITE" value="<?=$this->calc['MARCADORES.MENINGITE'];?>" data-usr="<?=$this->info['MARCADORES.MENINGITE']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.MENINGITE']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Hanseníase com grau de incapacidade II e III</td>
+			<td class="d">
+				<input name="d[MARCADORES.HANSENIASE]" value="<?=$this->dados['MARCADORES.HANSENIASE'];?>" />
+				<input id="c_MARCADORES_HANSENIASE" value="<?=$this->calc['MARCADORES.HANSENIASE'];?>" data-usr="<?=$this->info['MARCADORES.HANSENIASE']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.HANSENIASE']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Citologia Oncótica NIC II (carcinoma <em>in situ</em>)</td>
+			<td class="d">
+				<input name="d[MARCADORES.CITOLOGIA]" value="<?=$this->dados['MARCADORES.CITOLOGIA'];?>" />
+				<input id="c_MARCADORES_CITOLOGIA" value="<?=$this->calc['MARCADORES.CITOLOGIA'];?>" data-usr="<?=$this->info['MARCADORES.CITOLOGIA']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.CITOLOGIA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>RN com peso &lt; 2500g</td>
+			<td class="d">
+				<input name="d[MARCADORES.RN_2500]" value="<?=$this->dados['MARCADORES.RN_2500'];?>" />
+				<input id="c_MARCADORES_RN_2500" value="<?=$this->calc['MARCADORES.RN_2500'];?>" data-usr="<?=$this->info['MARCADORES.RN_2500']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.RN_2500']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Gravidez em &lt; 20 anos</td>
+			<td class="d">
+				<input name="d[MARCADORES.GRAVIDEZ_20]" value="<?=$this->dados['MARCADORES.GRAVIDEZ_20'];?>" />
+				<input id="c_MARCADORES_GRAVIDEZ_20" value="<?=$this->calc['MARCADORES.GRAVIDEZ_20'];?>" data-usr="<?=$this->info['MARCADORES.GRAVIDEZ_20']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.GRAVIDEZ_20']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Hospitalizações em &lt; anos por pneumonia</td>
+			<td class="d">
+				<input name="d[MARCADORES.HOSP_PNEUMONIA]" value="<?=$this->dados['MARCADORES.HOSP_PNEUMONIA'];?>" />
+				<input id="c_MARCADORES_HOSP_PNEUMONIA" value="<?=$this->calc['MARCADORES.HOSP_PNEUMONIA'];?>" data-usr="<?=$this->info['MARCADORES.HOSP_PNEUMONIA']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.HOSP_PNEUMONIA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Hospitalizações em &lt; anos por desidratação</td>
+			<td class="d">
+				<input name="d[MARCADORES.HOSP_DESIDRATACAO]" value="<?=$this->dados['MARCADORES.HOSP_DESIDRATACAO'];?>" />
+				<input id="c_MARCADORES_HOSP_DESIDRATACAO" value="<?=$this->calc['MARCADORES.HOSP_DESIDRATACAO'];?>" data-usr="<?=$this->info['MARCADORES.HOSP_DESIDRATACAO']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.HOSP_DESIDRATACAO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Hospitalizações por abuso de álcool</td>
+			<td class="d">
+				<input name="d[MARCADORES.HOSP_ALCOOL]" value="<?=$this->dados['MARCADORES.HOSP_ALCOOL'];?>" />
+				<input id="c_MARCADORES_HOSP_ALCOOL" value="<?=$this->calc['MARCADORES.HOSP_ALCOOL'];?>" data-usr="<?=$this->info['MARCADORES.HOSP_ALCOOL']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.HOSP_ALCOOL']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Hospitalizações por complicações do Diabetes</td>
+			<td class="d">
+				<input name="d[MARCADORES.HOSP_DIABETES]" value="<?=$this->dados['MARCADORES.HOSP_DIABETES'];?>" />
+				<input id="c_MARCADORES_HOSP_DIABETES" value="<?=$this->calc['MARCADORES.HOSP_DIABETES'];?>" data-usr="<?=$this->info['MARCADORES.HOSP_DIABETES']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.HOSP_DIABETES']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Hospitalizações por qualquer causa</td>
+			<td class="d">
+				<input name="d[MARCADORES.HOSP_QUALQUER]" value="<?=$this->dados['MARCADORES.HOSP_QUALQUER'];?>" />
+				<input id="c_MARCADORES_HOSP_QUALQUER" value="<?=$this->calc['MARCADORES.HOSP_QUALQUER'];?>" data-usr="<?=$this->info['MARCADORES.HOSP_QUALQUER']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.HOSP_QUALQUER']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Internações em Hospital Psiquiátrico</td>
+			<td class="d">
+				<input name="d[MARCADORES.HOSP_PSIQUIATRICO]" value="<?=$this->dados['MARCADORES.HOSP_PSIQUIATRICO'];?>" />
+				<input id="c_MARCADORES_HOSP_PSIQUIATRICO" value="<?=$this->calc['MARCADORES.HOSP_PSIQUIATRICO'];?>" data-usr="<?=$this->info['MARCADORES.HOSP_PSIQUIATRICO']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.HOSP_PSIQUIATRICO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Óbitos em &lt; 1 ano por todas as causa</td>
+			<td class="d">
+				<input name="d[MARCADORES.OBITOS_TODAS]" value="<?=$this->dados['MARCADORES.OBITOS_TODAS'];?>" />
+				<input id="c_MARCADORES_OBITOS_TODAS" value="<?=$this->calc['MARCADORES.OBITOS_TODAS'];?>" data-usr="<?=$this->info['MARCADORES.OBITOS_TODAS']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.OBITOS_TODAS']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Óbitos em &lt; 1 ano por diarréia</td>
+			<td class="d">
+				<input name="d[MARCADORES.OBITOS_DIARREIA]" value="<?=$this->dados['MARCADORES.OBITOS_DIARREIA'];?>" />
+				<input id="c_MARCADORES_OBITOS_DIARREIA" value="<?=$this->calc['MARCADORES.OBITOS_DIARREIA'];?>" data-usr="<?=$this->info['MARCADORES.OBITOS_DIARREIA']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.OBITOS_DIARREIA']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Óbitos em &lt; 1 ano por infecção respiratória</td>
+			<td class="d">
+				<input name="d[MARCADORES.OBITOS_INFECCAO]" value="<?=$this->dados['MARCADORES.OBITOS_INFECCAO'];?>" />
+				<input id="c_MARCADORES_OBITOS_INFECCAO" value="<?=$this->calc['MARCADORES.OBITOS_INFECCAO'];?>" data-usr="<?=$this->info['MARCADORES.OBITOS_INFECCAO']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.OBITOS_INFECCAO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Óbitos de mulheres de 10 a 49 anos</td>
+			<td class="d">
+				<input name="d[MARCADORES.OBITOS_MULHERES]" value="<?=$this->dados['MARCADORES.OBITOS_MULHERES'];?>" />
+				<input id="c_MARCADORES_OBITOS_MULHERES" value="<?=$this->calc['MARCADORES.OBITOS_MULHERES'];?>" data-usr="<?=$this->info['MARCADORES.OBITOS_MULHERES']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.OBITOS_MULHERES']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Óbitos de adolescentes (10-19) por violência</td>
+			<td class="d">
+				<input name="d[MARCADORES.OBITOS_ADOLESCENTES]" value="<?=$this->dados['MARCADORES.OBITOS_ADOLESCENTES'];?>" />
+				<input id="c_MARCADORES_OBITOS_ADOLESCENTES" value="<?=$this->calc['MARCADORES.OBITOS_ADOLESCENTES'];?>" data-usr="<?=$this->info['MARCADORES.OBITOS_ADOLESCENTES']->usr_nome;?>" data-data="<?=$this->info['MARCADORES.OBITOS_ADOLESCENTES']->data;?>" type="hidden" />
+			</td>
+		</tr>
+	</table>
+	
+	<div style="height: 100px"></div>
+	<table>
+		<tr class="b2">
+			<th colspan="2">Visitas Domiciliares</th>
+		</tr>
+		<tr>
+			<td>Médico</td>
+			<td class="d">
+				<input name="d[VISITAS.MEDICO]" id="VISITAS_MEDICO" value="<?=$this->dados['VISITAS.MEDICO'];?>" />
+				<input id="c_VISITAS_MEDICO" value="<?=$this->calc['VISITAS.MEDICO'];?>" data-usr="<?=$this->info['VISITAS.MEDICO']->usr_nome;?>" data-data="<?=$this->info['VISITAS.MEDICO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Enfermeiro</td>
+			<td class="d">
+				<input name="d[VISITAS.ENFERMEIRO]" id="VISITAS_ENFERMEIRO" value="<?=$this->dados['VISITAS.ENFERMEIRO'];?>" />
+				<input id="c_VISITAS_ENFERMEIRO" value="<?=$this->calc['VISITAS.ENFERMEIRO'];?>" data-usr="<?=$this->info['VISITAS.ENFERMEIRO']->usr_nome;?>" data-data="<?=$this->info['VISITAS.ENFERMEIRO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Outros profissionais de nível superior</td>
+			<td class="d">
+				<input name="d[VISITAS.SUPERIOR]" id="VISITAS_SUPERIOR" value="<?=$this->dados['VISITAS.SUPERIOR'];?>" />
+				<input id="c_VISITAS_SUPERIOR" value="<?=$this->calc['VISITAS.SUPERIOR'];?>" data-usr="<?=$this->info['VISITAS.SUPERIOR']->usr_nome;?>" data-data="<?=$this->info['VISITAS.SUPERIOR']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Profissionais de nível médio</td>
+			<td class="d">
+				<input name="d[VISITAS.MEDIO]" id="VISITAS_MEDIO" value="<?=$this->dados['VISITAS.MEDIO'];?>" />
+				<input id="c_VISITAS_MEDIO" value="<?=$this->calc['VISITAS.MEDIO'];?>" data-usr="<?=$this->info['VISITAS.MEDIO']->usr_nome;?>" data-data="<?=$this->info['VISITAS.MEDIO']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>ACS</td>
+			<td class="d">
+				<input name="d[VISITAS.ACS]" id="VISITAS_ACS" value="<?=$this->dados['VISITAS.ACS'];?>" />
+				<input id="c_VISITAS_ACS" value="<?=$this->calc['VISITAS.ACS'];?>" data-usr="<?=$this->info['VISITAS.ACS']->usr_nome;?>" data-data="<?=$this->info['VISITAS.ACS']->data;?>" type="hidden" />
+			</td>
+		</tr>
+		<tr>
+			<td>Total</td>
+			<td class="d"><input id="VISITAS_TOTAL" value="0" readonly="readonly" /></td>
+		</tr>
+	</table>
+	
+	<div style="height: 50px"></div>
+	<table>
+		<tr>
+			<th colspan="2">Legenda</th>
+		</tr>
+		<tr>
+			<td><input value="0" /></td>
+			<td>Valor padrão, calculado pelo sistema</td>
+		</tr>
+		<tr>
+			<td><input value="0" class="ui-state-highlight" /></td>
+			<td>Alterações salvas</td>
+		</tr>
+		<tr>
+			<td><input value="0" class="alterando" /></td>
+			<td>Alterações ainda não salvas</td>
+		</tr>
+	</table>
+</div>
+<div class="clear space"></div>
+
+<a href="#" class="ui-button salvar">Salvar</a>
+<a href="<?=$this->url(array("module"=>"relatorio","controller"=>"pma2"),NULL,TRUE);?>" class="ui-button voltar">Voltar</a>
+</form>

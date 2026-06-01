@@ -1,0 +1,21 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<form name="edita_inc" method="post" action="<?= $this->url(array("action" =>"salvar-edita-inconsistencias")); ?>">
+    <input type="hidden" name="eai_codigo" value="<?=$this->dados->eai_codigo?>" />
+    <label>Local de atendimento: </label>
+    <?=$this->selectLocais?><br />
+    <label>CNS profissional:</label>
+    <input name="eai_profissional_cns" class="ui-state-default" value="<?=$this->dados->eai_profissional_cns?>" /><br />
+    <label>Data de nasc. profissional:</label>
+    <input name="eai_dtnascimento" class="ui-state-default" value="<?=$this->data($this->dados->eai_dtnascimento,Zend_Date::DATE_MEDIUM)?>" /><br />
+    <label>CNS paciente:</label>
+    <input name="eai_num_cartao_sus" class="ui-state-default" value="<?=$this->dados->eai_num_cartao_sus?>" /><br />
+    <label>Sexo:</label>
+    <select name="eai_sexo" class='ui-state-default'>
+        <option value="0 L" <?=($this->dados->eai_sexo == '0 L' ? 'selected' : '')?>>Masculino</option>
+        <option value="1 L" <?=($this->dados->eai_sexo == '1 L' ? 'selected' : '')?>>Feminino</option>
+    </select><br />
+    <a href="#" class="ui-button salvar">Salvar</a>
+    <a href="#" class="ui-button limpar">Limpar</a>
+</form>
+<div class="space"></div>

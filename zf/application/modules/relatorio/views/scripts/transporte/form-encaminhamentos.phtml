@@ -1,0 +1,16 @@
+<form method="post" action="<?= $this->url(array("action" => "encaminhamentos")); ?>" target="_blank">
+   	<label>Veículo:</label>
+	<select name="vei_codigo" id="vei_codigo"> 
+		<option value="">TODOS</option>         
+		<? foreach($this->veiculo as $veiculo) { ?>
+				<option value="<?=$veiculo->vei_codigo;?>"><?=$veiculo->vei_descricao;?></option>         
+		<? } ?>		
+	</select>
+	<br />
+	<label>Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	<label>Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+	<div class="clear"></div>
+	<a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;" class="popup" rel="500x500">Gerar Relatório</a>
+</form>

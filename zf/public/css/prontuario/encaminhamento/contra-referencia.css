@@ -1,0 +1,277 @@
+p{
+  margin: 0 0 0px 0px !important;
+  font-size: 14px !important;
+/*  text-align: justify; */
+}
+thead { display: table-header-group; } 
+tfoot { display: table-footer-group; 
+        overflow: visible;
+       } 
+
+table thead tr td{
+    border:#FFFFFF 0px;
+}
+
+table tfoot tr td{
+    border:#FFFFFF 0px;
+}
+
+table{
+  border-collapse: collapse;
+  width: 100%
+}
+
+table tr:hover{
+  background-color: #EEE;
+}
+
+table tr th{
+  border: 1px solid;
+  padding: 4px 2px;
+}
+
+table tr td{
+  border: 1px solid;
+  padding: 2px 5px;
+  font-size: 0.75em;
+  height: 50px
+}
+
+.div_cabecalho{
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+    width: 470px;
+    font-family: sans-serif;
+    float: right;
+    margin-left: 20px;
+}
+
+.identificacao_estabelecimento{
+    margin: 0px 15px 0px 15px;
+    height: 100px;
+    font-family: sans-serif;
+}
+
+.brasao{
+    width:70px;
+    float: left;
+    margin: 15px 0px 0px 0px;
+    height: 80px;
+}
+
+.dados_sec{
+    width: 265px;
+    float: left;
+    margin: 15px 0px 0px 0px;
+    height: 80px;
+    text-align: center;
+    font-size: 12px;
+
+}
+
+.cod_bar{
+    width: 95px;
+    float: left;
+    margin: 15px 0px 0px 0px;
+    height: 80px;
+    text-align: center;
+    font-size: 12px;
+}
+
+#img_bar{
+    margin: 15px 15px 15px 0px;
+}
+
+.dados_titulo{
+    margin: 0px 15px 0px 15px;
+    border:solid #000 !important;
+    border-width:2px 2px 0px 2px !important;
+    height: 13px;
+    font-family: sans-serif;
+    font-size: 11px;
+    text-align: center;
+}
+
+
+.outros_dados_sec{
+    width: 40%;
+    float: left;
+    border:1px solid;
+}
+
+.identificacao_formulario{
+    margin: 0px 15px 5px 15px;
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+    height: 35px;
+    font-family: sans-serif;
+    
+}
+
+.dados_form_dir{
+    font-size: 10px;
+    float: left;
+    margin: 1px 0px 0px 10px;
+    text-align: right;
+}
+
+.dados_form_esq{
+    font-size: 10px;
+    float: left;
+    margin: 1px 0px 0px 10px;
+    width: 320px;
+}
+
+.dados_form_esq_anvisa{
+    font-size: 10px;
+    float: left;
+    margin: 1px 0px 0px 10px;
+    width: 215px;
+}
+
+
+
+.dados_form_dir2{
+    font-size: 10px;
+    float: left;
+    margin: 15px 0px 0px 0px;
+    text-align: center;
+/*    height: 100px;*/
+}
+
+.identificacao_responsavel{
+    margin: 0px 15px 5px 15px;
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+    height: 80px;
+    font-family: sans-serif;
+    
+}
+
+.identificacao_responsavel_anvisa{
+    margin: 0px 15px 5px 15px;
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+    height: 70px;
+    font-family: sans-serif;
+    
+}
+
+.identificacao_responsavel_receb{
+    margin: 0px 15px 5px 15px;
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+    height: 365px;
+    font-family: sans-serif;
+    font-size: 10px;
+    
+}
+
+.identificacao_responsavel_receb_smpl{
+    margin: 0px 15px 5px 15px;
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+    height: 405px;
+    font-family: sans-serif;
+    font-size: 10px;
+    
+}
+
+.field_estab fieldset{
+    margin: 15px 15px 15px 15px;
+}
+
+.dados_resp_receb{
+    margin: 1px 0px 0px 180px;
+}
+
+.medicamentos_prescricao{
+   font-size: 12px !important;
+   height: 305px;
+}
+
+.medicamentos_prescricao_smpl{
+    font-size: 12px !important;
+    height: 346px;
+}
+
+.assinatura_resp{
+    height: 40px;
+    text-align: center;
+}
+
+
+.identificacoes{
+    margin: 0px 15px 0px 15px;
+    /*border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;*/
+    height: 120px;
+    font-family: sans-serif;
+    font-size: 12px;
+    margin-bottom: 1px;
+}
+
+.identificacao_comprador{
+    width: 205px;
+    height: 115px;
+    float: left;
+}
+
+.identificacao_fornecedor{
+    width: 205PX;
+    height: 119px;
+    float: left;
+}
+
+.titulo_identificacao_comprador{
+    height: 20px;
+    border:solid #000 !important;
+    border-width:2px 0px 0px 2px !important;
+    width: 100%;
+    font-size: 10px;
+    text-align: center;
+}
+.titulo_identificacao_fornecedor{
+    height: 20px;
+    border:solid #000 !important;
+    border-width:2px 2px 0px 2px !important;
+    width: 231px;
+    font-size: 10px;
+    text-align: center;
+}
+
+.identificacao_comprador_dados{
+    text-align: left;
+    width: 203px;
+    height: 80px;
+    border: 2px solid;
+    font-size: 12px;
+}
+
+.identificacao_fornecedor_dados{
+    width: 231px;
+    height: 80px;
+    border: 2px solid;
+    text-align: center;
+}
+
+#endereco{
+    border: 2px solid;
+    border-width:2px 0px 0px 0px !important;
+    font-size: 10px;
+    font-family: sans-serif;
+    width: 472px;
+    text-align: center;
+}
+
+#titulo_impressao{
+    width: 436px;
+    height: 20px;
+    margin-left: 15px;
+    margin-bottom: 4px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 14px;
+    border-width:2px 0px 0px 0px !important;
+    border:2px solid #000 !important;
+}

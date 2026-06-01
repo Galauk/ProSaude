@@ -1,0 +1,101 @@
+<?php $this->dialog(); ?>
+
+<?php
+
+	$recebeCodigoDaUnidade = intval(($_SESSION[logon][usr]->uni_codigo));
+	if ($this->agee_codigo) {?>
+		<script>
+			window.open('<?=$this->url(array("action" =>"imprimir",'agee_codigo'=>$this->agee_codigo));?>', '', '', true);
+		</script>	
+	<?}
+?>
+<?php $this->errorMsg(); ?>
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" id ="salvar-agenda">
+	<input type="hidden" id="imprimir" value="<?php echo $this->print;?>" />	
+	<div style="width: 460px" class="f">
+		<input type="hidden" name="agee_codigo" value="<?= $this->dados->agee_codigo; ?>" />
+		<label style="width: 110px;">Buscar Paciente:</label>
+		<input type="hidden" id="usu_codigo" name="usu_codigo" value="<?= $this->dados->usu_codigo; ?>" />
+		<input type="text" id="buscar1" class="focus" /><br />
+
+		<label style="width: 110px;">Nome:</label>
+		<input type="text" id="usu_nome" readonly="readonly" name="usu_nome" value="<?= $this->dados->usu_nome; ?>" /><br />
+
+		<label style="width: 110px;">Cartão SUS:</label>
+		<input type="text" id="usu_cartao_sus" readonly="readonly" name="usu_carto_sus" value="<?= $this->dados->usu_cartao_sus; ?>" /><br />
+
+		<label style="width: 110px;">Data de Nasc.:</label>
+		<input type="text" id="usu_datanasc" readonly="readonly" name="usu_datanasc" value="<?= $this->data($this->dados->usu_datanasc, "dd/MM/YYYY", FALSE ); ?>" /><br />
+ 
+		<label style="width: 110px;">Endereço:</label>
+		<input type="text" id="rua_nome" readonly="readonly" name="rua_nome" value="" /><br />
+
+		<label style="width: 110px;">Telefone:</label>
+		<input type="text" id="usu_fone" name="usu_fone" value=""/>
+
+	</div>
+	<div style="width: 460px" class="f">
+		<label style="width: 110px;">Especialidade:</label>
+		<input type="hidden" id="esp_codigo" name="esp_codigo" value="<?= $this->dados->esp_codigo; ?>" />
+		<input type="text" id="buscar2" name="esp_nome" value="<?= $this->dados->esp_nome; ?>" /><br />
+		
+		<label style="width: 110px;">Médico de Destino:</label>
+		<input type="hidden" id="med_codigo_M" name="med_codigo" value="<?= $this->dados->med_codigo; ?>" />
+		<input type="text" placeholder="Disponivel na central de regulação" id="buscar3" name="med_destino" value="<?= $this->dados->med_destino; ?>" /><br />
+		
+		<label style="width: 110px;">Agravo<br/>(Procedimentos):</label>
+		<input type="hidden" id="proc_codigo" name="proc_codigo" value="<?= $this->dados->proc_codigo; ?>" />
+		<input style="width: 220px" type="text" id="buscar4" name="proc_nome" value="<?= $this->dados->proc_nome; ?>" />
+		
+		<select name="nivel" id="nivel">
+			<option value="1">Baixo</option>
+			<option value="2">Médio</option>
+			<option value="3">Alto</option>
+		</select>
+		<br>
+		<label style="width: 110px;">Médico Solicitante:</label>
+		<input type="hidden" id="usr_codigo" name="usr_codigo_solicitante" value="<?=($this->dados->usr_codigo_solicitante?$this->dados->usr_codigo_solicitante:$this->dados->med_codigo_solicitante); ?>" />
+		<input type="text" id="buscar5" name="usr_nome" value="<?=($this->dados->usr_nome?$this->dados->usr_nome:$this->dados->med_nome); ?>" />
+		<input type="hidden" id="interno" name="interno" value="<?=($this->dados->usr_codigo_solicitante?"1":"0");?>" style="width: 20px" /><br />
+		
+		<!-- <label style="width: 110px;">Unid. Solicitante:</label>
+		<input type="hidden" id="med_codigo_L" name="med_codigo_prestador" value="<?= $this->dados->med_codigo_prestador; ?>" />
+		<input type="text" id="buscar6" name="med_prestador" value="<?= $this->dados->med_prestador; ?>" /><br /> -->
+
+		<input type="hidden" name="med_codigo_prestador" value="<?=$recebeCodigoDaUnidade?>">
+
+	</div>
+	<div class="clear"></div>
+	<div class="space"></div>
+	<div class="space"></div>
+	<div style="width: 460px" class="f">
+		<label>Situação:</label>
+		<?php echo $this->formSelect("agee_situacao",  $this->dados->agee_situacao, null, array("Agendado","Cancelado","Entregue","Espera","Falta","Não Loc. Pac.", "Primeira Consulta", "Retorno"))?><br />
+	
+		<label>Data do Agendamento:</label>
+		<input type="text" name="agee_data" style="width:80px;" class="data" value="<?= $this->data($this->dados->agee_data, "dd/MM/YYYY", FALSE); ?>" /><br />
+	
+		<label>Hora do Agendamento:</label>
+		<input type="text" name="agee_hora" style="width:40px;" class="mask" rel="99:99" value="<?= $this->dados->agee_hora; ?>" /><br />
+
+	</div>
+	<div style="width: 460px" class="f">
+
+	<label>Observações:</label>
+	<div class="textarea" style="width: 487px">
+		<textarea name="agee_observacao" class="tinymce" style="width: 487px"><?=$this->dados->agee_observacao; ?></textarea>
+		
+	</div>
+		
+	</div>
+	<div class="clear"></div>
+	<div class="space"></div>
+	<div class="space"></div>
+
+	<a href="#" class="ui-button salvar">Salvar</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+	
+	
+	<div class="space"></div>
+	<div id="itens"></div>
+</form>

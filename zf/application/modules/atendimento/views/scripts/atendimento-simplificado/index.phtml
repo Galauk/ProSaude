@@ -1,0 +1,12 @@
+<div class="abas">
+    <ul class="tabs">
+        <li><a href="#tabs2-1">Atendimento Simplificado</a></li>
+        <li><a href="#tabs2-2">Listagem de Atendimentos</a></li>
+    </ul>
+    <div id="tabs2-1">
+        <?= $this->action("form-atendimento-simplificado", "atendimento-simplificado","atendimento"); ?>
+    </div>
+    <div id="tabs2-2">
+        <?= $this->action("lista-atendimentos-simplificados", "atendimento-simplificado","atendimento"); ?>
+    </div>
+</div>

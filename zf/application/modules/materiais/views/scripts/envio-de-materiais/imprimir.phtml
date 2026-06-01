@@ -1,0 +1,46 @@
+<? //echo "<pre>".print_r($this->dados,1); exit;?>
+<div id="receita">
+	<div style="float:left;">
+            Data Emissão:<?=$this->data($this->dados_req->rem_data); ?>
+	</div>
+	<br/>
+	<br/>
+	<div id="rec_titulo">
+		<div class="left">Medicamento</div>
+		<div class="right">Quant. Solicitada</div>
+		<div class="clear"></div>
+	</div>
+	<?php if ($this->itens): ?>
+                <?$remi_old = "";?>
+		<?php foreach ($this->itens as $item): ?>
+			<div class="medItem">
+                                <?if($remi_old != $item->remi_codigo):?>
+                                    <?$remi_old = $item->remi_codigo?>
+                                    <div class="medTitulo">
+                                        <?php
+                                            echo $item->pro_nome;
+                                        ?>
+                                    </div>
+                                    <div class="medQtd"><?= $item->remi_quantidade; ?></div>
+                                <?endif;?>
+				<div class="clear"></div>
+                                <?if($this->itens_lote == 1):?>
+                                    <div class="sublinhas">
+                                        <?if($item->remil_codigo):?>
+                                            <table border="0">
+                                                <tr>
+                                                    <td width="400">
+                                                        <b>Lote:</b> <?=$item->remil_lote?>
+                                                    </td>
+                                                    <td>
+                                                        <b>Quant.Enviada:</b><?=$item->remil_quantidade?> 
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        <?endif;?>
+                                    </div>
+                                <?endif;?>
+			</div>
+		<?php endforeach; ?>	 		
+	<?php endif; ?>
+</div>

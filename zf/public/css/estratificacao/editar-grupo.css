@@ -1,0 +1,32 @@
+.inputsGrupos{
+    width: 300px!important;
+    padding: 5px!important;
+    border-radius: 3px;
+}
+
+#labelNome{
+    text-align: left;
+    font-size: 14px;
+    height: 25px;
+    padding-top: 8px;
+}
+
+#nomeDoGrupo{
+    border-radius: 3px;
+}
+
+.divInputs{
+    padding: 7px;;
+}
+
+.botoesAcoes{
+
+    border-radius: 4px;;
+
+}
+
+fieldset{
+    width: 800px;
+    /* border: none; */
+    border-radius: 10px;
+}

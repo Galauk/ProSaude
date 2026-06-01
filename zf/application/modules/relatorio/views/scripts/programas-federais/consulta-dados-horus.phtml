@@ -1,0 +1,25 @@
+<form method="post" action="<?= $this->url(array("action" => "dados-rel-horus-consulta-dados")); ?>" target="_blank" id="form">
+    <input name="tipo" id="tipo" type="hidden" value="<?=$this->action?>"/><br />
+    <label>Status de Envio</label>
+    <select name="statusenvio" >
+        <option value="F" id="ocultadadosenvio">A Enviar</option>
+        <option value="T" id="mostradadosenvio">Enviados</option>
+        <option value="TODOS" id="ocultadadosenviotodos">Todos</option>
+    </select><br />
+    <label>Tipo de Movimentação</label>
+    <input type="checkbox" id="tpmove" name="tpmov[]" value="E" /> Entrada
+    <input type="checkbox" id="tpmovs" name="tpmov[]" value="S" />Saída
+    <input type="checkbox" id="tpmovd" name="tpmov[]" value="D" />Dispensação<br />
+    <div id="dados-envio">
+        <label>Usuário Responsável Envio:</label> 
+        <input type="text" id="hor_dad_respenvio" name="respenvio" class="focus" /><br />
+        <label>Número de Protocolo:</label>
+        <input name="numprotocoloenvio" id="numprotocoloenvio" class="data" style="width: 120px" /><br />
+    </div>
+    <label>Data Inicial:</label>
+    <input name="dtinicial" class="data" style="width: 120px" /><br />
+    <label>Data Final:</label>
+    <input name="dtfinal" class="data" style="width: 120px" /><br />
+    <div class="clear"></div>
+    <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+</form>

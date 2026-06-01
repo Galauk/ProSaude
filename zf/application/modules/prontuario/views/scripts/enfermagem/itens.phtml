@@ -1,0 +1,19 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Procedimento</th>
+		<th width="60">Opções</th>
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<tr>
+		<td class="ui-state-default"><?=$this->escape($item->proc_nome);?></td>
+		<td class="ui-state-default c">
+			<a href="<?=$this->url(array("action"=>"excluir","id"=>$item->pat_codigo));?>" class="excluir"><img src="<?=$this->baseUrl('/public/images/icons/excluir.png');?>" alt="Excluir" title="Excluir" /></a>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+
+<?php else: ?>
+<br /><em>Nenhum procedimento realizado.</em>
+<?php endif; ?>

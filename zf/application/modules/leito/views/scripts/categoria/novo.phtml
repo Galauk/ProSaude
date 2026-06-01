@@ -1,0 +1,11 @@
+<?php $this->dialog(); ?>
+<form method="post" action="<?=$this->url(array("action"=>"salvar"));?>">
+	<?php $this->errorMsg(); ?>
+	<label>Categoria:</label>
+        <input type="hidden" id="lgc_codigo" name="lgc_codigo" value="<?=$this->dados->lgc_codigo?>">
+	<input type="text" id="lgc_descricao" name="lgc_descricao" value="<?=$this->dados->lgc_descricao?>" class="focus" />
+	
+	<div class="space"></div>
+	<a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>
+	<a href="<?=$this->url(array("controller"=>"categoria","action"=>"index","id"=>$item->lgc_codigo));?>"  class="ui-button voltar" data-atalho="ESC">Voltar</a>     
+</form>

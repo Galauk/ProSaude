@@ -1,0 +1,35 @@
+<? $this->dialog(); ?>
+<? echo $this->action('form','buscar'); ?>
+<?
+$i=0;
+
+if($this->itens && $this->itens->count()) { ?>
+    <table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    <tr class='ui-widget-header'>
+           <th>Cód</th>
+           <th>Tipo de Logradouro</th>
+           <th>Logradouro</th>
+           <th>Bairro</th>
+           <th>Localidade</th>
+           <th>CEP</th>
+           <th>Opções</th>
+       </tr>
+    <? foreach($this->itens as $item){ ?>
+        <tr>
+            <td class='ui-state-default' width='50'><?= $this->escape($item->rua_codigo);?></td>
+            <td class='ui-state-default c' width='150'><?= $this->escape($item->ds_tipo_logradouro);?> </td>
+            <td class='ui-state-default c' width='150'><?= $this->escape($item->rua_nome);?> </td>
+            <td class='ui-state-default c' width='150'><?= $this->escape($item->bai_nome);?> </td>
+            <td class='ui-state-default c' width='120'><?= $this->escape(($item->localidade ? $item->localidade : $item->cid_nome));?></td>
+            <td class='ui-state-default c' width='150'><?= $this->escape($item->rua_cep);?></td>
+            <td class='ui-state-default c' width='50'>
+                <input type="hidden" name="id" id="id" value="<?= $item->rua_codigo?>">
+                <a href='<?= $this->url(array("module"=>"default", 'controller'=>'rua','action'=>'editar','id'=>$item->rua_codigo), NULL, TRUE);?>' class='editar'><img src='<?= $this->baseUrl('/public/images/icons/editar.png');?>' alt='Editar Itens' title='Editar Itens' /></a>
+                <a href=#' id='excluir' onclick="excluir(<?= $item->rua_codigo?>)"><img src='<?= $this->baseUrl('/public/images/icons/excluir.png');?>' alt='Excluir' title='Excluir' /></a>
+            </td>
+        </tr>
+    <? } ?>
+</table>
+<? } else { ?>
+    <em>Nenhum item encontrado</em>
+<? } ?>

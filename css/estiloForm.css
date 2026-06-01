@@ -1,0 +1,412 @@
+/**
+ * Created on 26/02/2011
+ * @author Dilee C. Pacheco		-	dilee@eloteh.com.br
+ * @Css da DIV que gera o Formulario
+ */
+ 
+@CHARSET "ISO-8859-1";
+*{
+    margin:0; /*Defin a a separacao das colunas aqui*/
+    padding:0;
+	
+}
+.linha{
+    padding:0px;
+    clear:both;
+}
+.linhaTextArea{
+	padding:0px;
+	height: 71px;
+    clear:both;
+	display: block;
+}
+
+.cL0 {    
+    height:21px;
+    border: 0px;
+    width:4px;      
+    float:left;
+}
+.cL1 {    
+    height:21px;
+    border: 0px;
+    width:4px;      
+    float:left;
+}
+.cL2 {    
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #153854;
+	height:20px;
+    border: 0px;
+    width:180px;
+    float:left;
+    background-image: url("../imgs/cap03.png");
+    background-repeat: repeat;
+    line-height:20px;
+    text-align:right;
+ 
+}
+.cL3 {    
+    height:21px;
+    border: 0px;
+    width:6px;      
+    float:left;
+}
+.cL4  {    
+    height:21px;
+    border: 0px;
+    width: 4px;      
+    float:left;
+}
+.cL5  {    
+	top:30px;
+    height:21px;
+    width: 250px;      
+    padding:1px;
+    float:left;
+    border:0px;
+}
+.cL7  {    
+	top:30px;
+    height:21px;
+    width: 17px;      
+    float:left;
+    border:0px;
+    background-image: url("../imgs/btn03.png");
+    background-repeat: repeat;
+}
+.cL6 {    
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #153854;
+	height:21px;
+    border: 0px;
+    width:180px;
+    float:left;
+    background-image: url("../imgs/btn03.png");
+    background-repeat: repeat;
+    line-height:20px;
+    text-align:right;
+ }
+.cL8 {    
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #153854;
+	height:21px;
+    border: 0px;
+    float:left;
+    background-image: url("../imgs/btn03.png");
+    background-repeat: repeat;
+    line-height:20px;
+    font-weight:bold;
+ }
+ .buttonForm {    
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #153854;
+    font-weight:bold;
+ }
+.inputForm {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #153854;
+	font-size: 8pt;
+	font-weight: bold;	
+	height: 18px;
+    border-top: 1px solid #B0CCE5;
+    border-left: 1px solid #B0CCE5;
+    border-bottom: 1px solid #B0CCE5;
+    border-right: 1px solid #B0CCE5;
+    background-color:#E8F4FE;
+}
+.inputForm:focus { border: 1px solid #80a5c7; }
+.mutipleForm {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #153854;
+	font-size: 8pt;
+	font-weight: bold;	
+    border-top: 1px solid #B0CCE5;
+    border-left: 1px solid #B0CCE5;
+    border-bottom: 1px solid #B0CCE5;
+    border-right: 1px solid #B0CCE5;
+    background-color:#E8F4FE;
+}
+.mutipleForm:focus { border: 1px solid #80a5c7; }
+
+.textArea {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+	color: #153854;
+	height: 70px;
+	width:250px;
+    border-top: 1px solid #B0CCE5;
+    border-left: 1px solid #B0CCE5;
+    border-bottom: 1px solid #B0CCE5;
+    border-right: 1px solid #B0CCE5;
+    background-color:#E8F4FE;
+    vertical-align: bottom;
+}
+.textArea:focus {
+    border: 1px solid #80a5c7;
+}
+.chkBox{
+	vertical-align: middle;
+}
+.chkBox input {
+	vertical-align: middle;
+}
+.menuFormClass{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	text-decoration:none;
+}
+.menuFormClass:hover{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	text-decoration:none;
+	font-weight: bold;
+}
+a{
+	text-decoration:none;
+}
+a:hover{
+	font-weight:bold;
+}
+.abas{
+	text-decoration:none;
+}
+.abas:hover{
+	text-decoration:none;
+	font-weight:normal;
+}
+
+.marginLabel{
+    margin-left: 5% !important;
+    margin-bottom: 0.5%!important;
+    margin-top: 0.6%!important;
+    width: 36%!important;
+}
+
+.estiloAnamnese{
+    margin-left: 42%;
+    margin-top: -22px;
+    width: 301px;
+}
+
+
+#formularioUm{
+    width: 608px;
+    float: left;
+    display: inline-block;
+    margin-left: 4%;
+    margin-top: 1%;
+}
+
+#formularioDois{
+    width: 620px;
+    float: right;
+    display: inline-block;
+    margin-right: 1%;
+    margin-top: 1%;
+}
+
+#titulo{
+    position: absolute;
+    margin-top: 36%;
+    margin-left: -0.1%;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#informante{
+    width: 400px;
+    height: 400px;
+    display: block;
+    margin-left: 18.5%;
+}
+
+#racaCor{
+    margin-top: 9.1%;
+    width: 400px;
+    height: 400px;
+    display: block;
+    margin-left: 55%;
+}
+
+#campoRadio{
+    width: 600px;
+}
+
+#maePaciente{
+    position: absolute;
+    margin-left: 179px;
+    margin-top: -19px;
+}
+
+#maeSelect{
+    position: absolute;
+    margin-left: 336px;
+    margin-top: -18px;
+}
+
+#responsavelPaciente{
+    position: absolute;
+    margin-top: -15px;
+}
+
+#responsavelSelect{
+    position: absolute;
+    margin-top: -15px;
+    margin-left: 157px;
+}
+
+#medicoSelect{
+    position: absolute;
+    margin-left: 335.5px;
+    margin-top: -14px;
+}
+
+#medicoResponsavel{
+    position: absolute;
+    margin-left: 178px;
+    margin-top: -14px;
+}
+
+#outroResponsavel{
+    margin-left: 0.3px!important;
+}
+
+#outroInformeNome{
+    width: 197px;
+}
+
+#cpfResponsavel{
+    margin-left: 0.3px!important;
+}
+
+#inputCpf{
+    width: 197px;
+}
+
+#labelParda{
+    position: absolute;
+    margin-left: 186px;
+    margin-top: -39px;
+}
+
+#infoParda{
+    position: absolute;
+    margin-left: 344px;
+    margin-top: -38px;
+}
+
+#labelAmarela{
+    position: absolute;
+    margin-left: 186px;
+    margin-top: -34px;
+}
+
+#infoAmarela{
+    position: absolute;
+    margin-left: 344px;
+    margin-top: -33px;
+}
+
+#labelIndigena{
+    position: absolute;
+    margin-left: -1px;
+    margin-top: -30px;
+}
+
+#infoIndigena{
+    position: absolute;
+    margin-left: 157px;
+    margin-top: -30px;
+}
+
+#labelSemInformacao{
+    position: absolute;
+    margin-left: 186px;
+    margin-top: -46px;
+}
+
+#infoSemInformacao{
+    position: absolute;
+    margin-left: 344px;
+    margin-top: -46px;
+}
+
+#documentoPaciente{
+    margin-top: -20.9%;
+    width: 400px;
+    height: 400px;
+    display: block;
+    margin-left: 19%;   
+}
+
+#tituloDocumentos{
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#numeroCPFouCNS{
+    width: 197px;
+}
+
+#emailPaciente{
+    width: 197px;
+}
+
+#labelEmail{
+    width: 176px!important;
+    margin-left: 1px!important;
+}
+
+.botaoImprimir{
+    position: absolute;
+    margin-top: -250px!important;
+    margin-left: 85px!important;
+    width: 101px!important;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.formEsquerda{
+    float: left;
+    width: 600px;
+    margin-left: 60px;
+}
+
+.formDireita{
+    float: right;
+    width: 600px;
+    margin-right: 1px;
+}
+
+.divTecnica{
+    height: 372px;
+    margin-top: -14%;
+}
+
+#imprimirTecnica{
+    position: absolute;
+    margin-top: 214px!important;
+    margin-left: -575px!important;
+    width: 101px!important;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+#tituloAvaliacao{
+    margin-top: 0%;
+    margin-left: 18.9%;
+    font-size: 18px;
+    font-weight: bold;   
+}
+
+.buscar{
+    position: absolute;
+    margin-top: -2%;
+    margin-left: 19%;
+}

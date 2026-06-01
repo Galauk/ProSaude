@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* CSS Document */
+
+#alinnha{
+	width:1024px;
+	border:solid 1px;
+}
+#cima{
+	width:1024px;
+	height:268px;
+	background-image:url(telas/FundoCima.png);
+	background-repeat:no-repeat;
+	
+}
+#baixo{
+	width:672px;
+	height:194px;
+	background-image:url(telas/FundoBaixo.png);
+	background-position:right;
+	background-repeat:no-repeat;
+	float:right;
+	
+}

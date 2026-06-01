@@ -1,0 +1,67 @@
+<?
+session_start();
+include_once $_SESSION[root].$_SESSION[modulo]."authlib.inc.php";
+verauth($id_login);
+require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+cabecario( $hotkey = true);
+
+reglog($id_login,"Acessando Digitacao do Resultado");
+
+if(empty($acao)) {
+$sql = "select distinct(itx.itx_codigo),
+			   proc_nome,
+			   to_char(mlz_datadacoleta,'DD/MM/YYYY') as mlz_datadacoleta,
+			   proc.proc_codigo,
+			   mlz.cad_exame,
+			   mlz_coletado
+		  from materialdeanalise as mlz 
+		  left join itensdoexame as itx 
+		    on itx.itx_codigo = mlz.itx_codigo 
+		  left join procedimento as proc 
+		    on proc.proc_codigo = itx.proc_codigo 
+		  left join tipodeexame as tp 
+		    on tp.proc_codigo = itx.proc_codigo 
+		  join resultadoexame as r 
+		    on itx.itx_codigo = r.itx_codigo 
+		 where mlz.cad_exame = $cad_exame";
+$querySql = pg_query($sql);
+	//$sql = pg_query("select *from materialdeanalise as mlz left join itensdoexame as itx on itx.itx_codigo = mlz.itx_codigo left join procedimento as proc on proc.proc_codigo = itx.proc_codigo left join tipodeexame as tp on tp.proc_codigo = itx.proc_codigo join resultadoexame as r on itx.itx_codigo = r.itx_codigo where mlz.cad_exame = $cad_exame");
+
+echo "<table width='100%' align='center' cellspacing='2' cellpadding='4' border='0' class='lista'>
+       <tr bgcolor=FFFFFF>
+	  <td>Cod</td>
+	  <td>Exame</td>
+	  <td>Dt.Coleta</td>
+	  <td>&nbsp;</td>
+	</tr><form method=post action=".$_SESSION[linkroot].$_SESSION[modulo]."laudos/print_laudos.php>";
+while($row=pg_fetch_array($querySql)) {
+	$res = pg_query("select *from resultadoexame where cad_exame = '$row[cad_exame]' and proc_codigo = '$row[proc_codigo]'");
+	$tp = pg_num_rows($res);
+	$datadacoleta =$row[mlz_datadacoleta];
+	if(trim($row[mlz_coletado])=="S") {
+		echo $row[res_codigo];
+		 echo "<tr>
+			  <td align=center>$row[proc_codigo]</td>
+			  <td width=90%>$row[proc_nome]</td>
+			  <td width=90%>$datadacoleta</td>
+			  <input type=hidden name=datacoleta value=$row[mlz_datadacoleta]>
+			  <input type=hidden name=itx_codigo[] value=$row[itx_codigo]>
+			  <input type=hidden name=p_codigo[] value=$row[proc_codigo]>
+			  <input type=hidden name=cad_exame value=$row[cad_exame]>
+			  <input type=hidden name=proc_nome value=$row[proc_nome]>
+			  <td><input type=checkbox name='proc_codigo[$row[proc_codigo]]' value=$row[proc_codigo]></td>
+			</tr>";
+	}
+ echo "</tr>";
+}
+ echo "</table>";
+ echo "<table width=100% cellspacing=0 cellpadding=0 border=0>
+	<tr>
+	 <td align=center><input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/imprimir.jpg></td>
+	</tr>
+	</table></form>";
+
+
+}	
+
+?>

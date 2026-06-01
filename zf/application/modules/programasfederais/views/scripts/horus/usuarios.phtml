@@ -1,0 +1,41 @@
+<?php $this->errorMsg();?>
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    <a href="/WebSocialSaude/zf/programasfederais/horus/cadastro" class="ui-button novo ui-corner-bl ui-corner-tr" data-atalho="CTRL+N">Novo</a>
+    <tr class='ui-widget-header'>
+        <th>ID</th>
+        <th>Login</th>
+        <th>Senha</th>
+        <th>Ambiente</th>
+        <th>Data de Cadastro</th>
+        <th>Ativo</th>
+        <th>Opções</th>
+    </tr>
+    <?if(!empty($this->dados)){ ?>
+        <?foreach($this->dados as $usu){?>
+            <tr>
+                <td class='ui-state-default' ><?=$usu->hor_cad_codigo?></td>
+                <td class='ui-state-default c' ><?=$usu->hor_cad_login?></td>  
+                <td class='ui-state-default c' ><?=$usu->hor_cad_senha?></td>
+                <? if ($usu->hor_cad_ambiente == 'H') { ?>
+                    <td class='ui-state-default c' >Homologação</td>
+                <? } else { ?>
+                    <td class='ui-state-default c' >Produção</td>
+                <? } ?>
+                <td class='ui-state-default c' ><?=$this->data($usu->hor_cad_dtcadastro,Zend_Date::DATE_MEDIUM);?></td>
+                <? if ($usu->hor_cad_ativo == 'S') { ?>
+                    <td class='ui-state-default c' >Sim</td>
+                <? } else { ?>
+                    <td class='ui-state-default c' >Não</td>
+                <? } ?>
+                <td class='ui-state-default c' >
+                    <a href='<?=$this->url(array("module"=>"programasfederais", 'controller'=>'horus','action'=>'cadastro','id'=>$usu->hor_cad_codigo), NULL, TRUE);?>' class='editar'><img src='<?=$this->baseUrl('/public/images/icons/editar.png');?>' alt='Editar Itens' title='Editar Itens' /></a>
+                    <a href='#' id='excluir' onclick="excluir(<?=$usu->hor_cad_codigo?>)"><img src='<?=$this->baseUrl('/public/images/icons/excluir.png');?>' alt='Excluir' title='Excluir' /></a>		
+                </td>
+            </tr>
+        <?}?>
+    <?} else {?>
+         <tr>
+             <th colspan="7">Nehum cadastro efetuado até o momento!</td>
+         </tr>    
+    <?}?>
+</table>

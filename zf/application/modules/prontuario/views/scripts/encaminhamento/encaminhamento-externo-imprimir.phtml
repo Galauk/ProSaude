@@ -1,0 +1,36 @@
+<script type="text/javascript">
+    window.print()
+</script>
+
+<div id="receita">
+    Data Emissão: <strong><?=$this->dados[0][enc_ext_data_cad];?></strong>
+    <div class="space"></div>
+    <h2 class="titulo">Encaminhamento : <?=$this->dados[0][enc_ext_agendado_para]?></h2>
+    <p>
+    Encaminhamento do paciente: <strong><?=($this->dados[0][usu_nome] != "" ? $this->dados[0][usu_nome] : "Não Informado");?></strong>, 
+    nascido em: <strong><?=($this->dados[0][usu_datanasc] != "" ? $this->data($this->dados[0][usu_datanasc]) : "Não Informado");?></strong>, 
+    idade: <strong><?=($this->idade != "" ? $this->idade : "Não Informado");?></strong>,  
+    filho de: <strong><?=($this->dados[0][usu_mae] != "" ? $this->dados[0][usu_mae] : "Não Informado");?>
+
+    telefone: <strong><?=($this->dados[0][enc_ext_contato] != "" ? $this->dados[0][enc_ext_contato] : "Não Informado");?></strong>. 
+    <?php if($this->dados->enc_ext_internacao):?>
+            <br /><br /><strong>Internação Hospitalar</strong>: Sim<br />
+    <?php endif; ?>
+    <?php if($this->dados->enc_ext_urgencia):?>
+            <strong>Urgência</strong>: Sim
+    <?php endif; ?>
+    </p>
+    <h2 class="titulo">Unidade de origem: <?=$this->dados[0][uni_desc]?></h2>
+    <p>
+        Data: <strong><?=$this->dados[0][enc_ext_data] != ""? $this->dados[0][enc_ext_data] : "Não informado" ?></strong>
+
+        Horário: <strong><?=$this->dados[0][enc_ext_hora] != ""? $this->dados[0][enc_ext_hora] : "Não informado" ?></strong>
+
+        <br /><br /><strong>Agendado Para</strong>: <?=($this->dados[0][usu_nome])?>
+        <br />
+        Contato: <?=($this->dados[0][enc_ext_contato] != "" ? $this->dados[0][enc_ext_contato] : "Não Informado")?>
+    </p>
+    <h2 class="titulo">Motivo/Observações</h2>
+    <?=($this->dados[0][enc_ext_descricao] != "" ? $this->dados[0][enc_ext_descricao] : "Não Informado");?>
+</div>
+

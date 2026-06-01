@@ -1,0 +1,78 @@
+<?php
+
+class GuicheController extends Zend_Controller_Action {
+
+	public function init() {
+		$this->view->title = "Guichê de Atendimento";
+                $this->_helper->acl->allow(NULL,array('index'));
+	}
+
+	public function indexAction() {
+            $this->_helper->layout->setLayout("sem-aba");
+            $tbCha = new Application_Model_Chamada();
+            $proximo = $tbCha->buscarProximo()->toArray();
+            $chamados = $tbCha->buscarChamados()->toArray();
+            //echo "<pre>".print_r($proximo,1); die();
+            $this->view->chamados = $chamados;
+            $this->view->proximo = $proximo;
+	}
+        public function retornaVideoAction() {
+	    $tbUpv= new Application_Model_UploadVideo();
+            $videos = $tbUpv->retornaVideo();
+          //  $video = array_rand($videos);
+         //echo $video[0];die("aca");
+           // echo $videos; die();
+        //  echo "<pre>".print_r($videos,1); die();
+            $this->view->dados = $videos;
+            return $this->render("dados", NULL, TRUE);
+	}
+        public function buscarChamadasAction() {
+	    $tbCha = new Application_Model_Chamada();
+            $chamadas = $tbCha->buscarChamadas()->toArray();
+            //echo "<pre>".print_r($chamadas,1); die();
+            $this->view->dados = $chamadas;
+            return $this->render("dados", NULL, TRUE);
+	}
+         public function buscarProximoAction() {
+	    $tbCha = new Application_Model_Chamada();
+            $proximo = $tbCha->buscarProximo()->toArray();
+            //echo "<pre>".print_r($chamadas,1); die();
+            $this->view->dados = $proximo;
+            return $this->render("dados", NULL, TRUE);
+	}
+        public function buscarPacientesAction() {
+	    $tbCha = new Application_Model_Chamada();            
+            $vai = $tbCha->buscarChamados()->toArray();
+           // echo "<pre>".print_r($vai,1); die();
+            $this->view->dados = $vai;
+            return $this->render("dados", NULL, TRUE);
+	}
+        
+        public function alteraStatusAction() {
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender(true);
+	    $age_codigo = $this->_getParam("age_codigo");
+            $tbCha = new Application_Model_Chamada();
+            $tbCha->encerrarChamada($age_codigo);
+            $this->render("index");
+	}
+        
+        public function chamarAction(){
+            $age_codigo = $this->_getParam("age_codigo");
+            $tbCha = new Application_Model_Chamada();
+            $tbCha->encerrarChamada($age_codigo,"C");
+            $this->render("index");
+            
+        }
+        public function lerAction() {
+            $usu_nome = $this->_getParam("usu_nome","maria");
+	    $tbCha = new Application_Model_Chamada();
+            $chamadas = $tbCha->ler($usu_nome);
+            //echo "<pre>".print_r($chamadas,1); die();
+            $this->view->dados = $chamadas;
+            return $this->render("dados", NULL, TRUE);
+            
+	}
+        
+}
+

@@ -1,0 +1,21 @@
+<form method="post" id="form-balanco-prod-set" action="<?=$this->url(array("action"=>"movimento-entrada","module"=>"relatorio", "controller"=>"materiais"));?>" target="_blank">
+    <label>Setor:</label>
+    <input name="set_nome" id="set_nome" />
+    <input name="set_codigo" id="set_codigo" type="hidden" /><br />
+    <label>Produto</label>
+    <input name="busca_produto" onkeypress="buscaProdutos()" id="pro_nome" class="pro_nome" />
+    <input name="pro_codigo" id="pro_codigo" type="hidden" /><br />
+    <label>Data inicial:</label>
+    <input name="data_inicial" id="data_inicial" class="data" style="width: 80px"/><br />
+    <label>Data final:</label>
+    <input name="data_final" id="data_final" class="data" style="width: 80px" /><br />
+    <label>Subgrupo</label>
+        <select name="pros_codigo" id="pros_codigo">
+            <option value="">--SELECIONE--</option>
+            <?foreach($this->subgrupos as $subgrupo):?>
+                <option value="<?=$subgrupo->pros_codigo?>"><?=$subgrupo->pros_descricao?></option>
+            <?endforeach;?>
+        </select>
+    <div class="clear"></div>
+    <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+</form>

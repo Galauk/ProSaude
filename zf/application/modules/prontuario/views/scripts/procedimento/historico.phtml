@@ -1,0 +1,16 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Procedimento</th>
+		<th>CID</th>
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<tr>
+		<td class="ui-state-default"><?=$this->escape($item->proc_nome);?></td>
+		<td class="ui-state-default"><?=$this->mask($item->cd10_descricao, "empty", "<em>Não informado.</em>");?></td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php else: ?>
+<em>Nenhum procedimento realizado</em>
+<?php endif; ?>

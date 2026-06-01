@@ -1,0 +1,20 @@
+<?= $this->doctype() . "\n"; ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <?= $this->headMeta() . "\n"; ?>
+        <?= $this->headTitle() . "\n"; ?>
+        <?= $this->headLink() . "\n"; ?>
+		<script type="text/javascript">
+			var baseUrl = '<?=$this->baseUrl();?>';
+		</script>
+        <?= $this->headScript() . "\n"; ?>
+        <?= $this->analytics(); ?>
+    </head>
+    <body>
+		<?= $this->layout()->content; ?>
+    </body>
+</html>

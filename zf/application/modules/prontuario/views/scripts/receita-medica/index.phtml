@@ -1,0 +1,27 @@
+<?php $this->errorMsg(); ?>
+<?php 
+ if($this->obs == "S"){
+	echo $this->headScript()->appendFile('/WebSocialSaude/zf/public/js/prontuario/receita-medica.js');
+	echo $this->headLink()->appendStylesheet('/WebSocialSaude/zf/public/css/geral.css','all');	
+
+ }
+?>
+
+<div class='abas' id="abas"> 
+	<ul class="tabs">
+            <li><a id="1" href="#tabs2-1" >Medicamentos do Posto</a></li>	
+            <li><a id="2" href="#tabs2-2" >Medicamentos Controlado</a></li>
+            <li><a id="3" href="#tabs2-3" >Medicamentos Externo</a></li>
+		
+	</ul>
+	<div id='tabs2-1'>
+		<?= $this->action("form", "receita-medica", "prontuario", array("tipo"=>"posto")); ?>
+	</div>
+	<div id='tabs2-2'>
+		<?= $this->action("form", "receita-medica", "prontuario", array("tipo"=>"controlados")); ?>
+	</div>
+	<div id='tabs2-3'>
+		<?= $this->action("form", "receita-medica", "prontuario", array("tipo"=>"externo")); ?>
+	</div>
+
+</div>

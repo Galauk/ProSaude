@@ -1,0 +1,43 @@
+.cor0{background-color: #FFF}
+.cor1{background-color: #EEE}
+
+.destaque{
+	background-color: #cccccc;
+	
+}
+
+.com-vaga{
+	background-image: none;
+	background-color: #ccffcc;	
+	cursor: pointer;
+}
+.com-vaga.destaque{
+	background-color: #008800;		
+}
+
+.sem-vaga{
+	background-image: none; 
+	background-color: #ffcccc;
+	cursor: not-allowed;
+}
+.sem-vaga.destaque{
+	background-color: #F00;
+}
+
+#easyTooltip{
+	margin-left: 10px;
+	padding: 3px;
+	display: none;
+}
+
+.dow0,
+.dow6{
+	background-color: #DDD;
+}
+
+#historico{
+  max-height: 150px;
+  overflow: auto;
+}
+
+#historico table{ width: 100%}

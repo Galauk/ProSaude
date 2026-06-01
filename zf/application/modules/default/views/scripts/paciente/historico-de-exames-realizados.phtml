@@ -1,0 +1,44 @@
+<div id="localiza" style="border: solid 0px; float: left"></div>
+<?php if($this->itens || $this->itensImg): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Data Realizada</th>
+		<th>Procedimento</th>
+                <th>Opções</th>
+                
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<tr>
+            <td class="ui-widget ui-widget-content c"><?=$this->data($item->col_data_coleta);?></td>
+            <td class="ui-widget ui-widget-content c"><?=$this->escape($item->proc_nome);?></td>
+             <td class="ui-widget ui-widget-content c" width="250">
+               <a href="<?= $this->url(array("controller" => "exame", "action" => "ver", "id" => $item->agei_codigo)); ?>" title="Resultado do Exame" class="modal"  rel="470x400"><img src="<?= $this->baseUrl('/public/images/icons/historico.png'); ?>" alt="Ver detalhes" title="Ver detalhes" /></a>
+               <a href="/WebSocialSaude/laudos/print_laudos.php?datacoleta=<?=$item->col_data_coleta;?>&agei_codigo[]=<?=$item->agei_codigo;?>&p_codigo[]=<?=$item->proc_codigo;?>&proc_nome=<?=$item->proc_nome;?>&proc_codigo[<?=$item->proc_codigo;?>]=<?=$item->proc_codigo;?>&age_codigo=<?=$item->age_codigo?>" class="popup" rel="850x650"><img src="<?= $this->baseUrl('/public/images/icons/imprimir.png'); ?>" alt="Imprimir" title="Imprimir" /></a>
+             </td>
+		
+	</tr>
+	<?php endforeach; ?>
+        <?php if(isset($this->itensImg) && $this->itensImg && $this->itensImg->count()): ?>
+            <?php foreach($this->itensImg as $itemImg): ?>
+                <?
+                
+                if($itemImg->req_codigo != $req):
+                    $req = $itemImg->req_codigo;
+                
+                ?>
+                <tr>
+                    <td class="ui-widget ui-widget-content c"><?=$this->data($itemImg->upl_data);?></td>
+                    <td class="ui-widget ui-widget-content c"><?=$this->escape($itemImg->proc_nome);?></td>
+                    <td class="ui-widget ui-widget-content c" width="250">
+                        <a href="<?= $this->url(array("module"=>"default","controller" => "raiox", "action" => "ver", "id" => $itemImg->req_codigo)); ?>" title="Resultado do Exame" class="modal posic" rel="450x460"><img src="<?= $this->baseUrl('/public/images/icons/historico.png'); ?>" alt="Ver detalhes" title="Ver detalhes" /></a>
+                    </td>
+                </tr>
+                <?endif;?>
+            <?  endforeach;?>
+        
+        <?endif;?>
+</table>
+<?php else: ?>
+<br /><em>Paciente não possui histórico de solicitações de exames.</em>
+<?php endif; ?>
+

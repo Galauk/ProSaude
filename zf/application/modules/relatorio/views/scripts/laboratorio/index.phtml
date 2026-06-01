@@ -1,0 +1,15 @@
+<form method="post" action="<?= $_SESSION[linkroot].$_SESSION[modulo]."PHPJasperXML/laboratorio/exames_solicitados.php" ?>" target="_blank">
+    <input name="tipo" id="tipo" type="hidden" value="<?=$this->action?>"/><br />
+	<label>Profissional:</label>
+	<input name="usr_nome" id="usr_nome" />
+	<input name="usr_codigo" id="usr_codigo" type="hidden" /><br />
+        
+	<label>Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+
+        <div class="clear"></div>
+        <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>	
+</form>

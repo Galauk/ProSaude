@@ -1,0 +1,39 @@
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" id="ate-simplificado">
+    <div id="geral" style="width: auto; height: 1000px;">
+        <div  style="float:left;width: 750px;" >
+            <label style="width: 110px;">Versão:</label>
+            <input type="text" id="versao" name="versao" value=""/>
+            </br>
+            <label style="width: 110px;">Autor:</label>
+            <input type="text" id="autor" name="autor" value=""/>
+            </br>
+            <div style="width: 540px; height: 154px; float:left; margin-top: 06px;">
+                <label style="width: 110px; float: left;">Descrição: </label>
+                <textarea id="desc" name="desc" class="tinymce"></textarea>
+            </div>
+            <div class="clear"></div>
+            <div class="space"></div>
+            <a href="#" class="ui-button salvar">Salvar</a>
+            <a href="#" class="ui-button limpar">Limpar</a>
+            <div class="space"></div>
+            <div id="itens"></div>
+        </div>
+
+        <div style="width: 300px" class="f">
+        <label>Versões:</label>
+            <div style="margin-left: 5px;">
+                <select size="10" style="width: 300px;" id="nov-itens">
+                    <option value="0" disabled="disabled">Selecione um arquivo</option>
+                </select>
+            </div>
+            </br>
+                <label>Arquivo Selecionado:</label>
+                <input type="text" name="nov_nome" id="nov_nome" />
+            <div class="clear"></div>
+            <div class="space"></div>
+            <a href="#" id="editar" class="ui-button atualizar">Editar</a>
+            <a href="#" id="deletar" class="ui-button excluir3">Deletar</a>
+        </div>
+            
+    </div>
+</form>

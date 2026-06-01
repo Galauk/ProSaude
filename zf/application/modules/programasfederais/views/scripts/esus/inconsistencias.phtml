@@ -1,0 +1,50 @@
+<form name="busca" method="POST" action="<?= $this->url(array("action" => "busca-importacao-resultado")); ?>" id="busca-comum">
+    <label class="ui-corner-bl ui-corner-tr">Status da movimentação:</label>
+    <select name="status">
+        <option value="">Todos</option>
+        <option value="t">Enviados</option>
+        <option value="f">Não enviados</option>
+    </select>
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+<table style="width: 100%;">
+    <tr>
+        <th style="width: 5%;"><span style="margin-left: 4px;">Código</span></th>
+        <th style="width: 7%"><span style="margin-left: 4px;">CNS</span></th>
+        <th style="width: 7%"><span style="margin-left: 4px;">CPF</span></th>
+        <th style="width: 18%"><span style="margin-left: 4px;">Nome</span></th>
+        <th style="width: 7%"><span style="margin-left: 4px;">Dt. Nascimento</span></th>
+        <th style="width: 15%"><span style="margin-left: 4px;">Nome da Mãe</span></th>
+        <th style="width: 30%"><span style="margin-left: 4px;">Mensagem</span></th>
+        <th style="width: 7%"><span style="margin-left: 4px;">Status</span></th>
+        <th style="width: 4%"><span style="margin-left: 4px;">Opções</span></th>
+    </tr>
+    <?php if (count($this->dados) > 0) { ?>
+        <?php foreach ($this->dados as $dados) { ?>
+                <tr id="<?=$dados->eir_codigo?>">
+                    <td style="width: 5%;"><span style="margin-left: 4px;"><?=$dados->eir_codigo?></span></td>
+                    <td style="width: 7%"><span style="margin-left: 4px;"><?=$dados->eir_cns?></span></td>
+                    <td style="width: 7%"><span style="margin-left: 4px;"><?=$dados->eir_cpf?></span></td>
+                    <td style="width: 18%"><span style="margin-left: 4px;"><?=$dados->eir_nome?></span></td>
+                    <td style="width: 7%"><span style="margin-left: 4px;"><?=$this->data($dados->eir_data_nascimento,Zend_Date::DATE_MEDIUM)?></span></td>
+                    <td style="width: 15%"><span style="margin-left: 4px;"><?=$dados->eir_nome_mae?></span></td>
+                    <td style="width: 30%"><?=$dados->eir_mensagem?></td>
+                    <td style="width: 7%"><span style="margin-left: 4px;"><?=($dados->eir_status == "1" ? "Verdadeiro" : "Falso")?></span></td>
+                    <td style="width: 4%">
+                        <span style="margin-left: 4px;">
+                        <?php /* <a href="<?=$this->baseUrl();?>/default/paciente/edita-paciente-esus/eir_codigo/<?=$dados->eir_codigo?>/usu_codigo/<?=$dados->usu_codigo?>" class="editar" > */?>
+                        <a href="#" onclick="editaIncosistencias(<?=$dados->eir_codigo?>,<?=$dados->usu_codigo != "" ? $dados->usu_codigo : "0" ?>)" id="editar-incosistencia" >
+                            <img src="<?=$this->baseUrl();?>/public/images/icons/editar.png" alt="Editar Item" title="Editar Item">
+                        </a>
+                        </span>
+                    </td>
+                </tr>
+        <?php } ?>
+    <?php } else {  ?>
+            <tr height="26">
+                <td style="border: 1px solid #919B9C;" colspan="9">
+                    <span style="margin-left: 04px;">Nenhuma inconsistência até o momento!</span>
+                </td>
+            </tr>
+    <?php } ?>
+</table>

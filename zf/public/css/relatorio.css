@@ -1,0 +1,106 @@
+body{
+    background-color: white;
+}
+#dados_pac{
+  padding-bottom: 5px !important;
+}
+
+ul{
+  padding: 0;
+  margin:10px 0 0 0;
+  list-style: none;
+}
+
+table{
+  
+  width: 100%
+}
+
+table tr:hover{
+  background-color: #EEE;
+}
+
+table tr th{
+  
+  padding: 4px 2px;
+}
+
+table tr td{
+  
+  padding: 2px 5px;
+  font-size: 0.75em;
+}
+
+.topo{
+    border: 1px dotted;
+}
+
+/* Relatorio modo ficha */
+#medico{
+  border-top: 1px solid #000;
+  width: 250px;
+  margin: 50px auto 0 auto;
+  text-align: center;
+}
+
+#medico h2{
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+#medico h3{
+  font-size: 10px;
+  margin: 0;
+  padding: 0;
+  font-weight: none; 
+}
+
+.font-mais-grande tr td{
+	font-size: 1.1em;
+}
+
+.brasao{
+    float: left;
+    height: 80px;
+    width: 80px;
+    border:solid #000 !important;
+    border-width:0px 2px 0px 0px !important;
+}
+
+.dados_cabecalho{
+    //margin-top: 10px;
+    float: left;
+    height: 80px;
+    width: 540px;
+    text-align: center;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+#endereco{
+    font-size: 10px;
+    font-family: sans-serif;
+    width: 100%;
+    text-align: center;
+}
+
+.titulos{
+    background-color: #D6D7D5;
+    font-size: 17px;
+   font-family: fantasy;
+}
+
+.registros{
+    font-family: fantasy;
+    font-size: 13px;
+}
+
+.sub-registros{
+    font-family: fantasy;
+    font-size: 10px;
+}
+
+.zebrado:nth-child(2n+1) {
+    background-color: #EEE;
+}

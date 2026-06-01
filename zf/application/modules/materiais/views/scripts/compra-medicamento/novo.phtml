@@ -1,0 +1,32 @@
+<?php $this->dialog(); ?>
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>">
+	<?php $this->errorMsg(); ?>
+	
+	<label>Fornecedor:</label>	
+	<input type="text" name="for_nome" id="for_nome" value="<?= $this->escape($this->conv->conv_codigo ); ?>" />
+	<input type="hidden" name="for_codigo" id="for_codigo" value="<?= $this->escape($this->dados->coni_codigo); ?>" /><br />
+	
+	<label>Procedimento:</label>
+	<input type="text" name="proc_nome" id="proc_nome" value="<?= $this->escape($this->dados->proc_nome); ?>" class="focus" />
+	<input type="hidden" name="proc_codigo" id="proc_codigo" value="<?= $this->escape($this->dados->proc_codigo); ?>" />
+	<a href="<?=$this->url(array("action"=>"novo","controller" => "procedimento","pop"=>1),NULL,TRUE)?>" class="ui-button novo popup" rel="600x300" data-atalho="CTRL+N">Novo</a><br />
+	
+	
+	<label>Valor <small>(R$)</small>:</label>
+	<input type="text" name="coni_valor" id="proc_vlsa" style="width:100px;" class="float" rel="9,2" value="<?= $this->dados->coni_valor?number_format($this->dados->coni_valor,2, '.', ''):""; ?>" /><br />
+	
+	<label>Quantidade de vagas mês:</label>
+	<input type="hidden" name="coni_cota_mes_original" value="<?= ($this->dados->coni_cota_mes == -1 ? "" : $this->dados->coni_cota_mes) ; ?>" />
+	<input type="text" name="coni_cota_mes" id="coni_cota_mes" style="width:50px;" value="<?= ($this->dados->coni_cota_mes == -1 ? "" : $this->dados->coni_cota_mes) ; ?>" /><small>(vazio = ilimitado)</small><br />
+	
+	<label>Quantidade de vagas dia:</label>
+	<input type="hidden" name="coni_cota_dia_original" value="<?= ($this->dados->coni_cota_dia == -1 ? "" : $this->dados->coni_cota_dia) ; ?>" />
+	<input type="text" name="coni_cota_dia" id="coni_cota_dia" style="width:50px;"  value="<?= ($this->dados->coni_cota_dia == -1 ? "" : $this->dados->coni_cota_dia) ; ?>" /><small>(vazio = ilimitado)</small><br />
+	
+	
+
+	<a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>
+	<a href="<?=$this->url(array("action"=>"index", "module"=>"agenda","controller" => "convenio"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>
+	
+</form>
+<div class="space"></div>

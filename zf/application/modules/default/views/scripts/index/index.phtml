@@ -1,0 +1,62 @@
+<? include_once $_SESSION['root'].$_SESSION['modulo']."authlib.inc.php"; ?>
+<div id="colunas-principal">
+<div id="agenda-dia">
+<?
+if($this->agendaDoDia){
+    foreach($this->agendaDoDia as $item){
+        $telefone = '';
+        if(!empty($item['dom_telefone'])){
+            $telefone = $item['dom_telefone'];
+        }
+        if(!empty($item['usu_fone'])){
+            $telefone = $item['usu_fone'];
+        }
+        if(!empty($item['usu_celular'])){
+            $telefone = $item['usu_celular'];
+        }
+?>
+    <div class="paciente">
+        <strong class="dir"><?= $telefone ?></strong>
+        <span class="dir"><?= $item['usr_nome'] ?></span>
+        <strong><?= date('H:i', strtotime($item['age_horario'])) ?></strong>
+        <small style="color:<?= $item['cor'] ?>"><?= $item['age_atendido'] ?></small>
+        <? if($telefone){ ?><big><?= $item['usu_prontuario'] ?></big><? } ?>
+        <span><?= trim($item['usu_nome']) ?></span>
+    </div>
+<?
+    }
+} else {
+?>
+<span>Não há pacientes agendados para hoje</span>
+<?
+}
+?>
+</div>
+<div id="coluna-direita">
+<div id="atalhos">
+    <a <?= SelPerm($id_login,'paciente.php') != "0" ? 'href="/'.$_SESSION['modulo'].'zf/default/paciente/form-paciente"' : 'href="#" class="disabled"' ?>>
+        <span class="link-label"><i class="icon icon-user-add"></i>Cadastrar paciente</span>
+    </a>
+    <a href="/<?= $_SESSION['modulo'] ?>portadeEntrada/portadeentrada2.php?id_login=<?= $id_login ?>">
+        <span class="link-label"><i class="icon icon-login"></i>Porta de entrada</span>
+    </a>
+    <a href="/<?= $_SESSION['modulo'] ?>zf/atendimento/atendimento-simplificado/?tipo=A">
+        <span class="link-label"><i class="icon icon-user"></i>Atendimento Individual</span>
+    </a>
+    <a href="/<?= $_SESSION['modulo'] ?>zf/atendimento/atendimento-simplificado/index-visita-domiciliar">
+        <span class="link-label"><i class="icon icon-home"></i>Visita Domiciliar</span>
+    </a>
+    <a href="/<?= $_SESSION['modulo'] ?>zf/atendimento/atendimento-simplificado/index-procedimento">
+        <span class="link-label"><i class="icon icon-check"></i>Procedimento</span>
+    </a>
+</div>
+<div id="graficos">
+    <div id="graficos-procedimentos"></div>
+    <div id="graficos-especialidades"></div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+var dadosProcedimentos = {dados:<?= $this->procedimentos ?>, linhas:<?= $this->tipoAtendimento ?>};
+var dadosEspecialidades = <?= $this->especialidades ?>;
+</script>

@@ -1,0 +1,58 @@
+<?= $this->doctype() . "\n"; ?>
+<?php
+$_SESSION[modulo] = "WebSocialSaude/";
+$_SESSION[root] = $_SERVER[DOCUMENT_ROOT] . "/";
+$_SESSION[linkroot] = "http://" . $_SERVER[HTTP_HOST] . "/";
+$_SESSION[comum] = "WebSocialComum/";
+$_SESSION[modulo] = "WebSocialSaude/";
+$_SESSION[modulo] = "WebSocialSaude/"; $_SESSION[root] = $_SERVER[DOCUMENT_ROOT] . "/"; $_SESSION[linkroot] = "http://" . $_SERVER[HTTP_HOST] . "/"; $_SESSION[comum] = "WebSocialComum/"; $_SESSION[modulo] = "WebSocialSaude/"; require_once $_SESSION[root].$_SESSION[modulo]."sessao_controller.php";
+$sessao = new TempoSessao();
+$sessao->primeiraPagina();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+        <?= $this->headMeta() . "\n"; ?>
+        <?= $this->headTitle() . "\n"; ?>
+        <?= $this->headLink() . "\n"; ?>
+        <link href='<?=$this->baseUrl('/public/css/retrato-print.css')?>' rel='stylesheet' type='text/css'></link>
+        <script type="text/javascript">
+                var baseUrl = '<?=$this->baseUrl();?>';
+                 $(function(){
+                        //window.print();
+                });
+        </script>
+        <?= $this->headScript() . "\n"; ?>
+        <?= $this->analytics(); ?>
+    </head>
+    <body>
+        <?//=$this->tipo_impressao?>
+        <div id="page">
+            <!--CABEÇALHO-->
+            <div class="cabecalho">
+                 <div class="brasao">
+                     <img src="<?=$this->baseUrl("/public/images/brasao.jpg");?>" height="95" width="95"/>
+                 </div>
+                 <div class="dados_cabecalho">
+                     <b><?=$this->secretaria->nome_secretaria?></b><br/>
+                     C.N.P.J.:<?=$this->secretaria->cnpj_secretaria?><br/>
+                     <b><?=$this->usr->uni_desc;?></b>
+                 </div>
+            </div>
+            <div id="titulo_impressao"><b><?=$this->tipo_impressao;?></b></div>
+            
+            <!--FIM DO CABEÇALHO-->
+            
+            <?= $this->layout()->content; ?> <!--???-->
+
+            
+            <!--RODAPE -->
+            <br/>
+            <div id="footer">
+                <div id="endereco">
+                    <?=$this->secretaria->endereco_secretaria?>, CNPJ:<?=$this->secretaria->cnpj_secretaria?>, FONE:<?=$this->secretaria->telefone_secretaria?>
+                </div>
+            </div>
+            <!--fim do rodapé-->
+        </div>
+     </body>
+</html>

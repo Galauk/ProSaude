@@ -1,0 +1,46 @@
+<h3 style="margin-bottom: 15px;text-align: center; text-decoration:underline">Autorização</h3>
+<div class="f" style="width: 255px">
+	<strong>Prontuário:</strong> <?php echo $this->dados->usu_prontuario;?><br />
+	<strong>Cartão SUS:</strong> <?php echo $this->dados->usu_cartao_sus;?><br />
+	<strong>Nascimento:</strong> <?php echo $this->data($this->dados->usu_datanasc);?><br />
+	<strong>Endereço:</strong> <?php echo $this->dados->rua_nome;echo "&nbsp;&nbsp;&nbsp;"; echo $this->dados->rua_numero?>
+</div>
+
+<div class="f">
+	<strong>RG:</strong> <?php echo $this->dados->usu_rg;?><br />
+	<strong>CPF:</strong> <?php echo $this->dados->usu_cpf;?><br />
+	<strong>Idade:</strong> <?php echo $this->idade($this->dados->usu_datanasc);?><br /><br />
+	<strong>Bairro:</strong> <?php echo $this->dados->rua_bairro;?>
+</div>
+<div class="clear"></div>
+
+<div class="f" style="width: 400px">	
+	<strong>Especialidade:</strong> <?php echo $this->dados->esp_nome;?><br /><br />
+	<strong>Médico:</strong> <?php echo $this->dados->med_destino;?><br /><br />
+</div>
+
+<div class="f">
+	<strong>Procedimento:</strong> <?php echo $this->dados->proc_nome;?><br /><br />
+	<strong>Unidade:</strong> <?php echo $this->dados->uni_desc;?><br /><br />
+</div>
+<div class="clear"></div>
+
+<div class="f" style="width: 255px;font-size:15px;">
+	<strong>Data:</strong> <?php echo $this->data($this->dados->agee_data, 'dd/MM/YYYY', FALSE);?>
+</div>
+
+<div class="f" style="font-size:15px;">
+	<strong>Hora:</strong> <?php echo $this->dados->agee_hora;?>
+</div>
+<div class="clear"></div>
+
+<br />
+<div style="border-top: 1px solid;"></div>
+<br />
+<div>
+	<strong>Observações:</strong><?php echo $this->dados->agee_observacao;?>
+</div>
+
+<div style="border-top: 1px solid; width: 150px; margin: 60px auto 0 auto; text-align: center">
+	Assinatura
+</div>

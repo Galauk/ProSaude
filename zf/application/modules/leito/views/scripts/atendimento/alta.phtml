@@ -1,0 +1,46 @@
+<?php
+//echo $this->headScript()->appendFile('/public/js/geral.js');
+//echo $this->headScript()->appendFile('/public/js/prontuario/exame.js');
+//echo $this->headLink()->appendStylesheet('/WebSocialSaude/zf/public/css/geral.css','all');	
+	
+?>
+<div class="abas">
+	<ul class="abas">
+		<li><a href="#tabs-3">Alta</a></li>
+	</ul>
+	<div id='tabs-3'>
+		<form method="post" action="<?=$this->url(array("action" => "salvarAlta"))?>" name="alta">
+			<input type="hidden" name="usu_codigo" value="<?=$this->usu_codigo?>"
+			<div id="radios">
+				<label>Tipos de Alta:</label>
+                                <?$i = 0;?>
+				<? foreach ($this->dados as $item) {?>
+                                        <?$i++;
+                                        if($i==1){
+                                            $checked = "checked=checked";
+                                        }else{
+                                            $checked = "";
+                                        }?>
+                                        
+                                        <?if($item->alt_codigo != 3):?>
+                                            <input type="radio" name="alt_codigo" value="<?=$this->escape($item->alt_codigo)?>" class="radios" <?=$checked;?>/><?=$this->escape($item->alt_descricao);?>    
+                                        <?endif;?>
+				<?}?>
+				<!--<input type="radio" name="alta" value="alt_alta" class="radios" checked="checked"/>Alta                       	 
+				 <input type="radio" name="alta" value="alt_obito" class="radios"/>Obito-->
+			</div>
+			<br>
+			<label>Observação:</label>
+			<div class="textarea">
+				<textarea name="alt_observacao" class="tinymce" style="width: 350px;height:200px;">		
+
+				</textarea>
+			</div>
+			<div class="clear"></div>	
+			<div class="space"></div>	
+			<a href="#" class="ui-button salvar alta2">Salvar</a>
+			<a href="#" class="ui-button limpar">Limpar</a>
+
+		</form>
+	</div>
+</div>

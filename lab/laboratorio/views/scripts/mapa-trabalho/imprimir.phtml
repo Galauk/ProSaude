@@ -1,0 +1,45 @@
+<?//echo "<pre>".print_r($this->itens,1);
+
+foreach($this->itens as $item_categoria):?>
+    <div id="<?=$item_categoria[cte_codigo]?>" class="categoria_div">
+        <div class="cabecalho">
+            Data da Coleta:<b><?=$this->data($item_categoria[col_data_coleta])?></b>
+            <br>
+            Nome do Paciente:<b><?=$item_categoria[usu_nome]?></b>
+            <br>
+            Idade:<b><?=$this->idade($item_categoria[usu_datanasc])?></b>
+            <br>
+            Sexo:<b><?=$item_categoria[usu_sexo]?></b>
+            <br>
+            Med.:<b><?=$item_categoria[med_nome]?></b>
+            <br>
+            Categoria:<b><?=$item_categoria[cte_cargo]?></b>
+            <br>
+            Cod.Controle:&nbsp;&nbsp;<b><?=$item_categoria[agei_codigo]?></b>
+        </div>
+        <br/>
+        <?$proc = "";?>
+        <?foreach($item_categoria[itens] as $item_cat):?>
+            <div style="font-family: Courier" class="procedimento" class="procs" data-col="<?=$this->data($item_categoria[col_data_coleta])?>" data-pac="<?=$item_categoria[usu_nome]?>" data-sexo="<?=$item_categoria[usu_sexo]?>" data-med="<?=$item_categoria[med_nome]?>" data-cargo="<?=$item_categoria[cte_cargo]?>" data-nasc="<?$this->idade($item_categoria[usu_datanasc])?>">
+                <b>&nbsp;&nbsp;&nbsp;<?=$item_cat[proc_nome];?></b>
+                <br>
+                <br>
+                <?foreach($item_cat[itens_analise] as $item_nome):?>
+                    <div style="height: 22px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$item_nome[ite_itemdoexame];?>
+
+                    <? $comprimento=strlen($item_nome[ite_itemdoexame]);
+                        for ($i=$comprimento; $i < 30 ; $i++) {
+                            echo ".";
+                        }
+                    ?>
+                    :______________________________</div>
+                <?endforeach;?>
+            </div>
+        <?endforeach;?>
+        <br/><br/>
+    </div>
+    <br/><br/>
+                    <div class="pagebreak"> </div>
+<?endforeach;?>
+
+<!-- FAZER UM ARRAY DE ITENS DE EXAME NO CONTROLLER -->

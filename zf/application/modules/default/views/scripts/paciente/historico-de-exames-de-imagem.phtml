@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'/>
+<script>
+    $(function(){
+       $("#img_01").elevateZoom({gallery:'gal1',zoomType: "inner",galleryActiveClass: 'active',cursor: "crosshair"});
+
+        //pass the images to Fancybox
+        $("#img_01").bind("click", function(e) {  
+          var ez =   $('#img_01').data('elevateZoom');	
+                $.fancybox(ez.getGalleryList());
+          return false;
+        });
+});
+</script>
+</head>
+<body>
+    <img id="img_01" src="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/small/image1.png"?>" data-zoom-image="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/image1.jpg"?>"/>
+    
+    <div id="gal1">
+ 
+    <a href="#" data-image="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/small/image2.png"?>" data-zoom-image="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/image2.jpg"?>">
+      <img id="img_01" src="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/thumbnail/image2.jpg"?>" />a
+    </a>
+
+
+</div>
+</body>
+</html>

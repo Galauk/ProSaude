@@ -1,0 +1,77 @@
+<?php $this->errorMsg(); ?>
+<?php $this->dialog();
+//echo"<pre>".print_r($this->dados,1); 
+?>
+<form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar")); ?>">
+    <input type="hidden" name="via_codigo" id="via_codigo"   value="<?= $this->dados->via_codigo?>" />
+    <label>Data Viagem:</label>
+    <?=(!$this->dados->via_data ? "" : $this->data($this->dados->via_data,Zend_Date::DATE_MEDIUM));?><br />
+
+    <label>Veículo:</label>    
+    <?=$this->dados->vei_descricao?><br />
+    
+  
+    <label>Paciente:</label>
+    <input type="text" name="usu_nome" id="usu_nome" value="" /><br />
+    <input type="hidden" name="usu_codigo" id="usu_codigo" value="">
+      
+    <label>Tipo da Pessoa</label>
+    <input type="radio" name="viausu_tipo" class="viausu_tipo" value="P" checked="checked"> Paciente
+    <input type="radio" name="viausu_tipo" class="viausu_tipo" value="A"> Acompanhante<br />
+    
+    <label>Despesas<small>(R$)</small></label>
+    <input type="text" name="viausu_despesas" id="viausu_despesas" class="float" rel="9,2" value="" style="width:50px;"/><br />
+    
+    <label>Cidade Origem:</label>
+    <input type="text" name="busca1" id="busca1" value="" /><br />
+    <input type="hidden" name="cid_codigo" id="cid_codigo" value="">
+    
+    <label>Cidade Destino:</label>
+    <input type="text" name="busca2" id="busca2" value="" /><br />
+    <input type="hidden" name="cid_codigo_2" id="cid_codigo_2" value="">  
+    
+    <label>KM:</label>
+    <input type="text" name="viausu_km" id="viausu_km" value=""  style="width:50px;"/><br />
+    
+    <label>Procedimentos:</label>         
+    <select name="procedimentos" id="procedimentos" style="width: 300px">     
+        <?foreach ($this->procedimento as $proc){?>
+        <option  value="<?=$proc->proc_codigo?>"><?=$proc->proc_nome?></option>         
+        <?}?>           
+    </select><input type="button" value="seleciona" class="selec">
+    
+    <br />
+        
+    <div class="f">
+		<label>Selecionados:</label>
+	</div>
+	<div class="f2" style="margin-left: 5px;">
+		<select  name="procs_nosme[]"  id="proc_snome" style="width: 350px; height: 120px" multiple="multiple"></select>
+	</div>
+	
+    <div class="clear space"></div>
+    
+    
+    
+    <a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>	
+    <a href="<?=$this->url(array("action"=>"index", "module"=>"transporte","controller" => "viagem"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+
+</form>
+<div class="space"></div>
+
+
+ <!-- <label>Motorista:</label>	
+    <?=$this->dados->usr_nome?> <br />
+    
+    <label>Local de Embarque:</label>
+    <?if($this->dados->via_local){
+        echo $this->dados->via_local;
+    }
+    ?>
+    <br />
+    <label>Hora de Embarque:</label>
+    <?if($this->dados->via_hora){
+        echo $this->dados->via_hora;
+    }
+    ?>
+    <br />--!>

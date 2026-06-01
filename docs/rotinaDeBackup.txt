@@ -1,0 +1,10 @@
+1º Instalar Java
+2º Configurar variavies de ambiente sendo uma nova variavel "JAVA_HOME", com a variavel de ambiente "C:/ONDE/O/JAVA/FOI/INSTALADO/jre6"
+3º Na variavel de ambiente Path, colocar a JAVA_HOME ";%JAVA_HOME%\bin"
+3.1º Testar Java no CMD
+4º Baixar a pasta Resource do demo.saude, criar uma pasta chamada backup em qualquer lugar, extrair o resource
+5º Criar Variavel de Ambiente ELOTECH_HOME e no valor colocar o caminho de onde se encontra a pasta criada no passo 4º
+6º Configurar o arquivo elotech.backup.propriets que estava na pasta reload --  nesse arquivo vai informações de qual database, senha, usr, destino etc.
+7º Configurar o backup.bat, trocando o caminho da pasta BIN do java.exe e trocando o caminho que está apontando o elotech.backup.propriet
+8º Configurar O agendador de tarefas para executar o arquivo BAT
+Criar uma pasta chamada backup em um local do HD com bastante espaço

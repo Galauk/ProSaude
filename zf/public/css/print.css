@@ -1,0 +1,190 @@
+@CHARSET "ISO-8859-1";
+
+body{
+  margin: 0;
+  padding: 0;
+  font-family: Verdana;
+  background-color: #FFF;
+}
+
+#page{
+  width: 90% !important; 
+  margin: 0 auto;
+  padding: 10px;
+}
+
+#header{
+  height: 65px;
+}
+
+#header_logo{
+  float: left;
+  width: 60px;
+  height: 75px;
+  overflow: hidden;
+}
+
+#header_logo img{
+  width: 60px;
+}
+
+#header_dados{
+  width: 90%;
+  margin: 10px 0 0 0;
+}
+
+#sec_nome{
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#pref_nome{
+  text-align: center;
+  font-size: 14px;
+}
+
+#header_barcode{
+  float: left;
+  margin: 10px 0 0 0;
+}
+
+#dados_pac{
+  background-color: #EFEFEF;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  /*margin: 0px 0px 0px 0;
+  padding: 15px 10px;*/
+  font-size: 10px;
+  height: auto;
+}
+
+#pac_nome{
+  font-size:15px;
+  font-weight: bold; 
+}
+
+.dados_gerais{
+  font-size:12px;
+}
+
+#receita{
+	min-height: 250px;	
+}
+
+#receita p{
+  margin: 0 0 30px 10px;
+  font-size: 14px;
+/*  text-align: justify; */
+}
+
+#receita label{
+  font-size: 12px;
+  width: 120px;
+  display: inline-block;
+  text-align: right;
+  margin: 2px 5px 2px 0;
+}
+
+#receita span{
+  font-size: 10px;
+  font-weight: bold;
+
+}
+
+#rec_titulo{
+  background-color: #EFEFEF;
+  padding: 2px 10px;
+  margin: 0 0 10px 0;
+  border-bottom: 1px solid #999;
+}
+
+h2.titulo{
+  padding: 3px 5px;
+  margin: 0 0 5px 0;
+  font-size: 12px;
+  background-color: #EFEFEF;
+  border-bottom: 1px solid #999;
+  font-weight: none; 
+}
+
+.medTitulo{
+  float: left;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 0 0 0 5px;
+}
+
+.medQtd{
+  float: right;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 0 15px 0 0;
+} 
+
+.sublinhas{
+    width: 100%;
+    font-size: 10px;
+    margin-left: 7px;
+}
+
+.medUso{
+  font-size: 8px;
+  margin: 0 0 0px 0;
+  padding: 0 0 0 15px;
+} 
+
+#medico{
+  border-top: 1px solid #000;
+  width: 250px;
+  margin: 50px auto 0 auto;
+  text-align: center;
+}
+
+#medico h2{
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+#medico h3{
+  font-size: 10px;
+  margin: 0;
+  padding: 0;
+  font-weight: none; 
+}
+
+#cid{
+  float: left;
+  padding: 5px;
+  background-color: #EFEFEF;
+  border: 1px solid;
+  font-size: 10px;
+  width: 162px;
+}
+
+#cid p{ text-align: center; }
+#cid div{
+  font-weight: bold;
+  font-size: 9px; 
+}
+
+
+
+
+#footer{
+  background-color: #EFEFEF;
+  border-top: 1px solid #000;
+  text-align: center; 
+  font-size: 10px;
+  margin: 20px 0 0 0;
+  padding: 7px 0;
+}
+
+.left{ float: left; }
+.right{ float: right; }
+.clear{ clear: both }
+
+#pac_end{
+    height: auto;
+}

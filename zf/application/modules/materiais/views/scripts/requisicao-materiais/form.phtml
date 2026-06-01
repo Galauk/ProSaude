@@ -1,0 +1,133 @@
+<body>
+<div class="menu_small" id="entrada" data-tipo="E" data-acao="entrada/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-add-icon-small.png");?>" alt="Entrada" title="Entrada" />
+</div>
+<div class="menu_small" id="saida" data-tipo="S" data-acao="saida/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-delete-icon-small.png");?>" alt="Saída" title="Saída" />
+</div>
+<div class="menu_small" id="transferencia" data-tipo="T" data-acao="transferencia/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-go-icon-small.png");?>" alt="Transferência" title="Transferência" />
+</div>
+<div class="menu_small" id="controle-movimentos" data-tipo="C" data-acao="controle-movimentos/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/counter-count-up-icon-small.png");?>" alt="Controle Movimentos" title="Controle Movimentos" />
+</div>
+<div class="menu_small" data-tipo="R" data-acao="requisicao-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/requisicao_small.png");?>" alt="Requisiçao Materiais" title="Requisicao Materiais" />
+</div>
+<div class="menu_small" data-tipo="EV" data-acao="envio-de-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/envio_small.png");?>" alt="Envio de Materiais" title="Envio de Materiais" />
+</div>
+<div class="menu_small" data-tipo="M" data-acao="movimentacao/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/Menu-icon.png");?>" alt="Movimentações" title="Movimentações" />
+</div>
+
+<div class="clear"></div><br/><br/>
+
+<div id="area_entrada" style="height: 400px;">
+    <div class="form_movimento">
+        <form id="form">
+            <input type="hidden" name="rem_status" id="rem_status" value="S">
+            <label>Setor Requisitante:</label>
+            <?=$this->setor_origem?><br/>
+            <input type="hidden" id="set_codigo_req_hist" value="">
+            <input type="hidden" id="set_nome_req_hist" value="">
+            <input type="hidden" id="usr_nome" value="<?=$this->usr_nome?>">
+            <?if($this->itens[rem_codigo]): // o select tag eh muito complicado pra passar parametros?>
+                <script>$("#set_codigo_req").prop('disabled', 'disabled');</script>
+            <?endif;?>
+            <label>Setor Solicitado:</label>
+            <?=$this->setores?><br/>
+            <?if($this->itens[rem_codigo]): // o select tag eh muito complicado pra passar parametros?>
+                <script>$("#set_codigo_sol").prop('disabled', 'disabled');</script>
+            <?endif;?>
+            <label style="">Observações:</label>
+            <div class="textarea">
+                <textarea name="rem_observacao" id="rem_observacao" class="tinymce"  style="width: 300px;height: 100px;">
+
+                </textarea>
+            </div>
+            <br/>
+            <?if(!$this->itens[rem_codigo]): ?>
+                <a href="#" class="ui-button salvar-icon salvar-requisicao" style="margin-left:80px" onclick="validaCadastro();">Salvar</a>
+                <?$display = "style=display:none;"?>
+            <? endif;?>
+
+        </form>
+    </div>
+     <div class="form-produtos" <?=$display?>>
+         <?if($this->itens->rem_status != "S" && $this->itens->rem_status != ""):?>
+            <?$readonly="readonly"?>
+         <?endif;?>
+        <form class="itens_entrada" style="margin:10px">
+            <input type="hidden" name="rem_codigo" id="rem_codigo" value="<?=$this->itens[rem_codigo]?>">
+            <input type="hidden" name="remi_codigo" id="remi_codigo" value="">
+            <input type="hidden" id="produto_vinculo_setor" name="produto_vinculo_setor" value="">
+            <input type="hidden" id="data_atual" name="data_atual" value="<?=date("Ymd")?>"><br/>
+            <label>Produto:</label>
+            <input type="hidden" name="pro_codigo" id="pro_codigo" value="">
+            <input type="hidden" name="remi_status" id="remi_status" value="S"><!-- STATUS DE PRODUTO SOLICITADO-->
+            <input type="text" name="pro_nome" class="upper" id="pro_nome" value="" <?=$readonly?> onkeypress="buscaProdutos()">
+            <div class="ui-state-error erro" style="display:none">
+                Este produto não possui vinculo com o setor de entrada. Para incluí-lo clique em (Vincular Setor)
+            </div>
+
+            <label>Quantidade:</label>
+            <input type="text" name="remi_quantidade" id="remi_quantidade" maxlength="20" <?=$readonly?> onkeypress="return SomenteNumero(event)" value="">
+            
+            <div id="botao-add" >
+                <a href="#" class="ui-button add salvar-itens-entrada" style="margin-left:55px" onclick="addItens();">Adicionar</a>
+            </div>
+            <div id="botao-vinculo" style="display:none" >
+                <a href="#" class="ui-button atualizar salvar-itens-entrada" style="margin-left:27px" onclick="vincularProdutoSetor();">Vincular Setor</a>
+            </div>
+        </form>
+    </div>
+    <div style="clear:both;"></div><br/>
+    <div id="itens_requisicao" <?=$display?>>
+        <div id="itens_entrada"> <!--style="display: none"-->
+
+            <div class="itens-entrada-dir" <?=$display?>>
+                <table width="100%" id="table-itens" border="0">
+                    <tr>
+                        <th width="360">
+                            Produto
+                        </th>
+                        <th width="30">
+                            Qtde.
+                        </th>
+                        <th width="210">
+                            Solicitante
+                        </th>
+                        <th width="40">
+                            Situação
+                        </th>
+                        <th width="30">
+                        </th>
+                    </tr>
+                    <?if(count($this->itens_requisicao)):?>
+                        <input type="hidden" id="finalizar_all" value="1">
+                        <?foreach($this->itens_requisicao as $itens_requisicao):?>
+                            <tr class="<?=$itens_requisicao[pro_codigo]?> item_entrada" data-nome="<?=$itens_requisicao[pro_nome]?>"  data-edit="1" data-qtde="<?=$itens_requisicao[remi_quantidade]?>"  data-pro="<?=$itens_requisicao[pro_codigo]?>" data-remi="<?=$itens_requisicao[remi_codigo]?>" data-status="<?=$itens_requisicao[remi_status]?>">
+                                <td><?=$itens_requisicao[pro_nome]?></td>
+                                <td align=center> <?=round($itens_requisicao[remi_quantidade])?></td>
+                                <td align=center> <?=$itens_requisicao[usr_nome]?></td>
+                                <td align=center> <?=$itens_requisicao[remi_situacao]?></td>
+                                <td align=center width="80">
+                                    <img src="<?=$this->baseUrl("/public/images/icons/editar.png");?>" alt="Editar" title="Editar" onclick="editar('<?=$itens_requisicao[pro_codigo]?>','<?=$itens_requisicao[remi_codigo]?>')"/>
+                                    <img src="<?=$this->baseUrl("/public/images/icons/excluir2.png");?>" alt="Excluir" title="Excluir" onclick="excluirItem('<?=$itens_requisicao[pro_codigo]?>','<?=$itens_requisicao[remi_codigo]?>')"/>
+                                </td>
+                            </tr>
+
+                        <?endforeach;?>
+                    <?endif;?>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="div_finalizar" <?=$display?>>
+        <?if($this->itens->rem_status != "F"):?>
+            <a href="#" class="ui-button finalizar" style="margin-top:5px" onclick="finalizaMovimentacao();">Finalizar</a>
+        <?endif;?>
+    </div>
+</div>
+</body>

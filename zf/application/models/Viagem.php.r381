@@ -1,0 +1,348 @@
+<?php
+
+Zend_Loader::loadClass("Elotech_Db_Table_Abstract");
+class Application_Model_Viagem extends Elotech_Db_Table_Abstract {
+    
+    protected $_name = 'viagem';
+    protected $_primary = 'via_codigo';
+    protected $_sequence = 'viagem_via_codigo_seq';
+
+    /**
+     * Persiste um item (insert ou update)
+     * @param array $data array de chave=>valor, cada chave corresponde a um atributo
+     * @return int primary key do item (nextVal para insert) 
+     */
+    public function salvar(array $data) {
+        
+        $this->valoresPadrao($data);
+        $this->notEmpty(array("via_data_ida"), $data);
+        $this->emptyToUnset($data);
+	    //throw new Zend_Validate_Exception( "Este método ainda não possui validações", 1000);
+        return parent::salvar($data);
+    }
+
+    public function salvarViagem($dados){
+        $arrKeys = array ();
+        $arrValues = array();
+        
+        foreach($dados as $key => $val){
+            if($key != "usr_nome"){
+                $arrKeys[] = $key;
+                $arrValues[] = "'$val'";
+            }
+        }
+        
+        $strK = implode(", ", $arrKeys);
+        $strV = implode(", ", $arrValues);
+
+        $sql = "INSERT INTO viagem ($strK) VALUES ($strV)";
+
+        // die($sql);
+        $this->getDefaultAdapter()->query($sql)->fetch();
+        $var = $this->getDefaultAdapter()->lastInsertId();
+
+        return $var;
+    }
+    
+    /**
+    * Valores padrão do insert/update
+    * @param array $data valores do insert
+    */
+    private function valoresPadrao(&$data) {
+       $tbUsr = new Application_Model_Usuarios();
+       $data['usr_codigo_cadastro'] = $tbUsr->getUsrAtual()->usr_codigo;
+    }
+
+    public function getViagens(){
+        $where = $this->select(FALSE)
+        ->setIntegrityCheck(FALSE)
+        ->from(array("via"=>"viagem"),array("via_data_ida", "via_data_retorno", "via_codigo","via_local","via_hora"))
+        ->join(array("usr"=>"usuarios"),"usr.usr_codigo=via.usr_codigo" ,"usr_nome")
+        ->join(array("vei"=>"veiculo"), "vei.vei_codigo=via.vei_codigo","vei_descricao")
+        ->where("via.via_data_ida >= CURRENT_DATE")
+        ->order("via.via_data_ida ASC");
+        
+        // die($where);
+        return $this->fetchAll($where);               
+    }
+   
+    public function getViagem($via_codigo = FALSE){
+<<<<<<< .mine        $where = $this->select(FALSE)
+        ->setIntegrityCheck(FALSE)
+        ->from(array("via"=>"viagem"),array("via_data_ida", "via_data_retorno", "via_codigo","via_local","via_hora","via_motivo", "via_hora_ida", "via_hora_retorno"))
+        ->join(array("usr"=>"usuarios"),"usr.usr_codigo=via.usr_codigo" ,array("usr_nome","usr_codigo"))
+        ->join(array("vei"=>"veiculo"), "vei.vei_codigo=via.vei_codigo",array("vei_descricao","vei_codigo","vei_tipo_veiculo","vei_placa", "vei_capacidade"));
+
+            
+        if($via_codigo){
+            $where->where("via_codigo=?",$via_codigo);
+        }
+=======      $where = $this->select(FALSE)
+              ->setIntegrityCheck(FALSE)
+              ->from(array("via"=>"viagem"),array("via_data","via_codigo","via_local","via_hora","via_motivo"))
+              ->join(array("usr"=>"usuarios"),"usr.usr_codigo=via.usr_codigo" ,array("usr_nome","usr_codigo"))
+              ->join(array("vei"=>"veiculo"), "vei.vei_codigo=via.vei_codigo",array("vei_descricao","vei_codigo","vei_tipo_veiculo","vei_placa","vei_capacidade"));
+      if($via_codigo){
+          $where->where("via_codigo=?",$via_codigo);
+      }
+>>>>>>> .theirs        return $this->fetchRow($where);
+    }
+
+    public function getViagemCod($cod){
+        $where = $this->select(FALSE)
+        ->setIntegrityCheck(FALSE)
+        ->from(array("via"=>"viagem"));
+        
+            
+        if($cod){
+            $where->where("via_codigo=?",$cod);
+        }
+        //  die($where);
+        return $this->fetchRow($where);
+    }
+    
+    public function getViagemData($dataIda = FALSE, $veiculo){
+        $where = $this->select(FALSE)
+        ->setIntegrityCheck(FALSE)
+        ->from(array("via"=>"viagem"),"via_codigo");
+            
+        if($dataIda){
+            $where->where("via_data_ida = ?", $dataIda);
+        }
+        if($veiculo){
+            $where->where("vei_codigo = $veiculo");
+        }
+        // die($where);
+        return $this->fetchRow($where);
+    }
+    
+    public function validaViagem($dados = FALSE){
+        if(!$dados){
+            return false;
+        }
+
+        $where = $this->select(FALSE)
+        ->setIntegrityCheck(FALSE)
+        
+        ->from(array("via"=>"viagem"),"count(*)");
+        
+        foreach($dados as $key => $value){
+            if($value != ""){
+                
+                $where->where("$key = ?", $value);
+            }
+        }
+
+        // die($where);
+
+        $result = $this->fetchRow($where);
+
+        // print_r($result->toArray());
+        // die;
+
+        return $result;
+    } 
+
+    
+
+    public function validaViagemPeriodo($dados){
+        // print_r($dados);die;
+        if(!dados){
+            return false;
+        }
+
+        $where = $this->select(FALSE)
+        ->setIntegrityCheck(FALSE)
+        ->from(array("via"=>"viagem"));
+        
+        /*
+        if(!$dados['via_data_retorno']){
+            $where->where("via_data_ida = '{$dados['via_data_ida']}' OR via_data_retorno = '{$dados['via_data_ida']}'");
+        } else {
+            $where->where("via_data_retorno = '{$dados['via_data_ida']}' AND via_data_retorno = '{$dados['via_data_retorno']}'");
+        }
+        */    
+
+        $where->where("vei_codigo = {$dados['vei_codigo']}");
+        $where->where("usr_codigo = {$dados['usr_codigo']}");
+        $where->where(" via_data_ida >= CURRENT_DATE");
+        $where->where(" via_data_retorno >= CURRENT_DATE");
+        $where->where("('{$dados['via_data_ida']}' between via_data_ida and via_data_retorno) OR ('{$dados['via_data_retorno']}' between via_data_ida and via_data_retorno)");
+        $where->where("('{$dados['via_hora_ida']}' between via_hora_ida and via_hora_retorno) OR ('{$dados['via_hora_retorno']}' between via_hora_ida and via_hora_retorno)");
+        
+        // die($where);
+        $result = $this->fetchAll($where);
+
+        // echo "<pre>";
+        // print_r($result->count()); die;
+        
+        if($result->count() > 0){
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+
+        // print_r($result);
+        // die;
+
+    } 
+
+    /**
+     * Exclui uma Viagem	
+     * @param int $vei_codigo Código da Viagem
+     * @return Zend_Db_Table_Row_Abstract 
+     */
+    public function excluir($via_codigo=FALSE) {
+        $item = $this->fetchRow("via_codigo=$via_codigo");
+        if ($item) {
+            $item->delete();
+        }
+    }
+
+    /**
+     * Busca Veiculo	
+     * @param int $dados Dados poder ser o nome do setor ou a descricai da Veiculo
+     * @return Zend_Db_Table_Row_Abstract 
+     */
+    public function pesquisar($dados=FALSE, $limit=FALSE) {
+        
+        $where = $this->select(FALSE)
+        ->setIntegrityCheck(FALSE)
+        ->from(array("vei"=>"veiculo"),array("vei_codigo","vei_descricao","vei_placa","vei_capacidade"))
+        ->join(array("via"=>"viagem"),"vei.vei_codigo = via.vei_codigo",array("via_codigo","via_data_ida","via_local","via_hora"))
+        ->join(array("usr"=>"usuarios"), "via.usr_codigo=usr.usr_codigo","usr_nome");
+        
+        if (is_string($dados)){
+            $array = explode('/', $dados);
+            if(count($array) == 3){
+                $where->where("via_data_ida = '$dados'");
+            } else {
+                $where->where("vei_descricao ilike '%$dados%' or vei_placa ilike '%$dados%' or usr_nome ilike '%$dados%'");
+            }
+        }
+        
+        if ($limit) {
+            $where->limit(15);
+        }
+        //die($where);
+        return $this->fetchAll($where);
+    }
+    
+    /**
+     * Busca quantidade de viagem por periodo e carro	
+     * @param int $dados Dados poder ser o nome do setor ou a descricai da Veiculo
+     * @return Zend_Db_Table_Row_Abstract 
+     */
+    public function getViagemPorVeiculo($vei_codigo = FALSE,$data_ini = FALSE, $data_fim = FALSE) {
+        $where = $this->select(FALSE)
+            ->setIntegrityCheck(FALSE)
+            ->from(array("via"=>"viagem"),array("count(via.via_codigo) as total"))
+            ->join(array("vei"=>"veiculo"),"vei.vei_codigo = via.vei_codigo" ,"vei_descricao")
+            ->group("vei_descricao")
+            ->order("vei_descricao");
+
+        if($vei_codigo){
+            $where->where("vei.vei_codigo=?",$vei_codigo);
+        }
+
+        if($data_ini) {
+            $where->where("via_data>=?",$data_ini);
+        }
+
+        if($data_fim) {
+            $where->where("via_data<=?",$data_fim);
+        }
+        //die($where);
+        return $this->fetchAll($where);
+    }
+
+    /**
+     * Busca quantidade de viagem por periodo e motorista	
+     * @param int $usr_codig motorista
+     * @param date $data_ini data inicial
+     * @param date $data_fim data final 
+     * @return Zend_Db_Table_Row_Abstract 
+     */
+    public function getViagemPorMotorista($usr_codigo = FALSE,$data_ini = FALSE, $data_fim = FALSE) {
+        $where = $this->select(FALSE)
+        ->distinct()
+        ->setIntegrityCheck(FALSE)
+        ->from(array("via"=>"viagem"),array("count(via.via_codigo) as total"))
+        ->join(array("usr"=>"usuarios"),"usr.usr_codigo=via.usr_codigo",array("usr.usr_codigo","usr.usr_nome"))
+        ->group(array("usr.usr_codigo","usr_nome"))
+        ->order("usr_nome");
+
+        if ($usr_codigo){
+            $where->where("via.usr_codigo=?",$usr_codigo);
+        }
+
+        if ($data_ini) {
+            $where->where("via_data>=?",$data_ini);
+        }
+
+        if ($data_fim) {
+            $where->where("via_data<=?",$data_fim);
+        }
+            
+        // die($where);
+        return $this->fetchAll($where);
+    }
+	
+	public function getViagemPorEncaminhamento($data_inicial = FALSE, $data_final = FALSE, $vei_codigo = FALSE){
+		// Montagem da consulta sql
+		$sql = $this->select(FALSE)
+            ->setIntegrityCheck(FALSE)
+            ->from(array("via"=>"viagem"), array("via.via_data","via.via_hora","via.via_motivo","via.via_local"))
+            ->join(array("vei"=>"veiculo"),"via.vei_codigo = vei.vei_codigo",array("vei.vei_descricao"))
+            ->join(array("usua"=>"usuarios"),"via.usr_codigo = usua.usr_codigo",array("usua.usr_nome"))
+            ->join(array("viau"=>"viagem_usuario"),"via.via_codigo = viau.via_codigo",array("viau.viausu_codigo"))
+            ->join(array("usu"=>"usuario"),"viau.usu_codigo = usu.usu_codigo",array("usu.usu_nome","usu.usu_rg"))
+            ->join(array("cid"=>"cidade"),"viau.cid_codigo_origem = cid.cid_codigo",array("cid.cid_nome as cid_origem"))
+            ->join(array("cida"=>"cidade"),"viau.cid_codigo_destino = cida.cid_codigo",array("cida.cid_nome as cida_destino"));
+        
+        // Validações
+		if($vei_codigo){ 
+			$sql->where("vei.vei_codigo=?",$vei_codigo);
+		}
+		
+		if($data_inicial){
+			$sql->where("via.via_data>=?",$data_inicial);
+		}
+		
+		if($data_final){
+			$sql->where("via.via_data<=?",$data_final);
+        }
+        
+		// Listando por ordem de data
+		$sql->order("via.via_data");
+		
+		//die($sql);
+		
+		// Retornando os dados da consulta
+		return $this->fetchAll($sql);
+	}
+	
+	public function getAcompanhantesViagem($viausu_codigo){
+		$sql = $this->select(FALSE)
+        ->setIntegrityCheck(FALSE)
+        ->from(array("usu"=>"usuario"),array("usu.usu_nome","usu.usu_rg"))
+        ->join(array("usua"=>"usuario_acompanhante"),"usu.usu_codigo = usua.usu_codigo","")
+        ->where("usua.viausu_codigo=?",$viausu_codigo);
+
+		return $this->fetchAll($sql);
+	}
+
+    public function getPassageirosViagem($via_codigo){
+        $sql = $this->select(FALSE)
+        ->setIntegrityCheck(FALSE)
+        ->from(array("via"=>"viagem"), array("via.via_codigo"))
+        ->join(array("viausu"=>"viagem_usuario"), "via.via_codigo=viausu.via_codigo", array("viausu.viausu_codigo"))
+        ->joinLeft(array("usua"=>"usuario_acompanhante"), "usua.viausu_codigo=viausu.viausu_codigo", array("count(usua.acom_codigo) as total"))
+        ->join(array("usu"=>"usuario"),"usu.usu_codigo=viausu.usu_codigo", array("usu.usu_nome","usu.usu_codigo"))
+        ->where("via.via_codigo=?",$via_codigo)
+        ->group(array("via.via_codigo", "viausu.viausu_codigo", "usu.usu_nome", "usu.usu_codigo"));
+        // die($sql);
+
+        return $this->fetchAll($sql);
+    }
+}

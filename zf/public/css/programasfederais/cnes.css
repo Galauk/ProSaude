@@ -1,0 +1,19 @@
+table {
+    width: 100%;
+    border: 2px solid #cef;
+    text-align: left; 
+}
+th {
+    font-weight: bold;
+    background-color: #acf;
+    border-bottom: 1px solid #cef; 
+}
+td,th {
+    margin-left: 4px;
+    padding: 0px 0px; 
+}
+
+.odd {
+    background-color: #def; }
+.odd td {
+    border-bottom: 1px solid #dedede; }

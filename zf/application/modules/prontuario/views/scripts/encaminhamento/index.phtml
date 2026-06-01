@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/atendimento/atendimento-simplificado/form-procedimento.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<?
+if($_GET['alert']){
+    if($_GET['alert'] == "error"){ ?>
+    <script>
+        Swal.fire({
+            title: 'Erro!',
+            text: 'É necessário escrever na observação a queixa principal e o motivo de urgência!',
+            type: 'error',
+            confirmButtonText: 'Ok'
+        })
+    </script>
+    <?}}?>
+
+
+<div class="abas">
+    <ul class="tabs">
+        <li><a href="#tabs2-1">Encaminhamento Interno</a></li>
+         <?if(!$this->io_codigo){?><li><a href="#tabs2-2">Solicitação De Encaminhamento</a></li><?}?>
+    </ul>
+    
+    <div id="tabs2-1">
+        <form method="post" action="<?= $this->url(array("action" => "salvar")); ?>">
+            <?php $this->errorMsg(); ?>
+            <?php $this->dialog(); ?>
+            <input type="hidden" id="enc_codigo" name="enc_codigo" value="<?= $this->dados->enc_codigo; ?>" />
+<? 
+if(empty($this->ate_codigo)) {
+        echo '<input type="hidden" id="ate_codigo" name="ate_codigo" value="'.$_REQUEST['ate_codigo'].'" />';
+    } else {
+        echo '<input type="hidden" id="ate_codigo" name="ate_codigo" value="'.$this->ate_codigo.'" />';
+    }
+?>
+            <input type="hidden" id="obs" name="obs" value="<?=$this->obs;?>" />
+            <input type="hidden" id="io_codigo" name="io_codigo" value="<?=$this->io_codigo;?>" />
+            <?php $this->errorMsg(); ?>
+            <label>Especialidade:</label>
+            <?=$this->especialidade;?><br />
+            <label>Internação Hospitalar:</label>
+            <?= $this->arrayToRadio("enc_internacao", array('T' => "Sim", 'F' => "Não"), is_null($this->dados->enc_internacao) ? 'F' : $this->dados->enc_internacao); ?><br />
+            <label>Urgência:</label>
+            <?= $this->arrayToRadio("enc_urgencia", array('T' => "Sim", 'F' => "Não"), is_null($this->dados->enc_urgencia) ? 'F' : $this->dados->enc_urgencia); ?><br />
+            <label>Observações:</label>
+            <div class="textarea">
+                <textarea name="enc_descricao" class="tinymce" required ><?= $this->escape($this->dados->enc_descricao); ?></textarea>
+            </div><br />
+            <div class="space"></div>
+            <a href="#" class="ui-button salvar">Salvar</a>
+            <a href="#" class="ui-button limpar">Limpar</a>
+        </form>
+        <?php 
+        if($this->obs == "S"){
+            echo $this->action("itens-internacao","encaminhamento","prontuario",array("obs" => "S","io_codigo" => $this->io_codigo,"imprimi"=>"S","ate_codigo"=>$this->ate_codigo));
+        }else{
+            echo $this->action("itens","encaminhamento","prontuario"); 	
+        }
+        ?>
+    </div>
+    
+    <?if(!$this->io_codigo){?>
+        <div id="tabs2-2">
+            <?=$this->action("encaminhamento-externo", "encaminhamento", "prontuario")?>
+        </div>
+    <?}?>
+</div>
+        
+
+

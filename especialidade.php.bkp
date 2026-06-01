@@ -1,0 +1,370 @@
+<?
+//------------------------------------------------------------------>
+// -> Inclusao principal para montagem do sistema
+//------------------------------------------------------------------>
+
+	session_start();
+	include_once $_SESSION[root].$_SESSION[modulo]."authlib.inc.php";
+	verauth($id_login);
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+	cabecario();
+//------------------------------------------------------------------>
+
+
+//------------------------------------------------------------------>
+//-> Secao Vazia, mostrando registros e botoes
+	 reglog($id_login,"Entrando em ESPECIALIDADE");
+//------------------------------------------------------------------>
+
+// if(empty($acao)) {
+ if(empty($acao) OR $acao=='form_espec') {
+
+//
+//-> Botoes
+  echo "<fieldset>
+	    <legend>Opções</legend>
+	       <a href=medico.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a>
+	       ".ChmodBtn($id_login,'adicionar','especialidade.php?acao=form_add')."
+
+			<table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+				<tr>";
+					if(chmodbtn($id_login, "procurar_if", "especialidade.php"))
+					{
+					  echo "<form method=post action=$PHP_SELF>";
+					}
+						echo "<input type=hidden name=acao value=busca>
+						<input type=hidden name=id_login value=$id_login>
+						<td width=30>Buscar:</td>
+						<td width=120><input type=text name=palavra_chave class=box onBlur=\"javascript:this.value=this.value.toUpperCase();\"></td>
+						<td>".ChmodBtn($id_login,'procurar','especialidade.php')."</td>
+					</form>
+				</tr>
+			</table>
+		 
+	   </fieldset>
+	  <br>";
+
+//
+//-> Listando
+  
+  echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>Listando Últimas <b>15</b> Especialidades Cadastradas</legend>
+	     <table width=100% align=center cellspacing=2 cellpadding=4 border=0>
+	      <tr bgcolor=F9f9f9>
+		<td width=10 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Codigo</td>
+		<td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Especialidade</td>
+		<td colspan=2 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>&nbsp;</td>";
+  if(chmodbtn($id_login, "listar_if", "especialidade.php"))
+  {
+	$sql=pg_query("select * from especialidade order by esp_codigo desc limit 15");
+  }
+     while(@$row=pg_fetch_array($sql)) {
+       echo "<tr>
+	       <td width=10 style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>$row[esp_codigo]</td>
+	       <td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>$row[esp_nome]</td>
+	       <td width=60 style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>".ChmodBtn($id_login,'editar','especialidade.php?acao=form_edit&esp_codigo='.$row[esp_codigo])."</td>
+	       <td width=66 style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>".ChmodBtn($id_login,'apagar','especialidade.php?acao=del&esp_codigo='.$row[esp_codigo])."</td>
+	     </tr>";
+     }
+	echo "</tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table>";
+}
+
+
+//------------------------------------------------------------------>
+//-> Mostrando o resultado da busca
+//------------------------------------------------------------------>
+
+ if($acao=="busca") {
+//
+//-> Verificando Busca
+ reglog($id_login,"Buscando em ESPECIALIDADE: $palavra_chave ");
+
+if(strlen($palavra_chave)<="3") {
+        echo "<br><br><br><br><br><br><br><br><br><br><br><br><br>
+                <table height=100 width=50% align=center cellspacing=0 cellpadding=0 border=0 style='border-top:1px solid;border-bottom:1px solid;border-color:909090;'>
+                 <tr bgcolor=f9f9f9>
+                   <td align=center><font color=red size=2><b>ERRO</b></font><br>Busca com menos de <b>3</b> caracteres não permitida</td>
+                 </tr>
+                </table><br>";
+        echo "<SCRIPT LANGUAGE=\"JavaScript\">
+                  setTimeout(\"location='$PHP_SELF?id_login=$id_login'\", 2000);
+              </SCRIPT>";
+ exit;
+}
+
+//
+//-> Subistituindo o + por porcentagem na busca
+   $str = str_replace("+","%",$palavra_chave);
+   $pos = strpos($palavra_chave,"+");
+  if($pos=="0") {
+     $v1=1;
+  } else {
+     $v1=2;
+  }
+//
+//-> Botoes
+  echo "<fieldset>
+	    <legend>Opções</legend>
+	       ".ChmodBtn($id_login,'adicionar','especialidade.php?acao=form_add')."
+
+			<table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+				<tr>";
+					if(chmodbtn($id_login, "procurar_if", "especialidade.php"))
+					{
+					  echo "<form method=post action=$PHP_SELF>";
+					}
+						echo "<input type=hidden name=acao value=busca>
+						<input type=hidden name=id_login value=$id_login>
+						<td width=30>Buscar:</td>
+						<td width=120><input type=text name=palavra_chave class=box onBlur=\"javascript:this.value=this.value.toUpperCase();\"></td>
+						<td>".ChmodBtn($id_login,'procurar','especialidade.php')."</td>
+					</form>
+				</tr>
+			</table>
+		 
+	   </fieldset>
+	  <br>";
+if(chmodbtn($id_login, "listar_if", "especialidade.php"))
+{
+  $sql=pg_query("select * from especialidade where (esp_nome like '%$palavra_chave%')");
+}
+@$num=pg_num_rows($sql);
+  if(@$num=="0") { $resp = "Nenhum Registro encontrado com \"$palavra_chave\""; }
+  if(@$num=="1") { $resp = "Encontrado <b>$num</b> Registro com \"$palavra_chave\""; }
+  if(@$num>"1") { $resp = "Encontrados <b>$num</b> Registros com \"$palavra_chave\""; }
+
+  echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>$resp</legend>
+	     <table width=100% align=center cellspacing=2 cellpadding=4 border=0>
+	      <tr bgcolor=F9f9f9>
+		<td width=10 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Codigo</td>
+		<td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Especialidade</td>
+		<td colspan=2 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>&nbsp;</td>";
+
+     while(@$row=pg_fetch_array($sql)) {
+       echo "<tr>
+	       <td align=center style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>$row[esp_codigo]</td>
+	       <td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>$row[esp_nome]</td>
+	       <td width=60 style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>".ChmodBtn($id_login,'editar','especialidade.php?acao=form_edit&esp_codigo='.$row[esp_codigo])."</td>
+	       <td width=66 style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>".ChmodBtn($id_login,'apagar','especialidade.php?acao=del&esp_codigo='.$row[esp_codigo])."</td>
+	     </tr>";
+     }
+	echo "</tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table>";
+}
+
+//------------------------------------------------------------------>
+//-> Formulario de Adicao de Conteudo
+//------------------------------------------------------------------>
+
+ if($acao=="form_add") {
+	 reglog($id_login,"Formulario de ADICAO ESPECIALIDADE");
+
+
+//
+//-> Abaixo sao os botoes de voltar / cadastro simples / cadastro completo
+
+  echo "<fieldset>
+	    <legend>Opções de Cadastro</legend>
+	       <a href=$PHP_SELF?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a>
+	   </fieldset>
+	  <br>";
+//
+//-> Este if esta apontando quando a acao for vazia ele vai mostrar o cadastro simples
+//   no cadastro completo vc vai ter que passar a variavel acao para completo
+
+ if(($type=="" OR $acao=="simples")) {
+  echo "<form method=post action=$PHP_SELF>
+	<input type=hidden name=acao value=add>
+	<input type=hidden name=id_login value=$id_login>
+	<input type=hidden name=type value=simples>
+	<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>Cadastro de Especialidades</legend>
+	     <table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+	      <tr>
+		<td width=110>Nome da Especialidade:</td>
+		<td><input type=text name=esp_nome class=box size=70></td>
+	      </tr>
+	      <tr>
+		<td width=110>Agenda Antecipado:</td>
+		<td>
+		 <select name=esp_agend_antecipado class=box>
+		  <option value=S>Sim</option>
+		  <option value=N>Nao</option>
+		 </select>
+	      </tr>
+              <tr>
+               <td width=70>Procedimento:</td>
+               <td>
+                   <select name=proc_codigo class=boxr>";
+                   $sql = pg_query("select * from procedimento where proc_ativo = 'A' order by proc_nome");
+                   echo "<option value=''>.........</option>";
+                   while($proc=pg_fetch_array($sql)) {
+                        echo "<option value='$proc[proc_codigo]'> $proc[proc_nome]</option>";
+                   }
+                  echo "</select>
+              </td>
+        </tr>
+	      <tr>
+	       <td>&nbsp;</td>
+	       <td><input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/adicionar_on.jpg></td>
+	      </tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br></form>";
+ }//fechamento do if
+}
+//}
+
+//------------------------------------------------------------------>
+//-> Formulario de Edicao de Conteudo
+//------------------------------------------------------------------>
+
+ if($acao=="form_edit") {
+	 reglog($id_login,"Formulario de EDICAO ESPECIALIDADE");
+
+//
+//-> Formulario de edicao do cadastro SIMPLES
+
+//
+//-> Abaixo sao os botoes de voltar / cadastro simples / cadastro completo
+
+  echo "<fieldset>
+	    <legend>Opções de Cadastro</legend>
+	       <a href=$PHP_SELF?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a>
+	   </fieldset>
+	  <br>";
+
+//
+//-> Pegando as informcoes do banco pra mostrar no formulario
+ $sqlespecialidade =                       "select *  
+                                      from especialidade where esp_codigo='$esp_codigo'";
+ $row=pg_fetch_array(pg_query($sqlespecialidade));
+ if ($row[esp_agend_antecipado] == 'S' ) {
+    $vl1 = 'selected ';
+    $vl2 = '';
+    }
+  else {
+    $vl1 = '';
+    $vl2 = 'selected';
+    }
+
+  echo "<form method=post action=$PHP_SELF>
+	<input type=hidden name=acao value=edit>
+	<input type=hidden name=id_login value=$id_login>
+	<input type=hidden name=esp_codigo value=$esp_codigo>
+	<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>Cadastro de Especialidade</legend>
+	     <table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+	      <tr>
+		<td width=40>Nome da Especialidade:</td>
+		<td width=110><input type=text name=esp_nome class=box size=60 value='$row[esp_nome]'></td>
+	      </tr>
+	      <tr>
+		<td width=40>Agenda Antecipado:</td>
+		<td>
+		 <select name=esp_agend_antecipado class=box>
+		  <option value=S $vl1 >Sim</option>
+		  <option value=N $vl2 >Nao</option>
+		 </select>
+	      </tr>
+        <tr>
+               <td width=70>Procedimento:</td>
+               <td>
+                   <select name=proc_codigo class=boxr>";
+                   $sql = pg_query("select * from procedimento where proc_ativo = 'A' order by proc_nome");
+                   echo "<option value=''>.........</option>";
+                   while($procedimento=pg_fetch_array($sql)) {
+	                    echo ($procedimento[proc_codigo]==$row[proc_codigo] ) ?
+						"<option value='$procedimento[proc_codigo]' selected>$procedimento[proc_nome]</option>":
+						"<option value='$procedimento[proc_codigo]'>$procedimento[proc_nome]</option>";
+                   }
+                  echo "</select>
+              </td>
+        </tr>
+	      <tr>
+	      <tr>
+	       <td>&nbsp;</td>
+	       <td><input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/editar_on.jpg></td>
+	      </tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br></form>";
+}
+
+//------------------------------------------------------------------>
+//-> SQL's
+//------------------------------------------------------------------>
+//
+//-> ADD <---------------------------------------------------------->
+
+ if($acao=="add") {
+	 reglog($id_login,"Adicionando Registro em ESPECIALIDADE");
+
+    $sql = pg_query("insert into especialidade ( " .
+            "esp_nome, " .
+	    "proc_codigo , " .
+            "esp_agend_antecipado " .
+            ") values ( " .
+            "upper('$esp_nome'), " .
+	    ($proc_codigo  ? "'$proc_codigo'"   : "null") . ", " .
+            ($esp_agend_antecipado ? "'$esp_agend_antecipado'" : "null") . "  " .
+            ")");
+
+msg($id_login,$acao,$sql);
+}
+
+//
+//-> EDIT <--------------------------------------------------------->
+
+ if($acao=="edit") {
+	 reglog($id_login,"Editando ESPECIALIDADE $esp_codigo");
+
+  $sql = pg_query("update especialidade set " .
+            "esp_nome=upper('$esp_nome'), " .
+            ($proc_codigo ? "proc_codigo='$proc_codigo'" : "proc_codigo=null") . ", " .
+            ($esp_agend_antecipado ? "esp_agend_antecipado='$esp_agend_antecipado'" : "esp_agend_antecipado=null") . " " .
+            "where esp_codigo='$esp_codigo'");
+#            echo $sql;
+#            exit(0);
+
+msg($id_login,$acao,$sql);
+}
+
+//
+//-> DEL <---------------------------------------------------------->
+
+ if($acao=="del") {
+	 reglog($id_login,"Exluindo Registro de ESPECIALIDADE $esp_codigo");
+
+  $sql = pg_query("delete from especialidade where esp_codigo='$esp_codigo'");
+msg($id_login,$acao,$sql);
+}
+
+?>
+

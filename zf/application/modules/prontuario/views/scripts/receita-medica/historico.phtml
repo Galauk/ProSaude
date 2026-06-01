@@ -1,0 +1,26 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Produto<?=$this->tipo=="externo"?"/Descrição":"";?></th>
+		<th>Quant.</th>
+		<th>Recomendação</th>
+	</tr>
+        <?php foreach($this->itens as $item): ?>
+	<tr>
+		<td class="ui-state-default">
+			<?php if($this->tipo=="externo"){
+				echo $item->irec_produto . " / " . $item->desc_produto;
+			} else {
+				echo $item->pro_nome;
+			}
+			
+			?>
+		</td>
+		<td class="ui-state-default c"><?=$this->escape($item->irec_quantidade);?></td>
+		<td class="ui-state-default escape"><?=str_replace("<p>&nbsp;</p>","",$item->irec_recomendacao);?></td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php else: ?>
+<em>Nenhum produto encontrado.</em>
+<?php endif; ?>

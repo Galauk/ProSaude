@@ -1,0 +1,97 @@
+
+<!doctype html>
+<html>
+<head>
+	<title>News - Sublime Text</title>
+	    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=480, user-scalable=yes">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i|Roboto+Mono:400,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/sublime_v3.css">
+    <script type="text/javascript">
+    var plat = 'windows'
+    if (/Mac OS X/.test(navigator.userAgent))
+        plat = 'osx'
+    else if (/Linux|FreeBSD/.test(navigator.userAgent))
+        plat = 'linux'
+    var arch = /WOW64|Win64|x86_64/.test(navigator.userAgent) ? '64' : '32'
+    document.documentElement.className += ' plat_' + plat + ' arch_' + arch
+    function byid(x)
+    {
+        return document.getElementById(x)
+    }
+    </script>
+	<meta name="robots" content="noindex,follow">
+
+	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/blog/feed">
+	<link rel='prev' href='/blog/index'>
+	<link rel='next' href='/blog/page/3'>
+</head>
+<body>
+
+<main>
+<section>
+
+	<button style="background: transparent; float: right; padding-right: 4em; cursor:pointer;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);  background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+
+
+
+	" onclick="goBack()">Voltar</button>
+
+	<script>
+	function goBack() {
+	    window.history.back();
+	}
+	</script>
+
+<h1><span>Versão <?= $this->xml->versao ?></span></h1>
+<span class="author"><?= $this->desc0 ?></span>
+<aside>
+	<section class="archives">
+	<h3>Arquivos</h3>
+	<ul>
+	<?php foreach($this->dados as $arquivos) { ?>
+	<li><a href="<?=$_SESSION[linkroot].$_SESSION[modulo]?>zf/ferramentas/novidades/index/arquivo/<?= $arquivos ?>" title="<?=$arquivos?>"><?=str_replace("WebSocialSaude.","WebSocialSaude ",str_replace("_", ".", substr($arquivos, 0, -4)))?></a></li>
+	<?php } ?>
+	</ul>
+	</li>
+	</section>
+
+</aside>
+	<article class="post">
+		<div class="meta">
+			<span class="date"><?= $this->xml->date ?></span>
+			<span class="by">Autor:</span>
+			<span class="author"><?= $this->xml->autor ?></span>
+		</div>
+		<div class="content">
+			<?php
+			$COUNT = 0;
+				foreach($this->xml as $elemento) {
+					if($COUNT > 2) {
+						echo $elemento;
+						echo "</br>";
+					}
+					$COUNT++;
+				}
+			?>
+		</div>
+
+</section>
+</main>
+    <footer>
+        <section>
+            © IBITECH GESTÃO PÚBLICA LTDA ME
+
+        </section>
+    </footer>
+</body>
+</html>

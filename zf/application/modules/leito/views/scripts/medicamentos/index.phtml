@@ -1,0 +1,16 @@
+<input type="hidden" id="alertaEm" value="<?=$this->getConfig('LEITO_TEMPO_ALERTA');?>" />
+<?php if($this->itens && $this->itens->count()):?>
+	<?php foreach($this->itens as $leito):?>
+	<div class="leito ui-corner-all ui-widget-content" data-proximo="<?=$leito->lgra_proximo;?>" id="lgra_<?=$leito->lgra_codigo;?>" data-id="<?=$leito->lgra_codigo;?>" data-vezes="<?=$leito->vezes_medicado;?>">
+		<p><strong><?=trim($leito->qua_numero." - ".$leito->apt_codigo);?></strong></p>
+		<p><strong>Paciente</strong>: <?=$leito->usu_nome;?></p>
+		<p><strong>Proxima</strong>: <?=$this->data($leito->lgra_proximo,'HH:mm','<em>Pendente</em>');?></p>
+		<p><span></span> <span><em>calculando...</em></span></p>
+	</div>
+	<?php endforeach; ?>
+<?php else: ?>
+	<em>Nenhum leito esperando medicamento.</em>
+<?php endif; ?>
+<div class="clear"></div>
+<div class="space"></div>
+<a href="#" onclick="reload()" class="ui-button atualizar atual">Atualizar</a>

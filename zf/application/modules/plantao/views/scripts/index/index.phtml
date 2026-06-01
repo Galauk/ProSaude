@@ -1,0 +1,39 @@
+<?=$this->dialog();?>
+<form method="post" action="<?= $this->url(array("controller"=>"plantao","action" => "salvar")); ?>" id="salvar-agenda">
+    <div style="width: 500px" class="f">
+        <input type="hidden" name="usr_tipo_medico" id="usr_tipo_medico" value="<?=$this->dados_sessao[usr_tipo_medico]?>" />
+        <input type="hidden" name="age_horario" id="age_horario" value="<?=$this->dados_sessao[age_horario]?>" />
+        <input type="hidden" name="hora_inicio" id="hora_inicio" value="<?=$this->dados_sessao[hora_inicio]?>" />
+        <input type="hidden" name="hora_fim" id="hora_fim" value="<?=$this->dados_sessao[hora_fim]?>" />
+        <input type="hidden" name="escpla_data" id="escpla_data" value="<?=$this->dados_sessao[escpla_data]?>" />
+        <label>Local:</label>
+    	<input type="text" id="unidade" name="unidade" value="<?=$this->dados_sessao[unidade]?>" />
+    	<input type="hidden" id="codigo_convenio" name="codigo_convenio" value="<?=$this->dados_sessao[codigo_convenio]?>" />
+    	<input type="hidden" id="prestador_servico" name="prestador_servico" value="<?=$this->dados_sessao[prestador_servico]?>" style="width: 20px" />
+    	<input type="hidden" id="conv_codigo" name="conv_codigo" value="<?=$this->dados_sessao[conv_codigo]?>" style="width: 20px" />
+        <br/>
+        <div id="escondida" <?($this->dados_sessao[usr_codigo_medico] ? "" : "style='display: none'")?>>
+            <label>Profissional:</label>
+            <input type="text" id="usr_nome" name="usr_nome" value="<?=$this->dados_sessao[usr_nome]?>" onKeypress="mostraMedico()" />
+            <input type="hidden" id="usr_codigo" name="usr_codigo_medico" value="<?=$this->dados_sessao[usr_codigo_medico]?>" />
+            <label>Valor do Plantão:</label>
+            <input style="width: 100px" type="tel" id="valor_plantao" name="valor_plantao" class="float" rel="9,2" value="<?=$this->dados_sessao[valor_plantao]?>"/>
+            <br/>
+        </div>
+	    <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div class="space"></div>
+    <div class="space"></div>
+	<label>Data:</label>
+	<input class="data" id="data" style="width: 80px" value="<?= date("d/m/Y"); ?>" />
+	<a href="#" class="ui-button atualizar ui-state-disabled" data-atalho="CTRL+R" id="atualizar-grid">Atualizar</a><br />
+
+	<div class="space"></div>
+	<div id="calendario">
+		<em>Selecione algum profissional</em>
+	</div>
+    <div id="horario"></div>
+    <div class="space"></div>
+    <a href="#" class="ui-button ui-state-disabled salvar" onclick="salvarEscala();" >Salvar</a>
+</form>

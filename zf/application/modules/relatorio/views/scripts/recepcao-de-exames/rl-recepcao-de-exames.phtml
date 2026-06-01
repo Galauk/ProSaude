@@ -1,0 +1,54 @@
+<?php
+	$recebeValor = 0;
+	$recebeQuantidade = 0;
+?>
+<p style="display: inline-block; margin-right: 300px;">Local : <?=$this->recebeResultado[0][med_nome]?></p>
+
+<p style="display: inline-block; margin-right: 300px;">Data Inicial : <?=$this->data($this->recebeDataInicial)?></p>
+<p style="display: inline-block;">Data Final : <?=$this->data($this->recebeDataFinal)?></p>
+<style>
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+		width: 100%;
+	}
+
+	th, td {
+		text-align: left;
+		padding: 16px;
+	}
+
+	tr:nth-child(even) {
+		background-color: #f2f2f2
+	}
+
+</style>
+<table style="width:100%; font-size: 16px;">
+    <tr>
+        <th>Procedimentos</th>
+        <th>Quantidade</th> 
+        <th>Valor</th> 
+    </tr>
+
+	<?php
+
+	for ($contador = 0; $contador < count($this->recebeResultado); $contador++) { ?>
+		<tr style="text-align: center;">
+    		
+    		<td><?=$this->recebeResultado[$contador][proc_nome]?></td>
+    		<td><?=$this->recebeResultado[$contador][count]?></td>
+    		<td><?=number_format($this->recebeResultado[$contador][valor], 2, ',','.')?></td>
+			
+			<?$recebeValor = $recebeValor + $this->recebeResultado[$contador][valor]?>
+			<?$recebeQuantidade = $recebeQuantidade + $this->recebeResultado[$contador][count]?>
+		<?}
+	?>
+		</tr>
+	
+
+</table>
+
+<hr>
+
+<strong style="float: right;margin-right: 85px;font-size: 16px;">Valor Total :<?=number_format($recebeValor, 2, ',','.')?> </strong>
+<strong style="float: right;margin-right: 171px;font-size: 16px">Quantidade Total :<?=$recebeQuantidade?> </strong>

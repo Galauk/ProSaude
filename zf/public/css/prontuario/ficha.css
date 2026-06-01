@@ -1,0 +1,23 @@
+.alerta span{
+	padding-left: 16px;
+	cursor: pointer;
+}
+.alerta span:hover{
+	padding-left: 0px;
+}
+
+.alerta span div{
+	display: inline;
+}
+.alerta span div img{
+	height: 12px;
+}
+
+.alerta span img:not(.loading){
+	display: none;
+}
+
+.alerta span:hover img{
+	display: inline-block;
+	width: 12px;
+}

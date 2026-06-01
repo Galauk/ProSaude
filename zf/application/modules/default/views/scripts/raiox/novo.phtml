@@ -1,0 +1,36 @@
+<?
+//echo $this->headScript()->appendFile('/WebSocialSaude/zf/public/js/prontuario/exame.js');
+$url = $this->url(array("action" => "salvar"));
+//echo "<pre>".print_r($this->dados,1);
+?>
+<form method="post" action="<?= $url ?>">
+        <?php $this->errorMsg(); ?>
+        <label>Paciente:</label>
+        <input type="hidden" id="usu_codigo" name="usu_codigo" value="<?= $this->usu_codigo; ?>" />
+        <input type="text" id="buscar1" name="usu_nome" class="focus" value="<?= $this->usu_nome; ?>" /><br />
+        
+        <label>Profissional Solicitante:</label>
+        <input type="hidden" id="usr_codigo" name="usr_codigo_solicitante" value="<?=$this->usr_codigo; ?>" />
+        <input type="text" id="buscar5" name="usr_nome" value="<?=$this->usr_nome; ?>" />
+        <input type="hidden" id="interno" name="interno" value="<?=$this->interno;?>" style="width: 20px" /><br />
+        
+        <label>Procedimento:</label>
+        <input type="hidden" name="config" id="config" value="<?=$this->config?>">
+        <input type="text" id="procedimento" name="proc_nome" class="focus" />
+        <input type="hidden" id="proc_codigo" name="proc_codigo" /><br />
+        <input type="hidden" id="proc_codigo_sus" name="proc_codigo_sus" value="">
+        <div id="check">
+
+        </div>
+        <label>Observação:</label>
+        <div class="textarea">
+                <textarea name="req_observacao" class="tinymce"></textarea>
+        </div>                       
+        <div class="space"></div>
+
+        <a href="#" class="ui-button salvar">Salvar</a>
+        <a href="<?=$this->url(array("module"=>"default","controller"=>"raiox","action"=>"index"),NULL,TRUE);?>" class="ui-button voltar">Voltar</a>
+        
+</form>
+
+<?echo $this->action("itens","raiox","default",array("usu_codigo"=>$this->usu_codigo));?>

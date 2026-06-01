@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Cadastro de Família</title>
+<link rel="stylesheet" type="text/css" href="view.css" media="all">
+<script type="text/javascript" src="view.js"></script>
+<script type="text/javascript" src="calendar.js"></script>
+</head>
+<body id="main_body" >
+	
+	<img id="top" src="images/top.png" alt="">
+	<div id="form_container">
+	
+		<h1><a>Cadastro de Família</a></h1>
+		<form id="form_300466" class="appnitro"  method="post" action="">
+					<div class="form_description">
+			<h2>Cadastro de Família</h2>
+			<p>Preencha o formulário abaixo para cadastrar uma família</p>
+		</div>						
+			<ul >
+			
+					<li id="li_1" >
+		<label class="description" for="element_1">Data do Cadastro </label>
+		<span>
+			<input id="element_1_1" name="element_1_1" class="element text" size="2" maxlength="2" value="" type="text"> /
+			<label for="element_1_1">DD</label>
+		</span>
+		<span>
+			<input id="element_1_2" name="element_1_2" class="element text" size="2" maxlength="2" value="" type="text"> /
+			<label for="element_1_2">MM</label>
+		</span>
+		<span>
+	 		<input id="element_1_3" name="element_1_3" class="element text" size="4" maxlength="4" value="" type="text">
+			<label for="element_1_3">YYYY</label>
+		</span>
+	
+		<span id="calendar_1">
+			<img id="cal_img_1" class="datepicker" src="images/calendar.gif" alt="Pick a date.">	
+		</span>
+		<script type="text/javascript">
+			Calendar.setup({
+			inputField	 : "element_1_3",
+			baseField    : "element_1",
+			displayArea  : "calendar_1",
+			button		 : "cal_img_1",
+			ifFormat	 : "%B %e, %Y",
+			onSelect	 : selectEuropeDate
+			});
+		</script>
+		 
+		</li>		<li id="li_2" >
+		<label class="description" for="element_2">Data da Inclusão </label>
+		<span>
+			<input id="element_2_1" name="element_2_1" class="element text" size="2" maxlength="2" value="" type="text"> /
+			<label for="element_2_1">DD</label>
+		</span>
+		<span>
+			<input id="element_2_2" name="element_2_2" class="element text" size="2" maxlength="2" value="" type="text"> /
+			<label for="element_2_2">MM</label>
+		</span>
+		<span>
+	 		<input id="element_2_3" name="element_2_3" class="element text" size="4" maxlength="4" value="" type="text">
+			<label for="element_2_3">YYYY</label>
+		</span>
+	
+		<span id="calendar_2">
+			<img id="cal_img_2" class="datepicker" src="images/calendar.gif" alt="Pick a date.">	
+		</span>
+		<script type="text/javascript">
+			Calendar.setup({
+			inputField	 : "element_2_3",
+			baseField    : "element_2",
+			displayArea  : "calendar_2",
+			button		 : "cal_img_2",
+			ifFormat	 : "%B %e, %Y",
+			onSelect	 : selectEuropeDate
+			});
+		</script>
+		 
+		</li>		<li id="li_3" >
+		<label class="description" for="element_3">Nr.Ficha </label>
+		<div>
+			<input id="element_3" name="element_3" class="element text small" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		<li id="li_4" >
+		<label class="description" for="element_4">Seg_Cod </label>
+		<div>
+			<input id="element_4" name="element_4" class="element text small" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		<li id="li_14" >
+		<label class="description" for="element_14">Micro Região </label>
+		<div>
+		<select class="element select medium" id="element_14" name="element_14"> 
+			<option value="" selected="selected"></option>
+<option value="1" >Micro1</option>
+<option value="2" >Micro 2</option>
+<option value="3" >Micro 3</option>
+
+		</select>
+		</div> 
+		</li>		<li id="li_5" >
+		<label class="description" for="element_5">Telefone </label>
+		<div>
+			<input id="element_5" name="element_5" class="element text medium" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		<li id="li_15" >
+		<label class="description" for="element_15">Logradouro </label>
+		<div>
+		<select class="element select medium" id="element_15" name="element_15"> 
+			<option value="" selected="selected"></option>
+<option value="1" >Aveninda</option>
+
+		</select>
+		</div> 
+		</li>		<li id="li_6" >
+		<label class="description" for="element_6">Endereço </label>
+		<div>
+			<input id="element_6" name="element_6" class="element text large" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		<li id="li_7" >
+		<label class="description" for="element_7">Nº </label>
+		<div>
+			<input id="element_7" name="element_7" class="element text small" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		<li id="li_8" >
+		<label class="description" for="element_8">Bairro </label>
+		<div>
+			<input id="element_8" name="element_8" class="element text medium" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		<li id="li_9" >
+		<label class="description" for="element_9">Complemento </label>
+		<div>
+			<input id="element_9" name="element_9" class="element text medium" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		<li id="li_10" >
+		<label class="description" for="element_10">Numero de Pessoas </label>
+		<div>
+			<input id="element_10" name="element_10" class="element text small" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		<li id="li_11" >
+		<label class="description" for="element_11">Responsavel </label>
+		<div>
+			<input id="element_11" name="element_11" class="element text large" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		<li id="li_12" >
+		<label class="description" for="element_12">Comodos </label>
+		<div>
+			<input id="element_12" name="element_12" class="element text small" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>		<li id="li_16" >
+		<label class="description" for="element_16">Energia Elétrica </label>
+		<div>
+		<select class="element select medium" id="element_16" name="element_16"> 
+			<option value="" selected="selected"></option>
+<option value="1" >Sim</option>
+<option value="2" >Não</option>
+
+		</select>
+		</div> 
+		</li>		<li id="li_17" >
+		<label class="description" for="element_17">Esgoto </label>
+		<div>
+		<select class="element select medium" id="element_17" name="element_17"> 
+			<option value="" selected="selected"></option>
+<option value="1" >Rede Publica</option>
+<option value="2" >Fossa</option>
+<option value="3" >Céu Aberto</option>
+
+		</select>
+		</div> 
+		</li>		<li id="li_18" >
+		<label class="description" for="element_18">Domicilio </label>
+		<div>
+		<select class="element select medium" id="element_18" name="element_18"> 
+			<option value="" selected="selected"></option>
+<option value="1" >Tijolo</option>
+<option value="2" >Madeira</option>
+<option value="3" >Taipa Revestida</option>
+<option value="4" >Taipa Não Revestida</option>
+<option value="5" >Material Aproveitavel</option>
+<option value="6" >Adobe</option>
+<option value="7" >Outro</option>
+
+		</select>
+		</div> 
+		</li>		<li id="li_19" >
+		<label class="description" for="element_19">Água </label>
+		<div>
+		<select class="element select medium" id="element_19" name="element_19"> 
+			<option value="" selected="selected"></option>
+<option value="1" >Rede Publica</option>
+<option value="2" >Poço</option>
+<option value="3" >Outro</option>
+
+		</select>
+		</div> 
+		</li>		<li id="li_20" >
+		<label class="description" for="element_20">Tratamento água </label>
+		<div>
+		<select class="element select medium" id="element_20" name="element_20"> 
+			<option value="" selected="selected"></option>
+<option value="1" >Filtrada</option>
+<option value="2" >Clorada</option>
+<option value="3" >Fervida</option>
+<option value="4" >Outro</option>
+
+		</select>
+		</div> 
+		</li>		<li id="li_21" >
+		<label class="description" for="element_21">Destino do Lixo </label>
+		<div>
+		<select class="element select medium" id="element_21" name="element_21"> 
+			<option value="" selected="selected"></option>
+<option value="1" >Coletado</option>
+<option value="2" >Queimado</option>
+<option value="3" >Céu Aberto</option>
+
+		</select>
+		</div> 
+		</li>		<li id="li_13" >
+		<label class="description" for="element_13">Cadastrador </label>
+		<div>
+			<input id="element_13" name="element_13" class="element text large" type="text" maxlength="255" value=""/> 
+		</div> 
+		</li>
+			
+					<li class="buttons">
+			    <input type="hidden" name="form_id" value="300466" />
+			    
+				<input id="saveForm" class="button_text" type="submit" name="submit" value="Enviar" />
+		</li>
+			</ul>
+		</form>	
+	</div>
+	<img id="bottom" src="images/bottom.png" alt="">
+	</body>
+</html>

@@ -1,0 +1,171 @@
+<? if (!empty($this->tratCodigo))  { ?>
+    <div id="boca">
+        <div id="linha1">
+            <div data-dente="sd" class="sextante"><span>SD</span></div>
+            <div data-dente="18" class="adulto">18</div>
+            <div data-dente="17" class="adulto">17</div>
+            <div data-dente="16" class="adulto">16</div>
+            <div data-dente="15" class="adulto">15</div>
+            <div data-dente="14" class="adulto">14</div>
+            <div data-dente="13" class="adulto">13</div>
+            <div data-dente="12" class="adulto">12</div>
+            <div data-dente="11" class="adulto">11</div>
+            <div data-dente="21" class="adulto">21</div>
+            <div data-dente="22" class="adulto">22</div>
+            <div data-dente="23" class="adulto">23</div>
+            <div data-dente="24" class="adulto">24</div>
+            <div data-dente="25" class="adulto">25</div>
+            <div data-dente="26" class="adulto">26</div>
+            <div data-dente="27" class="adulto">27</div>
+            <div data-dente="28" class="adulto">28</div>
+            <div data-dente="se" class="sextante"><span>SE</span></div>
+        </div>
+        <div id="linha2">
+            <div data-dente="55" class="crianca">55</div>       
+            <div data-dente="54" class="crianca">54</div>       
+            <div data-dente="53" class="crianca">53</div>       
+            <div data-dente="52" class="crianca">52</div>       
+            <div data-dente="51" class="crianca">51</div>       
+            <div data-dente="61" class="crianca">61</div>       
+            <div data-dente="62" class="crianca">62</div>       
+            <div data-dente="63" class="crianca">63</div>       
+            <div data-dente="64" class="crianca">64</div>       
+            <div data-dente="65" class="crianca">65</div>       
+        </div>
+        <div id="meio">----------------------------------------------------------------------------------------------------</div>
+        <div id="linha3">
+            <div data-dente="85" class="crianca">85</div>       
+            <div data-dente="84" class="crianca">84</div>       
+            <div data-dente="83" class="crianca">83</div>       
+            <div data-dente="82" class="crianca">82</div>       
+            <div data-dente="81" class="crianca">81</div>       
+            <div data-dente="71" class="crianca">71</div>       
+            <div data-dente="72" class="crianca">72</div>       
+            <div data-dente="73" class="crianca">73</div>       
+            <div data-dente="74" class="crianca">74</div>       
+            <div data-dente="75" class="crianca">75</div>       
+        </div>
+        <div id="linha4">
+            <div data-dente="id" class="sextante"><span>ID</span></div>
+            <div data-dente="48" class="adulto">48</div>
+            <div data-dente="47" class="adulto">47</div>
+            <div data-dente="46" class="adulto">46</div>
+            <div data-dente="45" class="adulto">45</div>
+            <div data-dente="44" class="adulto">44</div>
+            <div data-dente="43" class="adulto">43</div>
+            <div data-dente="42" class="adulto">42</div>
+            <div data-dente="41" class="adulto">41</div>
+            <div data-dente="31" class="adulto">31</div>
+            <div data-dente="32" class="adulto">32</div>
+            <div data-dente="33" class="adulto">33</div>
+            <div data-dente="34" class="adulto">34</div>
+            <div data-dente="35" class="adulto">35</div>
+            <div data-dente="36" class="adulto">36</div>
+            <div data-dente="37" class="adulto">37</div>
+            <div data-dente="38" class="adulto">38</div>
+            <div data-dente="ie" class="sextante"><span>IE</span></div>
+        </div>
+    </div>
+    <div class="space"></div>
+    <div id="nome"><strong>Selecione um dente</strong></div>
+    <div class="space"></div>
+    <a onclick="imprimirProcedimentos();" href="#" class="ui-button imprimir popup ui-corner-bl ui-corner-tr" title="Imprimir Procedimentos" alt="Imprimir Procedimentos">
+        Procedimentos
+    </a>
+    <a onclick="imprimirOdontograma();" href="#" class="ui-button imprimir popup ui-corner-bl ui-corner-tr" title="Imprimir Odontograma" alt="Imprimir Odontograma">
+        Odontograma
+    </a>
+    <a onclick="procedimentosaRealizar()" class="ui-button detalhes" title="Consulta de procedimentos a realizar" alt="Consulta de procedimentos a realizar">
+        Procedimentos a realizar
+    </a>
+    <a onclick="listaTratamentosRealizados()" class="ui-button detalhes" title="Consulta de tratamentos realizados" alt="Consulta de tratamentos realizados">
+            Tratamentos Realizados
+    </a>
+    <div class="space"></div>
+    <table class="grid ui-widget ui-widget-content ui-corner-all" width="100% " >
+        <thead id="cabecalho">
+            <tr class="ui-widget-header" style="height: 22px">
+                <td colspan="7"><span class="title">Procedimentos realizados</span></td>
+            </tr>
+            <tr class="ui-widget-header">
+                <td>Procedimento</td>
+                <td>Dente</td>
+                <td>Face</td>
+                <td>Anotações</td>
+                <td>Excluir</td>
+                <td>Editar</td>
+            </tr>
+        </thead>
+        <tbody id="result">
+            <? foreach($this->historicoProcRealizados as $hist) { ?>
+                <tr id="proc-num<?=$hist["odo_preal_codigo"]?>">
+                    <td class="ui-state-default"><?=$hist["proc_nome"]?></td>
+                    <td class="ui-state-default"><?=$hist["odo_preal_dentenum"]?></td>
+                    <td class="ui-state-default"><?=$hist["odo_preal_denteface"]?></td>
+                    <? if ($hist["odo_preal_denteanot"]) { ?>
+                        <td class="ui-state-default"><?=$hist["odo_preal_denteanot"]?></td>
+                    <? } else { ?>
+                        <td class="ui-state-default">--</td>
+                    <? } ?>
+                    <td class="ui-state-default">
+                        <a href='#'>
+                            <img title="Excluir" alt="Excluir" src="/WebSocialSaude/zf/public/images/icons/excluir.png" onclick="excluiProcedimentoRealizado(<?=$hist["odo_preal_codigo"]?>);"></img>
+                        </a>
+                    </td>
+                    <td class="ui-state-default">
+                        <a href='#'>
+                            <img title="Editar" alt="Editar" src="/WebSocialSaude/zf/public/images/icons/editar.png" onclick="editaProcedimentoRealizado(<?=$hist["odo_preal_codigo"]?>);"></img>
+                        </a>
+                    </td>
+                </tr>
+            <? } ?>
+        </tbody>
+        <? if (count($this->historicoProcRealizados) == 0) { ?>
+            <tbody id="nenhum-result">
+                <tr>
+                    <td colspan="6">Nenhum procedimento cadastrado até o momento!</td>
+                </tr>
+            </tbody>
+        <? } ?>
+    </table>
+    <div class="space"></div>
+    <a onclick="finalizarTratamento();" data-atalho="CTRL+S" href="#" class="ui-button salvar ui-corner-bl ui-corner-tr">
+        Finalizar Tratamento
+    </a>
+<? } else { ?>
+    <div id="inicio-tratamento">
+        <a onclick="iniciarTratamento()" data-atalho="CTRL+S" class="ui-button salvar ui-corner-bl ui-corner-tr" onclick="iniciarTratamento()">
+            Iniciar Tratamento
+        </a>
+        <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+            <thead id="cabecalho">
+                <tr class="ui-widget-header" style="height: 30px">
+                    <td colspan="7"><span class="title">&nbsp;Tratamentos realizados</span></td>
+                </tr>
+                <tr class="ui-widget-header"  style="height: 30px">
+                    <td>Código</td>
+                    <td>Data inicial</td>
+                    <td>Data final</td>
+                </tr>
+            </thead>
+            <tbody id="result">
+                <? foreach($this->historicoTratamentos as $hist) { ?>
+                <tr id="proc-num<?=$hist["odo_trat_codigo"]?>" onclick="consultaTratamento(<?=$hist["odo_trat_codigo"]?>);" style="cursor:pointer"  style="height: 30px">
+                        <td class="ui-state-default"><?=$hist["odo_trat_codigo"];?></td>
+                        <td class="ui-state-default"><?=$this->data($hist["odo_trat_dtinicial"],Zend_Date::DATE_MEDIUM);?></td>
+                        <td class="ui-state-default"><?=$this->data($hist["odo_trat_dtfinal"],Zend_Date::DATE_MEDIUM);?></td>
+                    </tr>
+                <? } ?>
+            </tbody>
+            <? if (count($this->historicoTratamentos) == 0) { ?>
+                <tbody id="nenhum-result">
+                    <tr>
+                        <td colspan="3">Nenhum tratamento realizado até o momento!</td>
+                    </tr>
+                </tbody>
+            <? } ?>
+        </table>
+    </div>
+<? } ?>
+
+

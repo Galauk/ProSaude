@@ -1,0 +1,31 @@
+<?= $this->doctype() . "\n"; ?>
+<?php
+$_SESSION[modulo] = "WebSocialSaude/";
+$_SESSION[root] = $_SERVER[DOCUMENT_ROOT] . "/";
+$_SESSION[linkroot] = "http://" . $_SERVER[HTTP_HOST] . "/";
+$_SESSION[comum] = "WebSocialComum/";
+$_SESSION[modulo] = "WebSocialSaude/";
+$_SESSION[modulo] = "WebSocialSaude/"; $_SESSION[root] = $_SERVER[DOCUMENT_ROOT] . "/"; $_SESSION[linkroot] = "http://" . $_SERVER[HTTP_HOST] . "/"; $_SESSION[comum] = "WebSocialComum/"; $_SESSION[modulo] = "WebSocialSaude/"; require_once $_SESSION[root].$_SESSION[modulo]."sessao_controller.php";
+$sessao = new TempoSessao();
+$sessao->primeiraPagina();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+        <?= $this->headMeta() . "\n"; ?>
+        <?= $this->headTitle() . "\n"; ?>
+        <?= $this->headLink() . "\n"; ?>
+		<script type="text/javascript">
+			var baseUrl = '<?=$this->baseUrl();?>';
+		</script>
+        <?= $this->headScript() . "\n"; ?>
+		<?= $this->analytics(); ?>
+    </head>
+    <body>
+		<div id="page">
+			<div id="corpo">				
+                            <?= $this->layout()->content; ?>					
+			</div>
+		</div>
+		<div id="sys"></div>
+    </body>
+</html>

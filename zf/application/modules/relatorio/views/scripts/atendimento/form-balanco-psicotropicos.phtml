@@ -1,0 +1,22 @@
+<form method="post"  action="<?=$this->url(array("action"=>"rel-balanco-psicotropicos"));?>" target="_blank">
+	<input name="filtro" id="filtro" type="hidden" value="s" />
+	<label>Setor:</label>
+	<input name="set_nome" id="set_nome" />
+        <input name="set_codigo" id="set_codigo" type="hidden"/><br />
+        
+	<label>Data inicial:</label>
+	<input name="data_inicial" id="data_inicial" class="data" style="width: 80px"/><br />
+	<label>Data final:</label>
+	<input name="data_final" id="data_final" class="data" style="width: 80px" /><br />
+        
+        <label>Portaria</label>
+        <select name="psico_codigo[]" multiple="multiple">
+            <option value="">--SELECIONE--</option>
+            <?php foreach($this->portarias as $portaria):?>
+            <option value="<?=$portaria->psico_codigo?>"><?=$portaria->psico_nome?></option>
+            <?php endforeach;?>
+            
+        </select>
+	<div class="clear"></div>
+	<a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;" class="popup" rel="600x500">Gerar Relatório</a>
+</form>

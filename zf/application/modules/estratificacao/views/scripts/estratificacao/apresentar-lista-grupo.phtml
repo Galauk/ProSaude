@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/WebSocialSaude/zf/public/css/table.css?<?=time()?>">
+    <link rel="stylesheet" href="/WebSocialSaude/zf/public/css/grid.css?<?=time()?>">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome do Grupo</th>
+                <th scope="col">Data de criação do grupo</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php
+
+                for ($contador=0; $contador < count($this->recebeListar); $contador++) { ?>
+                    
+                    <tr>
+                        <th scope="row"><?=$contador+1?></th>
+                        <td><?=$this->recebeListar[$contador][est_gruponome]?></td>
+                        <td><?=$this->recebeListar[$contador][to_char]?></td>
+                        <td>
+
+                        <a href="<?=$this->url(array("action"=>"editar-grupo", "module"=>"estratificacao","controller" => "estratificacao","param" => $this->recebeListar[$contador][id_grupoperg],NULL,TRUE));?>">Editar</a>
+
+
+                                
+                        <a id = "linkDesativar<?=$this->recebeListar[$contador][id_grupoperg]?>">
+                            
+                            <?php
+                                if ($this->recebeListar[$contador][grupo_ativo] == "1") { ?>
+
+                                    <img title = "Desativar Grupo" onclick = "desativarGrupo(<?=$this->recebeListar[$contador][id_grupoperg]?>)" id = "botaoDesativar<?=$this->recebeListar[$contador][id_grupoperg]?>" src="/WebSocialSaude/zf/public/images/icons/remove.png" alt=""> 
+                                <?}?>
+                        </a>
+                                    
+                        <a id = "linkAtivar<?=$this->recebeListar[$contador][id_grupoperg]?>" >
+                            <?php
+
+                                if ($this->recebeListar[$contador][grupo_ativo] != "1") { ?>                                        
+                                        <img title = "Ativar Grupo" onclick = "ativarGrupo(<?=$this->recebeListar[$contador][id_grupoperg]?>)" id = "botaoAtivar<?=$this->recebeListar[$contador][id_grupoperg]?>" src="/WebSocialSaude/zf/public/images/icons/atualizar.png" alt="">
+                                <?}?>
+                        </a>
+                                
+
+                            
+
+                        </td>
+                    </tr>
+                    
+                <?}
+
+            ?>
+
+        </tbody>
+    </table>
+    
+    <div hidden id = "desativarGrupo">
+
+        <p>Você realmente deseja desativar este grupo ?</p>
+
+    </div>
+
+    <div hidden id = "ativarGrupo">
+
+        <p>Você realmente deseja ativar este grupo ?</p>
+
+    </div>
+
+</body>
+</html>

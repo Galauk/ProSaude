@@ -1,0 +1,196 @@
+body{
+    margin: 0px;
+    padding: 0px;
+	    background-color: #7c7c7c;
+
+}
+#central{     
+    height: 100%;
+    margin: 0px;
+}
+#topo{
+    border: solid 0px;
+    height: 95px;
+    background-color: #288478;
+}
+#esquerda{
+    /*top:-7px;*/
+    position: relative;
+    margin-top: 1px;
+    margin-right: 0px !important;
+    width: 60%;
+    border: solid 0px;
+    float: left;
+}
+#video{
+    background-color: #999;   
+    height:465px;
+    border: solid 0px;
+}
+#proximo{
+    top:-15px;
+    position: relative;
+    padding-top: 0px;
+    padding-left: 0px;
+    width: 100%;   
+    float: left;  
+    font-size: 20pt !important;
+    color: #FFF;
+    margin-top: 1px;
+    height: 197px;
+    background-color: #7c7c7c;
+    border: solid 0px;
+}
+#proximonovo{
+    top:-15px;
+    position: relative;
+    padding-top: 0px;
+    padding-left: 60px;
+    width:96%;   
+    float: left;  
+    font-size: 20pt !important;
+    color: #FFF;
+    margin-top: 1px;
+    height:197px;
+    background-color: #7c7c7c;
+    border: solid 0px;
+}
+#direita{
+    float: right;
+    width: 39.9%;   
+}
+.espera{
+    padding-top: 20px;
+    padding-left: 20px;
+    font-size: 27px;
+    color: #FFF;
+    margin-top: 1px;    
+    height:155.5px;
+    border: solid 0px;
+    background-color: #288478;
+}
+#topo-esquerda{
+    float: left;
+    height: 95px;
+    width: 60%;
+    border: solid 0px;
+}
+#topo-esquerda img{
+    float: left;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+#previsao{
+    padding-top: 40px;
+    padding-left: 30px;
+    color: #FFF;
+    font-size:18px;
+}
+#data-hora{
+     font-size:23px;
+}
+#topo-direita{
+    padding-top: 40px;
+    font-size:20px;
+    color: #FFF;
+    float: right;
+    width: 40%;
+    border: solid 0px;
+}
+#set-pac1{
+     font-size: 28px;  
+}
+.setor{
+    float: left; 
+}
+.graus {
+    position: fixed;
+    top: 65px;
+    left: 85px;
+    font-size: 20px;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+}
+
+.graus::after {
+    content: "°";
+}
+
+.img-tempo {
+    position: fixed;
+    top: 0%;
+    left: 0px;
+    width:5%;
+}
+
+.tempo {
+    position: fixed;
+    top: 5%;
+    left: 85px;
+    font-size: 20px;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+}
+
+.hora {
+    position: fixed;
+    top: 0%;
+    left: 85%;
+    font-size: 60px;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+}
+
+.date {
+    position: fixed;
+    top: 57px;
+    left: 84%;
+    font-size: 35px;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+}
+
+.city {
+    position: fixed;
+    top: -5px;
+    left: 87px;
+    font-size: 20px;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+}
+
+@media (max-width: 1024px) {
+    .graus {
+        top: 10px;
+        left: 40px;
+        font-size: 50px;
+    }
+
+    .img-tempo {
+        top: 45%;
+        left: 20px;
+    }
+
+    .tempo {
+        top: 46%;
+        left: 70px;
+        font-size: 20px;
+    }
+
+    .hora {
+        top: 45%;
+        left: 35%;
+        font-size: 55px;
+    }
+
+    .date {
+        top: 10px;
+        left: 33%;
+        font-size: 30px;
+    }
+
+    .city {
+        top: 28px;
+        left: 32%;
+        font-size: 25px;
+    }

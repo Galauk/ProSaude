@@ -1,0 +1,31 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<form method="post" id="grupo_proc" action="<?= $this->url(array("action" => "salvar")); ?>">
+    <input type="hidden" name="gp_codigo" id="gp_codigo" value="<?= $this->dados[0]->gp_codigo ?>" />
+
+    <div style="width: auto;" class="f">
+        <label style="width: 110px;">Nome:</label>
+        <input type="text" id="gp_descricao" name="gp_descricao"  tabindex="4" value="<?= $this->dados[0]->gp_descricao; ?>"/>
+        <br />
+        <label style="width: 110px;">Procedimentos:</label>
+        <input type="text" id="proc_nome" name="proc_nome" value="<?= $this->dados->proc_nome; ?>" 
+               tabindex="4" onkeypress="buscaProcedimentos()" />
+        <input type="hidden" id="proc_codigo" name="proc_codigo" value="<?= $this->dados->proc_codigo; ?>" />
+        <input type="hidden" id="proc_codigo_sus" name="proc_codigo_sus" value="<?= $this->dados->proc_codigo_sus; ?>" /><br />
+
+        <div id="dadosProcAtendSimp">
+            <!-- Aqui o conteúdo é alimentado pelo jQuery -->
+        </div>
+        <div style="width: 540px; height: 154px;">
+            <label style="width: 110px; float: left;">Observações: </label>
+            <textarea  name="gp_obs" class="tinymce"><?= $this->dados[0]->gp_obs; ?></textarea>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="space"></div>
+    <div class="space"></div>
+    <a href="#" class="ui-button salvar">Salvar</a>
+    <a href="#" class="ui-button limpar">Limpar</a>
+    <div class="space"></div>
+    <div id="itens"></div>
+</form>

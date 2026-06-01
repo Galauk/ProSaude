@@ -1,0 +1,347 @@
+168001Atenção Especializada Em Doenças Raras                                                                                                                201906
+169001Urologia em Geral                                                                                                                                     201906
+100001Atendimento em presídio até 100 presos                                                                                                                201906
+101001Saúde da família                                                                                                                                      201906
+102001Estratégia de Agentes Comunitários de Saúde - EACS                                                                                                    201906
+103001Ambulância de transporte                                                                                                                              201906
+104001Central de Regulação de Internações Hospitalares                                                                                                      201906
+105001Neurocirurgia do trauma e anomalias do desenvolvimento                                                                                                201906
+106001Testagem e aconselhamento                                                                                                                             201906
+107001Serviço de Atenção à Saúde Auditiva na Média Complexidade                                                                                             201906
+108001Atendimento/acompanhamento em saúde do trabalhador                                                                                                    201906
+109001Unidade sócio-educativa com até 40 adolecentes                                                                                                        201906
+110001Atenção à infertilidade                                                                                                                               201906
+111001Diagnóstico e tratamento                                                                                                                              201906
+112001Acompanhamento do pré-natal de risco habitual                                                                                                         201906
+113001Assitência Domiciliar                                                                                                                                 201906
+114001Dentística                                                                                                                                            201906
+115001Residência terapêutica em saúde mental                                                                                                                201906
+116001Eletrofisiologia                                                                                                                                      201906
+117001Tratamento da lipodistrofia do portador de HIV / AIDS                                                                                                 201906
+118001Cirurgia torácica                                                                                                                                     201906
+119001Abordagem e tratamento do fumante                                                                                                                     201906
+120001Exames anatomopatológicos                                                                                                                             201906
+121001Radiologia                                                                                                                                            201906
+122001Teste Ergométrico                                                                                                                                     201906
+123001OPM auxiliares de locomoção                                                                                                                           201906
+124001Diagnóstico/Tratamento das doenças endócrinas, metabólicas e nutricionais                                                                             201906
+125001Dispensação de Medicamentos do Componente Especializado da Assistência Farmaceutica.                                                                  201906
+126001Assistência fisioterapêutica em alterações obstétricas, neonatais e uroginecológicas                                                                  201906
+127001Tratamento clínico, cirúrgico, reparador e acompanhamento ao obeso                                                                                    201906
+128001Procedimentos destinados à obtenção do sangue para fins de assitência hemoterápica                                                                    201906
+129001Exames de histocompatibilidade por meio de sorologia                                                                                                  201906
+130001Tratamento Dialítico-Hemodiálise                                                                                                                      201906
+131001Diagnóstico em oftalmologia                                                                                                                           201906
+132001Oncologia pediátrica                                                                                                                                  201906
+133001Tratamento de Doenças das Vias Aéreas Inferiores                                                                                                      201906
+134001Acupuntura                                                                                                                                            201906
+135001Reabilitação Visual                                                                                                                                   201906
+136001Enteral                                                                                                                                               201906
+137001Exame eletrocardiográfico por telemedicina                                                                                                            201906
+138001Diagnóstico e tratamento em cintura escapular                                                                                                         201906
+139001Tratamento de recém-nascido com hipotireoidismo e fenilcetonuria                                                                                      201906
+141001Vigilância epidemiológica                                                                                                                             201906
+142001Do aparelho digestivo                                                                                                                                 201906
+143001Transporte terrestre                                                                                                                                  201906
+144001Coleta realizada fora das estrutura laboratorial                                                                                                      201906
+145001Exames Bioquimicos                                                                                                                                    201906
+146001Diagnóstica                                                                                                                                           201906
+147001NASF 1                                                                                                                                                201906
+148001Saúde mental                                                                                                                                          201906
+149001Rim                                                                                                                                                   201906
+150001Fístula arteriovenosa sem enxerto                                                                                                                     201906
+151001Medicina nuclear in vivo                                                                                                                              201906
+153001Acompanhamento Clínico, pré e pós operatório e hormonioterapia.                                                                                       201906
+154001Banco de valvula cardiaca humana                                                                                                                      201906
+155001Serviço de Traumatologia e Ortopedia                                                                                                                  201906
+156001Atenção as Pessoas Ostomizadas I                                                                                                                      201906
+157001Laboratorio Regional de Protese Dentaria                                                                                                              201906
+158001Serviço de Atenção Integral em Hanseniase Tipo I                                                                                                      201906
+159001Atenção Básica                                                                                                                                        201906
+160001Teleconsultoria Assíncrona                                                                                                                            201906
+162001ADULTO                                                                                                                                                201906
+163001NEONATAL CONVENCIONAL                                                                                                                                 201906
+164001Dispensação de OPM Auxiliares de Locomoção                                                                                                            201906
+165001Referência para Atenção Integral às Pessoas em Situação de Violência Sexual                                                                           201906
+167001ODONTOLOGIA - PROJETO SAÚDE NA ESCOLA (PSE)                                                                                                           201906
+100002Atendimento em manicômio até 100 presos                                                                                                               201906
+169002Litotripsia                                                                                                                                           201906
+102002Estratégia de Agentes Comunitários de Saúde com Saúde Bucal - (modalidade I)                                                                          201906
+103002Unidade de suporte básico de vida terrestre (USB)                                                                                                     201906
+104002Cental de Regulação de Consultas e Exames                                                                                                             201906
+105002Coluna e nervos periféricos                                                                                                                           201906
+106002Diagnóstico e tratamento                                                                                                                              201906
+107002Serviço de Atenção à Saúde Auditiva na Alta Complexidade                                                                                              201906
+108002Centro de referência em saúde do trabalhador CEREST estadual                                                                                          201906
+109002Unidade sócio-educativa com de 41 a 100 adolecentes                                                                                                   201906
+110002Contracepção clínica                                                                                                                                  201906
+111002Tratamento multidrogas resistentes                                                                                                                    201906
+112002Acompanhamento do pré-natal de alto risco                                                                                                             201906
+113002Internação Domiciliar                                                                                                                                 201906
+114002Endodontia                                                                                                                                            201906
+115002Atendimento psicossocial                                                                                                                              201906
+116002Cirurgia cardiovascular (adulto)                                                                                                                      201906
+117002Tratamento em queimados                                                                                                                               201906
+120002Exames citopatológicos                                                                                                                                201906
+121002Ultra-sonografia                                                                                                                                      201906
+122002Teste de Holter                                                                                                                                       201906
+123002OPM ortopédicas                                                                                                                                       201906
+124002Cirurgia de glândulas endócrinas                                                                                                                      201906
+125002Farmácia Popular                                                                                                                                      201906
+126002Assistência fisioterapêutica em alterações oncológicas                                                                                                201906
+128002Diagnóstico em hemoterapia                                                                                                                            201906
+129002Exames de histocompatibilidade por sorologia e biologia                                                                                               201906
+131002Tratamento clínico do aparelho da visão                                                                                                               201906
+132002Hematologia                                                                                                                                           201906
+133002Diagnóstico em Pneumologia                                                                                                                            201906
+134002Fitoterapia                                                                                                                                           201906
+135002Reabilitação Intelectual                                                                                                                              201906
+136002Enteral/Parenteral                                                                                                                                    201906
+138002Diagnóstico e tratamento em membros superiores                                                                                                        201906
+139002Tratamento de recém-nascido com doenças falciformes                                                                                                   201906
+141002Vigilância sanitária                                                                                                                                  201906
+142002Do aparelho respiratório                                                                                                                              201906
+143002Transporte aéreo                                                                                                                                      201906
+145002Exames hematológicos e hemostasia                                                                                                                     201906
+146002Cirúrgica                                                                                                                                             201906
+147002NASF 2                                                                                                                                                201906
+148002AIDS                                                                                                                                                  201906
+149002Medula óssea                                                                                                                                          201906
+150002Fístula arteriovenosa com enxerto                                                                                                                     201906
+151002Medicina nuclear in vitro                                                                                                                             201906
+153002Cirurgia e Acompanhamento pré e pós oreratório                                                                                                        201906
+154002Banco de tecido musculo esqueletico                                                                                                                   201906
+155002Serviço de Traumatologia e Ortopedia Pediátrica (até 21 anos de idade)                                                                                201906
+156002Atenção as Pessoas Ostomizadas II                                                                                                                     201906
+158002Serviço de Atenção Integral em Hanseniase Tipo II                                                                                                     201906
+159002Atenção Básica com Saúde Bucal                                                                                                                        201906
+160002Teleconsultoria Síncrona                                                                                                                              201906
+162002NEONATAL                                                                                                                                              201906
+163002NEONATAL CANGURU                                                                                                                                      201906
+164002Manutenção e Adaptação de OPM Auxiliares de Locomoção                                                                                                 201906
+165002Atenção Integral à Saúde de Adolescentes em Situação de Violência Sexual                                                                              201906
+167002ODONTOLOGIA - PROJETO BRASIL ALFABETIZADO (PBA)                                                                                                       201906
+168002Referência em Doenças Raras                                                                                                                           201906
+101002Saúde bucal MI                                                                                                                                        201906
+100003Atendimento em presídio acima de 100 presos                                                                                                           201906
+101003Saúde bucal MII                                                                                                                                       201906
+102003Estratégia de Agentes Comunitários de Saúde com Saúde Bucal - (modalidade II)                                                                         201906
+103003Unidade de suporte avançado de vida terrestre (USA)                                                                                                   201906
+104003Central de Regulação de Urgências                                                                                                                     201906
+105003Tumores do sistema nervoso                                                                                                                            201906
+106003Diagnóstico, tratamento e capacitação técnica                                                                                                         201906
+107003Terapia fonoaudiológica                                                                                                                               201906
+108003VIGILÂNCIA EM SAÚDE DO TRABALHADOR (VISAT)                                                                                                            201906
+109003Unidade sócio-educativa com de 101 a 180 adolecentes                                                                                                  201906
+110003Laqueadura                                                                                                                                            201906
+112003Parto em gestação de risco habitual                                                                                                                   201906
+113003Equipe Multidisciplinar de Atenção Domiciliar - EMAD                                                                                                  201906
+114003Periodontia clínica                                                                                                                                   201906
+115003Serviço Hospitalar para Atenção a Saúde Mental                                                                                                        201906
+116003Cirurgia cardiovascular (Pediátrico)                                                                                                                  201906
+117003Tratamento da lipoatrofia facial do portador de HIV / AIDS                                                                                            201906
+120003Monitoramento Externo da Qualidade dos Exames Citopatologicos do Colo do Útero                                                                        201906
+121003Tomografia computadorizada                                                                                                                            201906
+122003Exame Eletrocardiográfico                                                                                                                             201906
+123003OPM auditivas                                                                                                                                         201906
+125003Farmácia com manipulação homeopática                                                                                                                  201906
+126003Assistência fisioterapêutica em oftalmologia                                                                                                          201906
+128003Procedimentos especiais em hemoterapia                                                                                                                201906
+130003Confeccção/Intervenção de Acessos para Diálise                                                                                                        201906
+131003Tratamento cirúrgico do aparelho da visão                                                                                                             201906
+132003Oncologia clínica                                                                                                                                     201906
+133003Diagnóstico em Pneumologia por Telemedicina                                                                                                           201906
+134003Outras Práticas em Medicina Tradicional Chinesa                                                                                                       201906
+135003Reabilitação Física                                                                                                                                   201906
+136003Enteral/Parenteral, com manipulação/fabricação                                                                                                        201906
+138003Diagnóstico e tratamento em coluna vertebral e caixa torácica                                                                                         201906
+139003Tratamento de recém-nascido com fibrose cística                                                                                                       201906
+141003Vigilância ambiental                                                                                                                                  201906
+142003Do aparelho urinário                                                                                                                                  201906
+143003Transporte marítimo                                                                                                                                   201906
+145003Exames sorológicos e imunológicos                                                                                                                     201906
+148003Geriátrico                                                                                                                                            201906
+149003Coração                                                                                                                                               201906
+151003Medicina nuclear in vivo por telemedicina                                                                                                             201906
+155003Serviço de Traumatologia e Ortopedia de Urgência                                                                                                      201906
+158003Serviço de Atenção Integral em Hanseniase Tipo III                                                                                                    201906
+160003Segunda Opinião Formativa                                                                                                                             201906
+162003PEDIÁTRICO                                                                                                                                            201906
+163003PEDIÁTRICO                                                                                                                                            201906
+164003Dispensação de OPM Ortopédica                                                                                                                         201906
+165003Atenção Integral à Saúde de Crianças em Situação de Violência Sexual                                                                                  201906
+167003OFTALMOLOGIA - PROJETO SAÚDE NA ESCOLA (PSE)                                                                                                          201906
+128004Medicina transfusional                                                                                                                                201906
+130004Tratamento Nefrologia em Geral                                                                                                                        201906
+131004Projeto Olhar Brasil                                                                                                                                  201906
+132004Radioterapia                                                                                                                                          201906
+134004Práticas Corpo-mente                                                                                                                                  201906
+135004Reabilitação visual/mental/múltiplas deficiências                                                                                                     201906
+138004Diagnóstico e tratamento em cintura pélvica                                                                                                           201906
+139004Tratamento de recém-nascido com outras doenças congênitas                                                                                             201906
+140004Estabilização de paciente crítico/grave                                                                                                               201906
+141004Núcleo de vigilância hospitalar                                                                                                                       201906
+142004Do aparelho ginecológico                                                                                                                              201906
+145004Exames coprológicos                                                                                                                                   201906
+148004Fibrose cística                                                                                                                                       201906
+149004Pulmão                                                                                                                                                201906
+162004QUEIMADOS                                                                                                                                             201906
+163004ADULTO                                                                                                                                                201906
+164004Manutenção e Adaptação de OPM Ortopédica                                                                                                              201906
+165004Atenção Integral à Saúde de Homens em Situação de Violência Sexual                                                                                    201906
+167004OFTALMOLOGIA - PROJETO BRASIL ALFABETIZADO (PBA)                                                                                                      201906
+100004Atendimento em manicômio acima de 100 presos                                                                                                          201906
+104004Unidade de autorizações de TFD intermunicipais                                                                                                        201906
+105004Neurocirurgia vascular                                                                                                                                201906
+107004Diagnóstico em audiologia/otologia                                                                                                                    201906
+109004Unidade sócio-educativa com mais de 180 adolecentes                                                                                                   201906
+110004Vasectomia                                                                                                                                            201906
+112004Parto em gestação de alto risco                                                                                                                       201906
+113004Equipe Multidisciplinar de Apoio - EMAP                                                                                                               201906
+114004Moldagem/Manutenção                                                                                                                                   201906
+115004Serviço Residencial Terapêutico Tipo I - SRT tipo I                                                                                                   201906
+116004Cirurgia vascular                                                                                                                                     201906
+121004Ressonância magnética                                                                                                                                 201906
+122004Exame Eletroencefalográfico                                                                                                                           201906
+123004OPM oftalmológicas                                                                                                                                    201906
+125004Dispensação de medicamentos estratégicos                                                                                                              201906
+126004Assistência fisioterapêutica cardiovasculares e pneumo-funcionais                                                                                     201906
+130005Tratamento Diálitico Peritonial                                                                                                                       201906
+126005Assistência fisioterapêutica nas disfunções músculo-esqueléticas (todas as origens)                                                                   201906
+132005Oncologia cirúrgica                                                                                                                                   201906
+134005Homeopatia                                                                                                                                            201906
+135005Reabiliatação Auditiva                                                                                                                                201906
+138005Diagnóstico e tratamento em membros inferiores                                                                                                        201906
+139005Acompanhamento a pacientes com diagnósticos de Hiperplasia Adrenal Congênita                                                                          201906
+140005Atendimento ao paciente com Acidente Vascular Cerebral (AVC)                                                                                          201906
+145005Exames de uroanálise                                                                                                                                  201906
+148005Cirúrgico / Diagnóstico                                                                                                                               201906
+149005Córnea / Esclera                                                                                                                                      201906
+162005DOENÇA CORONARIANA (UCO)                                                                                                                              201906
+164005Dispensação de OPM Auditiva                                                                                                                           201906
+165005Atenção Integral à Saúde de Pessoas Idosas em Situação de Violência Sexual                                                                            201906
+103005Unidade de Suporte Básico de vida: Equipe Embarcação                                                                                                  201906
+104005Unidade de autorizações de TFD interestaduais                                                                                                         201906
+105005Tratamento neurocirúrgico da dor funcional                                                                                                            201906
+107005Implante Coclear                                                                                                                                      201906
+112005Centro de parto normal                                                                                                                                201906
+114005Cirurgia oral                                                                                                                                         201906
+115005Serviço Residencial Terapêutico Tipo II - SRT tipo II                                                                                                 201906
+116005Cardiologia intervencionista (hemodinâmica)                                                                                                           201906
+122005Teste Ergométrico por Telemedicina                                                                                                                    201906
+123005OPM em gastroenterologia                                                                                                                              201906
+125005Dispensação de medicamentos básicos                                                                                                                   201906
+131005Diagnóstico em Oftalmologia por Telemedicina                                                                                                          201906
+130006Tratamento em DRC                                                                                                                                     201906
+126006Assistência fisioterapêutica em queimados                                                                                                             201906
+134006Termalismo/Crenoterapia                                                                                                                               201906
+139006Acompanhamento a pacientes com diagnósticos de Deficiência Biotinidase                                                                                201906
+140006Pronto Atendimento Clínico                                                                                                                            201906
+145006Exames hormonais                                                                                                                                      201906
+148006Acompanhamento pós-transplante de medula óssea                                                                                                        201906
+149006Fígado                                                                                                                                                201906
+164006Manutenção e Adaptação de OPM Auditiva                                                                                                                201906
+165006Interrupção de Gravidez nos Casos Previstos em Lei                                                                                                    201906
+103006Veículos de intervenção rápida                                                                                                                        201906
+104006Central Estadual de Regulação da Alta Complexidade                                                                                                    201906
+105006Investigação e cirurgia de epilepsia                                                                                                                  201906
+107006Triagem Auditiva Neonatal                                                                                                                             201906
+112006Casa da Gestante, Bebê e Puérpera                                                                                                                     201906
+114006Cirurgia buco-maxilo-facial                                                                                                                           201906
+115006UA Adulto                                                                                                                                             201906
+116006Cardiologia Endovascular Extracardíaco                                                                                                                201906
+121006Radiologia intervencionista                                                                                                                           201906
+122006Teste Holter por Telemedicina                                                                                                                         201906
+123006OPM em urologia                                                                                                                                       201906
+125006Farmácia Hospitalar                                                                                                                                   201906
+131006Projeto Olhar Brasil - Programa Saúde na Escola (PSE)                                                                                                 201906
+131007Projeto Olhar Brasil - Programa Brasil Alfabetizado (PBA)                                                                                             201906
+126007Assistência fisioterapêutica nas alterações em neurologia                                                                                             201906
+135007Oficina Ortopédica Fixa                                                                                                                               201906
+140007Pronto Atendimento Pediátrico                                                                                                                         201906
+145007Exames de  vigilância epidemiológica e  ambiental                                                                                                     201906
+149007Pâncreas                                                                                                                                              201906
+164007Dispensação de OPM Oftalmológica                                                                                                                      201906
+165007Atenção Ambulatorial às Pessoas em Situação de Violência Sexual                                                                                       201906
+103007Outros veículos                                                                                                                                       201906
+105007Tratamento endovascular                                                                                                                               201906
+107007Diagnóstico em Audiologia/Otologia po Telemedicina                                                                                                    201906
+114007Atendimento à pessoa com deficiência                                                                                                                  201906
+115007UA Infantojuvenil                                                                                                                                     201906
+116007Cardiologia Clínica                                                                                                                                   201906
+121007Radiologia por telemedicina                                                                                                                           201906
+122007Exame Eletrocardiografico por Telemedicina                                                                                                            201906
+123007OPM em odontologia                                                                                                                                    201906
+134007Antroposofia Aplicada à Saúde                                                                                                                         201906
+134008Práticas Expressivas                                                                                                                                  201906
+126008Diagnóstico cinético funcional                                                                                                                        201906
+140008Pronto Atendimento Obstétrico                                                                                                                         201906
+145008Exames toxicológicos ou de monitorização terapêutica                                                                                                  201906
+149008Retirada de orgãos                                                                                                                                    201906
+164008Manutenção e Adaptação de OPM Oftalmológica                                                                                                           201906
+165008Coleta de Vestígios de Violência Sexual                                                                                                               201906
+103008Ambulância de resgate                                                                                                                                 201906
+105008Neurocirurgia funcional estereotáxica                                                                                                                 201906
+107008Atenção Especializada às Pessoas com Deficiência Auditiva                                                                                             201906
+115008Unidade de Atenção em Regime Residencial                                                                                                              201906
+116008Serviço de Atenção Cardiovascular/Cardiologia Angiologia                                                                                              201906
+121008Ultra-sonografia por telemedicina                                                                                                                     201906
+122008Exame Eletroencefalografico por Telemedicina                                                                                                          201906
+123008OPM buco-maxilo-facial                                                                                                                                201906
+135008Oficina Ortopédica Intinerante Terrestre                                                                                                              201906
+134009Ayurveda                                                                                                                                              201906
+135009Oficina Ortopédica Intinerante Fluvial                                                                                                                201906
+140009Pronto Atendimento Psiquiátrico                                                                                                                       201906
+145009Exames microbiológicos                                                                                                                                201906
+123009Substituição/Troca em órteses/próteses                                                                                                                201906
+164009Substitução/Troca de OPM                                                                                                                              201906
+105009Polissonografia                                                                                                                                       201906
+121009Tomografia computadorizada por telemedicina                                                                                                           201906
+122009Exame Eletroneuromiografia                                                                                                                            201906
+149009Pele                                                                                                                                                  201906
+145010Exames em outros líquidos biológicos                                                                                                                  201906
+123010OPM em queimados                                                                                                                                      201906
+134010Práticas Naturais                                                                                                                                     201906
+121010Ressonância magnética por telemedicina                                                                                                                201906
+149010Válvulas cardíacas                                                                                                                                    201906
+140010Pronto Atendimento Oftalmológico                                                                                                                      201906
+135010Atenção Fonoaudiológica                                                                                                                               201906
+122010Exame videoeletroencefalografia                                                                                                                       201906
+103010Motolância                                                                                                                                            201906
+123011OPM em nefrologia                                                                                                                                     201906
+122011Potenciais Evocados                                                                                                                                   201906
+121011Radiologia intervencionista por telemedicina                                                                                                          201906
+103011Unidade de Suporte Avançado de vida: Equipe Embarcação                                                                                                201906
+149011Osteocondroligamentos                                                                                                                                 201906
+145011Exames de genética                                                                                                                                    201906
+140011Pronto Atendimento Odontológico                                                                                                                       201906
+135011Atenção Fisioterapeutica                                                                                                                              201906
+134011Práticas Manuais                                                                                                                                      201906
+103012Equipe Aeromédico                                                                                                                                     201906
+145012Exames para triagem neonatal                                                                                                                          201906
+123012OPM - Projeto Olhar Brasil                                                                                                                            201906
+134012Práticas Psicodinâmicas                                                                                                                               201906
+122012Potenciais Evocados por Telemedicina                                                                                                                  201906
+140012Pronto Socorro Pediátrico                                                                                                                             201906
+121012Mamografia                                                                                                                                            201906
+135012Atenção à Saúde das Pessoas Ostomizadas I                                                                                                             201906
+149012Separação, avaliação biomicroscópica e conservação da córnea/esclera                                                                                  201906
+149013Contagem endotelial corneana                                                                                                                          201906
+134013Ozônioterapia                                                                                                                                         201906
+135013Atenção à Saúde das Pessoas Ostomizadas II                                                                                                            201906
+140013Pronto Socorro Obstétrico                                                                                                                             201906
+145013Exames imunohematológicos                                                                                                                             201906
+121013Mamografia por Telemedicina                                                                                                                           201906
+123013OPM Projeto Olhar Brasil - Programa Saúde na Escola (PSE)                                                                                             201906
+140014Pronto Socorro Cardiovascular                                                                                                                         201906
+134014Aromaterapia                                                                                                                                          201906
+123014OPM Projeto Olhar Brasil - Programa Brasil Alfabetizado (PBA)                                                                                         201906
+149014Acompanhamento de paciente transplantado                                                                                                              201906
+149015Ações para doação e captação de órgãos e tecidos                                                                                                      201906
+140015Pronto Socorro Neurologia/Neurocirurgia                                                                                                               201906
+134015Imposição de Mãos                                                                                                                                     201906
+149016Retirada de globo ocular humano para transplante                                                                                                      201906
+140016Pronto Socorro Traumato-Ortopédico                                                                                                                    201906
+140017Pronto Socorro Odontológico                                                                                                                           201906
+140018Pronto Socorro Oftalmológico                                                                                                                          201906
+140019Pronto Socorro Geral/Clínico                                                                                                                          201906

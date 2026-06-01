@@ -1,0 +1,97 @@
+<?= $this->doctype() . "\n"; ?>
+<?php
+$_SESSION['modulo'] = "WebSocialSaude/";
+$_SESSION['root'] = $_SERVER['DOCUMENT_ROOT'] . "/";
+$_SESSION['linkroot'] = "http://" . $_SERVER['HTTP_HOST'] . "/";
+$_SESSION['comum'] = "WebSocialComum/";
+$_SESSION['modulo'] = "WebSocialSaude/";
+$_SESSION['modulo'] = "WebSocialSaude/"; $_SESSION['root'] = $_SERVER['DOCUMENT_ROOT'] . "/"; $_SESSION['linkroot'] = "http://" . $_SERVER['HTTP_HOST'] . "/"; $_SESSION['comum'] = "WebSocialComum/"; $_SESSION['modulo'] = "WebSocialSaude/"; require_once $_SESSION['root'].$_SESSION['modulo']."sessao_controller.php";
+$sessao = new TempoSessao();
+$sessao->primeiraPagina();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+        <?= $this->headMeta() . "\n"; ?>
+        <?= $this->headTitle() . "\n"; ?>
+        <?= $this->headLink() . "\n"; ?>
+        <script type="text/javascript">
+            var baseUrl = '<?= $this->baseUrl(); ?>';
+        </script>
+        <?= $this->headScript() . "\n"; ?>
+        <?= $this->analytics(); ?>
+    </head>
+    <body>
+        <div id="page">
+            <div id="menu">
+                <?php echo $this->action("menu", "index", "prontuario"); ?>
+            </div>
+            <div id="corpo">
+              <!-- Monta o topo do prontuario -->
+
+              <?php if($_SESSION['prontuario']['age']) {
+                $tbUsr = new Application_Model_Usuarios();
+                $usrTipoMedico = $tbUsr->getUsrAtual()->usr_tipo_medico;
+
+                $usuarioModel = new Application_Model_Usuario();
+                $dadosUsuario = $usuarioModel->getDados($_SESSION['prontuario']['age']->usu_codigo);
+
+                $atendimentoModel = new Application_Model_Atendimento();
+                $dadosConsulta = $atendimentoModel->getHistorico(FALSE, 3);
+                $codAtendimento = $atendimentoModel->possuiAtendimentoAberto($_SESSION['prontuario']['age']->usu_codigo);
+
+                $alertaModel = new Application_Model_Alerta();
+            		$dadosAlerta = $alertaModel->getItens($_SESSION['prontuario']['age']->usu_codigo);
+
+                $alertas = '';
+                if (count($dadosAlerta) > 0) {
+                  foreach($dadosAlerta as $alerta) {
+                    $alertas.= ucfirst($alerta->ale_desc) . '; ';
+                  }
+                  $alertas = substr($alertas, 0, -2) . '.';
+                } ?>
+                <input type="hidden" name="usr_tipo_medico" id="usr_tipo_medico" value="<?= $usrTipoMedico ?>"/>
+                <input type="hidden" name="ate_codigo" id="ate_codigo" value="<?= (count($codAtendimento) > 0 ? $codAtendimento[0]->ate_codigo : '') ?>"/>
+
+                <li class="ui-tabs-nav ui-widget-header ui-corner-all dados-paciente">
+                  <div class="informacoes-diversas">
+                    <div class="identificacao-paciente">
+                      <p class="nome_paciente">
+                        <?= $dadosUsuario->usu_prontuario . ' - ' . $this->abreviaNome($dadosUsuario->usu_nome) ?>
+                      </p>
+                      <p>
+                        <?= 'DATA NASC.: ' . $this->mask($dadosUsuario->usu_datanasc, "data") . ' (' . strtoupper($this->idade($dadosUsuario->usu_datanasc)) . ')' ?>
+                      </p>
+                      <p>
+                        <?= 'SEXO: ' . strtoupper($this->mask($dadosUsuario->usu_sexo, "sexo")) ?>
+                        <?= ' - ' ?>
+                        <?= 'CNS: ' . $dadosUsuario->usu_cartao_sus ?>
+                      </p>
+                      <p>
+                        <?= 'NOME DA MÃE: ' . $dadosUsuario->usu_mae ?>
+                      </p>
+                    </div>
+                    <div class="alertas-paciente">
+                      <p class="alertas">
+                        <?= 'ALERTAS' ?>
+                      </p>
+                      <p class="descricao-alertas">
+                        <?= $alertas ?>
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              <?php } ?>
+
+              <div id='tabs'>
+                    <ul class="tabs">
+                        <li><a href="#tabs-1"><?= $this->title; ?></a></li>
+                    </ul>
+                    <div id='tabs-1'>
+                        <?= $this->layout()->content; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="sys"></div>
+    </body>
+</html>

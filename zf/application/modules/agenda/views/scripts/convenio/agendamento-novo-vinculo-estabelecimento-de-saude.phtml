@@ -1,0 +1,22 @@
+<?php $this->dialog(); ?>
+<form method="post" action="<?=$this->url(array("action"=>"salvar-vinculo-agendamento-estabelecimento-de-saude"));?>" id="form-vincageest">
+	<?php $this->errorMsg(); ?>
+	<label>Local:</label>
+	<input type="text" id="nome_convenio_est" name="nome_convenio" value="<?=($this->dados->med_nome); ?>" class="focus" />
+	<input type="hidden" id="codigo_convenio" name="codigo_convenio" value="" />
+	<input type="hidden" id="prestador_servico" name="prestador_servico" value="" style="width: 20px" /><br />
+	<label>Atende aos:</label>
+	<input type="checkbox" value="T" name="sabado" id="sabado" value="<?= $this->escape($this->dados->usu_nome); ?>" />Sábados<br />
+	<input class="m" value="T" name="domingo" id="domingo" type="checkbox" /> <label class="not" for="domingo">Domingos</label><br>
+	<div class="clear"></div>
+	<div class="space"></div>
+	<a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>
+	<a href="<?=$this->url(array("controller"=>"convenio","action"=>"agendamento-estabelecimentos-de-saude"));?>"  class="ui-button voltar" data-atalho="ESC">Voltar</a>
+</form>
+
+
+
+
+
+
+

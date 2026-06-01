@@ -1,0 +1,15 @@
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>">
+	<?php $this->errorMsg(); ?>
+	<label>Data:</label>
+	<label>Modelos:</label>
+	<label>Outras Impressoes:</label>
+            <div class="textarea">
+                <textarea name="enc_descricao" class="tinymce" style="width:700px !important;height:300px !important"><?= $this->escape($this->dados->enc_descricao); ?></textarea>
+            </div><br />
+<div style="margin-left: 350px !important">
+	<a href="#" class="ui-button salvar">Salvar</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+</div>
+</form>
+<div class="space"></div>
+<?= $this->action("itens","alerta","prontuario"); ?>

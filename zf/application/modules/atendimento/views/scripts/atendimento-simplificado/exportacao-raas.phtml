@@ -1,0 +1,101 @@
+
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/atendimento/atendimento-simplificado/form-procedimento.css">
+<script src="/WebSocialSaude/zf/public/js/atendimento/atendimento-simplificado/form-ficha-raas.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+<?
+if($_GET['alert']){
+    if($_GET['alert'] == "sucessexportar"){ ?>
+    <script>
+        Swal.fire({
+            title: 'Sucesso!',
+            text: 'Sucesso ao exportar!',
+            type: 'success',
+            confirmButtonText: 'Ok'
+        })
+    </script>
+    <? } else if($_GET['alert'] == "errorversao"){?>
+        <script>
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Digite a versão!',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <? } else if($_GET['alert'] == "errorbdsia"){?>
+        <script>
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Digite a versão do BDSIA!',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+            <?}
+}
+?>
+
+<form method="post" action="<?= $this->url(array("action" => "exporta-raas")); ?>" target="_blank" id="form">
+    
+
+    <label style="padding: 5px; padding-right: 0px; text-align: left; font-size: 14px; width: 150px; height: 20px;">Unidade:</label>
+
+    <select style="width: 302px; margin-bottom: 0px !important; height: 30px !important; border-radius: 5px !important; border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #2e6e9e;" id="codigo" name="codigo"  class="ui-state-default">
+
+        <option value="">CAPS</option>
+    </select>
+
+    <input type='hidden' name='tipo' id="tipo" class="field" value="">
+    <br />
+    <label style="padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; height: 20px;">Competência:</label>
+
+    <select style="width: 302px; margin-bottom: 0px !important; height: 30px !important; border-radius: 5px !important; border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #2e6e9e;" id="competencia" name="competencia" class="ui-state-default">          
+        <?php
+        //Prapara a data podendo selecionar ate o ano de 2008
+        $count = 0;
+        $condicao = true;
+        while ($condicao) {
+            $competencia = new Zend_Date();
+            //Já diminui um mês, pela regra do BPA que só se exporta a partir do mês anterior ao atual
+            $competencia->add('-1', Zend_Date::MONTH);
+            //A partir disso, se reduz mês a mês até atingir a data limite da nova estrutura do bpa
+            $competencia->add('-'.$count, Zend_Date::MONTH);
+            if($ano != $competencia->toString('YYYY')){
+                $ano = $competencia->toString('YYYY');
+                ?>
+                <optgroup label="<?=$ano?>">    
+                <?php
+            }
+            ?>
+            <option value="<?=$competencia->get('MM/YYYY')?>"><?=$competencia->toString('MM/YYYY');?></option>
+        <?php
+            // echo $competencia->toString('MM/YYYY') ."==". $this->dataCompetencia."<br/>";
+            if($competencia->toString('MM/YYYY') == $this->dataCompetencia){ //
+                $condicao = false;
+            }
+            
+            $count = $count + 1;
+            if($count == 100){
+                $condicao = false;
+            }
+        }?>
+    </select>
+
+    <!--<input type="text" name="competencia" id="competencia" value="">-->
+    <br />
+    <label style="padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; background-color: rgb(255, 225, 225)!important; height: 20px;">Versão:</label>
+
+    <input type="text" name="versao" id="versao" value="" style="width: 300px; height: 20px; padding-top: 2px; padding-bottom: 5px;" maxlength="15"><br />
+    <label style="padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; background-color: rgb(255, 225, 225)!important; height: 20px">Versão do BDSIA:</label>
+
+    <input type="text" name="versaosia" id="versaosia" value="" style="width: 300px; height: 20px; padding-top: 2px; padding-bottom: 5px;" maxlength="7">
+
+    <br/>
+    <div class="clear" >
+        <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+        <a href="<?=$this->url(array("action"=>"exporta-raas", "module"=>"atendimento","controller" => "atendimento-simplificado", "param"=>"1"),NULL,TRUE);?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>
+    </div>
+</form>

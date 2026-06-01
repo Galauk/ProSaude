@@ -1,0 +1,39 @@
+<h2 class="titulo"><?=$this->usu_codigo." - ".$this->usu_nome . " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  CNS:".$this->usu_cartao_sus."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DT. NASC: ".$this->data($this->usu_datanasc)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IDADE: ".$this->idade($this->usu_datanasc)."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MÃE: ".$this->usu_mae?></h2>
+<h4>Logradouro: <?=$this->domicilio->rua_nome?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nº: <?=$this->domicilio->dom_numero?></h4>
+<table class="borda zebra" style="width: 100%">
+	<tr>
+            <th style="width: 80px">Data</th>
+            <th style="width: 80px">Hora</th>
+            <th>Médico</th>
+            <th style="width: 80px">Especialidade</th>
+	</tr>
+	<tr>
+            <?
+            if($this->p_horario && $this->usr_tipo_medico != "D"){
+                $horario = explode(":",$this->p_horario);
+            }else{
+                $horario = explode(":",$this->age->age_horario);
+            }
+            ?>
+            <td><?=$this->data($this->age->age_data);?></td>
+            <td align="center"><?=$this->escape($horario[0].":".$horario[1]);?></td>
+            <td><?=$this->escape($this->age->usr_nome);?></td>
+            <td><?=$this->escape($this->age->esp_nome);?></td>
+	</tr>
+</table>
+<div class="space"></div>
+<div class="space"></div>
+<h2 class="titulo">Dados da Unidade</h2>
+<label><strong>Nome:</strong></label> <?=$this->escape($this->age->uni_desc);?><br />
+<?if($this->escape($this->age->uni_endereco)):?>
+    <label><strong>Endereço:</strong></label> <?=$this->escape($this->age->uni_endereco);?> 
+    <?if($this->escape($this->age->uni_numero)):?>
+        Nº:<?=$this->escape($this->age->uni_numero);?><br />
+    <?endif;?>
+<?endif;?>
+<?if($this->escape($this->age->uni_cep)):?>
+    <label><strong>CEP:</strong></label> <?=$this->escape($this->age->uni_cep);?><br />
+<?endif;?>
+<div class="space"></div>
+<!--<h2 class="titulo">Orientações:</h2>
+<span>Comparecer no local as 07:00 horas</span>-->

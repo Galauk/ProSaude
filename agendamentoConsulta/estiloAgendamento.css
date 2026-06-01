@@ -1,0 +1,107 @@
+body{
+	padding:0px;
+	margin:0px;
+}
+.topo{
+	/*background-color:#E6E6E6;*/
+	background: -moz-linear-gradient(top,  #F4FAFF,  #FFF); /* Firefox 3.6+ */
+	width:auto;
+	height:auto;
+}
+.primeiroNome{
+	color:#5F5F5F;
+	font-size:15px;
+	font-family:Arial Black, Gadget, "sans-serif";	
+}
+.segundoNome{
+	color:#5F5F5F;
+	font-size:12px;
+	font-style:italic;
+	font-family:"Verdana", Geneva, sans-serif;		
+}
+.linksNomes{
+	font-family:"Verdana", Geneva, sans-serif;
+	font-style:oblique;
+	font-size:14px;	
+	color:#5F5F5F;
+}
+#imagem
+{
+	background-image:url(../imgs/vulsa2.png);
+	background-repeat:no-repeat;
+	width:670;
+	height:447;	
+	margin-left:340px;
+	position:fixed;
+}
+#agenda
+{
+	width:900px;
+	height:auto;
+}
+
+.alpha 
+{
+     background-color:#E6E6E6;
+     filter:opacity(alpha=60); /* para o IE */
+     -moz-opacity:0.6; /* para o FireFox */
+     opacity:0.6; /* para o outros Navegadores */
+}
+
+.celulaAgendada
+{
+	background-color:#F0FFF0;
+	width:auto;
+	height:30px;
+	font-family:Arial,"Helvetica", sans-serif;
+	font-size:16px;	
+}
+
+.celulaParaAgendar
+{
+	background-color:#FFF;
+	width:auto;
+	height:30px;
+	font-family:Arial,"Helvetica", sans-serif;
+	font-size:16px;
+	cursor:pointer;
+}
+.celulaDosBotoes
+{
+	background-color:#FFF;
+	width:auto;
+	height:30px;
+	font-family:Arial,"Helvetica", sans-serif;
+	font-size:16px;
+}
+.celulaReservada
+{
+	background-color:#CECEFF;
+	width:auto;
+	height:30px;
+	font-family:Arial,"Helvetica", sans-serif;
+	font-size:16px;
+}
+.celulaTransferida
+{
+	background-color:#FFFFAE;
+	width:auto;
+	height:30px;
+	font-family:Arial,"Helvetica", sans-serif;
+	font-size:16px;
+}
+.celulafalta
+{
+	background-color:#FFA8A8;
+	width:auto;
+	height:30px;
+	font-family:Arial,"Helvetica", sans-serif;
+	font-size:16px;
+}
+.formataFont
+{
+	font-family:Arial,"Helvetica", sans-serif;
+	font-size:16px;
+
+	
+}

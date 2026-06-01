@@ -1,0 +1,42 @@
+/* estilo das abas */
+.tabbar {
+  margin-top: 10px;
+  border-bottom: 7px solid #000;
+  padding: 2px 0px;
+  /*font-family: sans-serif;
+  font-size: 83%;*/
+}
+.tabbar ul, li {
+  margin: 0;
+  padding: 0;
+  display: inline;
+  list-style: none;
+}
+.tabbar a {
+  padding: 2px 1em;
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: none;
+  background-color: #FFF;
+  text-decoration: none;
+  color: #000;
+}
+.tabbar a:hover, .tabbar a:active {
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  background-color: #EEEEEE;
+  color: #CC0000;
+}
+.tabbar a.tabact {
+  border-bottom: 1px solid #000;
+  background-color: #000;
+  color: white;
+  font-weight: bold;
+}
+.tabbar a.tabact:hover,
+.tabbar a.tabact:active {
+  background-color: #CCC;
+  color: #000;
+}

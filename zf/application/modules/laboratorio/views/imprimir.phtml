@@ -1,0 +1,262 @@
+<table border="0">
+    <tbody>
+            <input type="hidden" name="procs_codigo" id="procs_codigo" value="<?=$this->procsCodigo?>" />
+            <?$j=0?>
+            <?$x=0?>
+            <?php foreach($this->catExames as $item) { ?>
+
+                    <?$x++;?>
+                    <tr class="conteudo">
+                        <td>
+                            <div id="<?=strtolower(trim($item->cte_codigo))?>">
+                                <?php
+                                $height = 150;
+                                $i = 0;
+                                $arr = [];
+                                foreach($this->proc_por_cat as $item_proc) {
+//                                    var_dump($arr,$i);
+
+                            if(!in_array($i,$arr) && $i == 0 || $i == 4 || $i == 8){
+//                                echo "asdsada";
+
+                                    array_push($arr, $i);
+
+                                ?>
+                                 <div class="header">
+                                    <div class="cabecalho">
+                                        <div class="brasao">
+                                            <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" height="80" width="80"/>
+                                        </div>
+                                        <div class="dados_cabecalho">
+                                            <font size="2">PREFEITURA DO MUNICIPIO DE <?=$this->nome_cidade?></font><br/>
+                                            <b><?=$this->secretaria->nome_secretaria?></b><br/>
+                                            <b><?=$this->convenio->med_nome?></b><br/>
+                                            CNPJ:<?=$this->convenio->med_cnpj?>
+                                        </div>
+                                    </div>
+                                    <div class="pac">
+                                        <div class="titulos">
+                                            <div style="margin-top: 5px;">
+                                                Nome:<br/>
+                                                Mãe:<br/>
+                                                Endereço:<br/>
+                                                Telefone:<br/>
+                                                Solicitante:<br/>
+                                            </div>
+                                        </div>
+                                        <div class="dados_pac">
+                                            <b > <?=$this->abreviaNome($this->dados_pac->usu_nome,30)?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> Idade: <b><?=$this->idade($this->dados_pac->usu_datanasc)?></b>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sexo: <b><?=($this->dados_pac->usu_sexo == "F" ? "Feminino" : "Masculino")?></b>
+                                            <br/>
+                                            <b><?=$this->dados_pac->usu_mae?></b>
+                                            <br/>
+                                            <b><?=($this->dados_pac->rua_nome == "" ? "Não Informado" : $this->dados_pac->rua_nome.",". $this->dados_pac->dom_numero)?></b>
+                                            <br/>
+                                            <b><?=($this->dados_pac->dom_telefone == "" ? "".($this->dados_pac->usu_celular == "" ? "Não Informado" : $this->dados_pac->usu_celular)."" : $this->dados_pac->dom_telefone)?></b>
+                                            <br/>
+                                            <?php
+                                            $med_nome = "Não Informado";
+                                            if($this->dados_pac->med_nome != ""){
+                                                $med_nome = $this->dados_pac->med_nome;
+                                            }else if($this->dados_pac->usr_nome != ""){
+                                                $med_nome = $this->dados_pac->usr_nome;
+                                            }
+                                            ?>
+                                            <b><?=$this->abreviaNome($med_nome,30)?></b>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dt.Emissão: <b><?=  date("d/m/Y")?></b>
+                                        </div>
+
+                                    </div>
+                            </div>
+                                <? } ?>
+
+                                    <?$sex_codigo = ""; //subexame pra comparar quando  escrever?>
+                                    <?if($item[cte_codigo] == $item_proc[cte_codigo]):?>
+                                        <p class="quebra-<?=$item[cte_codigo]."-".$i?>" ></p>
+                                        <div id="exame-<?=$item[cte_codigo]."-".$i?>" class="conteudo-<?=$item[cte_codigo]?>" style="width: 650px; height: auto;">
+                                            <!--AQUI COMEÇA O CONTEUDO POR EXAME-->
+                                            <div class="proc_nome">
+                                                &nbsp;<b><?=strtoupper(trim($item_proc[proc_nome]))?></b>
+                                            </div>
+                                            <div class="vlr_titulo">
+                                                <b>Valor de Referência</b>
+                                            </div>
+                                            <div style="clear:both;"></div>
+                                            <div class="metodo_material">
+                                                &nbsp;<b>Material:</b> <?=$item_proc[material]?> &nbsp;&nbsp;&nbsp; <b>Método:</b> <?=$item_proc[metodo]?> &nbsp;&nbsp;&nbsp; <b>Dt.coleta:</b> <?=$this->data($item_proc[col_data_coleta])?>
+                                            </div>
+                                            <?foreach($item_proc[laudos] as $itens_laudo):?>
+                                                <? $res_observacao = $itens_laudo[res_observacao]; ?>
+                                                <?if($sex_codigo != $itens_laudo[sex_codigo]):?>
+                                                    <?$sex_codigo = $itens_laudo[sex_codigo];?>
+                                                    <div class="subexames">
+                                                        <b>&nbsp;<?=strtoupper(trim($itens_laudo[sex_subexame]))?></b>
+                                                    </div>
+                                                <?endif;?>
+                                                <div class="itens_exames_resultado" >
+                                                    <div class="item_analise">
+                                                        &nbsp;&nbsp;<?=str_pad(strtoupper($itens_laudo[ite_itemdoexame]), 20,".",STR_PAD_RIGHT);?>:
+                                                    </div>
+                                                    <div class="resultado_exame" >
+                                                        <?php
+                                                        // Validações Hemograma
+                                                        //if (strtoupper($itens_laudo[ite_itemdoexame])!="LEUCOCITOS") {
+                                                            if (strtoupper($itens_laudo[ite_itemdoexame])!="LEUCOCITOS" && strtoupper($itens_laudo[ite_itemdoexame])!="EOSINOFILOS" && strtoupper($itens_laudo[ite_itemdoexame])!="BASOFILOS" && strtoupper($itens_laudo[ite_itemdoexame])!="LINFOCITOS" && strtoupper($itens_laudo[ite_itemdoexame])!="MONOCITOS" && strtoupper($itens_laudo[ite_itemdoexame])!="MIELOCITOS" && strtoupper($itens_laudo[ite_itemdoexame])!="METAMIELOCITOS" && strtoupper($itens_laudo[ite_itemdoexame])!="BASTONETES" && strtoupper($itens_laudo[ite_itemdoexame])!="SEGMENTADOS" && strtoupper($itens_laudo[ite_itemdoexame])!="NEUTROFILOS" && strtoupper($itens_laudo[ite_itemdoexame])!="BLASTOS" && strtoupper($itens_laudo[ite_itemdoexame])!="PROMIELOCITOS") {
+                                                                echo $itens_laudo[vlr_valor]." ".$itens_laudo[ite_tipo_medida];
+                                                            } else {
+                                                              if((strtoupper($itens_laudo[ite_itemdoexame])=="LEUCOCITOS") && (strtoupper(trim($itens_laudo[sex_subexame])) == "LEUCOGRAMA")){
+                                                                echo "100%";
+                                                                //echo $itens_laudo[vlr_valor];
+                                                              } elseif((strtoupper($itens_laudo[ite_itemdoexame])=="LEUCOCITOS") && (strtoupper(trim($itens_laudo[sex_subexame])) != "LEUCOGRAMA")) {
+                                                                echo $itens_laudo[vlr_valor];
+                                                              } else {
+                                                                echo $itens_laudo[vlr_valor]."%";
+                                                              }
+                                                            }
+                                                        //}
+                                                        ?>
+                                                    </div>
+                                                    <div class="resultado_exame_dois">
+                                                        <?php
+                                                        // Validações Hemograma
+                                                        // if (strtoupper($itens_laudo[ite_itemdoexame])=="LEUCOCITOS") {
+                                                        //     echo $itens_laudo[vlr_valor]."  /mm³";
+                                                        // }
+                                                        ?>
+                                                        <?php
+                                                        if ($itens_laudo[vlr_valor_m3]!="" && strtoupper(trim($itens_laudo[sex_subexame])) == "LEUCOGRAMA")  {
+                                                            echo $itens_laudo[vlr_valor_m3]."/mm³";
+                                                        }?>
+                                                    </div>
+                                                    <div class="vlr_referencia">
+                                                        <?=$itens_laudo[vlr_valordereferencia]." ".$itens_laudo[ite_tipo_medida]?>
+                                                    </div>
+                                                </div>
+                                                <div style="clear: both;"></div>
+                                            <?endforeach;?>
+                                            <div class="historico" style="width: 650px; height: auto;">
+                                                <?if(count($item_proc[historico]) > 0):?>
+                                                        <?$j=0;$ite_codigo="";?>
+                                                        <table border="0" width="100%">
+                                                            <?foreach($item_proc[historico] as $historico):?>
+                                                                <?$j++;?>
+                                                                <?if($ite_codigo != $historico[ite_codigo]):?>
+
+                                                                        <?if($ite_codigo != ""):?>
+                                                                            </tr>
+                                                                        <?$j=1;  endif;?>
+
+                                                                        <?$ite_codigo = $historico[ite_codigo]?>
+                                                                        <tr>
+                                                                            <td colspan="3">
+                                                                                <b>Resultados Anteriores:</b> <?=$historico[ite_itemdoexame]?>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                <?endif;?>
+                                                                <?if($j <= 3):?>
+                                                                    <td>
+                                                                        <?=$this->data($historico[col_data_coleta])?><br/>t
+                                                                        <?=$historico[vlr_valor]." ".$historico[ite_tipo_medida]?>
+                                                                    </td>
+                                                                <?endif;?>
+                                                            <?endforeach;?>
+                                                        </table>
+                                                <?endif;?>
+                                            </div>
+                                            <div class="observacoes" style="width: 650px; height: auto;">
+                                                <?php if ($res_observacao != "") { ?>
+                                                    <b>OBSERVAÇÕES:</b>
+                                                    <?=$res_observacao?>
+                                                <?php } ?>
+                                            </div>
+                                            <!--AQUI TERMINA-->
+                                            <?$i++;?>
+
+                                            <div style="width: 650px;">
+                                            ------------------------------------------------------------------------------------------------------------------------
+                                                </div>
+                                                <?php  if($item[qtde] == $i || $i == 4 || $i == 8) {?>
+                                                    <div class="assinatura">
+                                                            <?php if($this->sql_usr_codigo == 694 || $this->sql_usr_codigo == 649) :?>
+                                                                <img id="assinatura" nome="assinatuara" src="<?=$this->baseUrl("/public/images/ASSINATURAERCY.jpg");?>"  style="padding-left:450px;"/>
+                                                            <?php elseif($this->sql_usr_codigo == 833) : ?>
+                                                                <img id="assinatura" nome="assinatura" src="<?=$this->baseUrl("/public/images/ASSINATURASALETE.jpg");?>" style="padding-left:450px;"/>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                            <div class="footer rodape">
+                                                                <div class="bioquimicosgeral">
+                                                                    <?php foreach($this->bioquimicos_resp as $bio) { ?>
+                                                                            <div class="assinatura">
+                                                                                _________________________________<br/>
+                                                                                <?=$bio->usr_nome?><br/>
+                                                                                <?=$bio->con_descricao." - ".$bio->usr_num_conselho." - ".$bio->cnes_sigla_est?>
+                                                                            </div>
+                                                                    <?php } ?>
+                                                                    <?php/*<div class="bioquimicos">
+                                                                        <?foreach($this->bioquimicos as $bioquimico):?>
+                                                                            <div class="col_bioquimicos">
+                                                                                <b><?=$this->abreviaNome($bioquimico[usr_nome],20)?></b> CRF:<b><?=($bioquimico[usr_num_conselho] == "" ? "****" : $bioquimico[usr_num_conselho])?></b>
+                                                                            </div>
+                                                                        <?endforeach;?>
+                                                                    </div>*/?>
+                                                                </div>
+                                                                <div id="endereco">
+                                                                    <p><?=$this->convenio->med_endereco?>, FONE:<?=$this->convenio->med_end_telefone?></p>
+                                                                </div>
+                                                            </div>
+
+                                                </div>
+                                            <div style='page-break-before:always;'></div>
+
+                                            <?}?>
+                                        </div>
+                                    <?endif;
+                                }?>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <?php if ($x < (count($this->catExames)-1) || $x >= 4){?>
+                         <!--<tr style='page-break-before:always;'><td></td></tr>-->
+                    <?php
+                                                }
+                        $j++;
+                        $cte_cargoOLD =  $item['cte_cargo'];      ?>
+            <?php } ?>
+    </tbody>
+<!--    <tfoot>
+        <tr>
+            <td>
+             <div class="assinatura">
+                <?php if($this->sql_usr_codigo == 694 || $this->sql_usr_codigo == 649) :?>
+                    <img id="assinatura" nome="assinatura" src="<?=$this->baseUrl("/public/images/ASSINATURAERCY.jpg");?>"  style="padding-left:450px;"/>
+                <?php elseif($this->sql_usr_codigo == 833) : ?>
+                    <img id="assinatura" nome="assinatura" src="<?=$this->baseUrl("/public/images/ASSINATURASALETE.jpg");?>" style="padding-left:450px;"/>
+                <?php endif; ?>
+            </div>
+                <div class="footer rodape">
+                    <div class="bioquimicosgeral">
+                        <?php foreach($this->bioquimicos_resp as $bio) { ?>
+                                <div class="assinatura">
+                                    _________________________________<br/>
+                                    <?=$bio->usr_nome?><br/>
+                                    <?=$bio->con_descricao." - ".$bio->usr_num_conselho." - ".$bio->cnes_sigla_est?>
+                                </div>
+                        <?php } ?>
+                        <?php/*<div class="bioquimicos">
+                            <?foreach($this->bioquimicos as $bioquimico):?>
+                                <div class="col_bioquimicos">
+                                    <b><?=$this->abreviaNome($bioquimico[usr_nome],20)?></b> CRF:<b><?=($bioquimico[usr_num_conselho] == "" ? "****" : $bioquimico[usr_num_conselho])?></b>
+                                </div>
+                            <?endforeach;?>
+                        </div>*/?>
+                    </div>
+                    <div id="endereco">
+                        <p><?=$this->convenio->med_endereco?>, FONE:<?=$this->convenio->med_end_telefone?></p>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>-->
+</table>

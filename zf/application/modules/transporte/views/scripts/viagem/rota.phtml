@@ -1,0 +1,37 @@
+<?php $this->errorMsg();
+//echo "<pre>".  print_r($this->itens,1);
+
+// echo "<pre>"; print_r($this->rotas);
+
+// error_reporting(E_ALL);
+?>
+<form name="busca" method="POST" action="<?= $this->url(array("action" => "pesquisa")); ?>" id="busca-comum">
+    <a href="<?=$this->url(array("action"=>"nova-rota"));?>" class="ui-button novo" data-atalho="CTRL+N">Nova</a>
+    <label>Buscar:</label>
+    <input type="text" size="50" class="focus" name="busca" value="<?=$this->escape($this->busca);?>" />
+    <a href="#" class="ui-button salvar" data-atalho="CTRL+F">Buscar</a>
+</form>
+
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    <tr class='ui-widget-header'>
+        <th>Código</th>
+        <th>Rota</th>
+        <th>Opções</th>
+    </tr>
+<?php
+$i=0;
+if($this->rotas && (count($this->rotas > 0))){
+    foreach($this->rotas as $item){?>
+    <tr>
+        <td class='ui-state-default' width='50' style="text-align: center"><?=$item['rotcodigo'];?></td>
+        <td class='ui-state-default c' width='50'><?=$this->escape($item['rotdescri']);?></td>
+        <td class='ui-state-default c' width='40'>
+            <a href='<?=$this->url(array("module"=>"transporte", 'controller'=>'viagem','action'=>'editar-rota','id'=>$item['rotcodigo']), NULL, TRUE);?>' class='editar'><img src='<?=$this->baseUrl('/public/images/icons/editar.png');?>' alt='Editar rota' title='Editar rota' /></a>
+            <a href='#' id='excluir' onclick="excluir(<?=$item['rotcodigo']?>)"><img src='<?=$this->baseUrl('/public/images/icons/excluir.png');?>' alt='Excluir rota' title='Excluir rota' /></a>		
+        </td>
+    </tr>
+<?  } ?>
+</table>
+<?  } else {?>
+    <em>Nenhum item encontrado</em>
+<?  } ?>

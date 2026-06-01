@@ -1,0 +1,44 @@
+.ui-dialog .ui-dialog-titlebar-close span {
+    /*display: block;*/
+    margin: 1px;
+    display: none;
+}
+
+#salvarResponsavel{
+	margin: 1% 14%;
+}
+
+.fieldsetDoNovoMembro{
+	margin: 2% 13%;
+    border: none;
+    background-color: #ecf5fb;
+    height: 74px;
+}
+
+.fieldsetDoCadastro{
+    background-color: #ecf5fb;
+    margin: 0% 13%;
+    width: 72%;
+    border: none;
+    height: 74px;
+    width: 72%;
+}
+
+#descricaoDoGrauParentesco{
+    position: absolute;
+    margin: -2.5% 60%;
+}
+
+#formMembro{
+    width: 72%;
+    margin: 0% 13%;
+}
+
+.descricaoDoGrauParentescoBotaoPHP{
+    position: absolute;
+    margin: -2.3% 53%;
+}
+
+#listaDosFamiliares{
+    width: 100%!important;
+}

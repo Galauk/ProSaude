@@ -1,0 +1,31 @@
+<br />
+<table>
+    <tr style="height: 24px">
+        <td><strong>PRODUTO</strong></td>
+        <td><strong>USUARIO</strong></td>
+        <td><strong>PROGRAMA</strong></td>
+        <td><strong>DATA DO VENCIMENTO</strong></td>
+        <td><strong>SETOR</strong></td>
+        <td><strong>LOTE</strong></td>
+    </tr>
+    <?php $total = 0; ?>
+    <? if (count($this->dados_faltates) > 0) { ?>
+        <?php foreach ($this->dados_faltates as $item) { 
+            $total = $total + 1;
+            ?>
+            <tr>
+                <td><?=$item->pro_nome?></td>
+                <td><?=$item->usu_nome?></td>
+                <td><?=$item->prg_nome?></td>
+                <td><?=date('d/m/Y', strtotime('+'. $item->ite_duracao - 1 . 'days', strtotime($item->mov_data)))?></td>
+                <td><?=$item->set_nome?></td>
+                <td><?=$item->ite_lote?></td>
+            </tr>
+        <? } ?>
+    <? } else { ?>
+            <tr>
+                <td colspan='3'>Nenhum resultado encontrado!</td>
+            </tr>
+    <? } ?>
+    <td><strong>TOTAL: </strong><?=$total?></td>
+</table>

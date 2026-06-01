@@ -1,0 +1,54 @@
+<table>
+    <td>CNPJ:_______________________________________  EXERCÍCIO:_____________________ PERÍODO: TRIMESTRAL: 1º( ) 2º( ) 3º( ) 4º( ) ANUAL:( )</td><br><br>
+    <td>Nº DA LICENÇA DE FUNCIONAMENTO:_______________________</td>
+</table>
+<br />
+<table>
+    <tr>
+        <th>Código DCB</th>
+        <th>Discriminação DCB</th>
+        <th>Nome do Medicamento</th>
+        <th>Apresentação/Concentração</th>
+        <th>Estoque Inicial</th>
+        <th>Entrada(Aquisição)</th>
+        <th>Saída(Vendas)</th>
+        <th>Perda</th>
+        <th>Estoque Final</th>
+        <th>Portaria</th>
+    </tr>
+    <?php //echo "<pre>".print_r($this->dados,1)."aaaaaa";die();?>
+    <?php if (count($this->where) > 0) {  ?>
+        <?php foreach ($this->where as $prod) { ?>
+                <?php 
+                $prod["entrada_qtd"] = substr($prod["entrada_qtd"], 0,-5); 
+                $prod["dispensacao_qtd"] = substr($prod["dispensacao_qtd"], 0,-5); 
+                $prod["perda_qtd"] = substr($prod["perda_qtd"], 0,-5); 
+                ?>
+                <tr>
+                    <td><?=($prod["pro_codigo_dcb"] != "" ? $prod["pro_codigo_dcb"] : "-")?></td>
+                    <td><?=($prod["pro_descricao_dcb"] != "" ? $prod["pro_descricao_dcb"] : "-")?></td>
+                    <td><?=($prod["pro_nome"])?></td>
+                    <td><?=($prod["pro_apresentacao_concentracao"] != "" ? $prod["pro_apresentacao_concentracao"] : "-")?></td>
+                    <td><?=($prod["qtd_inicial"])?></td>
+                    <td><?=($prod["entrada_qtd"])?></td>
+                    <td><?=($prod["dispensacao_qtd"])?></td>
+                    <td><?=($prod["perda_qtd"])?></td>
+                    <td><?=($prod["qtd_final"])?></td>
+                    <td><?=($prod["psico_nome"])?></td>
+                </tr>
+                <?php $i++; ?>
+            <?php } ?>
+    <?php } else { ?>
+           <tr>
+                <td colspan='8'>Nenhum registro encontrado até o momento!</td>
+           </tr> 
+    <?php } ?>
+</table>
+<br />
+<table width="250">
+
+    <td>Assinatura do Responsável Tecnico: ________________________________________________________ CRF-__:____</td>
+
+</table>
+
+

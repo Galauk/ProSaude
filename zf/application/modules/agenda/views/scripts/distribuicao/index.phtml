@@ -1,0 +1,73 @@
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" id="salvar-agenda">
+	<label>Local:</label>
+	<input type="hidden" id="man_exc" name="man_exc" value="1" />
+	<input type="text" id="med_nome" name="med_nome" value="<?= ($this->dados->med_nome); ?>" class="focus" />
+	<input type="hidden" id="med_codigo" name="med_codigo" value="<?= ($this->dados->med_codigo ? $this->dados->usr_codigo_solicitante : $this->dados->med_codigo_solicitante); ?>" />
+	<input type="hidden" id="prestador_servico" name="prestador_servico" value="<?= ($this->dados->prestador_servico); ?>" style="width: 20px" />
+	<input type="hidden" id="conv_codigo" name="conv_codigo" value="<?= ($this->dados->conv_codigo); ?>" style="width: 20px" /><br />
+        <input type="hidden" id="codigo_convenio" name="codigo_convenio" value="<?= ($this->dados->codigo_convenio); ?>" style="width: 20px" />
+
+	<label class="f">Itens:</label>
+	<div style="margin-left: 5px;" class="f">
+            <select size="10" style="width: 300px;" id="procedimentos">
+                    <option value="0" disabled="disabled">Selecione o local</option>
+            </select>
+            <select size="10" style="width: 300px;" id="procedimentos-selecionados">
+                    <option value="0" disabled="disabled">Nenhum exame selecionado</option>
+            </select>
+	</div>
+	<div class="clear"></div>
+	<div class="space"></div>
+	
+	<label>Data:</label>
+	<input class="data" id="age_data" style="width: 80px" value="<?=date("d/m/Y");?>" />
+	<a href="#" class="ui-button atualizar ui-state-disabled" data-atalho="CTRL+R" id="atualizar-grid">Atualizar</a>
+	<div id="calendario">
+		<em>Selecione algum Item</em>
+	</div>
+	<div class="space"  style="float: left"></div>
+        <div id="botoes_tempo" style="display:none;"> 
+            <br/>
+            <a href="#" class="ui-button tempo_periodo"  id="manut_periodo">Troca de Horário por Período</a>
+            <a href="#" class="ui-button tempo_pausa"  id="manut_horario">Inativar Horários</a>
+        </div>
+        <br/>
+        <div id="salvar" style="float: left">
+            <a href="#" class="ui-button ui-state-disabled salvar">Salvar</a>
+        </div>
+</form>
+<?/*<ul id="myMenu">
+     <li><a href="#copiar-semana">Copiar para semana</a></li>
+     <li><a href="#copiar-mes">Copiar para mês</a></li>
+     <li class="separator"><a href="#limpar-dia">Restaurar padrão</a></li>
+     <li><a href="#limpar-semana">Restaurar da semana</a></li>
+     <li><a href="#limpar-mes">Restaurar do mês</a></li>
+</ul>
+<ul id="myMenuMes">
+     <li><a href="#limpar-dia">Restaurar padrão</a></li>
+</ul>*/?>
+<br />
+<!--MODAL DE MANUTEMCAO POR PERIODO-->
+<div id="tempo_periodo" title="Tempo Período" style="display: none;">
+    <input type="hidden" id="modal_valida" name="modal_valida" value="T">
+    <form method="post" action="<?= $this->url(array("action" => "salvar-horario")); ?>" id="salvar-horario" name="salvarhorario">
+    <div id="hrs">
+        <!--as validacoes JS respectivos a esse modal se encontram no convenio_itens -->
+        <label>Hora de Início:</label>
+        <input type="hidden" name="grap_1" id="grap_1" value="">
+        <input type="text" name="hr_inicio1" id="hr_inicio1" style="width:50px;" class="ini" onkeypress="mask()"  maxlength="5" value="<?= $this->escape($this->d2ados->hr_inicio); ?>" class="focus" />
+        <label style="width:110px">Hora de Término:</label>
+        <input type="text" name="hr_fim1" id="hr_fim1" style="width:50px;"  class="mask fim modal_fim"  onchange="chamaCalculo()" rel="99:99" value="<?= $this->escape($this->da2dos->hr_inicio); ?>" class="focus" /><img src="<?=$this->baseUrl("/public/images/icons/add.png");?>" id="addPac" style="cursor:pointer; margin-left: 10px;"><br />
+    </div>
+    <label>Quantidade</label>
+    <input type="text" readonly="readonly" value="" name="intervalo" id="coni_cota_dia" style="width:25px;">
+    <br /><label>Tempo de atendimento <small>(min)</small></label>
+    <input type="text" name="coni_intervalo_int" id="coni_intervalo_int" value="<?= $this->escape($this->dados->coni_intervalo); ?>"style="width:25px;"  value="" /><br />
+    <input type="hidden" name="coni_intervalo" id="coni_intervalo" value="<?= $this->escape($this->dados->coni_intervalo); ?>"style="width:25px;"  value="" /><br />
+    <input type="hidden" name="coni_encaixe" id="coni_encaixe" style="width:50px;"  value="0" onChange="calculaComEncaixe()"/>
+    </form>
+</div>
+
+<!--MODAL DE MANUTEMCAO POR TEMPO DE PAUSA-->
+<div id="tempo_pausa" title="Tempo Pausa" style="display: none;">
+</div>

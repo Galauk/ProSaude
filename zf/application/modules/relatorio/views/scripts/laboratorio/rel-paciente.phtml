@@ -1,0 +1,105 @@
+<head>
+    <script>
+        window.print();
+    </script>
+</head>
+<body>
+<table width="100%" >
+    <tfoot>
+        <tr>
+            <td>
+                <div class="footer rodape">
+                    <div id="endereco">
+                        <?php /*=$this->usr->uni_endereco?>, CNPJ:<?=$this->usr->uni_cnpj?>, FONE:<?=$this->usr->cnes_telefone*/?>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+    <thead>
+        <tr>
+            <td>
+                <div >
+                    <div class="cabecalho">
+                        <div class="brasao">
+                            <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" height="80" width="80"/>
+                        </div>
+                        <div class="dados_cabecalho">
+                            <font size="2">PREFEITURA DO MUNICIPIO DE <?=$this->nome_cidade?></font><br/>
+                            <b><?=$this->secretaria->nome_secretaria?></b><br/>
+                            <b><?=$this->convenio->med_nome?></b><br/>
+                        </div>
+                    </div>
+                    
+                </div>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+
+    <table>
+        <tr>
+            <td  style="width: 50px;" class="titulos">
+                <b>Prontuário</b>
+            </td>
+            <td style="width: 1000px;" class="titulos">
+                <b>Paciente</b>
+            </td>
+            <td style="width: 300px;" class="titulos">
+                <b>Idade</b>
+            </td>
+            <td style="width: 300px;" class="titulos">
+                <b>Sexo</b>
+            </td>
+            <td style="width: 500px;" class="titulos">
+                <b>Solicitante</b>
+            </td>
+                
+        </tr>
+        <?php $cont_pac = 0;?>
+        <?php $cont_exa = 0;?>
+    <?php foreach ($this->rel as $dados):?>
+        <?php $cont_pac++;?>
+        <tr>
+            <td  class="registros">
+                <?=$dados[usu_prontuario]?>
+            </td>
+            <td class="registros">
+                <?=$dados[usu_nome]?>
+            </td>
+            <td  class="registros">
+                <?=$this->idade($dados[usu_datanasc])?>
+            </td>
+            <td  class="registros">
+               <?=$dados[usu_sexo]?>
+            </td>
+            <td  class="registros">
+                <?=($dados[usr_nome] ? $dados[usr_nome] : $dados[med_nome])?>
+            </td>    
+        </tr>
+        <?php
+            foreach($dados[procedimentos] as $proced){
+                $cont_exa++;
+                echo "<tr>";
+                  $i++;
+                  echo "<td style=\"width: 1600px;\" class='sub-registros' colspan=3><b>".$proced[proc_nome]."</b></td>";
+                  echo "<td style=\"width: 800px;\" class='sub-registros' colspan=2><b>".$this->data($proced[col_data_coleta])."</b></td>";
+                 echo "</tr>";
+           }
+             echo "<tr><td colspan=3><font size=2>ENTREGUE POR:_______________________________________________</font></td><td colspan=3 ><font size=2>RECEBIDO POR:_____________________________________</font></td></tr>";
+        ?>
+        <?php endforeach;?>
+        <tr>
+            <td colspan="3" style="text-align: left;" >
+                    <b style="font-size: 15px;">Total Pacientes: <?=$cont_pac?> </b>
+            </td>
+            <td colspan="2" style="text-align: right;" >
+                <div style="margin-right: 200px;">
+                    <b style="font-size: 15px;">Total Exames:<?=$cont_exa?> </b>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </tbody>
+</table>
+</body>

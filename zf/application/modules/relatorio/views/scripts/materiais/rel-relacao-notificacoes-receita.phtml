@@ -1,0 +1,60 @@
+<table>
+    <td>NOME DO ESTABELECIMENTO:_______________________________________  
+    EXERCÍCIO:_____________________
+    ENDEREÇO:_____________________
+    FARMACÊUTICO RESPONSÁVEL:_____________________
+     MÊS:____________________________
+     CRF- _____:__________________
+ </td><br><br>
+    <td>Nº DA LICENÇA DE FUNCIONAMENTO:_______________________</td>
+</table>
+<br />
+<table>
+    <tr>
+        <th>Código DCB</th>
+        <th>Descrição da DCB</th>
+        <th>Nome do Medicamento</th>
+        <th>Apresentação/Concentração</th>
+        <th>Nº da Notificação</th>
+        <th>Data da NRA</th>
+        <th>Nome do Prescritor</th>
+        <th>Nº de CRM do Prescritor</th>
+        <th>Quantidade Prescrita</th>
+        <th>Quantidade Dispensada</th>
+        <th>Portaria</th>
+    </tr>
+    <?php //echo "<pre>".print_r($this->dados,1)."aaaaaa";die();?>
+    <?php if (count($this->where) > 0) {  ?>
+        <?php foreach ($this->where as $prod) { ?>
+                
+                <tr>
+                    <td><?=($prod["pro_codigo_dcb"] != "" ? $prod["pro_codigo_dcb"] : "-")?></td>
+                    <td><?=($prod["pro_descricao_dcb"] != "" ? $prod["pro_descricao_dcb"] : "-")?></td>
+                    <td><?=($prod["pro_nome"])?></td>
+                    <td><?=($prod["pro_apresentacao_concentracao"] != "" ? $prod["pro_apresentacao_concentracao"] : "-")?></td>
+                    <td><?=($prod["rec_codigo"] != "" ? $prod["rec_codigo"] : "-")?></td>
+                    <td><?=($prod["rec_data"] != "" ? $prod["rec_data"] : "-")?></td>
+                    <td><?=($prod["usr_nome"] != "" ? $prod["usr_nome"] : "-")?></td>
+                    <td><?=($prod["usr_num_conselho"] != "" ? $prod["usr_num_conselho"] : "-")?></td>
+                    <td><?=($prod["irec_quantidade"] != "" ? $prod["irec_quantidade"] : "-")?></td>
+                    <td><?=($prod["ite_quantidade"] != "" ? $prod["ite_quantidade"] : "-")?></td>
+                    <td><?=($prod["psico_nome"])?></td>
+                </tr>
+                <?php $i++; ?>
+            <?php } ?>
+    <?php } else { ?>
+           <tr>
+                <td colspan='8'>Nenhum registro encontrado até o momento!</td>
+           </tr> 
+    <?php } ?>
+</table>
+<br />
+<table width="250">
+
+    <td>Assinatura do Responsável Técnico: ________________________________________________________ </td>
+    <td>RECEBIDO POR : ______________________________ RG:__________________ORGÃO/SETOR:_______________DATA:_________ </td>
+    <td>CONFERIDO POR : ______________________________ RG:__________________ORGÃO/SETOR:_______________DATA:_________ </td>
+    
+    <td>DEVOLVIDO EM: ____/____/____ </td>
+</table>
+

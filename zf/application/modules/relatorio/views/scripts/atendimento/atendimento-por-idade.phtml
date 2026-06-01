@@ -1,0 +1,21 @@
+SEXO: <? if($this->sexo!=0) { echo ($this->sexo=="M")?"<b>MASCULINO</b>":"<b>FEMININO</b>";} else { echo "<b>AMBOS</b>"; }?>
+
+<table>
+    <tr>
+        <th>Idade</th>
+        <th>Quantidade</th>        
+    </tr>
+<?  foreach ($this->dados as $item){ ?>
+    <tr>
+        <td><?=$item->anos?></td>
+        <td><?=$item->total?></td>        
+    </tr>
+
+<? 
+$total += $item->total;
+} ?>
+    <tr style='font-weight:bold;'>
+        <td align="right" >Total</td>
+        <td><?=$total?></td>
+    </tr>
+</table>

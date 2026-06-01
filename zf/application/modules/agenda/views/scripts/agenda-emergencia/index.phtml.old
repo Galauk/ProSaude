@@ -1,0 +1,44 @@
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" id="salvar-agenda">
+	<input type="hidden" name="ate_codigo" id="ate_codigo" />
+
+	<label>Paciente:</label>
+	<input type="text" name="usu_nome" id="usu_nome" value="<?= $this->escape($this->dados->usu_nome); ?>" class="focus" />
+	<input type="hidden" name="usu_codigo" id="usu_codigo" value="<?= $this->escape($this->dados->usu_codigo); ?>" />
+	<!-- <a href="#" class="ui-button barcode" id="buscar-atendimento" data-atalho="CTRL+A">Atendimento</a> -->
+	<br />
+
+	<label>Profissional Solicitante:</label>
+	<input type="text" id="usr_nome" value="<?= ($this->dados->med_nome); ?>" />
+	<input type="hidden" id="usr_codigo" name="usr_codigo_medico" value="<?= ($this->dados->med_codigo ? $this->dados->usr_codigo_solicitante : $this->dados->med_codigo_solicitante); ?>" />
+	<input type="hidden" id="interno" name="interno" value="<?= ($this->dados->prestador_servico); ?>" style="width: 20px" /><br />
+
+	<label>Local:</label>
+	<input type="text" id="med_nome" name="med_nome" value="<?= ($this->dados->med_nome); ?>" />
+	<input type="hidden" id="med_codigo" name="med_codigo" value="<?= ($this->dados->med_codigo ? $this->dados->usr_codigo_solicitante : $this->dados->med_codigo_solicitante); ?>" />
+	<input type="hidden" id="prestador_servico" name="prestador_servico" value="<?= ($this->dados->prestador_servico); ?>" style="width: 20px" />
+	<input type="hidden" id="conv_codigo" name="conv_codigo" value="<?= ($this->dados->conv_codigo); ?>" style="width: 20px" /><br />
+
+        <div id="escondida" style="display:none">
+            <label>Busca Exames:</label>
+            <input type="text" id="proc_nome" value="<?= ($this->conv->proc_nome); ?>" />
+            <input type="hidden" id="conv_codigo" name="conv_codigo" value="<?= ($this->conv->conv_codigo); ?>" style="width: 20px" /><br />
+        </div>
+	<label class="f">Exames:</label>
+	<div style="margin-left: 5px;" class="f">
+		<select size="10" style="width: 300px;" id="procedimentos">
+			<option value="0" disabled="disabled">Selecione o Procedimento</option>
+		</select>
+		<select size="10" style="width: 300px;" id="procedimentos-selecionados">
+			<option value="0" disabled="disabled">Nenhum exame selecionado</option>
+		</select>
+	</div>
+	<div class="clear"></div>
+	<div class="space"></div>
+
+	<label>Data:</label>
+	<input class="data" id="data" style="width: 80px" value="<?= date("d/m/Y"); ?>" />
+
+	<div class="space"></div>
+	<a href="#" class="ui-button ui-state-disabled salvar">Salvar</a>
+
+</form>

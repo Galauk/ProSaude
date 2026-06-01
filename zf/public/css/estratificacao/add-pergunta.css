@@ -1,0 +1,16 @@
+#gruposelect{
+    
+    padding-bottom: 10px;
+    padding-right: 0px;
+    padding-top: 2px;
+    height: 20px;
+    width: 301px;
+    margin-bottom: 0px !important;
+    height: 30px !important;
+    border-radius: 5px !important;
+    border: 1px solid #c5dbec;
+    background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x;
+    font-weight: bold;
+    color: #2e6e9e;
+
+}

@@ -1,0 +1,482 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<?php
+    $recebeEspecialidade = $_SESSION['logon']['usr']->usr_tipo_medico;
+?>
+<script>
+    function abrirCarterinhaNova() {
+        var paciente = '<?php echo $this->usu_codigo; ?>';
+
+        if(paciente == ""){
+            paciente = $("#usu_codigo").val()
+        }
+
+        url = "/WebSocialSaude/zf/vacina/imprimir-carteirinha/usu/" + paciente;
+        window.open(url, null, "height=620,width=650,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes");
+    }
+</script>
+
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/atendimento/atendimento-simplificado/form-visita-domiciliar.css">
+<script src="/WebSocialSaude/zf/public/js/atendimento/atendimento-simplificado/form-visita-domiciliar.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+<?
+if($_GET['alert']){
+    if($_GET['alert'] == "success"){ ?>
+    <script>
+        Swal.fire({
+            title: 'Sucesso!',
+            text: 'Atendimento salvo com sucesso',
+            type: 'success',
+            confirmButtonText: 'Ok'
+        })
+    </script>
+    <? }
+}
+?>
+
+<!-- <div class='abas'>
+    <ul class="tabs">
+        <li><a href="#tabs2-1">Usuários</a></li>
+        <li><a href="#tabs2-3">Setores</a></li>
+    </ul>
+</div> -->
+
+<form method="post" action="<?= $this->url(array("action" => "salvar-visita-domiciliar")); ?>" id="visita-domiciliar">
+    <input type="hidden" id="tipoDoAtendimento" name="tipoDoAtendimento" class="tipoDoAtendimento" value="VD">
+    <input type="hidden" id="tipo_atendimento" value="<?=$this->atendimento->ate_tipo?>">
+	<input type="hidden" id="imprimir" value="<?php echo $this->print;?>" />
+    <input type="hidden" id="cadastro_aise" value="<?php echo $this->cadastro_aise;?>" />
+    
+    <div>
+        <label for="" class="campoObrigatorio">Tipo Do Imovel</label>
+        <select  style="width: 312px;padding: 5px;" class="tipoDoDomicilio selectVisitaDomiciliar" name="visita_tipo_domicilio" id="visita_tipo_domicilio" onchange="desabilitaCamposDoMotivoDaVisita();desabilitaPesoAltura()">
+            <option value="">Selecione o tipo do domicílio</option>
+            <?php
+                foreach ($this->tipodom as $tipodom) { ?>
+                    <option id="<?=$tipodom->ttd_codigo?>" 
+                            value="<?=$tipodom->ttd_codigo?>"> <?=$tipodom->ttd_descricao?> 
+                    </option>
+                <?}
+            ?>
+        </select>
+    </div>
+
+    <input type="hidden" id="visitaRecusadaAusente" value="false">
+
+    <div style="font-size: 14px;">
+        <label class="campoObrigatorio" style="">Desfecho:</label>
+        <?
+        $i = 0;
+        foreach ($this->desfechos as $desfecho) { ?>
+            <input <?= $this->visita->co_cds_visita_dom_desfecho == $desfecho->co_cds_visita_dom_desfecho ? 'checked="checked"' : "" ?> 
+                    type="radio" class="desfecho" name="visita_desfecho"
+                    id="visita_desfecho"
+                    value="<?php echo $desfecho->co_cds_visita_dom_desfecho ?>"
+                    onclick="validaDesfecho();desabilitaMotivoDaVisita();desabilitaPesoAlturaDesfecho();">
+            <span class="spanDesfecho" style="font-size: 12px">
+                <? echo $desfecho->no_cds_visita_dom_desfecho ?>
+            </span>
+        <? } ?>
+    </div>
+
+    <div>
+        <label for="visitaCompartilhadaPorProfissional">Visita Compartilhada</label>
+        <input type="radio" id="visitaCompartilhadaPorProfissional" name="visitaCompartilhadaPorProfissional" value="t">
+        Sim
+        <input type="radio" id="visitaCompartilhadaPorProfissional" name="visitaCompartilhadaPorProfissional" value="f" checked> Não
+    </div>
+
+
+    <input type="hidden" id="regraDeDomicilio">
+
+    <div id="geral">
+        <label class="campoObrigatorio">Unidade:</label>
+        <input class="inputPadding" <?= $this->restringir == 1 ? "disabled=disabled" : "" ?> type="text" name="uni_desc" id="uni_desc" tabindex="1"
+                value="<?= $this->atendimento->uni_desc ? $this->atendimento->uni_desc : $this->unidade_controle ?>"
+                onkeypress="buscaUnidade()"/>
+        <input type="hidden" name="uni_codigo" id="uni_codigo" value="<?= $this->atendimento->uni_codigo ? $this->atendimento->uni_codigo : $this->uni_codigo_controle ?>">
+        <br>
+        <label style="width: 150px;">Data:</label>
+        <input type="text" name="data_atendimento" id="data_atendimento" class="mask data-futura inputPadding" rel="99/99/9999" tabindex="1" value="<?=(empty($this->atendimento->ate_codigo_formatado))?date("d/m/Y"):$this->atendimento->ate_codigo_formatado?>" style=""/>
+        <br />
+        <?php
+            if (empty($this->atendimento)) {
+                $hr = date("H");
+                if(($hr>='01' and $hr<='12')) {
+                    $selM = 'selected';
+                    $selT = '';
+                    $selN = '';
+                }
+                if(($hr>='13' and $hr<='18')) {
+                    $selM = '';
+                    $selT = 'selected';
+                    $selN = '';
+                }
+                if(($hr>='19' and $hr<='00')) {
+                    $selM = '';
+                    $selT = '';
+                    $selN = 'selected';
+                }
+            } else{
+                $selM = '';
+                $selT = '';
+                $selN = '';
+            }
+        ?>       
+        <div>
+            <label style="text-align: left;" class="campoObrigatorio">Turno <font color="red">*</font>: </label>
+            <select style="width: 312px;" class="ui-state-default inputPadding selectVisitaDomiciliar" id="turno" name="turno">
+                <option value=""> Selecione </option>
+                <option value="1" <?=$selM?> <?= $this->atendimento[turno] == '1' ? 'selected' : '' ?>>
+                    Manhã
+                </option>
+                <option value="2" <?=$selT?> <?= $this->atendimento[turno] == '2' ? 'selected' : '' ?>>
+                    Tarde
+                </option>
+                <option value="3" <?=$selN?> <?= $this->atendimento[turno] == '3' ? 'selected' : '' ?>>
+                    Noite
+                </option>
+            </select>
+        </div>  
+        <div>
+            <div>
+                <label class="campoObrigatorio" style="width: 150px;">Paciente<font color="red">*</font>:</label>
+                <input type="text" class="focus inputPadding" name="usu_nome" id="usu_nome" onkeypress="buscaParticipante()" tabindex="2" value="<?=$this->agendamento->age_paciente?>" style="width: 395px!important"/>
+                <input type="hidden" name="usu_codigo" id="usu_codigo" value="<?=$this->atendimento->usu_codigo?>">
+                <!-- Informações ocultas para atualização dos dados do cidadão -->
+                <input type="hidden" name="id_nome" id="id_nome" value="usu_nome" />
+                <input type="hidden" name="id_codigo" id="id_codigo" value="usu_codigo" />
+                <input type="hidden" name="id_data" id="id_data" value="" />
+                <input type="hidden" name="id_button" id="id_button" value="" />
+                <input type="hidden" name="id_tipo" id="id_tipo" value="" />
+                <input type="hidden" name="usu_sexo" id="usu_sexo" value="" />
+                <!-- /WebSocialSaude/zf/public/images/icons/gravida.png -->
+                <button id="historicoPreNatal" class="ui-button historicoPreNatal" name="historicoPreNatal" type="button"       style=" padding: 7px 8px 6px;
+                                background-image: url(/WebSocialSaude/zf/public/images/btn-bg.png);
+                                background-repeat: round;
+                                background-size: contain;
+                                border: 1px solid #ACACAC;
+                                margin-bottom: 3px;
+                                color: #000;
+                                border-radius: 6px;"
+                        onclick="exibirHistoricoPreNatal()"
+                >
+                    <img src="/WebSocialSaude/zf/public/images/icons/gravida.png">
+                </button>
+            
+<!--                 <select class="ui-state-default" id="tipo_busca" style="width: 15% !important">
+                    <option value="">Tipo de Busca</option>
+                    <option value="N">Nome</option>
+                    <option value="D">Dt.Nasc</option>
+                    <option value="M">Mãe</option>
+                    <option value="C">CNS</option>
+                    <option value="P">Prontuário</option>
+                </select>
+                <a href="#" class="ui-button paciente"  style="margin-left: 5px;" tabindex="5">Novo / Editar</a><br /> -->
+            </div>
+        </div>
+        
+        <div id="perguntaGestante" style="display: none;margin-bottom: 4px">
+            <label style="background-color: #6DA5D3">Está Gestante?</label>
+            <input onclick="showGestante()" class="usu_esta_gestante" name="usu_esta_gestante" id="" type="radio" value="T"  <?= $this->dadosPreNatal[usu_esta_gestante] == 't' ? "checked" : ""?> />Sim
+            <input onclick="hideGestante()" class="usu_esta_gestante" name="usu_esta_gestante" id="" type="radio" value="F"  <?= ($this->dadosPreNatal[usu_esta_gestante] != 't') ? "checked" : ""?>  />Não
+        </div>
+        <div id="estrat_gestante" <?= $this->dadosPreNatal['risco_gestacao'] != NULL ? 'style="display: block;"' : 'style="display: none;"'?>>
+            <label>Risco da Gestação:</label>
+            <select name="risco_gestacao" id="risco_gestacao" class="ui-state-default" style="width: 75%;">
+                <option <?=$this->dadosPreNatal['risco_gestacao'] == N ? 'selected' : '' ?> value="N">Não estratificado</option>
+                <option <?=$this->dadosPreNatal['risco_gestacao'] == H ? 'selected' : '' ?> value="H">Habitual</option>
+                <option <?=$this->dadosPreNatal['risco_gestacao'] == I ? 'selected' : '' ?> value="I">Intermediário</option>
+                <option <?=$this->dadosPreNatal['risco_gestacao'] == A ? 'selected' : '' ?> value="A">Alto</option>
+            </select>
+        </div>
+        <div id="div_gestante"<?= $this->dadosPreNatal['usu_esta_gestante'] != NULL ? 'style="display: block;"' : 'style="display: none;"'?>>
+            <fieldset style="position:relative;left:-10px;top:-10px;width: 93%;background-color: #FDF4F4;border:1px #159492 dotted">
+                <legend style="color:#3E88C5">
+                    Gestante
+                </legend>
+                <input type="hidden" id="atp_codigo" name="atp_codigo">
+                <div id="pergunta_pre_natal" name="pergunta_pre_natal" style="margin-bottom: 4px">
+                    <label>Consulta Pré-Natal ? </label>
+                    <input <?=$this->dadosPreNatal['tipo_consulta'] == 1 ? 'checked=checked' : '' ?> type="radio" id="consulta_pre_natal" name="consulta_pre_natal" value="1">
+                    Sim
+                    <input <?=$this->dadosPreNatal['tipo_consulta'] != 1 ? 'checked=checked' : '' ?> type="radio" id="consulta_pre_natal" name="consulta_pre_natal" value="2">
+                    Não
+                    <br>
+                </div>
+ 
+                <label><abbr title="Data da última menstruação">DUM: </abbr></label>
+                <input onkeyup="calculaDPP(this.value)" value=" <?= date('d-m-Y', strtotime($this->dadosPreNatal['dum']))?> " id="dum" type="text" name="dum" class="mask" rel="99/99/9999"/><br/>  
+                <label><abbr title="Data da última menstruação">DPP: </abbr></label>
+                <input value="" id="dpp" type="text" name="dpp" class="mask" rel="99/99/9999"/><br/>
+                <div id="pergunta_idade_gestacional" name="pergunta_idade_gestacional" >
+                    <label>Idade gestacional (em semanas):</label>
+                    <input value=" <?=$this->dadosPreNatal['idade_gestacional']?> " type="text" id="idade_gestacional" name="idade_gestacional" min="1" max="42" title="Insira um valor entre 1 e 42">
+                </div>
+                <div style="margin-bottom: 4px">
+                    <label>Gravidez planejada ? </label>
+                    <input <?= $this->dadosPreNatal['gravidez_planejada'] == 't' ? "checked=checked" : ""?> type="radio" id="gravidez_planejada" name="gravidez_planejada" value="t"> Sim
+                    <input <?= $this->dadosPreNatal['gravidez_planejada'] != 't' ? "checked=checked" : ""?> type="radio" id="gravidez_planejada" name="gravidez_planejada" value="f"> Não
+                </div>
+                <div class="primeiraGestacao" style="margin-bottom: 4px">
+                    <label>Primeira gestação ? </label>
+                    <input onclick="escondeGestasPartos()" type="radio" id="primeira_gestacao" name="primeira_gestacao" value="t"> Sim
+                    <input onclick="exibeGestasPartos()" type="radio" id="primeira_gestacao" name="primeira_gestacao" value="f"> Não
+                    <br>
+                </div>
+                <div class="gestasPartos" <?= $this->dadosPreNatal['gestas_previas'] != NULL ? 'style="display: block;"' : 'style="display: none;"'?>>
+                    <label>Gestas prévias : </label> <!-- Número de gestações anteriores sem incluir a atual -->
+                    <input value="<?=$this->dadosPreNatal['gestas_previas'] ?>" id="gestas_previas" type="text" name="gestas_previas">
+                    <br/>
+                </div>
+                <div class="gestasPartos" <?=$this->dadosPreNatal['partos'] != NULL ? 'style="display: block;"' : 'style="display: none;"'?>>
+                    <label>Número de Partos : </label>
+                    <input value=" <?=$this->dadosPreNatal['partos']?> " id="partos" type="text" name="partos"/><br/>                        
+                </div>
+            </fieldset>
+        </div>
+        <div id="profissional">
+            <label class="campoObrigatorio" style="width: 150px;">Profissional:</label>
+            <input style="" type="text" id="usr_nome" class="inputPadding" placeholder="Informe a unidade" tabindex="3" value="<?= $this->atendimento->usr_nome ? $this->atendimento->usr_nome : $this->usr_nome_controle ?>"/>
+            <input type="hidden" id="usr_codigo" name="usr_codigo" value="<?= $this->atendimento->usr_codigo ? $this->atendimento->usr_codigo : $this->usr_codigo_controle ?>" /><br />
+
+            <div style="display:none;" id="especialidade">
+                <label style="">Especialidade:</label>
+                <input type="hidden" class="inputPadding" name="esp_codigo_editar" id="esp_codigo_editar" value="<?=$this->agendamento->esp_codigo;?>"></input>
+                <select style="padding: 5px; width: 312px;" class='ui-state-default selectVisitaDomiciliar' name="esp_codigo" id="esp_codigo">
+                    <option disabled readonly>Carregando...</option>
+                </select>
+            </div>
+
+
+            <div id="equipe">
+                <label>Cód. equipe(INE):</label>
+                <select style="width: 312px;" name='cod_equipe' id="cod_equipe" class="ui-state-default inputPadding selectVisitaDomiciliar">
+                    <option value="">Informe um Profissional</option>
+                </select>
+                <input type="hidden" name="cod_equipe_ine" id="cod_equipe_ine" value="" />
+            </div>
+            
+            <div id="microarea">
+                <label>Microarea:</label>
+                <select style="" name="usu_microarea" id="usu_microarea" class="ui-state-default inputPadding selectVisitaDomiciliar">
+                    <option value="">Informe uma Equipe</option>
+                </select>
+                <input type="hidden" name="usu_microarea_codigo" id="usu_microarea_codigo" value="" />
+
+                <label style="visibility: hidden;"></label>
+                <br>
+                <label for="usu_microarea_fa">Fora de Área</label>
+                
+                <input type="radio" name="usu_microarea_fa" id="usu_microarea_fa" onclick="validaForaArea()">Sim 
+                <input type="radio" name="usu_microarea_fa" id="usu_microarea_fa" onclick="validaForaArea()">Não
+
+                <!-- <input type="checkbox" name="usu_microarea_fa" id="usu_microarea_fa" style="margin-top: 3px;margin-left: -166px;" onclick="validaForaArea()" value="t"> -->
+                
+            </div>
+
+
+            <? if ($tipoAtendimento[7] == 'vd') { ?>
+            <div id="st_visita_compartilhada_div">
+                <label style="visibility: hidden;"></label>
+                <input <?= $this->atendimento->st_visita_compartilhada ? 'checked="checked"' : '' ?> type="checkbox" class="motivo_checkbox" name="st_visita_compartilhada" 
+                        id="st_visita_compartilhada"/>
+                Visita compartilhada com outro profissional.
+            </div>
+            <div id="div_tipo_imovel">
+                <label>Tipo de Imovel:</label>
+                <select class="ui-state-default" style="width: 300px;" name="tipo_imovel" id="tipo_imovel" onchange="ocultaAntropometria()">
+                    <? foreach ($this->tipo_imovel as $tipo_imovel){ ?>
+                        <option value="<?= $tipo_imovel->co_cds_tipo_imovel ?>" <?= $this->tipo_imovel_atendimento == $tipo_imovel->co_cds_tipo_imovel ? 'selected' : '';?>>
+                            <?= $tipo_imovel->no_cds_tipo_imovel ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
+            <? } ?>
+        </div>
+        
+        <br>
+
+        <div id="div_avaliacao_antropometrica">
+            <fieldset style="position: relative;left: 624px;top: -428px;width: 44.2%;background-color: #E9F3FB;border: 1px #159492 dotted;border-radius: 5px !important;">
+                <legend>Acompanhamento Nutricional</legend>
+                <label style="width:137px!important">Peso<small>(Kg)</small>:</label>
+                <input class="inputPadding pesoAltura" onkeypress="formataPeso()" name="ate_peso" id="ate_peso" value="<?= $this->atendimento->ate_peso ? (number_format($this->atendimento->ate_peso, 3)) : ""; ?>"
+                        rel="3,3" class="formulario"/><br/>
+                <label style="width:137px!important">Altura<small>(m)</small>:</label>
+                <input class="inputPadding pesoAltura" onkeypress="formataAltura()" name="ate_altura" id="ate_altura" class="formulario" value="<?= $this->atendimento->ate_altura ? (number_format($this->atendimento->ate_altura, 2)) : ""; ?>"
+                        rel="1,2"/><br/>
+            </fieldset>
+        </div>
+    
+        <div id="observacao" style="margin: -409px auto auto 634px;display: inline-flex;position: absolute;">
+            <label style="margin-right: 11px;">Observações: </label>
+                <textarea name="agee_observacao" class="tinymce" style="padding-left: 5px;padding-right: 5px; paddding-top: 15px !important; width:800 !important; margin-top: 20px;" rows="10"><?= $this->atendimento->ate_reclamacao ?>
+                </textarea>
+        </div>
+        
+        <input type="hidden" id="carregaEspecialidade" name="carregaEspecialidade" value="<?=$recebeEspecialidade?>">
+
+        <div class="form-group col-md-6" style="display: -webkit-inline-box;">
+            <!-- VISITA DOMICILIAR -->
+            <div id="visita_domiciliar" title="Dados da Visita" style="margin-top: -100px">
+                <!-- position: absolute;width: 319px;margin: -460px auto auto 75px;text-align: left; -->
+                <div class="floatLeft" style="width: 35%;float: left;margin-left: 200px;">
+                    <div class= "listagemCondutas">
+                        <fieldset style="border-radius: 22px;height: 141px;background-color: #ebf8f0;">
+                            <legend>Motivo da Visita</legend>
+                            <?php 
+                            foreach ($this->motivosPt01 as $val) { ?>
+                                <?php 
+                                $igual = false;
+
+                                    foreach ($this->motivoDaVisita as $motivoDaVisitas) {?>
+                                        <?php
+                                            if ($val->co_cds_visita_dom_motivo == $motivoDaVisitas[co_cds_visita_dom_motivo]) {
+                                                $igual = true;
+                                            }
+                                        ?>
+                                    <?}?>
+                                <div class="condutas">
+                                    <input class="motivoDaVisita" type="checkbox" value="<?=$val->co_cds_visita_dom_motivo?>" name="visita_motivo[]" id="motivoDaVisita<?=$val->co_cds_visita_dom_motivo?>" 
+                                    <?=$igual == true ? 'checked=checked' : "" ?>
+                                    >
+                                    <label style="display: -webkit-inline-box;width: 233px;background-color:#ebf8f0!important" class="etiqueta" for="<?=$val->co_cds_visita_dom_motivo?>"><?=$val->no_cds_visita_dom_motivo?></label>
+                                </div>
+                            <?}?>
+                        </fieldset>
+                    </div>  
+
+                    <div class= "listagemCondutas">
+                        <fieldset style="border-radius: 22px;height: 121px;background: #f8f7ef">
+                            <legend>Busca Ativa</legend>
+                            <?php 
+                                foreach ($this->buscaAtiva as $val) { ?>
+                                    <?php 
+                                    $igual = false;
+
+                                        foreach ($this->motivoDaVisita as $motivoDaVisitas) {?>
+                                            <?php
+                                                if ($val->co_cds_visita_dom_motivo == $motivoDaVisitas[co_cds_visita_dom_motivo]) {
+                                                    $igual = true;
+                                                }
+                                            ?>
+                                        <?}?>
+                                <div class="condutas">
+                                    <input class="motivoDaVisita" type="checkbox" value="<?=$val->co_cds_visita_dom_motivo?>" name="visita_motivo[]" id="buscaAtiva<?=$val->co_cds_visita_dom_motivo?>"
+                                    <?=$igual == true ? 'checked=checked' : "" ?>
+                                    >
+                                    <label style="display: inline;background-color: #f8f7ef" class="etiqueta" for="<?=$val->co_cds_visita_dom_motivo?>"><?=$val->no_cds_visita_dom_motivo?></label>
+                                </div>
+                            <?}?>
+                        </fieldset>
+                    </div>                
+                    
+                </div>
+                <!-- position: absolute;margin: -460px auto auto 376px;width: 315px;text-align: left; -->
+                <div class="floatRight" style="width: 35%;float: right;margin-right: 155px;">
+                    <div class= "listagemCondutas">
+                        <fieldset style="border-radius: 22px;background: #eff4f8;">
+                            <legend>Controle Ambiental</legend>
+                            <?php 
+                            foreach ($this->controleAmbiental as $val) { ?>
+                                <?php 
+                                $igual = false;
+
+                                    foreach ($this->motivoDaVisita as $motivoDaVisitas) {?>
+                                        <?php
+                                            if ($val->co_cds_visita_dom_motivo == $motivoDaVisitas[co_cds_visita_dom_motivo]) {
+                                                $igual = true;
+                                            }
+                                        ?>
+                                    <?}?>
+                                <div class="condutas">
+                                    <input class="motivoDaVisita" type="checkbox" value="<?=$val->co_cds_visita_dom_motivo?>" name="visita_motivo[]" id="controleAmbiental<?=$val->co_cds_visita_dom_motivo?>" 
+                                    <?=$igual == true ? 'checked=checked' : "" ?>
+                                    >
+                                    <label style="display: -webkit-inline-box;background-color:#eff4f8!important" class="etiqueta" for="<?=$val->co_cds_visita_dom_motivo?>"><?=$val->no_cds_visita_dom_motivo?></label>
+                                </div>
+                            <?}?>
+                        </fieldset>
+                    </div>
+
+                    <div class= "listagemCondutas">
+                        <fieldset style="border-radius: 22px;background: #f8efef">
+                            <legend>Outros</legend>
+                            <?php 
+                            foreach ($this->outros as $val) { ?>
+                                <?php 
+                                $igual = false;
+
+                                    foreach ($this->motivoDaVisita as $motivoDaVisitas) {?>
+                                        <?php
+                                            if ($val->co_cds_visita_dom_motivo == $motivoDaVisitas[co_cds_visita_dom_motivo]) {
+                                                $igual = true;
+                                            }
+                                        ?>
+                                    <?}?>
+                                <div class="condutas">
+                                    <input class="motivoDaVisita" type="checkbox" value="<?=$val->co_cds_visita_dom_motivo?>" name="visita_motivo[]" id="outros<?=$val->co_cds_visita_dom_motivo?>" 
+                                    <?=$igual == true ? 'checked=checked' : "" ?>
+                                    >
+                                    <label style="display: inline;background-color: #f8efef" class="etiqueta" for="<?=$val->co_cds_visita_dom_motivo?>"><?=$val->no_cds_visita_dom_motivo?></label>
+                                </div>
+                        <?}?>
+                        </fieldset>
+                    </div> 
+                    <!-- border-radius: 22px;width: 614px;margin: auto auto auto -322px; -->
+                </div>
+                
+                <div class= "listagemCondutas" style="">
+                        <fieldset style="background: #f8f2ef;border-radius: 22px;width: 750px;margin-left: 245px;">
+                            <legend>Acompanhamento</legend>
+                            <div class="condutas">
+                            <?php 
+                                foreach ($this->acompanhamento as $val) { ?>
+                                    <?php 
+
+                                        $igual = false;
+
+                                        foreach ($this->motivoDaVisita as $motivoDaVisitas) {
+                                                if ($val->co_cds_visita_dom_motivo == $motivoDaVisitas[co_cds_visita_dom_motivo]) {
+                                                    $igual = true;
+                                                }
+                                        }
+
+                                        if ($val->co_cds_visita_dom_motivo > 15) {?>
+                                            <div class="acompanhamentoEsquerda">
+                                                <input class="motivoDaVisita" type="checkbox" value="<?=$val->co_cds_visita_dom_motivo?>" name="visita_motivo[]" id="acompanhamento<?=$val->co_cds_visita_dom_motivo?>" 
+                                                        <?=$igual == true ? 'checked=checked' : "" ?>
+                                                    
+                                                >
+                                                <label style="display: inline;background-color: #f8f2ef" class="etiqueta" for="<?=$val->co_cds_visita_dom_motivo?>"><?=$val->no_cds_visita_dom_motivo?></label>
+                                            </div>
+                                        <?} else{?>
+                                                <div class="acompanhamentoDireito">
+                                                    <input class="motivoDaVisita" type="checkbox" value="<?=$val->co_cds_visita_dom_motivo?>" name="visita_motivo[]" id="acompanhamento<?=$val->co_cds_visita_dom_motivo?>" 
+                                                        <?=$igual == true ? 'checked=checked' : "" ?>
+                                                    >
+                                                    <label style="display: inline;background-color: #f8f2ef" class="etiqueta" for="<?=$val->co_cds_visita_dom_motivo?>"><?=$val->no_cds_visita_dom_motivo?></label>
+                                                </div>
+                                        <?}
+                                    ?>
+                                <?}?>
+                            </div>  
+                        </fieldset>
+                    </div>
+
+                <br>
+                
+            </div>
+        </div>
+
+        <div class="apresentacaoDosDadosPreNatal" id="apresentacaoDosDadosPreNatal" style="display: none"></div>
+        <div class="div-footer center-block" style="width: 365px; margin-top: 95px;">
+            <a href="#" class="ui-button salvar" onclick="selecionarTodosOsCiapSelecionados(); validaData();">Salvar</a>
+            <a href="#" class="ui-button limpar">Limpar</a>
+        </div>
+    </div>
+    
+</form>

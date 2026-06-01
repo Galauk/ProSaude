@@ -1,0 +1,36 @@
+<?php $this->errorMsg(); 
+//echo "<pre>".  print_r($this->itens,1);
+?>
+<?php echo $this->action('form','buscar');?>
+
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    <tr class='ui-widget-header'>
+           <th>Data Viagem</th>
+           <th>Carro</th>
+           <th>Motorista</th> 
+           <th>Local de Embarque</th>
+           <th>Hora de Embarque</th>
+           <th>Opções</th>
+       </tr>
+<?php
+$i=0;
+if($this->itens && $this->itens->count()):
+foreach($this->itens as $item):?>
+        <tr>
+            <td class='ui-state-default' width='50'><?=$this->data($item->via_data);?></td>
+            <td class='ui-state-default c' width='80'><?=$this->escape($item->vei_descricao);?></td>  
+            <td class='ui-state-default c' width='150'><?=$this->escape($item->usr_nome);?></td>
+            <td class='ui-state-default c' width='150'><?=$this->escape($item->via_local);?> </td>
+            <td class='ui-state-default c' width='80'><?=$this->escape($item->via_hora);?></td>
+          
+            <td class='ui-state-default c' width='80'>
+                <a href='<?=$this->url(array("module"=>"transporte", 'controller'=>'viagem','action'=>'editar','id'=>$item->via_codigo), NULL, TRUE);?>' class='editar'><img src='<?=$this->baseUrl('/public/images/icons/editar.png');?>' alt='Editar Itens' title='Editar Itens' /></a>
+                <a href='#' id='excluir' onclick="excluir(<?=$item->via_codigo?>)"><img src='<?=$this->baseUrl('/public/images/icons/excluir.png');?>' alt='Excluir' title='Excluir' /></a>		
+				
+            </td>
+        </tr>
+<?php endforeach; ?>
+</table>
+<?php else:?>
+        <em>Nenhum item encontrado</em>
+<?php endif;?>

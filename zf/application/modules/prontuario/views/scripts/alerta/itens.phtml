@@ -1,0 +1,21 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<div class="space"></div>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Alerta</th>
+		<th>Data</th>
+		<th>Opções</th>
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<tr>
+		<td class="ui-state-default"><?=$this->escape($item->ale_desc);?></td>
+		<td class="ui-state-default c" width="80"><?=$this->data($item->ale_data);?></td>
+		<td class="ui-state-default c" width="60">
+			<a href="<?=$this->url(array("controller"=>"alerta","action"=>"excluir","id"=>$item->ale_codigo));?>" class="excluir"><img src="<?=$this->baseUrl('/public/images/icons/excluir.png');?>" alt="Excluir" title="Excluir" /></a>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php else: ?>
+<em>Nenhum alerta cadastrado.</em>
+<?php endif; ?>

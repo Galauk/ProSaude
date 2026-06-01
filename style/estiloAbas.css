@@ -1,0 +1,73 @@
+#tabnav {
+	width: 80%;	
+	margin: 0 auto;
+	
+}
+ 
+#tabs {
+	height: 20px;
+	position: relative;
+	
+}
+ 
+#content {
+	margin-top:10px;
+	position: relative;
+	padding: 20px;
+	border: 1px solid #99bbbd;
+}
+#tabela {
+	margin-top:10px;
+	position: relative;	
+	padding: 2px;
+	height:28px;
+	border: 1px solid #99bbbd;
+}
+#lor {	
+	position: relative;	
+	padding:0px;	
+	height:52px;
+	border: 1px solid #99bbbd;
+	padding-left:350px;
+	
+	
+}
+ 
+#content div p {
+	font-family: Trebuchet MS, Arial, Verdana;
+	font-size: 12px;
+}
+ 
+#tabs a, #tabs a:visited {
+	background: url("../imgs/tab.jpg") top left no-repeat;
+	font-family: Trebuchet MS, Arial, Verdana;
+	text-decoration: none;
+	color:#000;
+	font-size: 12px;
+	font-weight: bold;
+	display: block;
+	width: 116px;
+	height: 29px;
+	_height: 20px;
+	margin: 0 10px 0 0;
+	text-align: center;
+	padding: 3px 0 0 0; 
+	float: left;
+	
+}
+a:hover{
+	background: url("../imgs/hover.jpg") top left no-repeat;
+	font-family: Trebuchet MS, Arial, Verdana;
+	text-decoration: none;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	display: block;
+	width: 92px;
+	height: 20px;
+	_height: 20px;
+	margin: 0 10px 0 0;
+	text-align: center;
+	padding: 3px 0 0 0; 
+	float: left;
+}

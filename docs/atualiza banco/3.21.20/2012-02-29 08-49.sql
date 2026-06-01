@@ -1,0 +1,1 @@
+ALTER TABLE evento ADD COLUMN eve_hr_ini character(5);

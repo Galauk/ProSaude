@@ -1,0 +1,12 @@
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>">
+	<?php $this->errorMsg(); ?>
+	<label>Alerta:</label>
+	<input type="text" name="ale_desc" value="<?= $this->escape($this->dados->ale_desc); ?>" class="focus"/><br />
+
+	<div class="space"></div>
+
+	<a href="#" class="ui-button salvar">Salvar</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+</form>
+<div class="space"></div>
+<?= $this->action("itens","alerta","prontuario"); ?>

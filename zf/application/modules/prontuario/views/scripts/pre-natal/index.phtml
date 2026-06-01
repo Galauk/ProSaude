@@ -1,0 +1,932 @@
+<?php
+$_SESSION['modulo'] = "WebSocialSaude/";
+$_SESSION['root'] = $_SERVER['DOCUMENT_ROOT'] . "/";
+$_SESSION['linkroot'] = "http://" . $_SERVER['HTTP_HOST'] . "/";
+$_SESSION['comum'] = "WebSocialComum/";
+$_SESSION['modulo'] = "WebSocialSaude/";
+$_SESSION['modulo'] = "WebSocialSaude/";
+$_SESSION['root'] = $_SERVER['DOCUMENT_ROOT'] . "/";
+$_SESSION['linkroot'] = "http://" . $_SERVER['HTTP_HOST'] . "/";
+$_SESSION['comum'] = "WebSocialComum/";
+$_SESSION['modulo'] = "WebSocialSaude/";
+require_once $_SESSION['root'] . $_SESSION['modulo'] . "sessao_controller.php";
+
+$sessao = new TempoSessao();
+$sessao->primeiraPagina();
+?>
+<style>
+    .principal {
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+</style>
+<script>
+    function abrirCarterinha() {
+        var paciente = '<?php echo $this->usu_codigo;?>';
+        url = "/WebSocialSaude/zf/vacina/imprimir-carteirinha/usu/" + paciente;
+        window.open(url, null, "height=620,width=650,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes");
+    }
+
+</script>
+<?php $this->dialog(); ?>
+<div class='abas' id="abas" style="padding: 0px">
+    <ul>
+        <li><a href="#tabs1-1">Atendimento</a></li>
+        <li><a href="#tabs1-2">Histórico</a></li>
+
+    </ul>
+
+    <div id='tabs1-1' style="padding-top: 0px">
+        <form method="post" id="form-pn">
+            <input type="hidden" name="pep_sexo" id="pep_sexo" value="<?= $this->usuario[0]->pep_sexo;?>"/>
+            <input type="hidden" name="usu_cartao_sus" id="usu_cartao_sus"
+                   value="<?= $this->usuario[0]->pep_cartao_sus; ?>"/>
+            <input type="hidden" name="ate_codigo" value="<?= $this->ate_codigo; ?>"/>
+            <input type="hidden" name="usu_codigo" id="usu_codigo" value="<?= $this->usu_codigo; ?>"/>
+            <input type="hidden" name="age_codigo" value="<?= $this->age_codigo; ?>"/>
+            <input type="hidden" name="atp_codigo" value="<?= $this->atendimento_pre_natal->atp_codigo; ?>"/>
+            <input type="hidden" name="usd_codigo"
+                   value="<?php echo($this->dadosUsuario->usd_codigo ? $this->dadosUsuario->usd_codigo : "") ?>"/>
+            <?php $this->errorMsg(); ?>
+            <h3 style="color: #2e6e9e;">Tipo de Consulta</h3>
+            <input type="radio" id="tipo_consulta" name="tipo_consulta" value="1"
+                   onclick="checaPrimeiraConsulta();tipoAtendimento();" <?= ($this->ultimaConsulta == '' || $this->ultimaConsulta == 1) ? "checked='checked'" : "" ?> />
+            Pré-natal
+            <input type="radio" id="tipo_consulta" name="tipo_consulta" value="2"
+                   onclick="checaPrimeiraConsulta();tipoAtendimento();" <?= ($this->ultimaConsulta == 2) ? "checked='checked'" : "" ?>>
+            Puérpero <span class="obrigatorio" style="float: right">(*)Dados Obrigatórios para o e-SUS</span> <br/>
+
+            <input type="hidden" name="numero_gestacao" id="numero_gestacao" value="<?= $this->numeroGestacao ?>">
+            <input type="hidden" name="ultima_consulta" id="ultima_consulta" value="<?= $this->ultimaConsulta ?>">
+            <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend>
+                    <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                           class="ui-corner-bl ui-corner-tr">
+                        Histórico geral
+                    </label>
+                </legend>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <label style="width: 17%">Cirurgias:</label>
+                            <input style="width: 82%;" id="cirurgias" type="text" name="cirurgias"
+                                   value="<?php echo($this->dadosUsuario->cirurgias ? $this->dadosUsuario->cirurgias : "") ?>"/><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="width: 17%">Internações:</label>
+                            <input style="width: 82%;" id="internacoes" type="text" name="internacoes"
+                                   value="<?php echo($this->dadosUsuario->internacoes ? $this->dadosUsuario->internacoes : "") ?>"/><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="width: 17%">Observações:</label>
+                            <input style="width: 82%;" id="observacoes" type="text" name="observacoes"
+                                   value="<?php echo($this->dadosUsuario->observacoes ? $this->dadosUsuario->observacoes : "") ?>"/><br/>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend>
+                    <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                           class="ui-corner-bl ui-corner-tr">
+                        Histórico obstétrico
+                    </label>
+                </legend>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <label style="width: 48%">Gestas prévias:<span class='obrigatorio'>*</span></label>
+                            <input style="width: 48%" id="gestas_previas" type="text" name="gestas_previas"
+                                   value="<?php echo($this->dadosUsuario->gestas_previas ? $this->dadosUsuario->gestas_previas : "") ?>"/>
+                        <td>
+                            <label style="width: 48%">Cesáreas:</label>
+                            <input style="width: 48%" id="cesareas" type="text" name="cesareas"
+                                   value="<?php echo($this->dadosUsuario->cesareas ? $this->dadosUsuario->cesareas : "") ?>"/>
+                        </td>
+                        <td>
+                            <label style="width: 48%">RN < 2500g:</label>
+                            <input style="width: 48%" id="rn2500" type="text" name="rn2500"
+                                   value="<?php echo($this->dadosUsuario->rn2500 ? $this->dadosUsuario->rn2500 : "") ?>"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="width: 48%">Abortos:</label>
+                            <input style="width: 48%" id="abortos" type="text" name="abortos"
+                                   value="<?php echo($this->dadosUsuario->abortos ? $this->dadosUsuario->abortos : "") ?>"/><br/>
+                        </td>
+                        <td>
+                            <label style="width: 48%">Nascidos vivos:</label>
+                            <input style="width: 48%" id="nascidos_vivos" type="text" name="nascidos_vivos"
+                                   value="<?php echo($this->dadosUsuario->nascidos_vivos ? $this->dadosUsuario->nascidos_vivos : "") ?>"/><br/>
+                        </td>
+                        <td>
+                            <label style="width: 48%">RN > 4500g:</label>
+                            <input style="width: 48%" id="rn4500" type="text" name="rn4500"
+                                   value="<?php echo($this->dadosUsuario->rn4500 ? $this->dadosUsuario->rn4500 : "") ?>"/><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="width: 48%">Partos:<span class='obrigatorio'>*</span></label>
+                            <input style="width: 48%" id="partos" type="text" name="partos"
+                                   value="<?php echo($this->dadosUsuario->partos ? $this->dadosUsuario->partos : "") ?>"/><br/>
+                        </td>
+                        <td>
+                            <label style="width: 48%">Vivem:</label>
+                            <input style="width: 48%" id="vivem" type="text" name="vivem"
+                                   value="<?php echo($this->dadosUsuario->vivem ? $this->dadosUsuario->vivem : "") ?>"/><br/>
+                        </td>
+                        <td>
+                            <label style="width: 48%">Mortos - 1ª semana:</label>
+                            <input style="width: 48%" id="mortos_1sem" type="text" name="mortos_1sem"
+                                   value="<?php echo($this->dadosUsuario->mortos_1sem ? $this->dadosUsuario->mortos_1sem : "") ?>"/><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="width: 48%">Partos vaginais:</label>
+                            <input style="width: 48%" id="partos_vaginais" type="text" name="partos_vaginais"
+                                   value="<?php echo($this->dadosUsuario->partos_vaginais ? $this->dadosUsuario->partos_vaginais : "") ?>"/><br/>
+                        </td>
+                        <td>
+                            <label style="width: 48%">Nascidos mortos:</label>
+                            <input style="width: 48%" id="nascidos_mortos" type="text" name="nascidos_mortos"
+                                   value="<?php echo($this->dadosUsuario->nascidos_mortos ? $this->dadosUsuario->nascidos_mortos : "") ?>"/><br/>
+                        </td>
+                        <td>
+                            <label style="width: 48%">Mortos - depois 1ª sem:</label>
+                            <input style="width: 48%" id="mortos_d1sem" type="text" name="mortos_d1sem"
+                                   value="<?php echo($this->dadosUsuario->mortos_d1sem ? $this->dadosUsuario->mortos_d1sem : "") ?>"/><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="width: 48%">Partos domiciliares:</label>
+                            <input style="width: 48%" id="partos_domiciliares" type="text" name="partos_domiciliares"
+                                   value="<?php echo($this->dadosUsuario->partos_domiciliares ? $this->dadosUsuario->partos_domiciliares : "") ?>"/><br/>
+                        </td>
+                        <td>
+                            <label style="width: 100%">Desfecho da última gestação aconteceu há menos de 1
+                                ano?</label></td>
+                        <td>
+                            <input type="radio" id="desfecho" name="desfecho"
+                                   value="S" <?php echo($this->dadosUsuario->desfecho == 'S' ? "checked=checked" : "") ?>>
+                            Sim
+                            <input type="radio" id="desfecho" name="desfecho"
+                                   value="N" <?php echo($this->dadosUsuario->desfecho == 'N' ? "checked=checked" : "") ?>>
+                            Não<br/>
+                        </td>
+                    </tr>
+                    <tr id="atualize_historico">
+                        <td style="padding-left: 10px; color: red;">Atualize o histórico obstétrico.</td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all" id="dados_pre_natal">
+                <legend>
+                    <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                           class="ui-corner-bl ui-corner-tr">
+                        Pré-natal
+                    </label>
+                </legend>
+                <table width="100%">
+                    <tr class="primeiraconsulta">
+                        <td width="40%">
+                            <label style="width: 170px;">Tipo de gravidez:<span class='obrigatorio'>*</span></label>
+                            <select class="ui-state-default" id="tipo_gravidez" name="tipo_gravidez">
+                                <option value="">Selecione...</option>
+                                <option value="U" <?= $this->atendimento_pre_natal->tipo_gravidez == "U" ? "selected=selected" : "" ?>>
+                                    Única
+                                </option>
+                                <option value="D"<?= $this->atendimento_pre_natal->tipo_gravidez == "D" ? "selected=selected" : "" ?>>
+                                    Dupla / Gemelar
+                                </option>
+                                <option value="T"<?= $this->atendimento_pre_natal->tipo_gravidez == "T" ? "selected=selected" : "" ?>>
+                                    Tripla ou mais
+                                </option>
+                                <option value="I"<?= $this->atendimento_pre_natal->tipo_gravidez == "I" ? "selected=selected" : "" ?>>
+                                    Ignorada
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <label style="width: 170px;">Gravidez planejada?<span class='obrigatorio'>*</span></label>
+                            <input type="radio" id="gravidez_planejada" name="gravidez_planejada"
+                                   value="t" <?= $this->atendimento_pre_natal->gravidez_planejada == "t" ? "checked=checked" : "" ?>>
+                            Sim
+                            <input type="radio" id="gravidez_planejada" name="gravidez_planejada"
+                                   value="f" <?= $this->atendimento_pre_natal->gravidez_planejada == "f" ? "checked=checked" : "" ?>>
+                            Não<br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label style="width: 170px;">Edema:</label>
+                            <input type="radio" id="edema" name="edema"
+                                   value="1" <?= $this->atendimento_pre_natal->edema == "1" ? "checked=checked" : "" ?>>
+                            -
+                            <input type="radio" id="edema" name="edema"
+                                   value="2" <?= $this->atendimento_pre_natal->edema == "2" ? "checked=checked" : "" ?>>
+                            +
+                            <input type="radio" id="edema" name="edema"
+                                   value="3" <?= $this->atendimento_pre_natal->edema == "3" ? "checked=checked" : "" ?>>
+                            ++
+                            <input type="radio" id="edema" name="edema"
+                                   value="4" <?= $this->atendimento_pre_natal->edema == "4" ? "checked=checked" : "" ?>>
+                            +++
+                            <br/>
+                        </td>
+                        <td>
+                            <label style="width: 170px;">Altura uterina:
+                                <small> (cm)</small>
+                            </label>
+                            <input style="width: 170px;" id="altura_uterina" type="text" name="altura_uterina"
+                                   value="<?= $this->atendimento_pre_natal->altura_uterina ? $this->atendimento_pre_natal->altura_uterina : "" ?>"/><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label style="width: 170px;">Batimento cardíaco fetal:
+                                <small> (bpm)</small>
+                            </label>
+                            <input style="width: 170px;" id="batimento_cardiaco" type="text" name="batimento_cardiaco"
+                                   value="<?= $this->atendimento_pre_natal->batimento_cardiaco ? $this->atendimento_pre_natal->batimento_cardiaco : "" ?>"/><br/>
+                        </td>
+                        <td><label style="width: 170px;">Movimentação fetal?</label>
+                            <input type="radio" id="movimentacao_fetal" name="movimentacao_fetal"
+                                   value="S" <?= $this->atendimento_pre_natal->movimentacao_fetal == "S" ? "checked=checked" : "" ?>>
+                            Sim
+                            <input type="radio" id="movimentacao_fetal" name="movimentacao_fetal"
+                                   value="N" <?= $this->atendimento_pre_natal->movimentacao_fetal == "N" ? "checked=checked" : "" ?>>
+                            Não<br/></td>
+                    </tr>
+
+                </table>
+            </fieldset>
+            <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend>
+                    <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                           class="ui-corner-bl ui-corner-tr">
+                        Mulher
+                    </label>
+                </legend>
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <label id="label_dum" name="label_dum" style="width: 140px;"><abbr
+                                        title="Data da última menstruação">DUM</abbr></label>
+                            <input style="width: 170px;" id="dum" type="text" name="dum"
+                                   value="<?= $this->Data($this->atendimento_pre_natal->dum) ?>"
+                                   class="mask data-esus" rel="99/99/9999"/><br/>
+                        </td>
+                        <td>
+                            <label style="width: 140px;">Última DUM registrada:</label>
+                            <input style="width: 170px;" id="ultima_dum" type="text" name="ultima_dum"
+                                   value="<?= $this->ultima_dum ? $this->Data($this->ultima_dum) : "" ?>"
+                                   readonly/>
+                        </td>
+                    </tr>
+                    <tr id="dados_dpp">
+                        <td>
+                            <label style="width: 140px;"><abbr title="Data provável do parto">DPP: </abbr></label>
+                            <input style="width: 170px;" id="dpp" type="text" name="dpp"
+                                   value="<?= $this->dpp ? $this->Data($this->dpp) : "Informe a DUM!" ?>" readonly/>
+                        </td>
+                        <td>
+                            <label style="width: 140px;">Idade gestacional:
+                                <small>(em semanas)</small>
+                            </label>
+                            <input style="width: 170px;" id="idade_gestacional" type="text" name="idade_gestacional"
+                                   value="<?= $this->atendimento_pre_natal->idade_gestacional ? $this->atendimento_pre_natal->idade_gestacional : "" ?>"
+                            />
+                        </td>
+                    </tr>
+                    <tr id="data_parto">
+                        <td>
+                            <label style="width: 140px;">Data último parto:</label>
+                            <input style="width: 170px;" id="data_ultimo_parto" type="text" name="data_ultimo_parto" class="mask data-esus" rel="99/99/9999"
+                                   value="<?= $this->atendimento_pre_natal->data_ultimo_parto ? $this->Data($this->atendimento_pre_natal->data_ultimo_parto) : "" ?>"
+                            />
+                        </td>
+
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend>
+                    <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                           class="ui-corner-bl ui-corner-tr">
+                        Dados Pré-Consulta
+                    </label>
+                </legend>
+                <div class="principal">
+                    <input type="hidden" name="pc_codigo" id="pc_codigo" value="<?= $this->dados->pc_codigo; ?>"/>
+                    <input type="hidden" id="co_local_atend" name="co_local_atend"
+                           value="<?= $this->dados->co_local_atend ?>">
+                    <input type="hidden" id="pc_dados" name="pc_dados" value="<?= $this->dados->pc_dados ?>">
+                    <input type="hidden" id="pc_data" name="pc_data" value="<?= $this->dados->pc_data ?>">
+                    <input type="hidden" id="pc_clas_risco" name="pc_clas_risco"
+                           value="<?= $this->dados->pc_clas_risco ?>">
+                    <input type="hidden" id="reavaliacao" name="reavaliacao" value="0">
+                    <input type="hidden" id="salva_pre_consulta" name="salva_pre_consulta" value="1">
+
+                    <div>
+                        <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all">
+                            <legend>
+                                <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                                       class="ui-corner-bl ui-corner-tr">
+                                    Antropometria
+                                </label>
+                            </legend>
+                            <table id="antropometria" name="antropometria" style="width: 100%">
+                                <tr>
+                                    <td>
+                                        <label style="width: 99%">Perímetro Cefálico
+                                            <small>(cm)</small>
+                                            :</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="p_cefalico" id="p_cefalico" style="width: 90%"
+                                               value="<?= $this->escape(number_format($this->dados->pc_perimetro_cefalico, 2)); ?>"
+                                               class="float" rel="2,2"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="width: 99%">Peso
+                                            <small>(Kg)</small>
+                                            :<span class='obrigatorio'>*</span></label>
+                                    </td>
+                                    <td>
+                                        <input id="peso" type="text" name="peso" style="width: 90%"
+                                               value="<?= $this->dados->pc_peso ? (number_format($this->dados->pc_peso, 3)) : ""; ?>"
+                                               class="float" rel="3,3"
+                                               onblur="atualizaIMC()"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="width: 99%">Altura
+                                            <small>(m)</small>
+                                            :<span class='obrigatorio'>*</span></label>
+                                    </td>
+                                    <td>
+                                        <input id="altura" type="text" name="altura" style="width: 90%"
+                                               value="<?= $this->dados->pc_altura ? (number_format($this->dados->pc_altura, 2)) : ""; ?>"
+                                               class="float" rel="1,2"
+                                               onblur="atualizaIMC()"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="width: 99%">IMC:</label>
+                                    </td>
+                                    <td>
+                                        <input id="imc" type="text" name="imc" style="width: 90%"
+                                               value="<?= $this->imc($this->dados->pc_peso, $this->dados->pc_altura); ?>"
+                                               disabled="true"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="hidden" name="age_codigo" value="<?= $this->age_codigo; ?>"/>
+                        </fieldset>
+                        <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all">
+                            <legend>
+                                <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                                       class="ui-corner-bl ui-corner-tr">
+                                    Glicemia
+                                </label>
+                            </legend>
+                            <table id="glicemia" name="glicemia" style="width: 100%">
+                                <tr>
+                                    <td>
+                                        <label style="width: 74%">Glicemia capilar
+                                            <small>(mg/dl)</small>
+                                            :</label>
+                                        <input type="text" name="glicose" style="width: 22%"
+                                               value="<?= $this->escape(number_format($this->dados->pc_glicose, 2)); ?>"
+                                               class="float" rel="3,2"/>
+                                    </td>
+                                    <td>
+                                        <label style="width: 48%">Momento da coleta:</label>
+                                        <select class="ui-state-default" id="pc_momento_coleta"
+                                                name="pc_momento_coleta" style="width: 48%">
+                                            <option value="">Selecione...</option>
+                                            <option value="1">Jejum</option>
+                                            <option value="2">Pós-prandial</option>
+                                            <option value="3">Pré-prandial</option>
+                                            <option value="4">Não especificado</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+
+                    </div>
+                    <div>
+                        <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all">
+                            <legend>
+                                <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                                       class="ui-corner-bl ui-corner-tr">
+                                    Sinais vitais
+                                </label>
+                            </legend>
+                            <table id="sinais_vitais" name="sinais_vitais" style="width: 100%">
+                                <tr>
+                                    <td>
+                                        <label style="width: 100%">Temperatura
+                                            <small>(ºC)</small>
+                                            :</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="temperatura" style="width: 90%"
+                                               value="<?= $this->dados->pc_temperatura ? (number_format($this->dados->pc_temperatura, 2)) : ""; ?>"
+                                               class="float" rel="2,1"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="width: 100%">Pressão Sistólica
+                                            <small>(mm/Hg)</small>
+                                            :</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="pressao_sistolica" style="width: 90%"
+                                               value="<?= $this->escape($this->dados->pc_pressao_sistolica); ?>"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="width: 100%">Pressão Diastólica
+                                            <small>(mm/Hg)</small>
+                                            :</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="pressao_diastolica" style="width: 90%"
+                                               value="<?= $this->escape($this->dados->pc_pressao_diastolica); ?>"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="width: 100%">Freq. Cardíaca
+                                            <small>(BPM)</small>
+                                            :</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="freq_cardiaca" style="width: 90%"
+                                               value="<?= $this->escape($this->dados->pc_freq_cardiaca); ?>"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="width: 100%">Freq. Respiratória
+                                            <small>(MPM)</small>
+                                            :</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="freq_respiratoria" style="width: 90%"
+                                               value="<?= $this->escape($this->dados->pc_freq_respiratoria); ?>"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label style="width: 100%">Saturação O²:</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" name="pc_saturacao" style="width: 90%"
+                                               value="<?= $this->escape(number_format($this->dados->pc_saturacao, 2)); ?>"
+                                               class="float" rel="3,2"/><br/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </div>
+                </div>
+                <div style="text-align: center; width: 100%" id="botao_reavaliar">
+                    <a class="ui-button" id="reavaliar" style="text-align: center;" name="reavaliar"
+                       onclick="habilitaPreConsulta()">
+                        <div><img src='<?= $this->baseUrl('/public/images/icons/estetoscopio.png'); ?>'/></div>
+                        Reavaliar </a>
+                </div>
+                <div style="text-align: center; width: 100%" id="botoes_pre_consulta">
+                    <a class="ui-button salvar-icon" id="salvar_pre_consulta" style="text-align: center;"
+                       name="salvar_pre_consulta"
+                       onclick="salvaPreConsulta()">
+                        Salvar </a>
+                    <a class="ui-button voltar" id="cancela_pre_consulta" style="text-align: center;"
+                       name="cancela_pre_consulta"
+                       onclick="desabilitaPreConsulta()">
+                        Cancelar </a>
+                </div>
+                <div style="text-align: center; width: 100%" id="botao_editar_pc">
+                    <a class="ui-button " id="editar_pre_consulta" style="text-align: center;"
+                       name="editar_pre_consulta"
+                       onclick="habilitaPreConsulta();$('#reavaliacao').val('1');">
+                        <div><img src="<?= $this->baseUrl('/public/images/icons/editar.png'); ?>"></div>
+                        Editar </a>
+                </div>
+            </fieldset>
+
+
+            <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all"
+                      style="height: 50px; padding-bottom: 10px; padding-right: 10px;">
+                <legend>
+                    <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                           class="ui-corner-bl ui-corner-tr">
+                        Vacinação em dia? <span class='obrigatorio'>*</span>
+                    </label>
+                </legend>
+                <table>
+                    <tr>
+                        <td style="width: 50%">
+                            <input type="radio" id="vacinacao_em_dia" name="vacinacao_em_dia"
+                                   value="t" <?php echo($this->dadosUsuario->vacinacao_em_dia == 't' ? "checked=checked" : "") ?>>
+                            Sim
+                            <input type="radio" id="vacinacao_em_dia" name="vacinacao_em_dia"
+                                   value="f" <?php echo($this->dadosUsuario->vacinacao_em_dia == 'f' ? "checked=checked" : "") ?>>
+                            Não
+                        </td>
+                        <td>
+                            <a class="ui-button buscar-icon" id="carteirinha"
+                               onclick="abrirCarterinha();">Visualizar carteirinha</a>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend>
+                    <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                           class="ui-corner-bl ui-corner-tr">
+                        Exames solicitados
+                    </label>
+                </legend>
+                <div style="float: left; width: 49%">
+                    <table id="tb_exame_solicitacao" name="tb_exame_solicitacao" style="width: 99%">
+                        <tr>
+                            <td>
+                                <label style="width: 24%">Exame:</label>
+                                <input type="text" id="proc_nome" name="proc_nome"
+                                       style="font-size:14px; width:74%"
+                                       onkeypress="buscaProcedimentosSus();"/>
+                                <input type="hidden" id="proc_codigo" name="proc_codigo" value=""/>
+                                <input type="hidden" id="proc_codigo_sus" name="proc_codigo_sus" value=""/>
+
+                            </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label style="width: 24%">Data de Solicitação:</label>
+                            <input id="data-solicitacao"
+                                   name="data-solicitacao"
+                                   style="width:88px; height:20px; font-size:14px; "
+                                   class="data mask"
+                                   rel="99/99/9999"
+                                   value=""
+                                   type="text">
+                          </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label style="width: 24%">Observação:</label>
+                                <div class="textarea">
+                                    <textarea id="req_observacao" name="req_observacao" class="tinymce"></textarea>
+                                </div>
+                                <div class="space"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center">
+
+                                <a class="ui-button salvar-icon" onclick="adicionaProcedimento()">Salvar</a>
+                                <a class="ui-button limpar">Limpar</a>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+
+                <div style="float: right; width: 49%; height: 225px; overflow: auto">
+                    <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+                        <tr class="ui-widget-header">
+                            <th colspan="3"> Grupos de Exames Cadastrados:</th>
+                        </tr>
+                        <? foreach ($this->grupos as $grupo) { ?>
+                            <tr>
+                                <td class="ui-state-default" style="width: 15%; text-align: center"><a
+                                            onclick="inserirGrupoProcedimento(<?= $grupo->gruex_codigo ?>)">
+                                        <div><img src="<?= $this->baseUrl('/public/images/icons/add.png'); ?>"
+                                                  alt='Adicionar Grupo' title='Adicionar Grupo'></div>
+                                    </a></td>
+                                <td class="ui-state-default" style="width: 66%"><?= $grupo->gruex_descricao ?></td>
+                                <td class="ui-state-default" style="width: 15%; text-align: center"><a
+                                            onclick="visualizarProcGrupos(<?= $grupo->gruex_codigo ?>)">
+                                        <div><img src="<?= $this->baseUrl('/public/images/icons/buscar.png'); ?>"
+                                                  alt='Visualizar Exames do Grupo' title='Visualizar Exames do Grupo'>
+                                        </div>
+                                    </a></td>
+                            </tr>
+                        <? } ?>
+                    </table>
+                </div>
+
+                <div>
+
+                    <form method="post" action="<?= $this->url(array("action" => "imprimir-selecionados")); ?>">
+                        <input type="hidden" id="imprimir"
+                               value="<?= ($this->selecionados ? implode(",", $this->selecionados) : "0"); ?>"/>
+                        <input type="hidden" id="io_codigo" value="<?= $this->io_codigo ?>"/>
+                        <input type="hidden" id="ate_codigo" value="<?= $this->ate_codigo ?>"/>
+                        <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%" name="procedimentos"
+                               id="procedimentos">
+                            <tr class="ui-widget-header">
+                                <input type="hidden" id="ehViaInternacao" value="<?= $this->obs ?>"/>
+                                <th width="10">
+                                    <img src="<?= $this->baseUrl('/public/images/icons/imprimir.png'); ?>" alt="I"
+                                         title="Selecione os exames a serem impressos!"/>
+                                </th>
+                                <th>Código SUS</th>
+                                <th>Procedimento</th>
+                                <th>Observação</th>
+                                <th>Data de Solicitação</th>
+                                <th width="30">Opções</th>
+                            </tr>
+                            <?php $y = 0;
+                            foreach ($this->itens as $item):
+                                $y++;
+                                ?>
+                                <tr id='proc_qtd<?= $y ?>'>
+                                    <td class="ui-state-default">
+
+                                        <input type="checkbox" class="itensSelecionados"
+                                               value="<?= $item->req_codigo ?>" <?= ($this->selecionados && in_array($item->req_codigo, $this->selecionados)) ? 'checked' : '' ?>>
+
+                                    </td>
+                                    <td class="ui-state-default" style="text-align: center; width: 10%">
+                                        <?= $item->proc_codigo_sus ? $item->proc_codigo_sus : "SEM CÓDIGO" ?>
+                                        <input type='hidden' name='proc[<?= $y ?>][proc_codigo]'
+                                               value="<?= $item->proc_codigo ?>"/>
+                                    </td>
+                                    <td class="ui-state-default">
+                                        <?= $item->proc_nome ?>
+                                    </td>
+                                    <td class="ui-state-default" style="width: 40%;">
+                                        <input type="text" name="exame_obs_<?= $y ?>" id="exame_obs_<?= $y ?>"
+                                               onblur="salvaObservacao(<?= $y ?>,<?= $item->req_codigo ?>);"
+                                               style="width: 99%; height: 99%; background-color: white;"
+                                               value="<?= str_replace(array("<p>", "</p>"), "", $item->req_observacao); ?>"
+                                               placeholder="Digite uma observação"/>
+                                    </td>
+                                    <td class="ui-state-default">
+                                        <?= $this->Data($item->data_solicitacao) ?>
+                                    </td>
+                                    <td class="ui-state-default c">
+                                        <a>
+                                            <img src="<?= $this->baseUrl('/public/images/icons/excluir.png'); ?>"
+                                                 alt="Excluir" title="Excluir"
+                                                 onclick="excluirProcedimento(<?= $y ?>,<?= $item->req_codigo ?>)"/>
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            <input type="hidden" id="proc_qtd_total" name="proc_qtd_total" value="<?= $y ?>"/>
+                        </table>
+                        <p><?= $this->selecionados ?></p>
+
+                        <?php
+                        if ($this->obs == 'S') {
+                            $action = $this->url(
+                                array(
+                                    "modulo" => "prontuario",
+                                    "module" => "prontuario",
+                                    "controller" => "exame",
+                                    "action" => "imprimir",
+                                    "obs" => "S",
+                                    "ate_codigo" => $this->ate_codigo,
+                                    "usu_codigo" => $this->usu_codigo
+                                )
+                            );
+                        } else {
+                            $action = $this->url(
+                                array(
+                                    "modulo" => "prontuario",
+                                    "module" => "prontuario",
+                                    "controller" => "exame",
+                                    "action" => "imprimir",
+                                    "usu_codigo" => $this->usu_codigo
+                                )
+                            );
+                        }
+                        ?>
+                        <div id="botao_imprimir" name="botao_imprimir">
+                            <a href="<?= $action; ?>" class="ui-button imprimir popup" rel="630x540"
+                               data-atalho="CTRL+P">Imprimir
+                                Todos</a>
+                            <a type="button" onclick="imprimirSelecionados('<?= $action ?>')"
+                               class="ui-button imprimir">Imprimir
+                                Selecionados</a>
+                        </div>
+                    </form>
+
+                </div>
+
+            </fieldset>
+
+
+            <div class="space"></div>
+
+
+            <a id="btn-salvar"
+               class="ui-button salvar-icon" onclick="salvar()">Salvar</a>
+
+
+            <div class="clear"></div>
+        </form>
+    </div>
+    <div id='tabs1-2'>
+        <? $ultima_consulta = (count($this->consultas)) - 1; ?>
+        <div>
+            <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all"
+                      style="width: 98%; height: auto;">
+                <legend>
+                    <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                           class="ui-corner-bl ui-corner-tr">
+                        Pré-natal
+                    </label>
+                </legend>
+                <table style="width: 100%;height: 100%;margin: 0">
+                    <tr class="ui-state-default">
+                        <td style="width: 18%">Risco Gestacional:</td>
+                        <td style="width: 35%; background-color: #ffffff"><? /*switch ($this->usuario[0]->risco_gestacao) {
+                                case "":
+                                    echo("Não estratificado");
+                                    break;
+                                case "A":
+                                    echo("Alto");
+                                    break;
+                                case "M":
+                                    echo("Intermediário");
+                                    break;
+                                case "B":
+                                    echo("Habitual");
+                                    break;
+                            } */?></td>
+                        <td>Nº da gestação:</td>
+                        <td style="width: 35%; background-color: #ffffff"><?=$this->consultas[$ultima_consulta]['numero_gestacao']?$this->consultas[$ultima_consulta]['numero_gestacao']."ª gestação": "Não informada."?></td>
+
+                        </tr>
+                    <tr class="ui-state-default">
+                        <td style="width: 15%">DUM:</td>
+                        <td style="width: 35%; background-color: #ffffff"><?= $this->ultima_dum ? $this->Data($this->ultima_dum) : "" ?></td>
+                        <td>DPP cronológica:</td>
+                        <td style="width: 35%; background-color: #ffffff"><?= $this->ultima_dum ? $this->Dpp($this->ultima_dum) : "" ?></td>
+                    </tr>
+                    <tr class="ui-state-default">
+                        <td>IG Cronológica:</td>
+                        <td style="width: 35%; background-color: #ffffff">
+                            <? if($this->consultas[$ultima_consulta]['idade_gestacional']){
+                              echo($this->consultas[$ultima_consulta]['idade_gestacional'] . " semana(s)");
+                            }elseif ($this->ultima_dum){
+                                echo($this->IdadeGestacional($this->ultima_dum)." semana(s)");
+                            }?></td>
+
+                        <td style="width: 15%">Idade de início:</td>
+                        <td style="width: 35%; background-color: #ffffff"><?= $this->ultima_dum ? $this->Idade($this->usuario[0]->datanascimento,FALSE,$this->ultima_dum) : "" ?></td>
+
+                    </tr>
+                    <tr class="ui-state-default">
+                        <td>Ultima consulta de pré-natal:</td>
+                        <td style="width: 35%; background-color: #ffffff"><?= $this->consultas[$ultima_consulta]['ate_data'] ? $this->Data($this->consultas[$ultima_consulta]['ate_data']) : "" ?></td>
+                        <td>Profissional:</td>
+                        <td style="width: 35%; background-color: #ffffff"><?= $this->consultas[$ultima_consulta]['usr_nome'] ? $this->consultas[$ultima_consulta]['usr_nome'] : "" ?></td>
+                    </tr>
+                </table>
+            </fieldset>
+
+        </div>
+        <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all" style="width: 98%">
+            <legend>
+                <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                       class="ui-corner-bl ui-corner-tr">
+                    Medições da Gestação
+                </label>
+            </legend>
+            <table style="width: 100%">
+                <thead class="ui-state-default">
+                <tr>
+                    <th>Consulta</th>
+                    <th>Data</th>
+                    <th>Idade Gestacional</th>
+                    <th>Peso / IMC</th>
+                    <th>Edema</th>
+                    <th>PA</th>
+                    <th>Altura Uterina</th>
+                    <th>BCF/Mov. Fetal</th>
+                </tr>
+                </thead>
+                <?php
+                $y = 1;
+                foreach ($this->consultas as $consulta) {
+
+                    ?>
+                    <tr>
+                        <td style="width: 10%; text-align: center;"><?= $y ? $y . "ª" : "" ?></td>
+                        <td style="width: 10%; text-align: center;"><?= $this->Data($consulta['ate_data']) ?></td>
+                        <td style="text-align: center">
+                            <? if($consulta['idade_gestacional']){
+                                echo($consulta['idade_gestacional'] . " semanas");
+                            }elseif($consulta['dum']){
+                                echo($this->IdadeGestacional($consulta['dum'],$consulta['ate_data'])." semana(s)");
+                            }?></td>
+                        <td style="text-align: center"><?= $consulta['ate_peso'] ? $this->valor($consulta['ate_peso']) : $this->valor($consulta['pc_peso']) ?>
+
+                            <? if ($consulta['ate_peso'] != "" && $consulta['ate_altura']) {
+                                echo(" / " . $this->imc($consulta['ate_peso'], $consulta['ate_altura']));
+                            } elseif ($consulta['pc_peso'] != "" && $consulta['pc_altura']) {
+                                echo(" / " . $this->imc($consulta['pc_peso'], $consulta['pc_altura']));
+                            } else {
+                                echo("");
+                            }
+                            ?>
+                        </td>
+                        <td style="text-align: center"><? switch ($consulta['edema']) {
+                                case 1:
+                                    echo(" - ");
+                                    break;
+                                case 2:
+                                    echo(" + ");
+                                    break;
+                                case 3:
+                                    echo(" ++ ");
+                                    break;
+                                case 4:
+                                    echo(" +++ ");
+                                    break;
+                                default:
+                                    echo("--");
+                                    break;
+                            } ?>
+                        </td>
+                        <td style="text-align: center"><?= $consulta['pc_pressao_sistolica'] ? $consulta['pc_pressao_sistolica'] . "/" . $consulta['pc_pressao_diastolica'] . " mmHg" : "" ?></td>
+                        <td style="text-align: center"><?= $consulta['altura_uterina'] ?></td>
+                        <td style="text-align: center"><?= $consulta['batimento_cardiaco'] ? $consulta['batimento_cardiaco'] : "--" ?>
+                            /<? switch ($consulta['movimentacao_fetal']) {
+                                case "S":
+                                    echo(" Sim");
+                                    break;
+                                case "N":
+                                    echo(" Não");
+                                    break;
+                                default:
+                                    echo(" --");
+                                    break;
+                            } ?></td>
+
+                    </tr>
+
+                    <? $y++;
+                }
+                ?>
+            </table>
+        </fieldset>
+        <fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all" style="width: 98%">
+            <legend>
+                <label style="color: #2e6e9e; background-color: transparent; width: auto;"
+                       class="ui-corner-bl ui-corner-tr">
+                    Histórico da condição:
+                </label>
+            </legend>
+            <table style="width: 100%">
+                <tr class="ui-state-default">
+                    <th style="width: 10%">Consulta</th>
+                    <th>Data</th>
+                    <th>CIAP2 - Descrição do CIAP2</th>
+                    <th>CID10 - Descrição do CID10</th>
+                </tr>
+                <?php
+                $y = 1;
+                foreach ($this->consultas as $consulta) {
+                    ?>
+                    <tr>
+                        <td class="" style="width: 10%; text-align: center;"><?= $y ? $y . "ª" : "" ?></td>
+                        <td style="width: 10%; text-align: center;"><?= $this->Data($consulta['ate_data']) ?></td>
+                        <td><? foreach ($consulta['ciaps'] as $ciap){echo($ciap['co_ciap']." - ".$ciap['ds_ciap']."<br/>");}?></td>
+                        <td><? foreach ($consulta['cids'] as $cid){echo($cid['co_cid']." - ".$cid['no_cid']."<br/>");}?></td>
+
+                    </tr>
+
+                <?$y++; }
+                ?>
+            </table>
+
+        </fieldset>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Data</th>
+		<th>Produto</th>
+		<th>Quant.</th>
+		<th>Unidade</th>
+		<th>Usuário</th>
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<tr>
+		<td class="ui-widget ui-widget-content c"><?=$this->data($item->mov_data);?></td>
+		<td class="ui-widget ui-widget-content"><?=$this->escape($item->pro_nome);?></td>
+		<td class="ui-widget ui-widget-content d"><?php
+		echo number_format($item->ite_quantidade,0,",",".");
+		if($item->unidade){
+			echo $item->ite_quantidade > 1?" unidades":" unidade";
+		} else {
+			echo $item->ite_quantidade > 1?" frações":" fração";
+		}
+		?></td>
+		<td class="ui-widget ui-widget-content"><?=$this->escape($item->uni_desc);?></td>
+		<td class="ui-widget ui-widget-content"><?=$this->escape($item->usr_nome);?></td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php else: ?>
+<br /><em>Paciente não possui histórico de dispensação de medicamentos.</em>
+<?php endif; ?>

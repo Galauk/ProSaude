@@ -1,0 +1,36 @@
+<?=$this->errorMsg();?>
+<?php $this->dialog(); ?>
+<div class="msgAtencaoMenor">
+    <b>Incosistência(s):</b> <br /><?=$this->erroImportacao?>
+</div>
+<?php /* <form method="post" name="form-esus" id="form-esus" action="<?= $this->url(array("action" => "salvar-form-paciente-esus")); ?>"> */ ?>
+<form id="form-esus">
+    <input type="hidden" name="usu_codigo" id="usu_codigo" value="<?=$this->dados[0]->usu_codigo?>" />
+    <label>Nome:</label>
+    <input name="nome" id="nome" class="ui-state-default" maxlength="80" style="text-transform: uppercase" value="<?=$this->dados[0]->usu_nome == "NULL" ? "" : $this->dados[0]->usu_nome?>" /><br />
+    <label>Data de Nascimento:</label>
+    <input name="datanascimento" id="datanascimento" onclick="ativaMascaraData()" class="ui-state-default" value="<?=$this->dados[0]->usu_datanasc == "NULL" ? "" : $this->data($this->dados[0]->usu_datanasc,Zend_Date::DATE_MEDIUM)?>" /><br />
+    <label>Nome da Mãe:</label>
+    <input name="pep_mae" id="pep_mae" class="ui-state-default" maxlength="80" style="text-transform: uppercase" value="<?=$this->dados[0]->usu_mae == "NULL" ? "" : $this->dados[0]->usu_mae?>" /><br />
+    <label>Cartão SUS:</label>
+    <input name="pep_cartao_sus" id="pep_cartao_sus" class="ui-state-default"  maxlength="15" value="<?=$this->dados[0]->usu_cartao_sus == "NULL" ? "" : $this->dados[0]->usu_cartao_sus ?>" /><br />
+    <label>PIS/PASEP:</label>
+    <input name="pispasep" id="pispasep" maxlength="12" class="ui-state-default" value="<?=$this->dados[0]->usu_pis_pasep == "NULL" ? "" : $this->dados[0]->usu_pis_pasep ?>" /><br />
+    <label>Telefone residencial:</label>
+    <input name="pep_telefone" id="pep_telefone" onclick="ativaMascaraTel()" class="ui-state-default" value="<?=$this->dados[0]->usu_fone == "NULL" ? "" : $this->dados[0]->usu_fone ?>" /><br />
+    <label>Telefone celular:</label>
+    <input name="pep_celular" id="pep_celular" onclick="ativaMascaraTel()" class="ui-state-default" class="mask" rel="(99) 9999-9999" value="<?=$this->dados[0]->usu_celular == "NULL" ? "" : $this->dados[0]->usu_celular ?>" /><br />
+    <label>Telefone contato:</label>
+    <input name="pep_contato" id="pep_contato" onclick="ativaMascaraTel()" class="ui-state-default" class="mask" rel="(99) 9999-9999" value="<?=$this->dados[0]->usu_fone_recado == "NULL" ? "" : $this->dados[0]->usu_fone_recado ?>" /><br />
+    <label>CPF:</label>
+    <input name="cnpj_cpf" id="cnpj_cpf" onclick="ativaCpf()" onblur="validaCpf()"  maxlength="15" class="ui-state-default" class="mask" rel="999.999.999-99" maxlength="20" value="<?=$this->dados[0]->usu_cpf == "NULL" ? "" : $this->dados[0]->usu_cpf ?>" />
+    <span class="error" id="erro-cpf-esus" style="display: none;">Cpf Inválido!</span><br />
+    <label>Raça:</label>
+    <select name="rac_codigo">
+        <option value="">Selecione</option>
+        <?  foreach ($this->raca as $raca){?>
+            <option <? if (trim($raca->rac_codigo) == trim($this->dados[0]->rac_codigo)) { echo "selected"; }  ?> value="<?=$raca->rac_codigo?>"><?=$raca->rac_descricao?></option>
+        <?} ?>
+    </select><br />
+</form>
+<div class="space"></div>

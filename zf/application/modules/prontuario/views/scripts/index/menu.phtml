@@ -1,0 +1,93 @@
+<?
+    $base = $this->url(array("module" => "prontuario"), null, true); 
+?>
+
+<ul>
+    <input type="hidden" name="age_codigo" id="age_codigo" value="<?=$this->age->age_codigo?>">
+    <input type="hidden" name="age_atendido" id="age_atendido" value="<?=$this->temPreConsulta->age_atendido?>">
+    <input type="hidden" name="ate_encaminhamento" id="ate_encaminhamento" value="<?=$this->temAtendimento->ate_encaminhamento?>">
+    <input type="hidden" name="usu_codigo" value="<?= $this->age->usu_codigo; 	?>">
+   <?//echo "<pre>".  print_r($this->age,1);die();?>
+    <?php if (!isset($this->age)) { ?>
+        <?//die("deveria cair aqui");?>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/agenda-do-dia">Agenda do Dia <img src="<?= $this->baseUrl('/public/images/icons/agenda.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/agenda-do-dia/atendidos">Atendidos <img src="<?= $this->baseUrl('/public/images/icons/paciente-check.png'); ?>" alt="" title="" /></a></li>
+        <?php if (!$this->isMedico){ ?>                
+            <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/enfermagem/listar">Posto de Enfermagem <img src="<?= $this->baseUrl('/public/images/icons/detalhes.png'); ?>" alt="" title="" /></a></li>
+            <?$med_codigo = "";?>
+            <?php foreach($this->medicos as $medico){ ?>
+                <?php if($med_codigo != $medico->med_codigo){ ?>
+                    <li class="ui-corner-tr ui-corner-bl ui-state-medico" style="font-weight: normal"><a href="<?= $base; ?>/agenda-do-dia/index/usr_codigo/<?=$medico->med_codigo?>"><?=$this->abreviaNome($medico->usr_nome,20)?><img src="<?= $this->baseUrl('/public/images/icons/dentista.png'); ?>" alt="" title="" /></a></li>
+                <?
+                
+                $med_codigo = $medico->med_codigo;
+                } ?>
+            <?php } ?>
+        <?php } ?>
+    <?php } else if ($this->isMedico || $this->isConsultaComEnfermeiro || $this->enfUpa == 99998){ ?>
+            <?//die("mas caiu aqui");?>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/">Dados do Paciente <img src="<?= $this->baseUrl('/public/images/icons/detalhes.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal" onclick="chamar(<?=$this->age->age_codigo?>)"><a href="#">Chamar <img src="<?= $this->baseUrl('/public/images/icons/alert.png'); ?>" alt="" title=""/></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/alerta">Alerta <img src="<?= $this->baseUrl('/public/images/icons/sino.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/pre-consulta/ultima">Acolhimento/Triagem <img src="<?= $this->baseUrl('/public/images/icons/enfermeira.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/atendimento/">Atendimento <img src="<?= $this->baseUrl('/public/images/icons/dentista.png'); ?>" alt="" title="" /></a></li>
+        <?//echo "<pre>".  print_r($this->temAtendimento,1);die();?>
+        <?php if ($this->temAtendimento) {?>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default h" style="font-weight: normal">
+            <a href="<?= $base; ?>/anamnese">
+                Anamnese
+                <img src="<?= $this->baseUrl('/public/images/icons/quiz.png'); ?>" alt="" title=""/>
+            </a>
+        </li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal">
+            <a href="<?= $base; ?>/pre-natal">
+                Pré-Natal/Puerpério 
+                <img src="<?= $this->baseUrl('/public/images/icons/gravida.png'); ?>" alt="" title=""/>
+            </a>
+        </li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default h" style="font-weight: normal">
+            <a href="<?= $base; ?>/hiperdia">
+                Hiperdia 
+                <img src="<?= $this->baseUrl('/public/images/icons/estetoscopio.png'); ?>" alt="" title=""/>
+            </a>
+        </li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default"   style="font-weight: normal"><a href="<?= $base; ?>/receita-medica">Medicamento <img src="<?= $this->baseUrl('/public/images/icons/remedios.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default"   style="font-weight: normal"><a href="<?= $base; ?>/exame">Exame <img src="<?= $this->baseUrl('/public/images/icons/labs.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default"   style="font-weight: normal"><a href="<?= $base; ?>/procedimento">Procedimento <img src="<?= $this->baseUrl('/public/images/icons/bandeide.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default h" style="font-weight: normal"><a href="<?= $base; ?>/anamnese">Anamnese <img src="<?= $this->baseUrl('/public/images/icons/quiz.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default h" style="font-weight: normal"><a href="<?= $base; ?>/pre-natal">Acolhimento/Triagem <img src="<?= $this->baseUrl('/public/images/icons/gravida.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default h" style="font-weight: normal"><a href="<?= $base; ?>/hiperdia">Hiperdia <img src="<?= $this->baseUrl('/public/images/icons/estetoscopio.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default"   style="font-weight: normal"><a href="<?= $base; ?>/atestado">Atestado <img src="<?= $this->baseUrl('/public/images/icons/jornal.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default"   style="font-weight: normal"><a href="<?= $base;?>/encaminhamento">Encaminhamento <img src="<?= $this->baseUrl('/public/images/icons/hospital.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default h" style="font-weight: normal"><a href="<?= $base; ?>/informacao">Informação <img src="<?= $this->baseUrl('/public/images/icons/paciente.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default"   style="font-weight: normal"><a href="<?= $base; ?>/odontograma">Odontograma <img src="<?= $this->baseUrl('/public/images/icons/dente.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default"   style="font-weight: normal"><a href="<?= $base; ?>/enfermagem">Posto de Enfermagem <img src="<?= $this->baseUrl('/public/images/icons/remedios.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default"   style="font-weight: normal"><a href="<?= $base; ?>/internacao-novo">Interna/Observação <img src="<?= $this->baseUrl('/public/images/icons/cama.png'); ?>" alt="" title="" /></a></li>
+        
+        <li class="ui-corner-tr ui-corner-bl ui-state-default"   style="font-weight: normal">
+            <a href="<?= $base; ?>/estratificacao-risco/">Estratificação De Risco <img src="<?= $this->baseUrl('/public/images/icons/cama.png'); ?>" alt="" title="" /></a>
+        </li>
+
+        <!-- <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/outrasimpressoes">Outras Impressoes <img src="<?= $this->baseUrl('/public/images/icons/imprimir.png'); ?>" alt="" title="" /></a></li>-->
+        <li class="ui-corner-tr ui-corner-bl ui-state-default"   style="font-weight: normal"><a href="#" id="finalizar" data-imprimir="<?= $this->getConfig('PRONTUARIO_FINALIZAR_E_IMPRIMIR'); ?>" data-ate="<?= $this->temAtendimento->ate_codigo; ?>">Finalizar Atend. <img src="<?= $this->baseUrl('/public/images/icons/finalizar.png'); ?>" alt="" title="" /></a></li>
+        <? } else { ?>
+            <? //if (!$this->temPreConsulta): ?>
+                <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/index/cancelar/age/<?=$this->age->age_codigo?>">Cancelar <img src="<?= $this->baseUrl('/public/images/icons/paciente-remover.png'); ?>" alt="" title=""/></a></li>
+            <? //else: ?>
+                <!--<li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a class="ui-state-disabled" title="É necessário realizar um atendimento para finalizar o atendimento" href="#">Cancelar <img src="<?= $this->baseUrl('/public/images/icons/paciente-remover.png'); ?>" alt="" title="" /></a></li>-->
+            <? // endif; ?>
+        <? } ?>
+    <? } else { ?>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/">Dados do Paciente <img src="<?= $this->baseUrl('/public/images/icons/detalhes.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/alerta">Alerta <img src="<?= $this->baseUrl('/public/images/icons/sino.png'); ?>" alt="" title="" /></a></li>
+        <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/pre-consulta/index/gambi/s">Acolhimento/Triagem <img src="<?= $this->baseUrl('/public/images/icons/enfermeira.png'); ?>" alt="" title="" /></a></li>
+    <?php if ($this->temPreConsulta){ ?><!-- validos apenas para pre consulta -->
+            <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/procedimento">Procedimento <img src="<?= $this->baseUrl('/public/images/icons/bandeide.png'); ?>" alt="" title="" /></a></li>
+            <input type="hidden" name="pc" id="pc" value="S">
+            <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="#" id="finalizar">Finalizar Atend.<img src="<?= $this->baseUrl('/public/images/icons/finalizar.png'); ?>" alt="" title="" /></a></li>
+    <?php } else { ?>
+            <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal"><a href="<?= $base; ?>/index/cancelar/age/<?=$this->age->age_codigo?>">Cancelar <img src="<?= $this->baseUrl('/public/images/icons/paciente-remover.png'); ?>" alt="" title="" /></a></li>
+            <li class="ui-corner-tr ui-corner-bl ui-state-default" style="font-weight: normal" onclick="chamar(<?=$this->age->age_codigo?>)"><a href="#">Chamar <img src="<?= $this->baseUrl('/public/images/icons/alert.png'); ?>" alt="" title=""/></a></li>
+    <?php } ?>
+<?php } ?>
+</ul>

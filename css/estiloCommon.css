@@ -1,0 +1,107 @@
+/**
+ * Created on 27/02/2011
+ * @author Dilee C. Pacheco - dilee@eloteh.com.br
+ * @Css dos estilos comuns
+ */
+ 
+@CHARSET "ISO-8859-1";
+*{
+    margin:0; /*Defin a a separacao das colunas aqui*/
+    padding:0;
+	
+	
+}
+.linha{
+    padding:0;
+    clear:both;
+}
+
+.cL0 {    
+    height:20px;
+    border: 0px;
+    width:6px;      
+    float:left;
+}
+.cL1 {    
+    height:20px;
+    border: 0px;
+    width:6px;      
+    float:left;
+}
+.cL2 {    
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #153854;
+	height:20px;
+    border: 0px;
+    width:180px;
+    float:left;
+    background-image: url("../imgs/cap03.png");
+    background-repeat: repeat;
+    line-height:20px;
+    text-align:right;
+ 
+}
+
+.cL3 {    
+    height:20px;
+    border: 0px;
+    width:6px;      
+    float:left;
+}
+.cL4  {    
+    height:20px;
+    border: 0px;
+    width: 4px;      
+    float:left;
+}
+.cL5  {    
+	top:30px;
+    height:20px;
+    width: 150px;      
+    padding:1px;
+    float:left;
+    border:0px;
+}
+.cL7  {    
+	top:30px;
+    height:20px;
+    width: 17px;      
+    float:left;
+    border:0px;
+    background-image: url("../imgs/btn03.png");
+    background-repeat: repeat;
+}
+.cL6 {    
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #153854;
+	height:20px;
+    border: 0px;
+    width:180px;
+    float:left;
+    background-image: url("../imgs/btn03.png");
+    background-repeat: repeat;
+    line-height:20px;
+    text-align:right;
+ }
+.cL8 {    
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #153854;
+	height:20px;
+    border: 0px;
+    float:left;
+    background-image: url("../imgs/btn03.png");
+    background-repeat: repeat;
+    line-height:20px;
+    font-weight:bold;
+ }
+
+.tituloModal {    
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	color: #15428B;
+	font-weight: bold;
+}
+ 

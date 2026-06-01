@@ -1,0 +1,149 @@
+
+.faixa {
+	border-color:#FFFFFF;
+	background-color:#DFDFDF;
+	font:Verdana, Geneva, sans-serif;
+	height:12px;
+	border:2px;
+	padding:4px;
+}
+	
+.tabvacina{
+	width:800px;
+}
+
+.corTdOn{
+	background-color: #FFFFD7;
+	height:50px;
+	width:30px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align:center;
+	margin-left:200px;
+}
+.corTdOff{
+	background-color: #666;
+	height:60px;
+	width:100px;
+	font-size:18px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align:center;
+	margin-left:200px;
+}
+.corTdDose{
+	background-color: #CCC;
+	height:60px;
+
+	font-size:12px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align: center;
+	margin-left:200px;
+}
+.tabCarteirinha{
+	width:900px;
+}
+
+.dosesVacina{
+	background-color: #D6D6D6;
+	height:60px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align:center;
+	margin-left:200px;
+}
+
+.dosesVacinaOff{
+	background-color: #F5F5F5;
+	height:60px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align:center;
+	margin-left:200px;
+}
+
+.loteQnt{
+	background-color:#FFF;
+	width:15px;	
+}
+.loteQntTittle{
+	background-color: #666;
+	width:15px;	
+}
+
+.faixaOp{
+	background-color:#EBEBEB;
+	width:300px;
+	height:10px;
+	vertical-align:top;	
+}
+
+.dosesAplicados{
+	background-color:#C9D7FA;
+	height:60px;
+	width:115px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align:center;
+	margin-left:200px;
+}
+.dosesAprazadas{
+	background-color:#F1C0E3;
+	height:60px;
+	width:115px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align:center;
+	margin-left:200px;
+}
+
+.dosesPreenchidas{
+	background-color:#D5EBD3;
+	height:60px;
+	width:115px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align:center;
+	margin-left:200px;
+}
+.tabLegenda{
+	border:solid 1px;
+	width:250px;
+	margin-top:40px;
+}
+
+.tituloTabela{
+	font-size:13px;
+	text-align:center;
+	font-weight:bold;
+}
+
+.legendaAplicar{
+	background-color:#A4D314;
+	height:20px;
+	width:45px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align:center;
+
+}
+
+.legendaPreencher{
+	background-color:#BBBBBB;
+	height:20px;
+	width:45px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align:center;
+	margin-left:200px;
+}
+
+.legendaAprazar{
+	background-color:#F1C0E3;
+	height:20px;
+	width:45px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+	text-align:center;
+	margin-left:200px;
+}
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <?php $this->errorMsg(); ?>
+        <?php $this->dialog();?>
+        <form method="post" name="form" id="form">
+                <input type="hidden" name="popup" id="popup" value="<?php echo $this->popup;?>">
+                <input type="hidden" name="rua_codigo" id="rua_codigo"   value="<?= $this->dados->rua_codigo?>" />
+                <label>Tipo de Logradouro:</label>
+                <input type="hidden" id="co_tipo_logradouro" name="co_tipo_logradouro" value="<?= $this->dados->co_tipo_logradouro?>">
+                <input type="text" name="ds_tipo_logradouro" id="ds_tipo_logradouro" style=" text-transform:uppercase; " onkeypress="buscaTipoLogradouro()" value="<?= $this->dados->ds_tipo_logradouro?>" /><br />
+                <label>Logradouro:</label>
+                <input type="text" name="rua_nome" id="rua_nome" style="text-transform: uppercase;"   value="<?= $this->dados->rua_nome?>" required /><br />
+                <label>Bairro:</label>
+                <input type="hidden" id="bai_codigo" name="bai_codigo" value="<?= $this->dados->bai_codigo?>">
+                <input type="text" name="bai_nome" id="bai_nome" style=" text-transform:uppercase; " onkeypress="buscaBairro()" value="<?= $this->dados->bai_nome?>" />
+                <img src="<?=$this->baseUrl('/public/images/icons/add.png');?>" alt="Nova Rua" title="Nova Rua" onclick="addBairro()"  id="add_rua" />
+                <?php if($this->popup == 1):?>
+                    <img src="<?=$this->baseUrl('/public/images/icons/editar.png');?>" alt="Editar Rua" title="Editar Rua" onclick="editarBairro()" style="<?=(empty($this->dados->bai_codigo) ? "display: none;" : "");?>" id="editar_rua" />
+                <?php endif;?>
+                <br />
+                <label>Localidade:</label>	
+                <input type="text" name="localidade" id="localidade" style=" text-transform:uppercase; "  value="<?= ($this->dados->localidade ? $this->dados->localidade : $this->dados->cid_nome)?>" readonly="readonly"/><br />
+                <label>CEP:</label>
+                <input type="text" name="rua_cep" id="rua_cep"  value="<?=$this->dados->rua_cep?>" class="mask" rel="99999-999"/><br />
+                <a href="#" class="ui-button salvar">Salvar</a>
+          
+                
+        </form>
+        <div class="space"></div>
+    </body>
+</html>

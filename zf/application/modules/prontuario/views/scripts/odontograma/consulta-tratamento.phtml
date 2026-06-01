@@ -1,0 +1,100 @@
+<div id="print">
+    <div id="boca">
+        <div id="linha1">
+            <div data-consulta-dente="18" class="consulta-adulto"></div>
+            <div data-consulta-dente="17" class="consulta-adulto"></div>
+            <div data-consulta-dente="16" class="consulta-adulto"></div>
+            <div data-consulta-dente="15" class="consulta-adulto"></div>
+            <div data-consulta-dente="14" class="consulta-adulto"></div>
+            <div data-consulta-dente="13" class="consulta-adulto"></div>
+            <div data-consulta-dente="12" class="consulta-adulto"></div>
+            <div data-consulta-dente="11" class="consulta-adulto"></div>
+            <div data-consulta-dente="21" class="consulta-adulto"></div>
+            <div data-consulta-dente="22" class="consulta-adulto"></div>
+            <div data-consulta-dente="23" class="consulta-adulto"></div>
+            <div data-consulta-dente="24" class="consulta-adulto"></div>
+            <div data-consulta-dente="25" class="consulta-adulto"></div>
+            <div data-consulta-dente="26" class="consulta-adulto"></div>
+            <div data-consulta-dente="27" class="consulta-adulto"></div>
+            <div data-consulta-dente="28" class="consulta-adulto"></div>
+        </div>
+        <div id="linha2">
+            <div data-consulta-dente="55" class="consulta-crianca"></div>		
+            <div data-consulta-dente="54" class="consulta-crianca"></div>		
+            <div data-consulta-dente="53" class="consulta-crianca"></div>		
+            <div data-consulta-dente="52" class="consulta-crianca"></div>		
+            <div data-consulta-dente="51" class="consulta-crianca"></div>		
+            <div data-consulta-dente="61" class="consulta-crianca"></div>		
+            <div data-consulta-dente="62" class="consulta-crianca"></div>		
+            <div data-consulta-dente="63" class="consulta-crianca"></div>		
+            <div data-consulta-dente="64" class="consulta-crianca"></div>		
+            <div data-consulta-dente="65" class="consulta-crianca"></div>		
+        </div>
+        <div id="meio">----------------------------------------------------------------------------------------------------</div>
+        <div id="linha3">
+            <div data-consulta-dente="85" class="consulta-crianca"></div>		
+            <div data-consulta-dente="84" class="consulta-crianca"></div>		
+            <div data-consulta-dente="83" class="consulta-crianca"></div>		
+            <div data-consulta-dente="82" class="consulta-crianca"></div>		
+            <div data-consulta-dente="81" class="consulta-crianca"></div>		
+            <div data-consulta-dente="71" class="consulta-crianca"></div>		
+            <div data-consulta-dente="72" class="consulta-crianca"></div>		
+            <div data-consulta-dente="73" class="consulta-crianca"></div>		
+            <div data-consulta-dente="74" class="consulta-crianca"></div>		
+            <div data-consulta-dente="75" class="consulta-crianca"></div>		
+        </div>
+        <div id="linha4">
+            <div data-consulta-dente="48" class="consulta-adulto"></div>
+            <div data-consulta-dente="47" class="consulta-adulto"></div>
+            <div data-consulta-dente="46" class="consulta-adulto"></div>
+            <div data-consulta-dente="45" class="consulta-adulto"></div>
+            <div data-consulta-dente="44" class="consulta-adulto"></div>
+            <div data-consulta-dente="43" class="consulta-adulto"></div>
+            <div data-consulta-dente="42" class="consulta-adulto"></div>
+            <div data-consulta-dente="41" class="consulta-adulto"></div>
+            <div data-consulta-dente="31" class="consulta-adulto"></div>
+            <div data-consulta-dente="32" class="consulta-adulto"></div>
+            <div data-consulta-dente="33" class="consulta-adulto"></div>
+            <div data-consulta-dente="34" class="consulta-adulto"></div>
+            <div data-consulta-dente="35" class="consulta-adulto"></div>
+            <div data-consulta-dente="36" class="consulta-adulto"></div>
+            <div data-consulta-dente="37" class="consulta-adulto"></div>
+            <div data-consulta-dente="38" class="consulta-adulto"></div>
+        </div>
+    </div>
+    <div class="space"></div>
+    <table class="grid ui-widget ui-widget-content ui-corner-all" >
+        <thead id="cabecalho">
+            <tr class="ui-widget-header" style="height: 22px">
+                <td colspan="7"><span class="title">Procedimentos realizados</span></td>
+            </tr>
+            <tr class="ui-widget-header">
+                <td>Procedimento</td>
+                <td>Dente</td>
+                <td>Face</td>
+                <td>Anotações</td>
+            </tr>
+        </thead>
+        <tbody id="result">
+            <? foreach($this->historicoProcRealizados as $hist) { ?>
+                <tr id="proc-num<?=$hist["odo_preal_codigo"]?>">
+                    <td class="ui-state-default"><?=$hist["proc_nome"]?></td>
+                    <td class="ui-state-default"><?=$hist["odo_preal_dentenum"]?></td>
+                    <td class="ui-state-default"><?=$hist["odo_preal_denteface"]?></td>
+                    <? if ($hist["odo_preal_denteanot"]) { ?>
+                        <td class="ui-state-default"><?=$hist["odo_preal_denteanot"]?></td>
+                    <? } else { ?>
+                        <td class="ui-state-default">--</td>
+                    <? } ?>
+                </tr>
+            <? } ?>
+        </tbody>
+        <? if (count($this->historicoProcRealizados) == 0) { ?>
+            <tbody id="nenhum-result">
+                <tr>
+                    <td colspan="6">Nenhum procedimento cadastrado até o momento!</td>
+                </tr>
+            </tbody>
+        <? } ?>
+    </table>
+</div>    

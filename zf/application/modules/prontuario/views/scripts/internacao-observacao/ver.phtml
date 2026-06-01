@@ -1,0 +1,36 @@
+<?php $this->dialog(); ?>
+
+<form method="post" action="<?= $this->url(array("action" => "salvar-posto")); ?>">
+	<?php $this->errorMsg(); ?>
+	<input type="hidden" name="pe_codigo" value="<?=$this->dados->pe_codigo;?>">
+	<input type="hidden" name="pe_descricao" value="<?=$this->dados->pe_descricao;?>">
+
+	<label>Recomendação Médica: </label>
+	<div class="textarea">
+		<div class="textarea-readonly" style="width:367px;">
+			<?= $this->dados->pe_descricao ?>
+		</div>
+	</div><br />
+	<div class="space"></div>
+	
+	<label>Observação: </label>
+	<div class="textarea">
+		<textarea name="pe_observacao" class="tinymce"><?=$this->dados->pe_observacao;?></textarea>
+		
+	</div>
+	<div class="space"></div>
+	
+	<label>Procedimento:</label>
+	<input type="hidden" id="esp_codigo" value="<?= $this->esp_codigo; ?>">
+	<input type="hidden" id="proc_codigo" name="proc_codigo" value="" />
+	<input type="text" id="proc_nome" name="proc_nome" value="" /><br />
+	
+	<!--<label>Procedimento:</label>
+		<? //$this->enfermagem; ?><br />
+	<div class="space"></div>-->
+	<a href="#" class="ui-button salvar">Salvar</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+	<a href="<?php echo $this->url(array("module"=>"prontuario","controller"=>"enfermagem","action" => "finalizar","id" => $this->dados->pe_codigo),null,true); ?>" class="ui-button confirm finalizar" rel="Deseja finalizar esse atendimento?">Finalizar</a>
+</form>
+<div class="space"> </div>
+<?php echo $this->action("itens","enfermagem","prontuario",array("cod"=>$this->dados->pe_codigo)) ?>

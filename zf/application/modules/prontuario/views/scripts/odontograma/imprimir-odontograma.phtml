@@ -1,0 +1,154 @@
+<div id="print">
+    <div class="space"></div>
+    <div id="boca">
+        <div id="linha1">
+            <div data-dente="18" class="adulto"></div>
+            <div data-dente="17" class="adulto"></div>
+            <div data-dente="16" class="adulto"></div>
+            <div data-dente="15" class="adulto"></div>
+            <div data-dente="14" class="adulto"></div>
+            <div data-dente="13" class="adulto"></div>
+            <div data-dente="12" class="adulto"></div>
+            <div data-dente="11" class="adulto"></div>
+            <div data-dente="21" class="adulto"></div>
+            <div data-dente="22" class="adulto"></div>
+            <div data-dente="23" class="adulto"></div>
+            <div data-dente="24" class="adulto"></div>
+            <div data-dente="25" class="adulto"></div>
+            <div data-dente="26" class="adulto"></div>
+            <div data-dente="27" class="adulto"></div>
+            <div data-dente="28" class="adulto"></div>
+        </div>
+        <div id="linha2">
+            <div data-dente="55" class="crianca"></div>		
+            <div data-dente="54" class="crianca"></div>		
+            <div data-dente="53" class="crianca"></div>		
+            <div data-dente="52" class="crianca"></div>		
+            <div data-dente="51" class="crianca"></div>		
+            <div data-dente="61" class="crianca"></div>		
+            <div data-dente="62" class="crianca"></div>		
+            <div data-dente="63" class="crianca"></div>		
+            <div data-dente="64" class="crianca"></div>		
+            <div data-dente="65" class="crianca"></div>		
+        </div>
+        <div id="meio">----------------------------------------------------------------------------------------------------</div>
+        <div id="linha3">
+            <div data-dente="85" class="crianca"></div>		
+            <div data-dente="84" class="crianca"></div>		
+            <div data-dente="83" class="crianca"></div>		
+            <div data-dente="82" class="crianca"></div>		
+            <div data-dente="81" class="crianca"></div>		
+            <div data-dente="71" class="crianca"></div>		
+            <div data-dente="72" class="crianca"></div>		
+            <div data-dente="73" class="crianca"></div>		
+            <div data-dente="74" class="crianca"></div>		
+            <div data-dente="75" class="crianca"></div>		
+        </div>
+        <div id="linha4">
+            <div data-dente="48" class="adulto"></div>
+            <div data-dente="47" class="adulto"></div>
+            <div data-dente="46" class="adulto"></div>
+            <div data-dente="45" class="adulto"></div>
+            <div data-dente="44" class="adulto"></div>
+            <div data-dente="43" class="adulto"></div>
+            <div data-dente="42" class="adulto"></div>
+            <div data-dente="41" class="adulto"></div>
+            <div data-dente="31" class="adulto"></div>
+            <div data-dente="32" class="adulto"></div>
+            <div data-dente="33" class="adulto"></div>
+            <div data-dente="34" class="adulto"></div>
+            <div data-dente="35" class="adulto"></div>
+            <div data-dente="36" class="adulto"></div>
+            <div data-dente="37" class="adulto"></div>
+            <div data-dente="38" class="adulto"></div>
+        </div>
+    </div>
+    <div class="space"></div>
+    <? if (count($this->historicoProcaRealizar)>0) { ?>
+        <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+            <thead id="cabecalho">
+                <tr class="ui-widget-header" style="height: 22px">
+                    <td colspan="7"><span class="title">Procedimentos a ser realizados</span></td>
+                </tr>
+                <tr class="ui-widget-header">
+                    <td>Procedimento</td>
+                    <td>Dente</td>
+                    <td>Face</td>
+                    <td>Programado para</td>
+                </tr>
+            </thead>
+            <tbody id="result">
+                    <? foreach($this->historicoProcaRealizar as $hist) { ?>
+                        <tr id="proc-num<?=$hist["odo_proc_codigo"]?>">
+                            <td class="ui-state-default"><?=$hist["proc_nome"]?></td>
+                            <td class="ui-state-default"><?=$hist["odo_proc_dentenum"]?></td>
+                            <td class="ui-state-default"><?=$hist["odo_proc_denteface"]?></td>
+                            <td class="ui-state-default"><?=$this->data($hist["odo_proc_dtprogramada"],Zend_Date::DATE_MEDIUM)?></td>
+                            <? // <td class="ui-state-default"></td> ?>
+                        </tr>
+                    <? } ?>
+                </tbody>            
+            </table>
+    <? } else { ?>
+            <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+                <thead id="cabecalho">
+                    <tr class="ui-widget-header" style="height: 22px">
+                        <td colspan="7"><span class="title">Procedimentos a ser realizados</span></td>
+                    </tr>
+                    <tr class="ui-widget-header">
+                        <td>Procedimento</td>
+                        <td>Dente</td>
+                        <td>Face</td>
+                        <td>Programado para</td>
+                    </tr>
+                </thead>
+                <tbody id="result">
+                    <tr>
+                        <td colspan="4">Nenhum procedimento a realizar até o momento!</td>
+                    </tr>
+                </tbody>
+            </table>
+    <? } ?>
+    <div class="space"></div>
+    <? if (count($this->historicoProcRealizado)>0) { ?>
+        <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+            <thead id="cabecalho">
+                <tr class="ui-widget-header" style="height: 22px">
+                    <td colspan="7"><span class="title">Procedimentos realizados</span></td>
+                </tr>
+                <tr class="ui-widget-header">
+                    <td>Procedimento</td>
+                    <td>Dente</td>
+                    <td>Face</td>
+                </tr>
+            </thead>
+            <tbody id="result">
+                    <? foreach($this->historicoProcRealizado as $histReal) { ?>
+                        <tr id="proc-num<?=$histReal["odo_preal_codigo"]?>">
+                            <td class="ui-state-default"><?=$histReal["proc_nome"]?></td>
+                            <td class="ui-state-default"><?=$histReal["odo_preal_dentenum"]?></td>
+                            <td class="ui-state-default"><?=$histReal["odo_preal_denteface"]?></td>
+                        </tr>
+                    <? } ?>
+                </tbody>            
+            </table>
+    <? } else { ?>
+            <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+                <thead id="cabecalho">
+                    <tr class="ui-widget-header" style="height: 22px">
+                        <td colspan="7"><span class="title">Procedimentos realizados</span></td>
+                    </tr>
+                    <tr class="ui-widget-header">
+                        <td>Procedimento</td>
+                        <td>Dente</td>
+                        <td>Face</td>
+                    </tr>
+                </thead>
+                <tbody id="result">
+                    <tr>
+                        <td colspan="3">Nenhum procedimento a realizar até o momento!</td>
+                    </tr>
+                </tbody>
+            </table>
+    <? } ?>
+</div>

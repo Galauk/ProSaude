@@ -1,0 +1,98 @@
+<?php $this->dialog(); ?>
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" style="float: left" id="form-multiplo" >
+	<input type="hidden" name="ate_codigo" id="ate_codigo" value="<?= $this->dados->ate_codigo; ?>" />
+  <input type="hidden" name="ate_encaminhamento" value="<?= $this->dados->ate_encaminhamento; ?>" />
+	<input type="hidden" id="cid_obrigatorio" name="cid_obrigatorio" value="<?= $this->cid_obrigatorio; ?>" />
+	<?php $this->errorMsg(); ?>
+	<?php echo $this->action("historico","pre-consulta","prontuario"); ?>
+        <a href='<?= $this->url(array("module" => "relatorio", "controller" => "usuario", "action" => "prontuario","usu_codigo" => $this->dados->usu_codigo)); ?>' class="ui-button detalhes popup" rel="900x540">
+            Histórico
+        </a><br/>
+	<label>Início:</label>
+	<input value="<?= $this->data($this->dados->ate_data); ?>" style="width:80px" readonly="readonly" />
+	<input name="ate_hora" value="<?= $this->escape($this->dados->ate_hora); ?>" style="width:50px" readonly="readonly" /><br />
+
+	<label>Nome:</label>
+	<input value="<?= $this->escape($this->dados->usu_nome); ?>" readonly="readonly" /><br />
+
+	<label>Desc. do Paciente:</label>
+	<div class="textarea">
+		<textarea id="ate_reclamacao" name="ate_reclamacao" class="tinymce_atendimento">
+                    <? if($_COOKIE["ate_reclamacao"]) { ?>
+                            <?= $this->escape($_COOKIE["ate_reclamacao"]); ?> 
+                    <? } else { ?>
+                            <?= $this->escape($this->dados->ate_reclamacao); ?>
+                    <? } ?>
+                </textarea>
+	</div><br />
+
+	<label>Acidente de trabalho?:</label>
+	<?= $this->arrayToRadio("ate_acidentetrab", array('S' => "Sim", 'N' => "Não"), is_null($this->dados->ate_acidentetrab) ? 'N' : $this->dados->ate_acidentetrab); ?><br />
+	
+	<label><abbr title="Código Internacional de Doença">CID</abbr>:</label>
+	<input type="text" name="buscar" id="buscar" onkeyup="buscaCid()" value="<? ?>" />
+        <input type="hidden" name="cd10_codigo" id="cd10_codigo" value="<?= $this->dados->cd10_codigo; ?>" /><br />
+        <table class="tb_cids" style="margin-bottom: 2px; width: 487px; border: 1px solid; border-color: #CDDEF2;" border="0">
+            <div id="erro">
+            </div>
+        </table>
+	<label>Tipo de Atendimento:</label>
+	<input value="T" name="ate_puericultura" <?=($this->dados->ate_puericultura?"checked=\"checked\"":"");?> id="ate_puericultura" type="checkbox" /> <label class="not" for="ate_puericultura">Puericultura</label><br>
+	<input class="m" value="T" name="ate_pre_natal" <?=($this->dados->ate_pre_natal?"checked=\"checked\"":"");?> id="ate_pre_natal" type="checkbox" /> <label class="not" for="ate_pre_natal">Pré-Natal</label><br>						
+	<input class="m" value="T" name="ate_cancer" <?=($this->dados->ate_cancer?"checked=\"checked\"":"");?> id="ate_cancer" type="checkbox" /> <label class="not" for="ate_cancer">Prevenção do Câncer Cérvico - Uterino</label><br>						
+	<input class="m" value="T" name="ate_dst" <?=($this->dados->ate_dst?"checked=\"checked\"":"");?> id="ate_dst" type="checkbox" /> <label class="not" for="ate_dst">DST/AIDS</label><br>						
+	<input class="m" value="T" name="ate_diabetes" <?=($this->dados->ate_diabetes?"checked=\"checked\"":"");?> id="ate_diabetes" type="checkbox" /> <label class="not" for="ate_diabetes">Diabetes</label><br>						
+	<input class="m" value="T" name="ate_hipertensao" <?=($this->dados->ate_hipertensao?"checked=\"checked\"":"");?> id="ate_hipertensao" type="checkbox" /> <label class="not" for="ate_hipertensao">Hipertensão Arterial</label><br>						
+	<input class="m" value="T" name="ate_hanseniase" <?=($this->dados->ate_hanseniase?"checked=\"checked\"":"");?> id="ate_hanseniase" type="checkbox" /> <label class="not" for="ate_hanseniase">Hanseníase</label><br>						
+	<input class="m" value="T" name="ate_tuberculose" <?=($this->dados->ate_tuberculose?"checked=\"checked\"":"");?> id="ate_tuberculose" type="checkbox" /> <label class="not" for="ate_tuberculose">Tuberculose</label><br>						
+	
+
+	<label>Exame Físico:</label>
+	<div class="textarea">
+		<textarea name="ate_exame_fisico" id="ate_exame_fisico" class="tinymce_atendimento">
+                    <? if($_COOKIE["ate_exame_fisico"]) { ?>
+                            <?= $this->escape($_COOKIE["ate_exame_fisico"]); ?> 
+                    <? } else { ?>
+                            <?= $this->escape($this->dados->ate_exame_fisico); ?>
+                    <? } ?>
+                </textarea>
+	</div><br />
+
+	<label>Diagnóstico:</label>
+	<div class="textarea">
+		<textarea name="ate_diagnostico" id="ate_diagnostico" class="tinymce_atendimento">
+                    <? if($_COOKIE["ate_exame_fisico"]) { ?>
+                            <?= $this->escape($_COOKIE["ate_diagnostico"]); ?> 
+                    <? } else { ?>
+                            <?= $this->escape($this->dados->ate_diagnostico); ?>
+                    <? } ?>
+                </textarea>
+	</div><br />
+
+	<label>Conduta/Tratamento:</label>
+	<div class="textarea">
+		<textarea name="ate_tratamento" id="ate_tratamento" class="tinymce_atendimento">
+                    <? if($_COOKIE["ate_tratamento"]) { ?>
+                            <?= $this->escape($_COOKIE["ate_tratamento"]); ?> 
+                    <? } else { ?>
+                            <?= $this->escape($this->dados->ate_tratamento); ?>
+                    <? } ?>
+                </textarea>
+	</div><br />
+	<label>Curativos<br />Motivo do Procedimento:</label>
+	<div class="textarea">
+		<textarea name="ate_curativo" id="ate_curativo" class="tinymce_atendimento">
+                    <? if($_COOKIE["ate_curativo"]) { ?>
+                            <?= $this->escape($_COOKIE["ate_curativo"]); ?> 
+                    <? } else { ?>
+                            <?= $this->escape($this->dados->ate_curativo); ?>
+                    <? } ?>
+                </textarea>
+	</div><br />
+	<div class="clear"></div>	
+	<div class="space"></div>	
+	<a href="#" class="ui-button salvar">Salvar</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+
+</form>
+<div class="clear"></div>	

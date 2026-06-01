@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b5235e2b-a7ce-4fc6-b9c4-0edfa4878234">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="301"/>
+	<parameter name="parameter" class="java.lang.String"/>
+	<parameter name="uni_desc" class="java.lang.String"/>
+	<parameter name="uni_cnpj" class="java.lang.String"/>
+	<parameter name="caminho_img" class="java.lang.String"/>
+	<parameter name="nome_secretaria" class="java.lang.String"/>
+	<parameter name="rodape" class="java.lang.String"/>
+	<parameter name="sql" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString language="plsql">
+		<![CDATA[$P{sql}]]>
+	</queryString>
+	<field name="proc_codigo" class="java.lang.Long"/>
+	<field name="proc_nome" class="java.lang.String"/>
+	<field name="usr_nome" class="java.lang.String"/>
+	<field name="count" class="java.lang.Long"/>
+	<variable name="variable1" class="java.lang.Long" resetType="Group" resetGroup="Profissional" calculation="Sum">
+		<variableExpression><![CDATA[$F{count}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="variable2" class="java.lang.Long" incrementType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{count}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<filterExpression><![CDATA[$P{usr_codigo}]]></filterExpression>
+	<group name="Profissional">
+		<groupExpression><![CDATA[$F{usr_nome}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement x="319" y="0" width="190" height="18" uuid="6ec42c9f-ee66-40ae-b503-bf0ede30c83b"/>
+					<textElement textAlignment="Right">
+						<font fontName="Calibri" size="8" isBold="true" isItalic="true" isStrikeThrough="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{usr_nome}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="13" y="1" width="436" height="18" uuid="7a796370-a855-4e62-bc8a-c87ec507655c"/>
+					<textElement textAlignment="Right">
+						<font fontName="Calibri" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Profissional:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="24">
+				<textField>
+					<reportElement x="512" y="3" width="44" height="20" uuid="c8e93a6a-2c4c-467e-9446-55659104e681"/>
+					<textElement>
+						<font fontName="Calibri" isBold="true" isItalic="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{variable1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="802" splitType="Stretch">
+			<line>
+				<reportElement mode="Opaque" x="98" y="11" width="1" height="91" uuid="5d481177-b008-40b6-8356-e6b20412c80a"/>
+			</line>
+			<rectangle>
+				<reportElement mode="Transparent" x="1" y="1" width="554" height="800" uuid="d73766a9-2b6c-46a1-9005-1d386a6b7696"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Transparent" x="12" y="11" width="532" height="91" uuid="d4c6183d-2780-4f71-88ca-8674c71f9aae"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="12" y="113" width="533" height="660" uuid="3d2da38d-37d7-4c7c-a889-731309e72e91"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="1" y="784" width="554" height="17" uuid="b65bfb65-36ce-416b-9db9-b8692f5a93bf"/>
+			</rectangle>
+			<line>
+				<reportElement x="84" y="114" width="1" height="659" uuid="5f3d0e37-75d9-4901-ba5d-6f161bead92a"/>
+			</line>
+			<line>
+				<reportElement x="509" y="114" width="1" height="659" uuid="9c575b20-f1a2-4f5e-81cc-a231394b96ac"/>
+			</line>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="114" splitType="Stretch">
+			<image>
+				<reportElement x="23" y="23" width="62" height="64" uuid="829ca8b7-e339-4e62-95c1-cd8b777bfbbe"/>
+				<imageExpression><![CDATA[$P{caminho_img}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="451" y="91" width="80" height="20" uuid="d958f158-e81f-4f49-9d87-42f866cec04e"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="528" y="91" width="41" height="20" uuid="b2f97f1f-8750-498e-9538-9bd0271eded3"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="159" y="48" width="353" height="20" uuid="05231e0f-da3f-47f4-b88e-b06e0af3c48e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{uni_desc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="244" y="71" width="190" height="20" uuid="3748392a-be1d-438a-9f53-d0392f109845"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{uni_cnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="159" y="27" width="353" height="20" uuid="9bb1483a-fa80-4b20-88fb-c8d82275922c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nome_secretaria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="91" width="100" height="20" uuid="30faaadd-cc15-4f88-ab8b-60a0f0943c30"/>
+				<textFieldExpression><![CDATA[$P{usr_codigo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="12" y="4" width="72" height="19" uuid="2fc7a91f-b339-499e-adb7-ee6c73c62ca1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="84" y="3" width="428" height="20" uuid="ab0ddc7d-b905-4b1d-a934-385e77fa4c7c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Exame]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="513" y="3" width="31" height="20" uuid="f432c76c-1ef4-4495-9078-9141d2fcdbb9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qtde.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="12" y="23" width="532" height="1" uuid="4eb49db6-09e9-4d64-94f3-2b333ae3edd3"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="84" y="2" width="428" height="20" uuid="f76d8c0d-ef7c-4c59-ad77-58b0ce6771eb"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{proc_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="2" width="73" height="20" uuid="834f33c0-0264-4c06-8dff-000aa76e1038"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{proc_codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="514" y="2" width="31" height="18" uuid="4b5a25b3-9829-4c9e-9691-b0418ca6981e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="14">
+			<textField>
+				<reportElement x="59" y="-1" width="472" height="15" uuid="0a158a0d-1a40-4888-9afa-44997172caa9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rodape}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="50">
+			<staticText>
+				<reportElement x="434" y="31" width="36" height="19" uuid="cf452644-a93f-4e29-92e2-0bcd36f181ae"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="468" y="31" width="60" height="17" uuid="f9189f17-a2ee-4c87-979f-3db7a762e85a"/>
+				<textElement>
+					<font fontName="Calibri" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{variable2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

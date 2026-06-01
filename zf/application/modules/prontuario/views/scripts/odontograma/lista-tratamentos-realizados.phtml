@@ -1,0 +1,29 @@
+<div class="space"></div>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+    <thead id="cabecalho">
+        <tr class="ui-widget-header" style="height: 22px">
+            <td colspan="7"><span class="title">Tratamentos realizados</span></td>
+        </tr>
+        <tr class="ui-widget-header">
+            <td>Código</td>
+            <td>Data inicial</td>
+            <td>Data final</td>
+        </tr>
+    </thead>
+    <tbody id="result">
+        <? foreach($this->historicoTratamentos as $hist) { ?>
+        <tr id="proc-num<?=$hist["odo_trat_codigo"]?>" onclick="consultaTratamento(<?=$hist["odo_trat_codigo"]?>);" style="cursor:pointer">
+                <td class="ui-state-default"><?=$hist["odo_trat_codigo"];?></td>
+                <td class="ui-state-default"><?=$this->data($hist["odo_trat_dtinicial"],Zend_Date::DATE_MEDIUM);?></td>
+                <td class="ui-state-default"><?=$this->data($hist["odo_trat_dtfinal"],Zend_Date::DATE_MEDIUM);?></td>
+            </tr>
+        <? } ?>
+    </tbody>
+    <? if (count($this->historicoTratamentos) == 0) { ?>
+        <tbody id="nenhum-result">
+            <tr>
+                <td colspan="3">Nenhum tratamento realizado até o momento!</td>
+            </tr>
+        </tbody>
+    <? } ?>
+</table>

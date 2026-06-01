@@ -1,0 +1,128 @@
+<div id="lotes_hist"></div> <!--Aqui eh armazenado os lotes selecionados para caso eles mudem aparecer nos outros combos -->
+<input type="hidden" id="count" value="">
+<body>
+<div class="menu_small" id="entrada" data-tipo="E" data-acao="entrada/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-add-icon-small.png");?>" alt="Entrada" title="Entrada" />
+</div>
+<div class="menu_small" id="saida" data-tipo="S" data-acao="saida/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-delete-icon-small.png");?>" alt="Saída" title="Saída" />
+</div>
+<div class="menu_small" id="transferencia" data-tipo="T" data-acao="transferencia/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-go-icon-small.png");?>" alt="Transferência" title="Transferência" />
+</div>
+<div class="menu_small" id="controle-movimentos" data-tipo="C" data-acao="controle-movimentos/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/counter-count-up-icon-small.png");?>" alt="Controle Movimentos" title="Controle Movimentos" />
+</div>
+<div class="menu_small" data-tipo="R" data-acao="requisicao-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/requisicao_small.png");?>" alt="Requisiçao Materiais" title="Requisicao Materiais" />
+</div>
+<div class="menu_small" data-tipo="M" data-acao="movimentacao/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/Menu-icon.png");?>" alt="Movimentações" title="Movimentações" />
+</div>
+
+<div class="clear"></div><br/><br/>
+
+<div id="area_entrada" style="height: 600px;">
+    <div class="form_movimento">
+        <form id="form">
+            <input type="hidden" name="rem_status" id="rem_status" value="S">
+            <label>Setor Requisitante:</label>
+            <?=$this->setor_origem?><br/>
+            <input type="hidden" id="set_codigo_req_hist" value="">
+            <input type="hidden" id="set_nome_req_hist" value="">
+            <input type="hidden" id="usr_nome" value="<?=$this->usr_nome?>">
+            <?if($this->itens[rem_codigo]): // o select tag eh muito complicado pra passar parametros?>
+                <script>$("#set_codigo_req").prop('disabled', 'disabled');</script>
+            <?endif;?>
+            <label>Setor Solicitado:</label>
+            <?=$this->setores?><br/>
+            <?if($this->itens[rem_codigo]): // o select tag eh muito complicado pra passar parametros?>
+                <script>$("#set_codigo_sol").prop('disabled', 'disabled');</script>
+            <?endif;?>
+            <div style="float: left;">
+                <label style="">Observações:</label>
+            </div>
+                
+            <div style="float: left; margin-left: 5px;">
+                <?=$this->itens[rem_observacao]?>
+            </div>
+            <br/>
+            <?if(!$this->itens[rem_codigo]): ?>
+                <a href="#" class="ui-button salvar-icon salvar-requisicao" style="margin-left:80px" onclick="validaCadastro();">Salvar</a>
+                <?$display = "style=display:none;"?>
+            <? endif;?>
+
+        </form>
+    </div>
+    <div style="clear:both;"></div><br/>
+    <div id="itens_requisicao" <?=$display?>>
+        <div id="itens_entrada"> <!--style="display: none"-->
+            <div class="itens-entrada-dir" <?=$display?>>
+                <table width="100%" id="table-itens" border="0">
+                    <tr>
+                        <th width="300">
+                            Produto
+                        </th>
+                        <th width="90">
+                            Qtde Solicitada.
+                        </th>
+                        <th width="90">
+                            Qtde Recebida.
+                        </th>
+                        <th width="90">
+                            Solicitante
+                        </th>
+                        <th width="150">
+                            Situação
+                        </th>
+                        <th width="30">
+                        </th>
+                    </tr>
+                    <?if(count($this->itens_requisicao)):?>
+                        <input type="hidden" id="finalizar_all" value="1">
+                        <?$i=0;?>
+                        <?foreach($this->itens_requisicao as $itens_requisicao):?>
+                            <?$i++;?>
+                            <tr class="<?=$itens_requisicao[pro_codigo]?> item_entrada" data-nome="<?=$itens_requisicao[pro_nome]?>"  data-edit="1" data-qtde="<?=$itens_requisicao[remi_quantidade]?>"  data-pro="<?=$itens_requisicao[pro_codigo]?>" data-remi="<?=$itens_requisicao[remi_codigo]?>" data-status="<?=$itens_requisicao[remi_status]?>">
+                                <td><?=$itens_requisicao[pro_nome]?></td>
+                                <td align=center><?=round($itens_requisicao[remi_quantidade])?></td>
+                                <td align=center><?=round($itens_requisicao[saldo_retorno])?></td>
+                                <td align=center><?=$itens_requisicao[usr_nome]?></td>
+                                <td align=center>
+                                    <div id="situacao-<?=$itens_requisicao[remi_codigo]?>"><?=$itens_requisicao[remi_situacao]?></div>
+                                </td>
+                                <td align=center width="80">
+                                    <?if(round($itens_requisicao[saldo_retorno]) != 0):?>
+                                        <? if ($this->itens[rem_status] != "F") { ?>
+                                            <img src="<?=$this->baseUrl("/public/images/icons/add.png");?>" alt="Adicionar" title="Adicionar" onclick="listaLotesPorRequisicao('<?=$itens_requisicao[remi_codigo]?>')" style="cursor:pointer" />
+                                        <? } else { ?>
+                                            <img src="<?=$this->baseUrl("/public/images/icons/add.png");?>" alt="Adicionar" title="Adicionar" />
+                                        <? } ?>
+                                        <? if (($itens_requisicao["remi_status"]=="E" || $itens_requisicao["remi_status"]=="S" || $itens_requisicao["remi_status"]=="C") && ($this->itens[rem_status] != "F")) { ?> 
+                                            <? if ($itens_requisicao["remi_status"]=="C") { ?>
+                                                <img src="<?=$this->baseUrl("/public/images/icons/accept.png");?>" id="remi-<?=$itens_requisicao[remi_codigo]?>" alt="Realizar Transferência" title="Realizar Transferência" onclick="atualizaStatusItemRequisicao('<?=$itens_requisicao[remi_codigo]?>')" style="cursor:pointer" />
+                                            <? } else { ?>
+                                                <img src="<?=$this->baseUrl("/public/images/icons/transferir.png");?>" id="remi-<?=$itens_requisicao[remi_codigo]?>" alt="Realizar Transferência" title="Realizar Transferência" onclick="atualizaStatusItemRequisicao('<?=$itens_requisicao[remi_codigo]?>')" style="cursor:pointer" />
+                                            <? } ?>
+                                        <? } else { ?>
+                                            <img src="<?=$this->baseUrl("/public/images/icons/accept.png");?>" <?=$itens_requisicao[remi_status] == "C" ? "class='ui-state-disabled'" : "" ?>  id="remi-<?=$itens_requisicao[remi_codigo]?>" alt="Realizar Transferência" title="Realizar Transferência" />
+                                        <? } ?>
+                                    <?endif;?>
+                                </td>
+                            </tr>
+                        <?endforeach;?>
+                    <?endif;?>
+                </table>
+            </div>
+        </div>
+    </div>
+    <?if($this->itens[rem_status] != "F"):?>
+        <div id="div_finalizar" <?=$display?>>
+            <a href='<?=$this->url(array("module"=>"materiais", 'controller'=>'requisicao-materiais','action'=>'confirma-requisicao','id'=>$this->itens[rem_codigo]), NULL, TRUE);?>' class="ui-button finalizar" style="margin-top:15px">Finalizar</a>
+            <?/*<a href="#" class="ui-button finalizar" style="margin-top:15px" onclick="finalizaMovimentacao();">Finalizar</a>*/?>
+        </div>
+        
+    <?endif;?>
+    
+</div>
+</body>

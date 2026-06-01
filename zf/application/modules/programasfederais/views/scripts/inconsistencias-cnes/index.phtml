@@ -1,0 +1,29 @@
+<table border='1'>
+    <tr>
+        <th>
+            Profissional
+        </th>
+         <th>
+            Especialidade atual
+        </th>
+         <th>
+            Especialidade agenda
+        </th>
+    </tr>
+    <?php foreach($this->dados as $item):?>
+        <tr>
+            <td><?=$item[usr_codigo]."--".$item[usr_nome]?></td>
+            <td>
+                <?php foreach($item[esp_atual] as $ind=>$esp_atual):
+                 ?>
+                    <?=$esp_atual."<br/>"?>
+                <?php endforeach;?>
+            </td>
+            <td>
+                <?php foreach($item[esp_codigo] as $ind1=>$esp):?>
+                    <?=$esp."<br/>"?>
+                <?php endforeach;?>
+            </td>
+        </tr>
+    <?php endforeach;?>
+</table>

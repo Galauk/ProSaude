@@ -1,0 +1,380 @@
+<?php
+/**
+ * alterações: Colocado restrições no acesso seguindo a tabela usuarios_acessos caso o usuario tenha restrição.
+*/
+?>
+<script language="JavaScript" type="text/javascript" src="funcoes.js"></script>
+<script>
+
+  
+    function ajaxInit() {
+        var req;
+
+        try {
+            req = new ActiveXObject("Microsoft.XMLHTTP");
+        } catch(e) {
+        try {
+ 
+        req = new ActiveXObject("Msxml2.XMLHTTP");
+ 
+        } catch(ex) {
+ 
+        try {
+ 
+        req = new XMLHttpRequest();
+ 
+        } catch(exc) {
+ 
+ alert("Esse browser nÃ£o tem recursos para uso do Ajax");
+ 
+    req = null;
+ 
+        }
+ 
+    }
+ 
+ }
+
+    return req;
+
+}
+
+
+function changeLocation(menuObj)
+{
+   var i = menuObj.selectedIndex;
+   if(i > 0)
+   {
+      window.location = menuObj.options[i].value;
+   }
+}
+
+function valida_form()
+{
+	if(document.nv_periodo.med_codigo.value == '')
+	{
+		alert("Por favor, escolha o medico.");
+		document.getElementById('med_codigo').focus();
+		return false;
+	} else if(document.nv_periodo.esp_codigo.value == '') {
+		alert("Por favor, escolha a especialidade.");
+		document.getElementById('esp_codigo').focus();
+		return false;
+	} else if(document.nv_periodo.agt_item.value == '') {
+		alert("Por favor, escolha o item de agendamento.");
+		document.getElementById('age_item').focus();
+		return false;
+	} else if(document.getElementById('nvdata').value == '') {
+		alert("Por favor, digite a nova data para o periodo!");
+		document.getElementById('nvdata').focus();
+		return false;
+	} else {
+		return true;
+	}
+}
+
+</script>
+<?
+//------------------------------------------------------------------>
+// -> Inclusao principal para montagem do sistema
+//------------------------------------------------------------------>
+	session_start();
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+	include_once $_SESSION[root].$_SESSION[modulo]."authlib.inc.php";
+	cabecario();
+//------------------------------------------------------------------>
+
+
+
+
+//------------------------------------------------------------------>
+//-> Secao Vazia, mostrando registros e botoes
+//------------------------------------------------------------------>
+
+reglog($id_login,"Acessando Manutencao de Agentes");
+
+if($act=="deldate") {
+reglog($id_login,"Apagando Periodo do agente Cod: $agt_codigo");
+   $ver = pg_query("SELECT * 
+   					  FROM grade_mensal 
+   					 WHERE med_codigo='$med_codigo' 
+   					   AND esp_codigo='$esp_codigo' 
+   					   AND age_item='$agt_item' 
+   					   AND grm_periodo='$grm_periodo' 
+   					   AND grm_qtde != 0");
+if(pg_num_rows($ver)=="0") { 
+  $q = "DELETE 
+  		  FROM grade_mensal 
+  		 WHERE med_codigo='$med_codigo' 
+  		   AND esp_codigo='$esp_codigo' 
+  		   AND age_item='$agt_item' 
+  		   AND grm_periodo='$grm_periodo'";
+  $rq=pg_query($q);
+     echo "<table width=100% cellspacing=0 cellpadding=0 border=0>
+	   <tr>
+	    <td align=center>Excluido com Sucesso</td>
+	   </tr>
+	   </table>";
+     echo "<SCRIPT LANGUAGE=\"JavaScript\">
+                  setTimeout(\"location='$PHP_SELF?id_login=$id_login&med_codigo=$med_codigo&esp_codigo=$esp_codigo&agt_item=$agt_item'\", 2000);
+              </SCRIPT>";
+  } else {
+     echo "<table width=100% cellspacing=0 cellpadding=0 border=0>
+	   <tr>
+	    <td align=center>Impossivel APAGAR Pois Existem Dados na Manutencao</td>
+	   </tr>
+	   </table>";
+     echo "<SCRIPT LANGUAGE=\"JavaScript\">
+                  setTimeout(\"location='$PHP_SELF?id_login=$id_login&med_codigo=$med_codigo&esp_codigo=$esp_codigo&agt_item=$agt_item'\", 2000);
+              </SCRIPT>";
+
+  }
+
+}
+
+if($act=="newdate") {
+
+	reglog($id_login,"Adicionando nova data para o agente Cod: $agt_codigo");
+	$select = "select *
+				 from agente";
+	$sql = pg_query($select);
+
+	while($agt = pg_fetch_array($sql)) {
+		$query = "SELECT grm_periodo
+					FROM grade_mensal
+				   WHERE med_codigo = $med_codigo
+					 AND esp_codigo = $esp_codigo
+					 AND agt_codigo = $agt[agt_codigo]
+					 AND age_item = '$agt_item'
+					 AND grm_periodo <= '{$nvdata}'
+				   ORDER BY 1 desc limit 1";
+			  
+		$exec_sql = db_query($query);
+		
+		$data_periodo = pg_fetch_array($exec_sql);
+		if($data_periodo[0] != ""){
+	  	
+			$query = "select (('{$data_periodo[0]}'::date + interval '1 month') - interval '1 day')::date - ('{$data_periodo[0]}')";
+			
+			$quantidade = db_get($query);
+			
+			$query = "SELECT *
+						FROM grade_mensal
+					   WHERE med_codigo = $med_codigo
+						 AND esp_codigo = $esp_codigo
+						 AND agt_codigo = $agt[agt_codigo]
+						 AND age_item = '$agt_item'
+						 AND '$nvdata'
+					 between grm_periodo and (grm_periodo + interval '$quantidade day')";
+				
+			$exec_sql = db_query($query);
+			
+			if(pg_num_rows($exec_sql) == 0){
+				$query = "SELECT grm_periodo
+							FROM grade_mensal
+						   WHERE med_codigo = $med_codigo
+							 AND esp_codigo = $esp_codigo
+							 AND agt_codigo = $agt[agt_codigo]
+							 AND age_item = '$agt_item'
+							 AND grm_periodo >= '{$nvdata}'
+						   ORDER BY 1 limit 1";
+				$exec_sql = db_query($query);
+			} else {
+				echo "
+					<script>
+						alert('Este periodo nao pode ser cadastrado.');
+						location.href = '".$PHP_SELF."?".$QUERY_STRING."';
+					</script>
+				";
+				exit();
+			}
+			
+			$data_periodo = pg_fetch_array($exec_sql);
+		}
+		if($data_periodo[0] != ""){
+			$query = "select (('$nvdata'::date + interval '1 month') - interval '1 day')::date";
+			
+			$d = db_get($query);
+			
+			$query = "select '$d'
+					   where '$d' between('$data_periodo[0]'::date) and (('$data_periodo[0]'::date + interval '1 month') - interval '1 day')";
+			
+			$exec_sql = db_query($query);
+			
+			if(pg_num_rows($exec_sql) > 0){
+				echo "
+					<script>
+						alert('Este periodo nao pode ser cadastrado.');
+						location.href = '".$PHP_SELF."?".$QUERY_STRING."';
+					</script>
+				";
+				exit();
+			}
+			
+		}
+		//exit("Num tem");
+		$q = "insert into grade_mensal 
+				(med_codigo, 
+				 grm_qtde, 
+				 esp_codigo, 
+				 agt_codigo, 
+				 grm_periodo, 
+				 age_item) 
+			  values ( 
+				'$med_codigo', 
+				'0', 
+				'$esp_codigo', 
+				'$agt[agt_codigo]', 
+				'$nvdata', 
+				'$agt_item');";
+		$rq = pg_query($q) or die(pg_last_error());
+	}
+	echo "
+		<SCRIPT LANGUAGE=\"JavaScript\">
+			setTimeout(\"location='$PHP_SELF?id_login=$id_login&med_codigo=$med_codigo&esp_codigo=$esp_codigo&agt_item=$agt_item'\", 0);
+		</SCRIPT>";
+}
+ if(empty($acao)) {
+
+ echo "<table width=733 align=center cellspacing=2 cellpadding=4 border=0>\n
+         <tr>\n
+          <td>\n
+             <table width=100% align=center cellspacing=3 cellpadding=0 border=0>\n
+              <tr>\n";
+               
+ echo "             
+		<td align=right>Médico</td>\n
+		<td>
+			<select name=med_codigo id=med_codigo class=boxr onChange=\"javascript:changeLocation(this)\">\n"; //onChange=\"javascript:changeLocation(this)\"
+ 				echo "<option>...</option>\n";
+	  if(pg_num_rows($exec_sel) > 0)
+	  {
+		  $sql = pg_query("SELECT *
+						     FROM usuarios
+						    WHERE usr_codigo = $med_codigo
+						     ORDER BY usr_nome");
+	  } else {
+		  $sql = pg_query("SELECT * 
+		  					 FROM usuarios 
+		  					WHERE usr_tipo_medico 
+		  					   IN ('M','E','A','D') 
+		  					ORDER BY usr_nome");
+	  }
+	  while($med=pg_fetch_array($sql)) {
+	   echo ($med_codigo==$med[usr_codigo])? "<option value='manutencaoagentes.php?id_login=$id_login&med_codigo=$med[usr_codigo]&agt_item=$agt_item' selected>$med[usr_nome]</option>":"<option value='manutencaoagentes.php?id_login=$id_login&med_codigo=$med[usr_codigo]'>$med[usr_nome]</option>\n";
+	  }
+	echo "</select></td>\n
+              </tr>\n
+              <tr>\n
+		<td align=right>Especialidade</td>\n
+		<td><select name=esp_codigo id=esp_codigo class=boxr onChange=\"javascript:changeLocation(this)\">\n";
+	     echo "<option>...</option>\n";
+	  if(pg_num_rows($exec_sel) > 0)
+	  {
+		 $sql = pg_query("SELECT medico_especialidade.esp_codigo,
+		 						 esp_nome 
+		 					FROM medico_especialidade, 
+		 						 especialidade 
+		 				   WHERE medico_especialidade.esp_codigo=especialidade.esp_codigo 
+		 				     AND medico_especialidade.med_codigo='$med_codigo' 
+		 				     AND medico_especialidade.esp_codigo 
+		 				      IN (SELECT esp_codigo
+							  		FROM usuarios_acessos
+							       WHERE usr_codigo = $id_login
+							  		 AND med_codigo = $med_codigo)");
+	  } else {
+		  $sql = pg_query("SELECT medico_especialidade.esp_codigo,
+		  						  esp_nome 
+		  					 FROM medico_especialidade, 
+		  						  especialidade 
+		  					WHERE medico_especialidade.esp_codigo=especialidade.esp_codigo 
+		  					  AND medico_especialidade.med_codigo='$med_codigo'");
+	  }
+	  while($esp=pg_fetch_array($sql)) {
+	   echo ($esp_codigo==$esp[esp_codigo])?"<option value=manutencaoagentes.php?id_login=$id_login&med_codigo=$med_codigo&esp_codigo=$esp[esp_codigo]&agt_item=$agt_item selected>$esp[esp_nome]</option>":"<option value=manutencaoagentes.php?id_login=$id_login&med_codigo=$med_codigo&uni_codigo=$uni_codigo&esp_codigo=$esp[esp_codigo]>$esp[esp_nome]</option>\n";
+	  }
+	echo "</select></td>\n
+              </tr>\n
+              <tr>\n
+		<td align=right>Item de agendamento</td>\n
+		<td><select name=age_item id=age_item class=boxr onChange=\"javascript:changeLocation(this)\">\n";
+	    if($agt_item=="") { 
+		echo "<option selected>...</option>\n"; 
+	    } else {
+	      if($agt_item=="CB") { 
+		echo "<option selected>...</option>\n"; 
+		 $it_01="selected"; $it_02=""; 
+	      } else {
+		echo "<option selected>...</option>\n"; 
+		 $it_01=""; $it_02="selected"; 
+	      }
+            }
+	    echo "<option value=manutencaoagentes.php?id_login=$id_login&med_codigo=$med_codigo&esp_codigo=$esp_codigo&agt_item=CB $it_01>CLINICA BASICA &nbsp;</option>\n
+		  <option value=manutencaoagentes.php?id_login=$id_login&med_codigo=$med_codigo&esp_codigo=$esp_codigo&agt_item=ES $it_02>ESPECIALIDADE &nbsp;</option>\n";
+	echo "</select></td>\n
+              </tr>\n
+             </table>\n
+             <table width=100% align=center cellspacing=3 cellpadding=0 border=0>\n
+              <tr>\n
+		<td width=100>&nbsp;</td>\n
+		<td width=20 align=right>Data</td>\n
+		<td width=15><select name='grm_periodo' id_grm_periodo class='boxl' onChange=\"javascript:changeLocation(this);\">\n";
+		echo "<option selected>...</option>\n"; 
+
+        $query = pg_query("select to_char(grm_periodo,'DD/MM/YYYY') as grm_periodo,grm_periodo as grm_periodo2
+                      from grade_mensal
+                      where med_codigo='$med_codigo'
+                        and esp_codigo='$esp_codigo' and
+                        age_item='$agt_item'
+                        group by grm_periodo
+                      ORDER BY 2 desc");
+while($dt=pg_fetch_array($query)) {
+echo ($grm_periodo==$dt[grm_periodo2])?"<option value=manutencaoagentes.php?id_login=$id_login&grm_periodo=$dt[grm_periodo2]&med_codigo=$med_codigo&esp_codigo=$esp_codigo&agt_item=$agt_item&select=periodo selected>$dt[grm_periodo]</option>":"<option value=manutencaoagentes.php?id_login=$id_login&grm_periodo=$dt[grm_periodo2]&med_codigo=$med_codigo&esp_codigo=$esp_codigo&agt_item=$agt_item&select=periodo>$dt[grm_periodo]</option>\n";
+}
+echo "</select>\n";
+   $sql = pg_query ("select distinct grm_periodo from grade_mensal where esp_codigo = '$esp_codigo' and med_codigo = '$med_codigo' and age_item = '$agt_item' and grm_periodo='$grm_periodo' order by grm_periodo");
+    while ($linha = pg_fetch_row($sql)) {
+        $tmp = mktime("12", "0", "0", substr($linha[0], 5, 2), substr($linha[0], 8, 2), substr($linha[0], 0, 4));
+        $per = date("d/m/Y", $tmp + (date("t", $tmp) - 1) * 86400);
+        $periodo[date("Y-m-d", $tmp)] = $per;
+    }
+	  echo "</td><form method=post name='nv_periodo' action='manutencaoagentes.php' onsubmit=\"return valida_form()\">\n
+		<input type=hidden name=act value=newdate>\n
+		<input type=hidden name=med_codigo value=$med_codigo>\n
+		<input type=hidden name=esp_codigo value=$esp_codigo>\n
+		<input type=hidden name=agt_item value=$agt_item>\n
+		<input type=hidden name=grm_periodo value=$grm_periodo>\n
+		<input type=hidden name=id_login value=$id_login>\n
+	  	<td width=60><input type=text size=12 class=boxl value='$per' readonly></td>\n";
+       if($grm_periodo=="") {
+	  echo "<td width=110 align=right>&nbsp;</td>\n";
+       } else {
+	  echo "<td width=110 align=right>";
+	  echo ChmodBtn($id_login,'apagar',"manutencaoagentes.php?act=deldate&med_codigo=$med_codigo&esp_codigo=$esp_codigo&agt_item=$agt_item&grm_periodo=$grm_periodo&id_login=$id_login");
+	  echo "</td>\n";
+       }
+	  echo "<td width=10>&nbsp;</td>
+		<td width=100 align=right>Novo Periodo: </td>\n
+		<td width=70><input type=text name=nvdata id='nvdata' size='12' class='boxl' id='data' maxlength='10' onKeypress=\"return Ajusta_Data(this, event);\"></td>\n
+		<td>";
+		echo ChmodBtnJS($id_login, 'adicionar', "manutencaoagentes.php", 'document.nv_periodo.submit();');
+		
+		echo "</td>\n
+	      </tr></form>\n
+	     </table>\n
+          </td>\n
+         </tr>\n
+        </table>\n";
+
+	/*ESTE IF SERVE PARA DEIXAR O FRAME INVISÍVEL ENQUANTO NÃO É PREENCHIDO O PERÍODO*/
+	if ($per){
+	  echo "<table class='table' id='frame' cellspacing=0 cellpadding=0 border=0 align=center>\n
+	         <tr>\n
+	          <td align=center>\n
+	           <iframe name=frameprincipal src=manutencaoagentes_iframe.php?id_login=$id_login&periodo=$per&grm_periodo=$grm_periodo&med_codigo=$med_codigo&esp_codigo=$esp_codigo&agt_item=$agt_item frameborder=no marginheight=0 marginwidth=0 scrolling=yes width=100% height=300>\n</iframe>\n
+		  </td>\n
+		 </tr>\n
+		</table>\n";
+	}
+}
+?>

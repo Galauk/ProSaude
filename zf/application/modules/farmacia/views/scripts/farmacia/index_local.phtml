@@ -1,0 +1,151 @@
+<?php
+
+    // echo '<pre>';print_r($_SESSION[logon][usr]->cnes_tp_unid_id);die();
+?>
+
+<body>
+    <div id="pai">
+        <form>
+            <div id='receita-controlada' style="display: none;" title='Informe o código da receita'>
+                <label class='ui-corner-bl ui-corner-tr'>Cod.Receita:</label>&nbsp;
+                <input type='text' name='cod_receita' id='cod_receita' value='' style='width:80px;' class='ui-state-default'>
+            </div>
+            <input type="hidden" name="set_codigo" id="set_codigo" value="<?=$this->set_codigo?>">
+            <input type="hidden" name="lote_automatico" id="lote_automatico" value="<?=$this->lote_automatico?>">
+            <input type="hidden" name="via_medicamentos" id="via_medicamentos" value="<?=$this->via_medicamentos?>">
+            <input type="hidden" name="cadastro_aise" id="cadastro_aise" value="<?=$this->cadastro_aise?>">
+            <input type="hidden" name="validade_medicamentos" id="validade_medicamentos" value="<?=$this->validade_medicamentos?>">
+            
+            <label>Cód.Receita:</label>
+            <input type="text" id="rec_codigo" name="rec_codigo" value="" autofocus /><br/>
+
+            <label>Profissional:</label>
+            <input type="hidden" id="usr_codigo" name="usr_codigo_solicitante" value="" />
+            <input type="text" id="buscar5" name="usr_nome" value="" />
+            <input type="hidden" id="interno" name="interno" value="" style="width: 20px" /><br />
+            
+            <?php
+                // var_dump($_SESSION['logon']['usr']->cnes_tp_unid_id);die();
+                if ($_SESSION['logon']['usr']->cnes_tp_unid_id == '05') {?>
+                    <label for="">Data : </label>
+                   <input type="date" name="mov_data" id="mov_data" class="" rel="" style=""/> <br>
+                   <input type="hidden" name="cnes_tp_unid_id" id="cnes_tp_unid _id" value="t" /> <br>
+                <?}
+
+            ?>
+
+            <label>Paciente:</label>
+            <input type="hidden" name="usu_codigo" id="usu_codigo" value="">
+            <input type="text" id="buscar1" onkeypress="buscaPaciente()" />
+            <select class="ui-state-default" id="tipo_busca">
+                <option value="">Tipo de Busca</option>
+                <option value="N">Nome</option>
+                <option value="D">Dt.Nasc</option>
+                <option value="M">Mãe</option>
+                <option value="C">CNS</option>
+                <option value="P">Prontuário</option>
+            </select>
+
+            <a href="#" class="ui-button paciente"  style="margin-left: 5px;">Novo / Editar</a> <a href="#" class="ui-button historico"  style="margin-left: 5px;">Histórico</a>
+            <br>
+            <label class="PP" style="display: none">Programa Produto:</label>
+            <select class="ui-state-default PP" id="" onchange="getMedicamentosGrupo(this)" style="width: 300px; display: none">
+                <option value="" readonly selected>GRUPO</option>
+            </select>    
+            <div id="modal_UsuarioPrograma" style="display:none">
+                <p id="usuario-nome"></p>
+            </div>    
+            
+            <div id="itens_div">
+                <table style="1200px;" id="table_itens" border="0">
+                <tr >
+                    <th width="20">
+                        Código
+                    </th>
+                    <th width="190">
+                        Produto
+                    </th>
+                    <th width="210">
+                        Lote - Validade - Saldo
+                    </th>
+                    <th width="80">
+                        Quantidade
+                    </th>
+                    <? if($this->validade_medicamentos == 1){?>
+                            <th width="80">
+                                Duração
+                            </th>
+                    <? } ?>
+                    <th width="220">
+                    </th>
+                </tr>
+                <tr >
+                    <td style="border: 1px solid;border-color: #A6C6F5;">
+                        <input type="text" name="pro_codigo" id="pro_codigo" value="" class="campos" style="width: 90px;" placeholder="Código" title="Código">
+                    </td>
+                    <td style="border: 1px solid;border-color: #A6C6F5;">
+                        <input type="text" name="pro_nome" id="pro_nome" value="" class="campos" style="width: 350px" placeholder="Produto" title="Produto">
+                        <input type="hidden" name="psico_codigo" id="psico_codigo" value="">
+                        <input type="hidden" name="psico_exige_codigo" id="psico_exige_codigo" value="">
+                        <input type="hidden" name="ite_cod_receita" id="ite_cod_receita" value="" class="campos">
+                    </td>
+                    <td style="border: 1px solid;border-color: #A6C6F5;">
+                        <div id="div_lote" onchange="getFracionamento(this.children[0])">
+                            <select id="ite_lote" name="ite_lote" class="ui-state-default ui-state-disabled" style="width:350px;">
+                                <option value="">Lote - Validade - Saldo</option>
+                            </select>
+                        </div>
+                    </td>
+                    <input type="hidden" name="ite_codigo" id="ite_codigo">
+                    <td style="border: 1px solid;border-color: #A6C6F5;">
+                        <input type="text" name="ite_quantidade" id="ite_quantidade" value="" class="campos center-block" style="width: 100px;" placeholder="Qtde" title="Qtde" onkeypress='return SomenteNumero(event)'>
+                    </td>
+                    <?if($this->validade_medicamentos == 1):?>
+                    <td style="border: 1px solid;border-color: #A6C6F5;">
+                        <input type="text" name="ite_duracao" id="ite_duracao" class="campos center-block" style="width: 60px;" placeholder="Duração" title="Duração" onkeypress='return SomenteNumero(event)'>
+                    </td>
+                    <?endif;?>
+                    <td style="border: 1px solid;border-color: #A6C6F5;">
+                        <a href="#" onclick="setTimeout(() => { resetIteQtd() }, 250)" class="ui-button add new"  style="margin-left: 5px;" data-atalho="CTRL+N" id="new">Adicionar</a>
+                    </td>
+                </tr>
+                
+                </table>
+            </div>
+            <br>
+            <div id="tbPrograma" style="display: none">
+                <div>
+                    <h2>Programa - <programa></programa></h2>
+                    <div style="float: left; margin-top: 10px; margin-bottom: 5px">
+                        <!--<input style="vertical-align: middle" type="checkbox"  value="" onchange="$('input:checkbox').attr('checked', this.checked); this.checked ?  : excluirAll()">
+                        <span style="vertical-align: middle">Selecionar todos</span>-->
+                        <a class="ui-button ui-corner-bl ui-corner-tr" id="selectAll" onclick="selectAll()">Selecionar todos</a>
+                    </div>  
+                </div>
+                <table id="tablePrograma">
+                    <thead>
+                        <th></th>
+                        <th>Código</th>
+                        <th>
+                            Produto
+                        </th>
+                        <th>
+                            Lote - Validade - Saldo
+                        </th>
+                        <th>
+                            Quantidade
+                        </th>
+                        <th>
+                            Duração
+                        </th>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <br/>
+            <a href="#" class="ui-button salvar-icon" data-atalho="CTRL+S" id="salvar_dispensacao" style="margin-left: 5px;">Salvar</a>
+        </form>
+    </div>
+</body>

@@ -1,0 +1,29 @@
+<form id="formularioDosNovosIntegrantes" class="" name="formularioDosNovosIntegrantes">
+    <fieldset class="fieldsetDoCadastro" >
+        <div class="divFormularioFamiliar">
+            <label for="novoMembro">Novo membro : </label>
+            <input type="text" id="novoMembro" name="novoMembro" class="inputsFormularioFamiliar" >
+            <input type="hidden" value="" id="usuCodigoNovoMembro" name="usuCodigoNovoMembro" class="usuCodigoNovoMembro">
+
+        </div>
+
+        <div class="divFormularioFamiliar">
+            <select name="descricaoDoGrauParentesco" id="descricaoDoGrauParentesco">
+                <?php 
+                    foreach ($this->recebeGrauParentesco as $grauParentesco) { ?>
+                        <option id="<?=$grauParentesco[tgp_codigo]?>" name="<?=$grauParentesco[tgp_codigo]?>" value="<?=$grauParentesco[tgp_codigo]?>"> <?=$grauParentesco[tgp_descricao]?>
+                            
+                        </option>
+                <?}?>               
+            </select>
+        </div>
+        
+        <div class="divFormularioFamiliar">
+            <label for="rendaMensalDoNovoMembro">Renda Mensal : </label>
+            <input type="number" id="rendaMensalDoNovoMembro" name="rendaMensalDoNovoMembro" class="inputsFormularioFamiliar" >
+        </div>
+
+        <button type="button" onclick="salvarNovoMembroFamiliar()">Salvar novo membro</button>
+
+    </fieldset>
+</form> 

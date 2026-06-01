@@ -1,0 +1,52 @@
+<?php $this->dialog(); ?>
+<form name="busca" method="POST" action="<?= $this->url(array("action" => "buscar")); ?>" id="busca-comum">
+    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>
+    <input size="50" class="focus ui-state-default" name="busca" value="" type="text">
+  
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+
+
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    
+<?php
+$i=0;
+if($this->itens && $this->itens->count()):?>
+    <tr class='ui-widget-header'>
+           <th>Código</th>
+           <th>Data Incial</th>
+           <th>Hora Inicial</th>
+           <th>Data Final</th>
+           <th>Hora Final</th>
+           <th>Opções</th>
+           
+       </tr>
+    <?php
+    foreach($this->itens as $item):?>
+            <tr>
+                <td class='ui-state-default c' width='80'><?=$item->eeh_codigo?></td>  
+                <td class='ui-state-default c' width='150'><?=$this->data($item->eeh_data_inicial)?></td>
+                <td class='ui-state-default c' width='80'><?=$item->hora_inicial?></td>
+                <td class='ui-state-default c' width='150'><?=$this->data($item->eeh_data_final)?></td>
+                <td class='ui-state-default c' width='80'><?=$item->hora_final?></td>
+                <td class='ui-state-default c'>
+  
+                    <?php /*Verifica se o arquivo existe para disponibilizar a opção de "Estorno de exportação" // Cassio .*/?>
+                    
+                    <?php if(file_exists($_SESSION["root"].$_SESSION["modulo"].'e-sus/arqs/RAS_FileZip_'.$item->eeh_codigo.'.zip')){?>
+                    <a href="#" onclick='ativaEstorno(<?=$item->eeh_codigo?>)'>
+                        <img src='<?=$this->baseUrl('/public/images/icons/voltar.png');?>' alt='Estorno de exportação' title='Estorno de exportação' />
+                    </a>
+                    
+                    <?php }else{};?>
+                    
+                    <a href='../../../e-sus/download.php?arquivo=<?=$_SESSION["root"]."".$_SESSION["modulo"]?>e-sus/arqs/RAS_FileZip_<?=$item->eeh_codigo?>.zip'>
+                        <img src='<?=$this->baseUrl('/public/images/icons/download.png');?>' alt='Download do Arquivo' title='Download do Arquivo' />
+                    </a>
+                </td>
+            </tr>
+    <?php endforeach; ?>
+    </table>
+<?php else:?>
+        <em>Nenhum item encontrado</em>
+<?php endif;?>

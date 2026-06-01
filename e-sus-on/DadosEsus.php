@@ -1,0 +1,148 @@
+<?php
+set_time_limit(100000000000);
+ini_set("display_errors",1);
+session_start();
+
+include "esus/transport/common/generated/thrift/Types.php";
+include "esus/transport/common/api/configuracaodestino/Types.php";
+include "esus/cds/transport/generated/thrift/common/Types.php";
+include "../../WebSocialComum/global.php";
+
+include "esus/cds/transport/generated/thrift/atividadecoletiva/Types.php";
+include "esus/cds/transport/generated/thrift/atividadeindividual/Types.php";
+include "esus/cds/transport/generated/thrift/cadastrodomiciliar/Types.php";
+include "esus/cds/transport/generated/thrift/cadastroindividual/Types.php";
+include "esus/cds/transport/generated/thrift/atendimentoodontologico/Types.php";
+include "esus/cds/transport/generated/thrift/procedimento/Types.php";
+include "esus/cds/transport/generated/thrift/visitadomiciliar/Types.php";
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Base/TBase.php";
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Transport/TTransport.php";
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Factory/TStringFuncFactory.php";
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/StringFunc/Core.php";
+include_once $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Type/TType.php";
+
+use Thrift\Base\TBase;
+use Thrift\Exception\TException;
+
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Protocol/TProtocol.php";
+
+use Thrift\Protocol\TProtocol;
+
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Protocol/TBinaryProtocol.php";
+
+use Thrift\Protocol\TBinaryProtocol;
+
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Transport/TPhpStream.php";
+
+use Thrift\Transport\TPhpStream;
+
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Serializer/TBinarySerializer.php";
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Transport/TMemoryBuffer.php";
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Protocol/TBinaryProtocolAccelerated.php";
+include $_SESSION['root'] . $_SESSION['modulo'] . "e-sus/Thrift/lib/php/lib/Thrift/Transport/TBufferedTransport.php";
+
+use Thrift\Transport\TMemoryBuffer;
+use Thrift\Protocol\TBinaryProtocolAccelerated;
+
+use esus\transport\common\generated\thrift as InformacoesEnvioDto;
+use ThriftAtividadeColetiva;
+use ThriftCadastroDomiciliar;
+use ThriftCadastroIndividual;
+use ThriftOdonto;
+use ThriftProcedimento;
+use ThriftVisitaDomiciliar;
+
+// Arquivo de Fichas
+include("DadosAtendimentoIndividual.php");
+include("DadosAtividadeColetiva.php");
+include("DadosCadastroDomiciliar.php");
+include("DadosCadastroIndividual.php");
+include("DadosOdonto.php");
+include("DadosProcedimento.php");
+include("DadosVisitaDomiciliar.php");
+include("db_class/Esus.php");
+include_once("db_class/EsusHistorico.php");
+
+
+class ThriftEsus {
+
+  public function contaQtdRegistros(){
+    $bdAteIndividual = new BancoAtendimentoIndividual();
+    $qtdAI = $bdAteIndividual->getQtdRegistros();
+    $bdAtividadeColetiva = new AtividadeColetiva();
+    $qtdAC = $bdAtividadeColetiva->numDadosAtividadeColetiva();
+    $bdCadastroDomiciliar = new BancoCadastroDomiciliar();
+    $qtdCD = $bdCadastroDomiciliar->getNumDadosCadastroDomiciliar();
+    $bdCadastroIndividual = new BancoCadastroIndividual();
+    $qtdCI = $bdCadastroIndividual->getQtdRegistros();
+    $bdOdonto = new BancoOdonto();
+    $qtdOdo = $bdOdonto->getQtdRegistros();
+    $bdProcedimentos = new BancoProcedimentos();
+    $qtdProc = $bdProcedimentos->getCountDadosProcedimentos();
+    $bdVisitaDomiciliar = new VisitaDomiciliar();
+    $qtdVD = $bdVisitaDomiciliar->numDadosVisitaDomiciliar();
+    $qtds = $qtdAI+$qtdAC+$qtdCD+$qtdCI+$qtdOdo+$qtdProc+$qtdVD;
+// die('debug');
+    return $qtds;
+  }
+
+  public function validaRespEnvio(){
+    $bdEsus = new BancoEsus();
+    $qtdResp = $bdEsus->validaRespEnvio();
+    return $qtdResp;
+  }
+
+    public function geraArquivo() {
+    // Removendo arquivo RAS_FileZip antigo
+    //unlink('arqs/RAS_FileZip.zip');
+    // Valida respons�vel pelo envio
+                $this->varreServidorArqs();
+		$tEsus = new ThriftEsus();
+		if ($tEsus->validaRespEnvio() > 0) {
+
+                        $bdHist = new EsusHistorico();
+                        $eeh_codigo = $bdHist->initHistorico();
+                        $this->varreServidorArqs(); // metodo que limpa arquivos com mais de 3 meses do servidor
+
+			// Atendimento Individual
+			$bdAteIndividual = new ThriftAteIndividual();
+			$bdAteIndividual->executeMain($eeh_codigo);
+			// Cadastro Domiciliar
+			$bdCadDomiciliar = new ThriftCadastroDomiciliar();
+			$bdCadDomiciliar->executeMain($eeh_codigo);
+//			// Cadastro Individual
+			$bdCadIndividual = new ThriftCadastroIndividual();
+			$bdCadIndividual->executeMain($eeh_codigo);
+//			 //Atividade Coletiva
+			$bdAtiColetiva = new ThriftAtividadeColetiva();
+			$bdAtiColetiva->executeMain($eeh_codigo);
+//			// Odonto
+			$bdOdonto = new ThriftOdonto();
+			$bdOdonto->executeMain($eeh_codigo);
+////			// Procedimento
+			$bdProcedimento = new ThriftProcedimento();
+			$bdProcedimento->executeMain($eeh_codigo);
+////			// Visita Domiciliar
+			$bdVisDomiciliar = new ThriftVisitaDomiciliar();
+			$bdVisDomiciliar->executeMain($eeh_codigo);
+
+                        $bdHist->endHistorico($eeh_codigo);
+		} else {
+			echo "<div class='warning'>CADASTRE O RESPONSÁVEL PELO ENVIO ...</div>";
+		}
+	}
+
+        public function varreServidorArqs(){
+            $path = "arqs/";
+            $diretorio = dir($path);
+            while($arquivo = $diretorio -> read()){
+                if ($arquivo != ".svn" && date('d-m-Y', strtotime("-90 days")) < date ("d-m-Y", fileatime($arquivo)) && $arquivo != "." && $arquivo != "..") {
+                    unlink($arquivo);
+                }
+            }
+            $diretorio -> close();
+        }
+
+}
+$tEsus = new ThriftEsus();
+$tEsus->geraArquivo();

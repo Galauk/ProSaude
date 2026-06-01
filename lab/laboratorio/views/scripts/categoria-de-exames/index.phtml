@@ -1,0 +1,84 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<br />
+<form method="post" action="<?=$this->url(array("action"=>"salvar-configuracoes"))?>" id="form-configuracao">
+    <input type="hidden" name="txa_codigo" value="<?=$this->dadosEdicao[0]->txa_codigo?>" />
+    <label style="width: 140px;">Procedimento:</label>
+    <input type="text" name="proc_nome" id="proc_nome" onkeypress="buscaProcedimentosSus();" value="<?=$this->dadosEdicao[0]->proc_nome?>" />
+    <input type="hidden" name="proc_codigo" id="proc_codigo" value="<?=$this->dadosEdicao[0]->proc_codigo?>" /><br />
+    <label style="width: 140px;"> Tipo de Métodos:</label>
+    <?=$this->tipo_de_metodos?>
+    <select name="tipo_de_metodos">
+        <option value="">Selecione</option>
+        <?php foreach ($this->tipodemetodos as $value) { ?>
+            <option value="<?=$value->tpm_codigo?>" <?=$this->dadosEdicao[0]->tpm_codigo == $value->tpm_codigo ? "selected='selected'" : ""; ?>>
+                <?=$value->tpm_metodo?>
+            </option>
+        <?php } ?>
+    </select><br />
+    <label style="width: 140px;"> Tipo de Material:</label>
+    <select name="tipo_de_material">
+        <option value="">Selecione</option>
+        <?php foreach ($this->tipodematerial as $value) { ?>
+                <option value="<?=$value->tma_codigo?>" <?=$this->dadosEdicao[0]->tma_codigo == $value->tma_codigo ? "selected='selected'" : ""; ?>>
+                    <?=$value->tma_tipo?>
+                </option>
+        <?php } ?>
+    </select><br />
+    <label style="width: 140px;"> Categoria de Exames:</label>
+    <select name="categoria_de_exames" id="categoria_de_exames">
+        <option value="">Selecione</option>
+        <?php foreach ($this->categoriadeexames as $value) { ?>
+                <option value="<?=$value->cte_codigo?>" <?=$this->dadosEdicao[0]->cte_codigo == $value->cte_codigo ? "selected='selected'" : ""; ?>>
+                    <?=$value->cte_cargo?>
+                </option>
+        <?php } ?>
+    </select><br />
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+S" style="margin-left: 145px;">Salvar</a>
+</form>
+<br /><br />
+<form id="categoria-de-exames" method="post" action="<?=$this->url(array("action"=>"busca-configuracoes"))?>" >
+    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>
+    <input size="50" class="focus ui-state-default" name="busca" value="" type="text">
+    <label class="ui-corner-bl ui-corner-tr">Tipo de Busca:</label>
+    <select name="tipo_busca">
+        <option value="P">Procedimento</option>
+        <option value="C">Categoria</option>
+    </select>
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+<table class="sortable">
+    <tr>
+        <th>Código</th>
+        <th>Categoria</th>
+        <th>Código SUS - Procedimento</th>
+        <th colspan="2">Ações</th>
+    </tr>
+    <?php if (isset($this->dados)) { ?>
+        <?php foreach($this->dados as $value) { ?>    
+                <tr>
+                    <td>
+                        <?=$value->txa_codigo?>
+                        <input type="hidden" name="ordem[]" value="<?=$value->txa_codigo?>" />
+                    </td>
+                    <td><?=$value->cte_cargo?></td>
+                    <td><?=($value->proc_codigo_sus != "" ? $value->proc_codigo_sus : "SEM CÓDIGO")." - ".$value->proc_nome?></td>
+                    <td>
+                        <a href="<?=$this->baseUrl();?>/laboratorio/categoria-de-exames/index/cte_codigo/<?=$value->cte_codigo?>/id/<?=$value->txa_codigo?>" class="editar" >
+                            <img src="<?=$this->baseUrl();?>/public/images/icons/editar.png" alt="Editar Item" title="Editar Item">
+                        </a>
+                    </td>
+                    <?php/*<td>
+                        <a href="<?=$this->baseUrl();?>/laboratorio/categoria-de-exames/excluir-configuracoes/cte_codigo/<?=$value->cte_codigo?>/id/<?=$value->txa_codigo?>">
+                            <img src="<?=$this->baseUrl();?>/public/images/icons/excluir.png" alt="Excluir Item" title="Excluir Item">
+                        </a>
+                    </td>*/?>
+                    
+                </tr>
+        <?php } ?>
+    <?php } else { ?>
+            <tr>
+                <td colspan="4">Nenhuma configuração realizada até o momento!</td>
+            </tr>
+    <?php } ?>
+</table>

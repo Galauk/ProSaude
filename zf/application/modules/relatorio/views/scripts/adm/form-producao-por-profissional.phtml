@@ -1,0 +1,20 @@
+<form method="post"  action="<?=$this->url(array("action"=>"rel-producao-por-profissional"));?>" target="_blank">
+	<input name="filtro" id="filtro" type="hidden" value="s" />
+
+	<input name="tipo" id="tipo" type="hidden" value="<?=$this->action?>"/><br />
+	<label>Profissional:</label>
+	<input name="usr_nome" id="usr_nome" />
+	<input name="usr_codigo" id="usr_codigo" type="hidden" /><br/>
+
+	<label>Procedimento:</label>
+	<input name="proc_nome" id="proc_nome" />
+	<input name="proc_codigo" id="proc_codigo" type="hidden" /><br />
+	
+	<label>Data inicial:</label>
+	<input name="data_inicial" id="data_inicial" class="data" style="width: 80px"/><br />
+	<label>Data final:</label>
+	<input name="data_final" id="data_final" class="data" style="width: 80px" /><br />
+ 
+	<div class="clear"></div>
+	<a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;" class="popup" rel="600x500">Gerar Relatório</a>
+</form>

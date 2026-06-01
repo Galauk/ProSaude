@@ -1,0 +1,6 @@
+<form name="busca" method="POST" action="<?= $this->url(array("action" => "pesquisa")); ?>" id="busca-comum">
+    <a href="<?=$this->url(array("action"=>"novo"));?>" class="ui-button novo" data-atalho="CTRL+N">Novo</a>
+    <label>Buscar:</label>
+    <input type="text" size="50" class="focus" name="busca" value="<?=$this->escape($this->busca);?>" />
+    <a href="#" class="ui-button salvar" data-atalho="CTRL+F">Buscar</a>
+</form>

@@ -1,0 +1,25 @@
+<phpunit bootstrap="application/bootstrap.php" colors="true">
+    <testsuite name="Application">
+        <directory>./application</directory>
+        <directory>./library</directory>
+    </testsuite>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../application/</directory>
+            <directory suffix=".php">../library/</directory>
+            <exclude>
+                <directory suffix=".phtml">../application</directory>
+                <file>../application/bootstrap.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="../reports/report" charset="UTF-8" yui="true" hightlight="true" lowupperbound="50" highlowerbound="80" />
+        <log type="testdox-html" target="../reports/testdox.html" />
+        
+        <log type="coverage-clover" target="../reports/phpunit.coverage.xml" charset="UTF-8" yui="true" hightlight="true" lowupperbound="50" highlowerbound="80" />
+        <log type="junit" target="../reports/phpunit.xml" />
+    </logging>
+</phpunit>

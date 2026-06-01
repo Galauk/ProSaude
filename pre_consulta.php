@@ -1,0 +1,264 @@
+<?php
+/** pre consulta */
+
+session_start();
+include_once $_SESSION[root].$_SESSION[modulo]."authlib.inc.php";
+verauth($id_login);
+require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+include_once $_SESSION[root].$_SESSION[modulo]."anamnese.inc.php";
+include_once $_SESSION[root].$_SESSION[modulo]."config.inc.php";
+$form = new classForm();
+$common = new commonClass();
+echo $common->incJquery();
+
+echo $common->menuTab(Array('Pré Consulta'));
+
+
+?>
+<script type="text/javascript">
+
+$(function(){
+
+	// opção de "limpar"	
+	$("#limpar_dados")
+		.attr("style","cursor:pointer")
+		.click(function(){
+			$("form input[type=text], textarea").val("");
+			$("#pc_codigo").val("0").trigger("change");
+		});
+	
+	$("#pc_codigo").bind("change",function(){
+
+		if($(this).val() == "0"){
+			$("#limpar_dados").hide();
+			$(".style1").html(" ADICIONAR ");
+
+		} else {
+			$("#limpar_dados").show()
+			$(".style1").html(" EDITAR ");
+		}
+	});
+
+	$("#pc_codigo").trigger("change");
+
+	$(".pre_consulta").click(function(e){
+		e.preventDefault();
+
+		var pc_codigo = $(this).attr("rel");
+
+		$.ajax({
+			url: "../pre_consulta.ajax.php",
+			data: {pc_codigo: pc_codigo},
+			success: function(retorno){
+				for(var campo in retorno)
+					$("#"+campo).val( retorno[campo] );
+
+				$("#pc_codigo").trigger("change");
+			}
+		});
+
+		
+		return false;
+	});
+	
+});
+</script>
+<?php
+
+// LOADING ----------------------------------------------------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------------------------------------------------------
+//echo"<pre>".print_r($_POST,true)."</pre>";
+if($acao =='inserir')
+{
+	$pc_codigo = $_POST['pc_codigo'];
+	
+	if(!$pc_codigo){
+		
+		// SQL INSERT
+		$stmt = "INSERT INTO pre_consulta ( 
+		age_codigo, 
+		pc_temperatura, 
+		pc_peso, 
+		pc_altura, 
+		pc_freq_cardiaca, 
+		pc_freq_respiratoria, 
+		pc_perimetro_cefalico, 
+		pc_dados, 
+		pc_data, 
+		usr_codigo, 
+		pc_pressao_sistolica, 
+		pc_pressao_diastolica
+		 ) VALUES ( 
+		".intval($age_codigo).", 
+		".($pc_temperatura == "" ? "null" : "'$pc_temperatura'").",
+		".($pc_peso == "" ? "null" : "'$pc_peso'").",
+		".($pc_altura == "" ? "null" : "'".($pc_altura * 100 )."'").",
+		".($pc_freq_cardiaca == "" ? "null" : "'$pc_freq_cardiaca'").",
+		".($pc_freq_respiratoria == "" ? "null" : "'$pc_freq_respiratoria'").",
+		".($pc_perimetro_cefalico == "" ? "null" : "'$pc_perimetro_cefalico'").",
+		".($pc_dados == "" ? "null" : "'".trim(($pc_dados))."'").",
+		NOW(), 
+		".intval($id_login).",
+		".($pc_pressao_sistolica == "" ? "null" : "'".( $pc_pressao_sistolica )."'").",
+		".($pc_pressao_diastolica == "" ? "null" : "'".( $pc_pressao_diastolica)."'").")";
+	
+	
+	}// editar
+	else {
+		$stmt = "UPDATE pre_consulta
+   					SET pc_temperatura=".($pc_temperatura == "" ? "null" : "'$pc_temperatura'").", 
+   						pc_peso=".($pc_peso == "" ? "null" : "'$pc_peso'").", 
+   						pc_altura=".($pc_altura == "" ? "null" : "'$pc_altura'").",
+   						pc_freq_cardiaca=".($pc_freq_cardiaca == "" ? "null" : "'$pc_freq_cardiaca'").", 
+   						pc_freq_respiratoria=".($pc_freq_respiratoria == "" ? "null" : "'$pc_freq_respiratoria'").", 
+   						pc_perimetro_cefalico=".($pc_perimetro_cefalico == "" ? "null" : "'$pc_perimetro_cefalico'").", 
+   						pc_dados=".($pc_dados == "" ? "null" : "'".trim(($pc_dados))."'").", 
+   						pc_pressao_sistolica=".($pc_pressao_sistolica == "" ? "null" : "'$pc_pressao_sistolica'").", 
+   						pc_pressao_diastolica=".($pc_pressao_diastolica == "" ? "null" : "'$pc_pressao_diastolica'")."
+ 				  WHERE pc_codigo='$pc_codigo';";
+		
+		
+	}
+	db_query($stmt);
+	echo $common->modalMsg('OK', 'Prontuário salvo',"prontuario.php?pagina=99&id_login=$id_login&age_codigo=$age_codigo&usu_codigo=$usu_codigo&uni_codigo=$uni_codigo&med_codigo=$med_codigo&esp_codigo=$esp_codigo&age_data=$age_data");          
+	exit;
+}
+//<form action=\"?id_login=$id_login&age_codigo=$age_codigo\" method=\"post\">
+/*print "
+<form action='prontuario.php?pagina=3&id_login=$id_login&age_codigo=$age_codigo&usu_codigo=$usu_codigo&uni_codigo=$uni_codigo&med_codigo=$med_codigo&esp_codigo=$esp_codigo&age_data=$age_data' method='post'>
+<INPUT TYPE='hidden' NAME='acao' VALUE='inserir'>
+<table>
+	<tr>";
+		echo"<td width=200><label for=\"pc_temperatura\">Temperatura (C)</label></td>";
+		//$form->inputLabel("Temperatura (C)");
+		echo"<td><select name=\"pc_temperatura\" id=\"pc_temperatura\" class=\"inputForm\">";
+		
+for($i=33; $i <= 43; $i += 0.1 )
+	print "\n\t<option value='{$i}'>".( sprintf("%.1f",$i) )."</option>";
+		sleep(3);
+print "</select>
+		</td>
+	</tr>
+	<tr>
+		<td><label for=\"pc_peso\">Peso (Kg)</label></td>
+		<td><select name=\"pc_peso\" id=\"pc_peso\" class=\"inputForm\">";
+
+for($i=0.3; $i <= 150; $i += 0.1 )
+	print "\n\t<option value='{$i}'>".( sprintf("%.3f",$i) )."</option>";
+
+print "</select>
+	</td>
+	</tr>
+	<tr>
+		<td><label for=\"pc_altura\">Altura (m)</label></td>
+		<td><select name=\"pc_altura\" id=\"pc_altura\" class=\"inputForm\">";
+		
+for($i=0.20; $i <= 2.50; $i += 0.1 )
+	print "\n\t<option value='{$i}'>".( sprintf("%.2f",$i) )."</option>";
+		
+print "</select>
+		</td>
+	</tr>
+	<tr>
+		<td><label for=\"pc_pressao_diastolica\">Pressao Diastolica (mm/Hg)</label></td>
+		<td><select name=\"pc_pressao_diastolica\" id=\"pc_pressao_diastolica\" class=\"inputForm\">";
+		
+for($i=1; $i <= 30; $i += 0.01 )
+	print "\n\t<option value='{$i}'>".( sprintf("%.2f",$i) )."</option>";
+		
+print "</select> <em>por...</em>
+		</td>
+	</tr>
+<tr>
+		<td><label for=\"pc_pressao_sistolica\">Pressao Sistolica (mm/Hg)</label></td>
+		<td><select name=\"pc_pressao_sistolica\" id=\"pc_pressao_sistolica\" class=\"inputForm\">";
+		
+for($i=1; $i <= 30; $i += 0.01 )
+	print "\n\t<option value='{$i}'>".( sprintf("%.2f",$i) )."</option>";
+		
+print "</select>
+		</td>
+	</tr>
+	<tr>
+		<td><label for=\"pc_freq_cardiaca\">Freq Cardiaca (BPM)</label></td>
+		<td><select name=\"pc_freq_cardiaca\" id=\"pc_freq_cardiaca\" class=\"inputForm\">";
+		
+for($i=1; $i <= 240 ;$i += 1 )
+	print "\n\t<option value='{$i}'>".( sprintf("%d",$i) )."</option>";
+		
+print "</select>
+		</td>
+	</tr>
+	<tr>
+		<td><label for=\"pc_freq_respiratoria\">Freq Respiratoria (MPM)</label></td>
+		<td><select name=\"pc_freq_respiratoria\" id=\"pc_freq_respiratoria\" class=\"inputForm\">";
+		
+for($i=1; $i <= 240 ;$i += 1 )
+	print "\n\t<option value='{$i}'>".( sprintf("%d",$i) )."</option>";
+		
+print "</select>
+		</td>
+	</tr>
+	<tr>
+		<td><label for=\"pc_perimetro_cefalico\">Perimetro Cefalico (cm)</label></td>
+		<td><select name=\"pc_perimetro_cefalico\" id=\"pc_perimetro_cefalico\" class=\"inputForm\">";
+		
+for($i=0.1; $i <= 60 ;$i += 0.1 )
+	print "\n\t<option value='{$i}'>".( sprintf("%.1f",$i) )."</option>";
+		
+print "</select>
+		</td>
+	</tr>
+	<tr>
+		<td><label for=\"pc_dados\">Demais dados</label></td>
+		<td><textarea name=\"pc_dados\" id=\"pc_dados\"  class=\"textArea\" rows=\"5\" cols=\"70\"></textarea></td>
+	</tr>
+		<td>&nbsp;</td>
+		<td><input type=\"image\"src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/adicionar_on.jpg\" alt=\"Adicionar\" /></td>
+	</tr>
+	</table>
+	
+<form/>";*/
+
+	
+echo $common->bodyTab('1');
+// listagem da pre consulta deste agendamento
+$stmt = "SELECT pc_codigo, TO_CHAR(pc_data,'HH24:MI') as data 
+FROM pre_consulta AS pc
+WHERE pc.age_codigo = $age_codigo
+ order by pc_data desc";
+
+$qry = db_query( $stmt );
+
+if(pg_num_rows($qry)){
+	echo "<fieldset style=\"margin-bottom:10px;\"><legend>Histórico de Pré Consultas</legend>";
+	$consultas = array();
+	while( $row = pg_fetch_array($qry) ){
+		$consultas[] = "<a href='#' class=\"pre_consulta\" rel=\"$row[0]\">As $row[1]</a>";
+	}
+	echo implode( ",<br /> ", $consultas );
+	echo "<br /><span id=\"limpar_dados\">Limpar fomulário</span>";
+	echo "</fieldset>";
+}
+echo $form->openForm("prontuario.php?pagina=3&id_login=$id_login&age_codigo=$age_codigo&usu_codigo=$usu_codigo&uni_codigo=$uni_codigo&med_codigo=$med_codigo&esp_codigo=$esp_codigo&age_data=$age_data'","POST","formPreConsulta");
+	echo $form->hiddenForm("acao", "inserir");
+	echo $form->hiddenForm("pc_codigo", "0");
+	echo $form->inputText("pc_temperatura", $pc_temperatura,"Temperatura (C)");
+	echo $form->inputText("pc_peso", $pc_peso,"Peso (Kg)");
+	echo $form->inputText("pc_altura", $pc_altura,"Altura (m)");
+	echo $form->inputText("pc_pressao_sistolica", $pc_pressao_sistolica,"Pressao Sistolica (mm/Hg)");
+	echo $form->inputText("pc_pressao_diastolica", $pc_pressao_diastolica,"Pressao Diastolica (mm/Hg)");
+	//echo $form->inputText("pc_freq_cardiaca", $pc_freq_cardiaca,"Pressao Diastolica (mm/Hg)");
+	echo $form->inputText("pc_freq_cardiaca", $pc_freq_cardiaca,"Freq Cardiaca (BPM)");
+	echo $form->inputText("pc_freq_respiratoria", $pc_freq_respiratoria,"Freq Respiratoria (MPM)");
+	echo $form->inputText("pc_perimetro_cefalico", $pc_perimetro_cefalico,"Perimetro Cefalico (cm)");
+	echo $form->textArea("pc_dados", $pc_dados,"Demais dados");
+	echo $common->commonButton("Adicionar",null,"".$_SESSION[linkroot].$_SESSION[comum]."imgsBotoes/adicionar.png","Onclick=document.formPreConsulta.submit();");
+
+echo $form->closeForm();
+echo $common->closeTab();
+
+print "</body>
+</html>";
+?>

@@ -1,0 +1,1 @@
+ALTER TABLE vacina_usuario ADD COLUMN usr_codigo bigint;

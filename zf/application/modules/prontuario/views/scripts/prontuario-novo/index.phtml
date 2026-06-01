@@ -1,0 +1,137 @@
+<?php $base = $this->url(array("module" => "prontuario"), null, true); ?>
+<?=$this->age->io_codigo ."TESTE"; ?>
+<?=$this->age->age_codigo ."TESTE"; ?>
+<div id="topo">
+	<div id="foto">
+		<img src="<?= $this->baseUrl('/public/images/sem_foto_M.png') ?>" alt="Foto do Paciente" title="<?= $this->dados->usu->usu_nome; ?>" />
+		<input type="hidden" name="usu_codigo" value="<?= $this->age->usu_codigo;?>">
+	</div>	
+	<div id="dados_pac">
+		<?= $this->action("dados", "paciente", "index", array("cod" => $this->age->usu_codigo,"obs" => "S")); ?>
+		
+	</div>
+	<div id="historico">
+	Histórico de internação
+	</div>
+	<div id="botoes">
+		<?php 
+		if($this->classi[0]->pc_clas_risco == 1){
+			$clas = "Imediato";
+			$cor = "red";
+			$letra = "white";
+		} else if($this->classi[0]->pc_clas_risco == 2){
+			$clas = "20 min";
+			$cor = "yellow";
+			$letra = "black";
+		} else if($this->classi[0]->pc_clas_risco == 3){
+			$clas = "60 min";
+			$cor = "green";
+			$letra = "white";
+		} else if($this->classi[0]->pc_clas_risco == 3){
+			$clas = "4 horas";
+			$cor = "blue";
+			$letra = "white";
+		}
+	
+		?>
+		<div id="classificacao" style="background-color: <?=$cor?>; color: <?=$letra?>">
+			<?=$clas?>
+		</div>
+		<div id="ficha">
+			<a href='<?= $this->url(array("module" => "relatorio", "controller" => "usuario", "action" => "prontuario","usu_codigo" => $this->age->usu_codigo)); ?>' class="ui-button detalhes popup"  rel="900x540">
+				Histórico de atendimento
+			</a>		
+		</div>
+		<? if ($this->temAtendimento){ ?>
+			<div id="finalizar">
+					<a href='<?= $this->url(array("module" => "prontuario", "controller" => "agenda-do-dia", "action" => "finalizar","obs" =>"S","age" =>$this->age->age_codigo)); ?>'   class="ui-button finalizar">
+					Finalizar Atendimento 
+				</a>
+			</div>
+		<? } else { ?>
+		<div id="cancelar">					
+					<a href='<?= $this->url(array("module" => "prontuario", "controller" => "index", "action" => "cancelar")); ?>'   class="ui-button voltar">
+					Cancelar
+				</a>
+			</div>
+		<? } ?>	
+	</div>
+</div>
+<br />
+<div id="pai">
+	<? if ($this->temAtendimento){ ?>
+		<div id="esquerda">
+			<div id="exame">
+				<div class='abas'>				
+					<ul>		
+						<li>
+							<a href="#tabs3-1">
+								Exames
+							</a>
+						</li>
+					</ul>
+					<div id='tabs3-1'>					
+						<a href='#' class="ui-button add exame"  rel="800x600" title="Exame" >
+							Novo
+						</a>
+						<?= $this->action("itens","exame","prontuario",array("obs" => "S")); ?>
+					</div>
+				</div>
+			</div>
+			</br>
+			<div id="obs">
+				<div class='abas'> 
+					<ul>
+						<li><a href="#tabs3-1">Receitas</a></li>
+					</ul>
+					<div id='tabs3-1'>
+						<a href='#' class="ui-button add receita">
+							Novo
+						</a>
+						<?= $this->action("itens","receita-medica","prontuario",array("obs" => "S")); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	<?	} ?>
+	<div id="atendimento">
+		<div class='abas'> 
+			<ul>
+				<li><a href="#tabs3-1">Atendimento</a></li>
+			</ul>
+			<div id='tabs3-1'>
+				<?= $this->action("index", "atendimento", "prontuario", array("obs" => "S")); ?>
+			</div>
+		</div>
+	</div>
+	<? if ($this->temAtendimento){ ?>
+		<div id="direita">
+			<div id="pre">
+				<div class='abas'> 
+					<ul>
+						<li><a href="#tabs3-1">Procedimento</a></li>
+					</ul>
+					<div id='tabs3-1'>
+						<a href='#' class="ui-button add procedimento" >
+							Novo
+						</a>
+						<?= $this->action("itens","procedimento","prontuario",array("obs" => "S")); ?>						
+					</div>
+					
+				</div>
+			</div>
+			</br>
+			<div id="em">
+				<div class='abas'> 
+					<ul>
+						<li><a href="#tabs3-1">Encaminhamento</a></li>
+					</ul>
+					<div id='tabs3-1'>
+						<a href='#' class="ui-button add encaminhamento">Novo</a>
+						<?= $this->action("itens","encaminhamento","prontuario",array("obs" => "S")); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	<? } ?>
+</div>

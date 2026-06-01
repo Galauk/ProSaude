@@ -1,0 +1,46 @@
+#grade{
+}
+
+.agenda_com_alteracao,
+.agenda_sem_alteracao{
+  padding: 0;
+}
+
+.agenda_com_alteracao input{ 
+  background-color: blue; 
+  color: #FFF;
+}
+
+.agenda_alterando input{ 
+  background-color: red; 
+  color: #FFF;
+}
+
+.agenda_com_alteracao input,
+.agenda_sem_alteracao input,
+.gram_mes input{
+  border: 1px solid transparent;
+  width: 100%;
+  height: 23px;
+  text-align: center;
+}
+
+.agenda_com_alteracao input:hover,
+.agenda_sem_alteracao input:hover,
+.gram_mes input:hover{
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+#myMenu,
+#myMenuMes{ display: none; }
+
+#legenda div{
+  border: 1px solid #ccc;
+  width: 20px;
+  height: 10px;
+  display: inline-block;
+}
+
+#legenda .agenda_com_alteracao{background-color: blue;}
+#legenda .agenda_alterando {background-color: red;}

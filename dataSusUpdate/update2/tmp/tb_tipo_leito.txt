@@ -1,0 +1,37 @@
+01Cirúrgico                                                   201906
+02Obstétricos                                                 201906
+03Clínico                                                     201906
+04Crônicos                                                    201906
+05Psiquiatria                                                 201906
+06Pneumologia Sanitária (Tisiologia)                          201906
+07Pediátricos                                                 201906
+08Reabilitação                                                201906
+09Leito Dia / Cirúrgicos                                      201906
+10Leito Dia / Aids                                            201906
+11Leito Dia / Fibrose Cística                                 201906
+12Leito Dia / Intercorrência Pós-Transplante                  201906
+13Leito Dia / Geriatria                                       201906
+14Leito Dia / Saúde Mental                                    201906
+65Unidade Intermediária Neonatal                              201906
+74UTI I                                                       201906
+75UTI Adulto II                                               201906
+76UTI Adulto III                                              201906
+77UTI Infantil I                                              201906
+78UTI Infantil II                                             201906
+79UTI Infantil III                                            201906
+80UTI Neonatal I                                              201906
+81UTI Neonatal II                                             201906
+82UTI Neonatal III                                            201906
+83UTI Queimados                                               201906
+84Acolhimento Noturno                                         201906
+85UTI Coronariana-UCO tipo II                                 201906
+86UTI Coronariana-UCO tipo III                                201906
+87Saúde Mental (Clínico)                                      201906
+88Queimado Adulto (Clínico)                                   201906
+89Queimado Pediátrico (Clínico)                               201906
+90Queimado Adulto (Cirúrgico)                                 201906
+91Queimado Pediátrico (Cirúrgico)                             201906
+92UCI Unidade de Cuidados Intermediarios Neonatal Convencional201906
+93UCI Unidade de Cuidados Intermediarios Neonatal Canguru     201906
+94UCI Unidade de Cuidados Intermediarios Pediatrico           201906
+95UCI Unidade de Cuidados Intermediarios Adulto               201906

@@ -1,0 +1,7 @@
+<?php $this->dialog(); ?>
+<form name='upload' action='<?=$this->url(array("action"=>"compara-prestador"))?>' method='post' enctype='multipart/form-data' id="cnes">
+    <label>Arquivo CNES: </label>
+    <input type='file' name='arquivo' id="arquivo" class="field" style="height: 26px; width: 380px;"><br />
+    <a href="#" class="ui-button salvar" style="margin-left: 184px; margin-top: 06px;">Iniciar Verificação</a>
+    <a href="<?=$this->url(array("controller"=>"cnes","action"=>"orientacoes"));?>"  class="ui-button voltar" data-atalho="ESC" style="margin-top: 06px;">Voltar</a>
+</form>

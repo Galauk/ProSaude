@@ -1,0 +1,1810 @@
+<?php
+/**
+ * alterado na query $select_total_entrada vm.mov_data de >= para apenas >
+ * Filtrando os produtos por setor ( X unidade ) quando usuario possui unidade
+ * Alterando ordenação da consulta de produtos
+ * no SELECT da linha 513 foi adicionado um campo com a data
+ * apenas para fazer a ordenação por data.
+ * -- Retirado o Botão Fechamento Mensal
+ */
+?>
+<style>
+  input,select,input[type=radio] {
+	height:30px !important;
+	border-radius: 5px !important;
+	font-size: 14px !important;
+	border-color: #149095 !important;
+  }
+  td {
+  	font-size: 14px !important;
+  }
+
+</style>
+ <script language="JavaScript"
+	type="text/javascript" src="funcoes.js"></script> <script
+	language="JavaScript" type="text/javascript" src="ajax_motor.js"></script>
+<script type='text/javascript'
+	src='/WebSocialComum/library/js/jquery-1.6.2.min.js'></script> <script
+	type='text/javascript'
+	src='/WebSocialComum/library/js/tiny_mce/jquery.tinymce.js'></script> <script>
+var gdtInicial
+var gdtFinal
+var gmedico
+var gespecial
+var gunidade
+var gTipAgenda
+var gMostAgente
+var gHoje
+var maxDay = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+
+
+function validaNome(){
+	pro_nome = document.getElementById("pro_nome").value;
+	if(pro_nome == ''){
+		alert('Preencha o nome do produto');
+		return false;
+	}
+	document.getElementById("form").submit();
+	
+}
+function CheckDate(d,t) {
+   date_array = new Array(3);
+   date_array[0]=(String(d).substr(6,2))    // dia
+   date_array[1]=(String(d).substr(4,2))    // mes
+   date_array[2]=(String(d).substr(0,4))    // ano
+
+   if (date_array[0] > maxDay[date_array[1]-1]) {
+       alert ("Dia invalido da data " + t)
+       return 1;
+   }
+   if (date_array[1] > 12) {
+       alert ("Mes invalido da data " + t)
+       return 1;
+   }
+   if (date_array[2] < 1990) {
+       alert ("Ano invalido da data " + t)
+       return 1;
+   }
+}
+
+
+function CheckCall() {
+
+   gdtInicial	=document.frm_consulta.dt_inicial.value;
+   gdtFinal	=document.frm_consulta.dt_final.value;
+   gProduto	=document.frm_consulta.pro_codigo.value;
+   gCE		=document.frm_consulta.centro_estocador.value;
+
+   if (gdtInicial == '') {
+       alert ("Informe Data Inicio");
+       document.frm_consulta.dt_inicial.focus();
+       return false;
+   }
+    if (gdtFinal == '') {
+       alert ("Informe Data Final");
+       document.frm_consulta.dt_final.focus();
+       return false;
+   }
+   var d1=gdtInicial;
+   var d2=gdtFinal;
+   for (var i = 0; i < d1.length; i++) {
+        if (d1.charAt(i) == "-") {
+           var dat1=parseInt(d1.split("-")[2].toString()+d1.split("-")[1].toString()+d1.split("-")[0].toString())
+        }
+        else
+        if (d1.charAt(i) == "/") {
+           var dat1=parseInt(d1.split("/")[2].toString()+d1.split("/")[1].toString()+d1.split("/")[0].toString())
+        }
+   }
+	for (var i = 0; i < d2.length; i++) {
+        if (d2.charAt(i) == "-") {
+           var dat2=parseInt(d2.split("-")[2].toString()+d2.split("-")[1].toString()+d2.split("-")[0].toString())
+        }
+        else
+        if (d2.charAt(i) == "/") {
+           var dat2=parseInt(d2.split("/")[2].toString()+d2.split("/")[1].toString()+d2.split("/")[0].toString())
+        }
+   }
+   if (CheckDate(dat1,"INICIAL")==1) {
+       document.frm_consulta.dt_inicial.focus()
+       return false;
+   }
+	if (CheckDate(dat2,"FINAL")==1) {
+       document.frm_consulta.dt_final.focus()
+       return false;
+   }
+
+   return true
+}
+
+function CheckCall2() {
+
+   gdtInicial	=document.frm_consulta.dt_inicial.value;
+   gdtFinal	=document.frm_consulta.dt_final.value;
+   gProduto	=document.frm_consulta.pro_codigo.value;
+   gCE		=document.frm_consulta.centro_estocador.value;
+
+   if (gdtInicial == '') {
+       alert ("Informe Data Inicio");
+       document.frm_consulta.dt_inicial.focus();
+       return false;
+   }
+    if (gdtFinal == '') {
+       alert ("Informe Data Final");
+       document.frm_consulta.dt_final.focus();
+       return false;
+   }
+   var d1=gdtInicial;
+   var d2=gdtFinal;
+   for (var i = 0; i < d1.length; i++) {
+        if (d1.charAt(i) == "-") {
+           var dat1=parseInt(d1.split("-")[2].toString()+d1.split("-")[1].toString()+d1.split("-")[0].toString())
+        }
+        else
+        if (d1.charAt(i) == "/") {
+           var dat1=parseInt(d1.split("/")[2].toString()+d1.split("/")[1].toString()+d1.split("/")[0].toString())
+        }
+   }
+	for (var i = 0; i < d2.length; i++) {
+        if (d2.charAt(i) == "-") {
+           var dat2=parseInt(d2.split("-")[2].toString()+d2.split("-")[1].toString()+d2.split("-")[0].toString())
+        }
+        else
+        if (d2.charAt(i) == "/") {
+           var dat2=parseInt(d2.split("/")[2].toString()+d2.split("/")[1].toString()+d2.split("/")[0].toString())
+        }
+   }
+   if (CheckDate(dat1,"INICIAL")==1) {
+       document.frm_consulta.dt_inicial.focus()
+       return false;
+   }
+	if (CheckDate(dat2,"FINAL")==1) {
+       document.frm_consulta.dt_final.focus()
+       return false;
+   }
+
+  window.open('materiais_itens_rel.php?dt_inicial='+gdtInicial+'&dt_final='+gdtFinal+'&pro_codigo='+gProduto+'&centro_estocador='+gCE,
+		null,"height=400,width=750,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes");
+   return false
+}
+function validaForm(){
+	codProduto = document.getElementById('pro_codigo').value;
+	codSetor = document.getElementById('set_codigo').value;
+
+	url = "validaProdutoSetor.php?pro_codigo="+codProduto+"&set_codigo="+codSetor;
+
+	ajax = ajaxInit();
+
+	if(ajax)
+	{	
+		ajax.open("GET", url, true);
+		ajax.onreadystatechange = function()
+		{
+			if(ajax.readyState == 4)
+			{
+				if(ajax.status == 200)
+				{
+					txt = ajax.responseText;
+					
+					if (txt == '0'){
+						document.form.submit();
+						return true;
+					}else{
+						alert('Este produto já está registrado no setor escolhido.');
+						return false;
+					}
+				}
+				else
+				{
+					alert('Arquivo:'+url+'\nErroNo.:' + ajax.status + '\nMsg:' + ajax.statusText);
+				}
+			}
+		}
+		ajax.send(null);
+	}
+}
+
+// quando pro_tipo for "M" (medicamento) deve aparecer o textarea (TinyMCE) para preencher a bula
+ function mostrarBula(tipo){
+	if(tipo == "M"){
+		document.getElementById("bula").style.display = 'table-row';
+		return true;
+	} else {
+		document.getElementById("bula").style.display = 'none';
+		return false;
+	}
+}
+
+jQuery(function(){
+	jQuery('textarea.tinymce').tinymce({
+		// Location of TinyMCE script
+		script_url : '/WebSocialComum/library/js/tiny_mce/tiny_mce.js',
+
+		// General options
+		//theme : "../css/tinymce/advanced",
+		theme : "advanced",		
+		skin : "o2k7",
+		language : 'pt',
+		//plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+
+		// Theme options
+		theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,fontselect,fontsizeselect",
+		theme_advanced_buttons2 : "",
+		theme_advanced_buttons3 : "",
+		theme_advanced_buttons4 : "",
+		theme_advanced_toolbar_location : "top",
+		theme_advanced_toolbar_align : "left",
+		theme_advanced_statusbar_location : "bottom",
+		theme_advanced_resizing : true
+	});
+
+	mostrarBula(jQuery("#pro_tipo").val());
+});
+
+</script> <?
+//------------------------------------------------------------------>
+// -> Inclusao principal para montagem do sistema
+//------------------------------------------------------------------>
+
+
+include_once "authlib.inc.php";
+
+session_start();
+include_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+
+
+verauth($id_login);
+require_once $_SESSION[root].$_SESSION[comum]."class/commonClass.php";
+
+
+cabecario();
+
+$common = new commonClass();
+
+//------------------------------------------------------------------>
+
+
+$stmt = "SELECT uni_codigo FROM logon WHERE id_login = $id_login";
+
+$stmt = db_query($stmt);
+$dados = pg_fetch_array($stmt);
+
+$sqlConfiguracaoCnes = "select * from config where conf_chave = 'INTEGRACAO_ALMOXARIFADO'";
+$queryConfiguracaoCnes = pg_query($sqlConfiguracaoCnes);
+$regConfiguracaoCnes = pg_fetch_array($queryConfiguracaoCnes);
+
+//------------------------------------------------------------------>
+
+reglog($id_login,"Acessando Materiais");
+
+//------------------------------------------------------------------>
+//-> Secao Vazia, mostrando registros e botoes
+//------------------------------------------------------------------>
+
+$data = date("d/m/Y");
+
+if(empty($acao))
+{
+
+	//
+	//-> Botoes
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend><font size=2>OUTRAS OPCOES</font></legend>";
+		
+
+		
+		
+		
+		
+		if($regConfiguracaoCnes[conf_valor_bool] != "t"){ 
+			echo "<table width='100%' border='0' height='40'><tr><td>
+			<a href=zf/materiais/movimentacao><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/movimentacao_on.jpg border=0></a></td><td>".
+			ChmodBtn($id_login,'cadastros','cadastros_materiais.php?acao=form_grupo')."&nbsp;</td><td align='center'>".
+			// ChmodBtn($id_login,'requisicao_de_compra','reqcompra.php?acao=form_entrada')."&nbsp;".
+			
+			ChmodBtn($id_login,'inventario','inventario.php?acao=form_inventario')."&nbsp;</td><td align='right'>";
+			echo "<a href='produtosinativados.php'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/produtosinativos_on.png border=0></a>";
+			echo "</div></td><td align='right'>";
+		 
+		 }
+		 echo"
+		
+		     </td></tr></table>
+			
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br>";
+
+	//
+	//-> Listando
+	/*
+	 * Retirada a opcao de listar diretamente os dados de produtos
+	 */
+	if (chmodbtn($id_login,"listar_if","materiais.php"))
+	{
+		echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+                   <tr>
+                    <td>
+                     <fieldset>
+                      <legend><font size=2>PRODUTOS</font></legend>
+<table border='0' width='100%'>
+	<tr>
+	<td width=10%>
+	".ChmodBtn($id_login,'adicionar','materiais.php?acao=form_add')."
+	</td>
+		<td>	<form method=post action=$PHP_SELF>
+				<input type=hidden name=acao value=busca>
+				<input type=hidden name=id_login value=$id_login>
+			<table width=50% align=center cellspacing=3 cellpadding=0 border=0>
+			<tr>
+			<td width=30% align=right><font size=2>Localizar Produtos:</font></td>
+			<td width=120>
+			<input type=text name=palavra_chave class='box' style='width:300px;height:30px;font-size:16px' onBlur=\"javascript:this.value=this.value.toUpperCase();\">
+			</td>
+			<td>".ChmodBtn($id_login,'procurar','materiais')."</td>
+			</tr>
+			</table>
+		</td></form>
+	</tr>
+</table>
+
+
+
+
+                       <table class=lista border=0>
+                        <tr bgcolor=F9f9f9 style='height:30px !important'>
+                          <th width=40 style='width:80px !important'>Codigo</th>
+                          <th width=500>Nome</th>
+                          <th colspan=5>&nbsp;</th>";
+		/* ------------------------------------------------------------------------------------------------------------------------------------------ 
+		LÓGICA ANTIGA QUE NÃO SERVIA PRA NADA, RETIREI PRA EVITAR PROCESSAMENTO! 
+		if( ! empty($dados[0]) )
+		{
+			$where_uni = '';/*" WHERE pro_codigo IN (
+			SELECT DISTINCT pro_codigo FROM produto_setor WHERE set_codigo IN (
+			SELECT set_codigo FROM setor WHERE uni_codigo = $dados[0]
+			)
+			) ";*/
+		/*
+		}
+		else
+		{
+			$where_uni = '';
+		}
+		$stmt = "SELECT pro_codigo, pro_nome,pro_situacao FROM produto {$where_uni} WHERE pro_situacao = 'A' ORDER BY pro_codigo DESC limit 15 ";
+		------------------------------------------------------------------------------------------------------------------------------------------ */
+		$stmt = "SELECT pro_codigo, pro_nome,pro_situacao FROM produto WHERE pro_situacao = 'A' ORDER BY pro_codigo DESC limit 15 ";
+		$sql = pg_query($stmt);
+		while($row=pg_fetch_array($sql))
+		{
+			echo "<tr>
+                         <td align=center style='text-align:left !important'>$row[pro_codigo]</td>
+                         <td width=300>$row[pro_nome]</td>
+                          <td width=79><a href=materiais.php?id_login=$id_login&acao=form_incluir&pro_codigo=$row[pro_codigo]><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/prod_centro_estoque_on.jpg border=0></a></td>";
+              
+			if($regConfiguracaoCnes[conf_valor_bool] != "t"){   
+				echo "
+							 <td width=60>".ChmodBtn($id_login,'editar','materiais.php?acao=form_edit&pro_codigo='.$row[pro_codigo])."</td>
+							 <td width=66>".ChmodBtn($id_login,'apagar','materiais.php?acao=del&pro_codigo='.$row[pro_codigo])."</td>
+						   </tr>";
+			}
+		}
+	}
+	echo "</tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table>";
+}
+
+
+//------------------------------------------------------------------>
+//-> Mostrando o resultado da busca
+//------------------------------------------------------------------>
+
+
+if( $acao == "busca" )
+{
+	reglog($id_login,"Buscando em Materiais $palavra_chave");
+	//
+	//-> Verificando Busca
+	/*
+	 if(strlen($palavra_chave)<"1") {
+	 echo "<br><br><br><br><br><br><br><br><br><br><br><br><br>
+	 <table height=100 width=50% align=center cellspacing=0 cellpadding=0 border=0 style='border-top:1px solid;border-bottom:1px solid;border-color:909090;'>
+	 <tr bgcolor=f9f9f9>
+	 <td align=center><font color=red size=2><b>ERRO</b></font><br>Busca com menos de <b>3</b> caracteres nï¿½o permitida</td>
+	 </tr>
+	 </table><br>";
+	 echo "<SCRIPT LANGUAGE=\"JavaScript\">
+	 setTimeout(\"location='$PHP_SELF?id_login=$id_login'\", 2000);
+	 </SCRIPT>";
+	 exit;
+	 }
+	 */
+
+	//
+	//-> Subistituindo o + por porcentagem na busca
+	$str = str_replace("+","%",$palavra_chave);
+	$pos = strpos($palavra_chave,"+");
+	if($pos=="0") {
+		$v1=1;
+	} else {
+		$v1=2;
+	}
+	//echo $v1;
+	//
+	//-> Botoes
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	   <legend>Op&ccedil;&otilde;es</legend>
+	     <div>".ChmodBtn($id_login,'adicionar','materiais.php?acao=form_add')."&nbsp;".
+		ChmodBtn($id_login,'cadastros','cadastros_materiais.php?acao=form_grupo')."&nbsp;".
+		// ChmodBtn($id_login,'requisicao_de_compra','reqcompra.php?acao=form_entrada')."&nbsp;".
+		"<a href=zf/materiais/movimentacao><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/movimentacao_on.jpg border=0></a>&nbsp;".
+		ChmodBtn($id_login,'inventario','inventario.php?acao=form_inventario')."&nbsp;";
+		echo "<a href='produtosinativados.php'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/produtosinativos_on.png border=0></a>";
+	echo "
+	     </div>
+			<form method=post action=$PHP_SELF>
+				<input type=hidden name=acao value=busca>
+				<input type=hidden name=id_login value=$id_login>
+		     
+	     		<table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+					<tr>
+						<td width=10 align=right>Buscar:</td>
+						<td width=120>
+							<input type=text name=palavra_chave class=box onBlur=\"javascript:this.value=this.value.toUpperCase();\">
+						</td>
+						<td>".ChmodBtn($id_login,'procurar','materiais')."</td>
+					</tr>
+				</table>
+			</form>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br>";
+	/* ------------------------------------------------------------------------------------------------------------------------------------------ 
+	LÓGICA ANTIGA QUE NÃO SERVE PRA NADA, RETIREI PRA EVITAR PROCESSAMENTO!
+	if( ! empty($dados[0]) )
+	{
+		$where_uni = '';/*" AND pro_codigo IN (
+		SELECT DISTINCT pro_codigo FROM produto_setor WHERE set_codigo IN (
+		SELECT set_codigo FROM setor WHERE uni_codigo = $dados[0]
+		)
+		) ";*/
+	/*
+	}
+	else
+	{
+		$where_uni = '';
+	}
+	-------------------------------------------------------------------------------------------------------------------------------------------- */
+	$stmt = "SELECT 
+				pro_codigo, pro_nome from produto ".
+            "WHERE 
+				(retira_acentos(pro_nome) ilike retira_acentos('%$palavra_chave%')".
+				(is_numeric($palavra_chave)? "OR pro_codigo = $palavra_chave" : "").") AND 
+				pro_situacao = 'A'".
+				//$where_uni .
+            "ORDER BY 
+				pro_nome";
+	$sql = pg_query($stmt);
+	$num = pg_num_rows($sql);
+	if($num=="0") { $resp = "Nenhum Registro encontrado com \"$palavra_chave\""; }
+	if($num=="1") { $resp = "Encontrado <b>$num</b> Registro com \"$palavra_chave\""; }
+	if($num>"1") { $resp = "Encontrados <b>$num</b> Registros com \"$palavra_chave\""; }
+
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>$resp</legend>
+	     <table class=lista border=0>
+	      <tr>
+			<th>Codigo</th>
+			<th>Nome</th>
+			<th colspan=5>&nbsp;</th>";
+	while($row=pg_fetch_array($sql)){
+		echo "
+			<tr>
+				<td align=center>$row[pro_codigo]</td>
+				<td >$row[pro_nome]</td>
+				<td width=79><a href=materiais.php?id_login=$id_login&acao=form_incluir&pro_codigo=$row[pro_codigo]><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/prod_centro_estoque_on.jpg border=0></a></td>
+				<td width=60>".ChmodBtn($id_login,'editar','materiais.php?acao=form_edit&pro_codigo='.$row[pro_codigo])."</td>
+				<td width=66>".ChmodBtn($id_login,'apagar','materiais.php?acao=del&pro_codigo='.$row[pro_codigo])."</td>
+			</tr>";
+	}
+	echo "</tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table>";
+}
+//------------------------------------------------------------------>
+//-> Formulario consulta almoxarifado
+//------------------------------------------------------------------>
+if($acao=="form_consulta_almoxarifado")
+{
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>Op&ccedil;&otilde;es de Cadastro</legend>
+	     <table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+	      <tr>
+	       <td width=79><a href=materiais.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a></td>
+	       <td>&nbsp;</td>
+	      </tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br>";
+	$data = date("d/m/Y");
+	$dt_inicial = $data;
+	$dt_final = $data;
+	$select = "SELECT pro_nome FROM produto WHERE pro_codigo = $_GET[pro_codigo]";
+	$exec_select = pg_query($select);
+	$linha = pg_fetch_array($exec_select);
+	echo "<table><tr>";
+	echo "<th width=100 align=left>";
+	echo "PRODUTO";
+	echo "</td>";
+	echo "<th align=left>";
+	echo "<b>".$linha[pro_nome]."</b>";
+	echo "</td>";
+	echo "</tr></table>";
+	echo " <form name='frm_consulta' onsubmit='return CheckCall()' method='post' action=''>";
+	echo "<input type=hidden name=acao value=consultar>";
+	echo "<input type=hidden name=pro_codigo value=$_GET[pro_codigo]>";
+	echo "<input type=hidden name=id_login value=$id_login>";
+	echo "  <fieldset>";
+	echo "   <legend>Consulta</legend>";
+	echo "    <table whidht=90% border=0 cellspacing=2 cellpadding=1>";
+	echo "     <tr>\n";
+	echo "      <td valign='bottom' style='width:15%'>Data Inicial</td>";
+	echo "      <td><input class='box' type='text'   name='dt_inicial' size='12' value='$dt_inicial'/ maxlength='10' onKeypress=\"return Ajusta_Data(this, event);\">";
+	echo "       </td>";
+	echo "      </tr>";
+	echo "      <tr>";
+	echo "       <td>";
+	echo "	Data Final";
+	echo "       </td>";
+	echo "       <td>";
+	echo "          <input class='box' type='text' name='dt_final' size='12' value='$dt_final' maxlength='10' onKeypress=\"return Ajusta_Data(this, event);\"/></td>";
+	echo "     </tr>";
+	echo "     <tr>";
+	echo "       <td>";
+	echo "	Centro estocador";
+	echo "       </td>";
+	echo "      <td>";
+	$select = "SELECT a.set_codigo, a.set_nome FROM setor a, produto_setor b WHERE a.set_codigo = b.set_codigo and b.pro_codigo = $_GET[pro_codigo]";
+	//echo $select;
+	$exec_select = pg_query($select);
+	echo "<select name='centro_estocador' class='box'>";
+	while($linha = pg_fetch_array($exec_select))
+	{
+		echo "<option value='$linha[set_codigo]'>$linha[set_nome]</option>";
+	}
+
+	echo "</select>";
+	echo "      </td>";
+	echo "</tr>";
+	echo "<tr>
+	       <td>&nbsp;</td>
+	       <td><input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/listar_movimentacao_on.jpg>
+	       &nbsp;</td>
+	      </tr>";
+	echo "</table></fieldset><br>";
+}
+
+//------------------------------------------------------------------>
+//-> Formulario consultar
+//------------------------------------------------------------------>
+if($acao=="consultar")
+{
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+			<legend>Op&ccedil;&otilde;es de Cadastro</legend>
+	     <table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+	      <tr>
+	       <td width=79><a href=materiais.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a></td>
+	       <td>&nbsp;</td>
+	      </tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br>";
+	$select = "select pro_nome from produto where pro_codigo = $_POST[pro_codigo]";
+	$exec_select = pg_query($select);
+	$linha = pg_fetch_array($exec_select);
+	echo "<table><tr>";
+	echo "<th width=100 align=left>";
+	echo "PRODUTO";
+	echo "</td>";
+	echo "<th align=left>";
+	echo "<b>".$linha[pro_nome]."</b>";
+	echo "</td>";
+	echo "</tr></table>";
+	echo " <form name='frm_consulta' onsubmit='return CheckCall()' method='post' action='$PHP_SELF'>\n";
+	echo "<input type=hidden name=acao value=consultar>";
+	echo "<input type=hidden name=pro_codigo value=$_POST[pro_codigo]>";
+	echo "<input type=hidden name=id_login value=$id_login>";
+	//print_r($_POST);
+	//print_r($_GET);
+	echo "  <fieldset>";
+	echo "   <legend>Consulta</legend> \n";
+	echo "    <table width=90% border=0 cellspacing=2 cellpadding=1>\n";
+	echo "     <tr>\n";
+	echo "      <td valign='bottom' style='width:15%'>Data Inicial</td>\n";
+	echo "      <td><input class='box' type='text'   name='dt_inicial' size='12' value='$_POST[dt_inicial]' maxlength='10' onKeypress=\"return Ajusta_Data(this, event);\">\n";
+	echo "       </td>";
+	echo "      </tr>";
+	echo "      <tr>";
+	echo "       <td>";
+	echo "	Data Final";
+	echo "       </td>";
+	echo "       <td>";
+	echo "          <input class='box' type='text' name='dt_final' size='12' value='$_POST[dt_final]' maxlength='10' onKeypress=\"return Ajusta_Data(this, event);\"/></td>\n";
+	echo "     </tr>\n";
+	echo "     <tr>\n";
+	echo "       <td>";
+	echo "	Centro estocador";
+	echo "       </td>";
+	echo "      <td>";
+	$select = "select a.set_codigo, a.set_nome from setor a, produto_setor b where a.set_codigo = b.set_codigo and b.pro_codigo = $_POST[pro_codigo]";
+	//echo $select;
+	$exec_select = pg_query($select);
+	echo "<select name='centro_estocador' class='box'>";
+	while($linha = pg_fetch_array($exec_select))
+	{
+		if($_POST[centro_estocador] == $linha[set_codigo])
+		{
+			$l = "selected";
+		} else {
+			$l = "";
+		}
+		echo "<option value='$linha[set_codigo]' $l>$linha[set_nome]</option>";
+	}
+
+	echo "</select>";
+	echo "      </td>\n";
+	echo "</tr>";
+	echo "<tr>
+	       <td>&nbsp;</td>
+   	       <td><input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/listar_movimentacao_on.jpg>
+	       </td>
+	      </tr>";
+	echo "      <td>&nbsp;&nbsp;&nbsp;</td>\n";
+	echo "     </tr>";
+	echo "</table></fieldset><br>";
+
+	$dt_ini = $_POST[dt_inicial];
+	$dt = explode("/",$dt_ini);
+	/*
+	 echo $_POST[dt_inicial];
+	 echo "<pre>";
+	 print_r($dt);
+	 echo "</pre><br>";
+	 echo "<br>->";
+	 */
+	if($dt[0] > 1)
+	{
+		$num = cal_days_in_month(CAL_GREGORIAN, $dt[1], $dt[2]);
+		if($dt[0] <= 10)
+		{
+			$dt[0] = $dt[0] - 1;
+			$dt[0] = "0".$dt[0];
+		} else {
+			$dt[0] = $dt[0] - 1;
+		}
+		$mes = $dt[1];
+		$ano = $dt[2];
+	} else {
+		if($dt[1] == 1)
+		{
+			$dt[1] = 13;
+			$dt[2] = $dt[2]-1;
+		}
+		$num = cal_days_in_month(CAL_GREGORIAN, ($dt[1]-1), $dt[2]);
+		if($dt[1] <= 10)
+		{
+			$mes = $dt[1]-1;
+			$mes = "0".$mes;
+		} else {
+			$mes = $dt[1]-1;
+		}
+		$dt[0] = $num;
+		$ano = $dt[2];
+	}
+	$data_inicial = $dt[0]."/".$mes."/".$ano;
+
+	$dt_ini = $data_inicial;
+
+
+	$select_saldo_anterior = "select calcula_estoque($_POST[pro_codigo], $_POST[centro_estocador], '$dt_ini')";
+	/*
+	 echo $_POST[pro_codigo]."<br>";
+	 echo $_POST[centro_estocador]."<br>";
+	 echo $dt_ini;
+	 exit; */
+	$saldo = pg_query($select_saldo_anterior);
+	$saldo_anterior = pg_fetch_array($saldo);
+	/*echo $select_saldo_anterior;
+	 echo pg_last_error($db);*/
+	$select_preco = "select verifica_preco($_POST[pro_codigo], $_POST[centro_estocador], '$dt_ini')";
+	$pre = pg_query($select_preco);
+	$preco = pg_fetch_array($pre);
+	/*echo "<br>";
+	 echo $select_preco;
+	 echo "<br>".pg_last_error($db);*/
+	echo "  <fieldset>";
+	echo "   <legend>Lista</legend> \n";
+	echo "<table width=90% border=1 cellspacing=1 cellpadding=1>";
+	echo "<tr bgcolor=F9f9f9>";
+	echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left' width=100px>";
+	echo "Saldo Anterior:";
+	echo "</th>";
+	echo "<td  width=150px>";
+	echo "&nbsp;".$saldo_anterior[0];
+	echo "</td>";
+	echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left;' width=100px>";
+	echo "Pre&ccedil;o M&eacute;dio:";
+	echo "</th>";
+	echo "<td  width=150px>";
+	echo "&nbsp;".$preco[0];
+	echo "</td>";
+	echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left;' width=100px>";
+	echo "Vlr Financeiro:";
+	echo "</th>";
+	echo "<td  width=150>";
+	echo "&nbsp;".$saldo_anterior[0]*$preco[0];
+	echo "</td>";
+	echo "</tr>";
+	echo "</table>";
+	echo "<table width=90% border=1 cellspacing=1 cellpadding=1>";
+
+	$saldoatual = $saldo_anterior[0];
+	$vlratual = $saldo_anterior[0]*$preco[0];
+	/*
+		$select_total_entrada = "(select pro_codigo, pro_nome, desc_movimentacao, to_char(mov_data, 'dd/mm/yyyy') as mov_data, ite_quantidade as qtde, codsetor,
+		case when ite_vlrunit is not null then ite_quantidade * ite_vlrunit else coalesce(verifica_preco(271, 99405, mov_data), 0) * ite_quantidade end as vlr,
+		case when ite_vlrunit is not null then ite_vlrunit else coalesce(verifica_preco(271, 99405, mov_data), 0) end as vlrunitario, sinal, mov_data AS dt_ordem
+		from v_movimentacao
+		where sinal = '+'
+		and mov_data >= '$dt_ini' and mov_data <= '$_POST[dt_final]'
+		and pro_codigo = $_POST[pro_codigo]
+		and codsetor = $_POST[centro_estocador]
+
+		UNION
+
+		SELECT pro_codigo, pro_nome, desc_movimentacao, to_char(mov_data, 'dd/mm/yyyy') AS mov_data, ite_quantidade AS qtde, codsetor,
+		coalesce(verifica_preco(pro_codigo, codsetor, mov_data), 0) * ite_quantidade AS vlr,
+		coalesce(verifica_preco(pro_codigo, codsetor, mov_data), 0) AS vlrunitario, sinal, mov_data AS dt_ordem
+		FROM v_movimentacao
+		WHERE sinal = '-'
+		AND mov_data >= '$dt_ini' AND mov_data <= '$_POST[dt_final]'
+		AND pro_codigo = $_POST[pro_codigo]
+		AND codsetor = $_POST[centro_estocador] )
+		ORDER BY 10, 3";
+		*/
+
+	$select_total_entrada = "(SELECT vm.pro_codigo,
+										 vm.pro_nome, 
+										 vm.desc_movimentacao, 
+										 to_char(vm.mov_data, 'dd/mm/yyyy') AS mov_data, 
+										 vm.ite_quantidade AS qtde, 
+										 vm.codsetor, 
+										 CASE 
+										 	WHEN vm.ite_vlrunit IS NOT NULL THEN ite_quantidade * ite_vlrunit 
+											ELSE coalesce(verifica_preco($_POST[pro_codigo], $_POST[centro_estocador], vm.mov_data), 0) * ite_quantidade end as vlr, 
+										 CASE 
+										 	WHEN vm.ite_vlrunit IS NOT NULL THEN ite_vlrunit ELSE coalesce(verifica_preco($_POST[pro_codigo], $_POST[centro_estocador], vm.mov_data), 0) end AS vlrunitario, 
+										 vm.sinal, 
+										 vm.mov_data AS dt_ordem, 
+										 m.set_entrada, 
+										 m.set_saida
+									FROM v_movimentacao AS vm
+									LEFT JOIN movimento AS m 
+									  ON m.mov_codigo = vm.mov_codigo
+								   WHERE vm.sinal = '+' 
+								     AND vm.mov_data > '$dt_ini' 
+								     AND vm.mov_data <= '$_POST[dt_final]' 
+									 AND vm.pro_codigo = $_POST[pro_codigo] 
+									 AND vm.codsetor = $_POST[centro_estocador] 
+								   UNION 
+								  SELECT vm.pro_codigo, 
+								  		 vm.pro_nome, 
+								  		 vm.desc_movimentacao, 
+										 to_char(vm.mov_data, 'dd/mm/yyyy') AS mov_data, 
+										 vm.ite_quantidade AS qtde, 
+										 vm.codsetor, ";
+	//coalesce(verifica_preco(vm.pro_codigo, vm.codsetor, vm.mov_data), 0) * ite_quantidade AS vlr, ";
+	$select_total_entrada .= " coalesce((select a.ite_vlrunit from itens_movimento a where ite_codigo = maximo.ite_codigo), 0) * ite_quantidade as vlr, ";
+	//coalesce(verifica_preco(vm.pro_codigo, vm.codsetor, vm.mov_data), 0) AS vlrunitario,
+	$select_total_entrada .= " (select a.ite_vlrunit from itens_movimento a where ite_codigo = maximo.ite_codigo) as vlrunitario, "; /*ADD Renato 27/09/2007*/
+
+	$select_total_entrada .= " vm.sinal, vm.mov_data AS dt_ordem, m.set_entrada, m.set_saida
+									FROM (SELECT MAX(ite_codigo) AS ite_codigo 
+											FROM itens_movimento a, 
+												 movimento b 
+										   WHERE a.mov_codigo = b.mov_codigo 
+										     AND pro_codigo = $_POST[pro_codigo] 
+										     AND b.set_entrada = $_POST[centro_estocador] 
+										     AND b.mov_data between '$dt_ini' and '$_POST[dt_final]') as maximo, "; 
+
+	$select_total_entrada .= " v_movimentacao AS vm
+									LEFT JOIN movimento AS m 
+									  ON m.mov_codigo = vm.mov_codigo
+								   WHERE vm.sinal = '-' 
+								     AND vm.mov_data > '$dt_ini' 
+								     AND vm.mov_data <= '$_POST[dt_final]' 
+									 AND vm.pro_codigo = $_POST[pro_codigo] 
+									 AND vm.codsetor = $_POST[centro_estocador]) 
+								   ORDER BY 10, 3";
+	//echo "<pre>$select_total_entrada</pre>";
+	$exec_select = pg_query($select_total_entrada);
+	if (pg_num_rows($exec_select) == 0){
+		echo "<p align='center'><strong>Sem Movimenta&ccedil;&atilde;o para o per&iacute;odo selecionado</strong></p>";
+	}
+	else
+	{
+		echo "<tr>";
+		echo "<td valign=top  width=345px>";
+		echo "<table>";
+		echo "<tr bgcolor=F9f9f9>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+		echo "Tipo ";
+		echo "</th>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+		echo "Data ";
+		echo "</th>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+		echo "Quantidade ";
+		echo "</th>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+		echo "Preco Unitario";
+		echo "</th>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+		echo "Valor Total";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+		echo "Saldo Atual";
+		echo "</th>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+		echo "Valor Atual";
+		echo "</th>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+		echo "Setor Entrada";
+		echo "</th>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+		echo "Setor Saida";
+		echo "</th>";
+
+		echo "</tr>";
+		while($linha = pg_fetch_array($exec_select))
+		{
+			$vlrfmt = formata_valor($linha[vlr]);
+			echo "<tr>";
+			echo "<td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+			echo "&nbsp;".$linha[desc_movimentacao];
+			echo "<td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+			echo "&nbsp;".$linha[mov_data];
+			echo "</td>";
+			echo "<td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+			echo "&nbsp;".number_format($linha[qtde],0,',','.');
+			echo "</td><td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+			echo number_format($linha[vlrunitario],5,',','.');
+			echo "</td><td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+			echo number_format($vlrfmt,5,',','.');
+			echo "</td>";
+			if ($linha[sinal] == '+') {
+				$saldoatual = $saldoatual + $linha[qtde];
+			} else {
+				$saldoatual = $saldoatual - $linha[qtde];
+			}
+			echo "<td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+			echo number_format($saldoatual,0,',','.');
+			echo "</td>";
+			if ($linha[sinal] == '+') {
+				$vlratual = $vlratual + $linha[vlr];
+			} else {
+				$vlratual = $vlratual - $linha[vlr];
+			}
+			$vlratualfmt = formata_valor($vlratual);
+			echo "<td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+			echo number_format($vlratualfmt,5,',','.');
+			echo "</td>";
+			echo "</td><td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+			if( ! empty($linha[set_entrada]) )
+			{
+				$sql_set = pg_query("SELECT set_nome FROM setor WHERE set_codigo = $linha[set_entrada]");
+				$row_set = pg_fetch_array($sql_set);
+				echo $row_set[0];                                                        } else {
+					echo "-";
+				}
+				//echo ($linha[set_entrada] ? $linha[set_entrada] : '-');
+				echo "</td>";
+				echo "</td><td style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left'>";
+				if( ! empty($linha[set_saida]) )
+				{
+					$sql_set = pg_query("SELECT set_nome FROM setor WHERE set_codigo = $linha[set_saida]");
+					$row_set = pg_fetch_array($sql_set);
+					echo $row_set[0];
+				} else {
+					echo "-";
+				}
+				//echo ($linha[set_saida] ? $linha[set_saida] : '-');
+				echo "</td>";
+				echo "</tr>";
+		}
+		echo "</table>";
+		echo "</td>";
+
+		echo "</table>";
+
+		echo "<table width=90% border=1 cellspacing=2 cellpadding=1>";
+
+		$select_saldo_atual = "select calcula_estoque($_POST[pro_codigo], $_POST[centro_estocador], '$_POST[dt_final]')";
+		$saldo = pg_query($select_saldo_atual);
+		$saldo_atual = pg_fetch_array($saldo);
+		/*echo $select_saldo_anterior;
+		 echo pg_last_error($db);*/
+		$select_preco = "select verifica_preco($_POST[pro_codigo], $_POST[centro_estocador], '$_POST[dt_final]')";
+		$pre = pg_query($select_preco);
+		$preco = pg_fetch_array($pre);
+		/*echo "<br>";
+		 echo $select_preco;
+		 echo "<br>".pg_last_error($db);*/
+
+		echo "<tr bgcolor=F9f9f9>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left' width=100px>";
+		echo "Saldo Atual:";
+		echo "</th>";
+		echo "<td  width=150px>";
+		echo "&nbsp;".$saldo_atual[0];
+		echo "</td>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left;' width=100px>";
+		echo "Pre&ccedil;o M&eacute;dio:";
+		echo "</th>";
+		echo "<td  width=150px>";
+		echo "&nbsp;".$preco[0];
+		echo "</td>";
+		echo "<th style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;text-align:left;' width=100px>";
+		echo "Vlr Financeiro:";
+		echo "</th>";
+		echo "<td  width=150>";
+		echo "&nbsp;".$saldo_atual[0]*$preco[0];
+		echo "</td>";
+		echo "</tr>";
+
+		echo "</table>";
+	}
+	echo "</fieldset>";
+}
+
+//------------------------------------------------------------------>
+//-> Formulario de Adicao de Conteudo
+//------------------------------------------------------------------>
+
+if($acao=="form_add") {
+	reglog($id_login,"Formulario de Adicao de Materiais");
+	//
+	//-> Abaixo sao os botoes de voltar / cadastro simples / cadastro completo
+
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>Op&ccedil;&otilde;es de Cadastro</legend>
+	     <table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+	      <tr>
+	       <td width=79><a href=materiais.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a></td>
+	       <td>&nbsp;</td>
+	      </tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br>";
+	//
+	//-> Este if esta apontando quando a acao for vazia ele vai mostrar o cadastro simples
+	//   no cadastro completo vc vai ter que passar a variavel acao para completo
+
+	if(($type=="" OR $acao=="simples")) {
+		echo "<form method=post action='materiais.php' name='form' id='form'>
+	<input type=hidden name=acao value=add>
+	<input type=hidden name=id_login value=$id_login>
+	<input type=hidden name=type value=simples>
+	<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>Cadastro de Produto</legend>
+	     <table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+	      <tr>
+			<td width=150 align=right>Nome:</td>
+			<td><input type=text name=pro_nome id=pro_nome class=box size=60></td>
+	      </tr>
+		  <tr>
+			<td width=150 align=right>Codigo DCB:</td>
+			<td><input type=text name=pro_codigo_dcb id=pro_codigo_dcb class=box size=60></td>
+	      </tr>
+		  <tr>
+			<td width=150 align=right>Descricao DCB:</td>
+			<td><input type=text name=pro_descricao_dcb id=pro_descricao_dcb class=box size=60></td>
+	      </tr>
+		  <tr>
+			<td width=150 align=right>Concentracao:</td>
+			<td><input type=text name=pro_apresentacao_concentracao id=pro_apresentacao_concentracao class=box size=60></td>
+	      </tr>
+	      <tr>
+		<td width=170 align=right>Grupo:</td>
+		<td>
+		 <select name=gru_codigo class=box>";
+		//
+		//-> SQL do Grupo de Produto
+		$query = pg_query("select gru_codigo, gru_nome from grupo order by gru_nome");
+		while($grupo=pg_fetch_array($query)) {
+			echo "<option value='$grupo[gru_codigo]'>$grupo[gru_nome]</option>";
+		}
+		echo "</select>
+	        </td>
+	      </tr>
+	      <tr id=fracionado>
+	      	<td align=right>Fracionado:</td>
+	      	<td><input type='radio' name='pro_fracionado' value='S'> SIM <input type='radio' name='pro_fracionado' value='N' checked> NAO</td>
+	      </tr>
+	      <tr>
+		<td width=110 align=right>Tipo do Produto:</td>
+		<td>
+		 <select name=pro_tipo class=box onchange=\"mostrarBula(this.value);\" id=\"pro_tipo\">
+		  <option value='D'>Diversos</option>
+		  <option value='M'>Medicamentos</option>
+		  <option value='T'>Materiais Hospitalares</option>
+          <option value='O'>Odontol&oacute;gico</option>
+		 </select>
+	      </tr>
+	      <tr>
+		<td width=170 align=right>Unidade de Medida:</td>
+		<td>
+		 <select name=umed_codigo class=box>";
+		//
+		//-> SQL da Unidade de Medida
+		$query = pg_query("SELECT umed_codigo,
+	    						  umed_nome 
+	    					 FROM unidmedida 
+	    					ORDER BY umed_nome");
+		while($umed=pg_fetch_array($query)) {
+			echo "<option value='$umed[umed_codigo]'>$umed[umed_nome]</option>";
+		}
+		echo "</select>
+	        </td>
+	      </tr>
+	      <tr>
+		<td width=170 align=right>Portaria Psicotropico:</td>
+		<td>
+		 <select name=psico_codigo class=box>";
+		//
+		//-> SQL Psicotropico
+		$query = pg_query("select psico_codigo, psico_nome from psicotropicos order by psico_nome");
+		echo "<option value=''>---</option>";
+		while($psico=pg_fetch_array($query)) {
+			echo "<option value='$psico[psico_codigo]'>$psico[psico_nome]</option>";
+		}
+		echo "</select>
+	        </td>
+	    </tr>
+		<tr>
+			<td width=170 align=right>Subgrupo: </td>
+			<td>
+				<select name='pros_codigo' class='box'>
+					<option value=''>--SELECIONE--</option>";
+					$sqlSub = "select * from produto_subgrupo";
+					$query_sub = pg_query($sqlSub);
+					while($regSub = pg_fetch_array($query_sub)){
+						echo "<option value='$regSub[pros_codigo]'>$regSub[pros_descricao]</option>";
+					}
+		echo"
+				</select>
+			</td>
+		</tr>
+	    <tr>
+			<td width=170 align=right>Codigo Barras: </td>
+			<td><input type=text name=pro_barcode class=box size=15 onKeyPress=\"return Bloqueia_Caracteres(event);\"></td>
+	    </tr>
+	    <tr>
+			<td width=170 align=right>Custo de Referencia: </td>
+			<td><input type=text name=pro_custo class=box size=20 onKeyPress=\"return Bloqueia_Caracteres(event);\"></td>
+       </tr>
+	   <tr>
+		<td width=170 align=right>Embalagem:</td>
+		<td><input type=text name=pro_embalagem class=box size=60></td>
+	      </tr>
+	      <tr>
+		<td width=170 align=right>Descricao Tecnica:</td>
+		<td><input type=textarea name=pro_descricao_tecnica class=box size=40></td>
+	      </tr>
+	      <tr>
+		<td width=110 align=right>Mov. Entrada:</td>
+		<td>
+		 <select name=pro_entrada class=box>
+		  <option value=S>Sim</option>
+		  <option value=N>Nao</option>
+		 </select>
+	      </tr>
+	      <tr>
+		<td width=110 align=right>Mov. Saida:</td>
+		<td>
+		 <select name=pro_saida class=box>
+		  <option value=S>Sim</option>
+		  <option value=N>Nao</option>
+		 </select>
+	      </tr>
+	      <tr>
+		<td width=110 align=right>Mov. Dispensacao:</td>
+		<td>
+		 <select name=pro_dispensacao class=box>
+		  <option value=S>Sim</option>
+		  <option value=N>Nao</option>
+		 </select>
+	      </tr>
+	      <tr>
+		<td width=110 align=right>Mov. Transferencia:</td>
+		<td>
+		 <select name=pro_transferencia class=box>
+		  <option value=S>Sim</option>
+		  <option value=N>Nao</option>
+		 </select>
+	      </tr>
+		  <tr>
+			<td width=110 align=right>Validade:</td>
+			<td>
+			 <select name=pro_validade class=box>
+			  <option value=N>Nao</option>
+			  <option value=S>Sim</option>
+			 </select>
+	      </tr>
+	      
+	      <tr id=\"bula\">
+			<td align=right>Bula:</td>
+			<td><textarea name=\"pro_bula\" class=\"box tinymce\"></textarea></td>
+	      </tr>
+	      
+	      <tr>
+		<td width=170 align=right>Observacao:</td>
+		<td><input type=textarea name=pro_observacao class=box size=40></td>
+	      </tr>
+	      <tr>
+			<td width=170 align=right>Fracionamento Minimo:</td>
+			<td><input type=textarea name=pro_frmmin class=box size=20 value='$row[pro_frmmin]' onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength='4'></td>
+	      </tr>
+	      <tr>
+	       <td>&nbsp;</td>
+	       <td><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/adicionar_on.jpg  OnClick=validaNome()></td>
+	      </tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br></form>";
+	}//fechamento do if
+}
+//}
+//------------------------------------------------------------------>
+//-> Formulario de InclusÃ£o do produto_setor
+//------------------------------------------------------------------>
+
+if($acao == "form_incluir")
+{
+	reglog($id_login,"Formulario de Edicao de Materiais");
+	//
+	//-> Formulario de edicao do cadastro SIMPLES
+	$select = "select pro_nome from produto where pro_codigo = $_GET[pro_codigo]";
+	$exec_select = pg_query($select);
+	$linha = pg_fetch_array($exec_select);
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>Op&ccedil;&otilde;es de Cadastro</legend>
+	     <table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+	      <tr>
+	        <td width=79><a href=$PHP_SELF?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a></td>
+	       <td>&nbsp;</td>
+	      </tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br>";
+
+	echo "<form method=post action=inserirProdutoSetor.php name=form>";
+	echo "<input type=hidden name=id_login value=$id_login>";
+	echo "<input type=hidden id=pro_codigo name=pro_codigo value=$_GET[pro_codigo]>";
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>";
+	echo "<tr>";
+	echo "<td>";
+	echo "<fieldset>";
+	echo "<legend>Cadastro de Produto</legend>";
+	echo "<table width=100% align=center cellspacing=2 cellpadding=4 border=0>";
+	echo "<tr>";
+	echo "<td>";
+	echo "Produto:";
+	echo "</td>";
+	echo "<td>";
+	echo "<input type=text readonly=readonly value=".$linha[pro_nome]." class=box>";
+	echo "</td>";
+	echo "</tr>";
+	echo "<tr>\n";
+	echo "<td valign='middle' widht=140>Setor:</td>\n";
+	echo "<td><select name='set_codigo' id=set_codigo class=box>\n";
+	$UniQuery=pg_query("SELECT set_codigo,
+										   set_nome 
+									  FROM Setor 
+									 WHERE set_estoque = 'S' 
+									 ORDER BY set_nome");
+	while($SetArray=pg_fetch_array($UniQuery)) {
+		echo ($linha[set_codigo]==$SetArray[set_codigo])?"<option value='$SetArray[set_codigo]' selected> $SetArray[set_nome]</option>":"<option value='$SetArray[set_codigo]' > $SetArray[set_nome]</option>\n";
+	}
+	echo "</select>\n";
+	echo "</td>\n";
+	echo "</tr>\n";
+	// inclusao dos demais dados.
+	
+	/*echo "<tr>";
+	 echo "<td width=140>Tempo de Seguranca:</td>";
+	 echo "<td><input type=textarea name=pro_seguranca class=box size=15 value='$linha[prset_seguranca]' onKeypress=\"return Bloqueia_Caracteres(event);\"></td>";
+		echo "</tr>";*/
+	//
+	echo "<tr>";
+	echo "<td>";
+	echo $common->commonButton("Adicionar", null, "adicionar.png", "OnClick=\"return validaForm();\"");
+	echo "</td>";
+	echo "</tr>";
+	echo "</table>";
+	echo "</fieldset>";
+	echo "</table>";
+	echo "</form>";
+	echo "<fieldset>";
+	echo "<legend>Lista</legend>";
+	echo "<table class=lista>";
+	echo "<tr>";
+	echo "<th width=400>";
+	echo "SETOR";
+	echo "</th>";
+	/*echo "<th width=150>";
+	 echo "EST. SEGURAN&Ccedil;A";
+	 echo "</th>";*/
+	echo "<th colspan=2>";
+	echo "&nbsp";
+	echo "</th>";
+	echo "</tr>";
+	$select = "SELECT a.set_nome,
+							  c.prset_minimo, 
+							  c.prset_maximo, 
+							  c.prset_tempo_reposicao, 
+							  c.prset_seguranca, 
+							  c.prset_codigo, 
+							  c.set_codigo
+                         FROM setor a, 
+                         	  produto b, 
+                         	  produto_setor c
+                        WHERE a.set_codigo = c.set_codigo
+                          AND b.pro_codigo = c.pro_codigo "
+                          .($dados[0]=="" ? "" : " AND a.uni_codigo = ".$dados[0]).
+                		" AND c.pro_codigo = $_GET[pro_codigo]";
+
+                         // echo $select;
+                          $exec_select = pg_query($select);
+                          while($linha = pg_fetch_array($exec_select))
+                          {
+                          	echo "<tr>";
+                          	echo "<td>";
+                          	echo $linha[0];
+                          	echo "</td>";
+                          	echo "<td>";
+                          	echo $linha[1];
+                          	echo "</td>";
+                          	echo "<td>";
+                          	echo $linha[2];
+                          	echo "</td>";
+                          	echo "<td>";
+                          	echo $linha[3];
+                          	echo "</td>";
+                          	/*echo "<td>";
+                          	 echo $linha[4];
+                          	 echo "</td>";*/
+                          	echo "<td>";
+                          	echo $common->commonButton("Editar", "materiais.php?acao=form_alterar&prset_codigo=$linha[5]&id_login=$id_login", "editar_on.png", null);
+                          	echo "</td>";
+                          	echo "<td>";
+                          	echo $common->commonButton("Apagar", null, "apagar.png", "onClick=\"if (!confirm('Realmente deseja apagar este registro?')) return false; location.href='apagarProdutoSetor.php?pro_codigo=$_GET[pro_codigo]&prset_codigo=$linha[5]&set_codigo=$linha[6]&id_login=$id_login'\"");
+                          	echo "</td>";
+                          	echo "</tr>";
+                          }
+                          echo "</table>";
+                          echo "</fieldset><br>";
+}
+
+//------------------------------------------------------------------>
+//-> Formulario de ediÃ§Ã£o do produto_setor
+//------------------------------------------------------------------>
+
+if($acao == "form_alterar")
+{
+	reglog($id_login,"Formulario de Edicao de Materiais");
+
+	//
+	//-> Formulario de edicao do cadastro SIMPLES
+	$select = "SELECT a.set_codigo,
+					  c.prset_minimo, 
+					  c.prset_maximo, 
+					  c.prset_tempo_reposicao, 
+					  c.prset_seguranca, 
+					  c.pro_codigo
+				 FROM setor a, 
+				 	  produto b, 
+				 	  produto_setor c
+				WHERE a.set_codigo = c.set_codigo
+				  AND b.pro_codigo = c.pro_codigo
+				  AND c.prset_codigo = $_GET[prset_codigo]";
+	//echo $select;
+	$exec_select = pg_query($select);
+	$linha = pg_fetch_array($exec_select);
+
+	$select = "select pro_nome from produto where pro_codigo = $linha[pro_codigo]";
+	$exec_select = pg_query($select);
+	$linha2 = pg_fetch_array($exec_select);
+
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>Op&ccedil;&otilde;es de Cadastro</legend>
+	     <table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+	      <tr>
+	        <td width=79><a href=$PHP_SELF?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a></td>
+	       <td>&nbsp;</td>
+	      </tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br>";
+	echo "<form method=post action=alteraProdutoSetor.php name=form>";
+	echo "<input type=hidden name=id_login value=$id_login>";
+	echo "<input type=hidden name=prset_codigo value=$_GET[prset_codigo]>";
+	echo "<input type=hidden name=pro_codigo value=$linha[pro_codigo]>";
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>";
+	echo "<tr>";
+	echo "<td>";
+	echo "<fieldset>";
+	echo "<legend>Altera&ccedil;&atilde;o de Produto</legend>";
+	echo "<table width=100% align=center cellspacing=3 cellpadding=0 border=0>";
+	echo "<tr>";
+	echo "<td width=150 align=right>";
+	echo "Produto:";
+	echo "</td>";
+	echo "<td>";
+	echo "<input type=text readonly=readonly class=box value=".$linha2[pro_nome].">";
+	echo "</td>";
+	echo "</tr>";
+	echo "<tr>\n";
+	echo "<td valign='middle'>Setor:</td>\n";
+	echo "<td><select name='set_codigo' class=box>\n";
+	$UniQuery=pg_query("SELECT set_codigo,
+										   set_nome 
+									  FROM Setor 
+									 WHERE set_estoque = 'S' 
+									 ORDER BY set_nome");
+	while($SetArray=pg_fetch_array($UniQuery)) {
+		echo ($linha[set_codigo]==$SetArray[set_codigo])?"<option value='$SetArray[set_codigo]' selected> $SetArray[set_nome]</option>":"<option value='$SetArray[set_codigo]' > $SetArray[set_nome]</option>\n";
+	}
+	echo "</select>\n";
+	echo "</td>\n";
+	echo "</tr>\n";
+	
+	/*echo "<tr>";
+	 echo "<td width=115>Tempo de Seguranca:</td>";
+	 echo "<td><input type=textarea name=pro_seguranca class=box size=15 value='$linha[prset_seguranca]' onKeypress=\"return Bloqueia_Caracteres(event);\"></td>";
+		echo "</tr>";*/
+
+	echo "<tr>";
+	echo "<td>";
+	echo $common->commonButton("Editar", null, "editar_on.png", "onClick=\"form.submit();\"");
+	echo "</td>";
+	echo "</tr>";
+	echo "<table>";
+	echo "</fieldset>";
+	echo "</table>";
+	echo "</form>";
+}
+
+
+
+//------------------------------------------------------------------>
+//-> Formulario de Edicao de Conteudo
+//------------------------------------------------------------------>
+
+else if($acao=="form_edit")
+{
+	reglog($id_login,"Formulario de Edicao de Materiais");
+	//
+	//-> Formulario de edicao do cadastro SIMPLES
+
+	echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>Op&ccedil;&otilde;es de Cadastro</legend>
+	     <table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+	      <tr>
+	        <td width=79><a href=$PHP_SELF?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a></td>
+	       <td>&nbsp;</td>
+	      </tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br>";
+	//
+	//-> Pegando as informcoes do banco pra mostrar no formulario
+	$sqlproduto = "select * from produto where pro_codigo ='$pro_codigo'";
+	$row=pg_fetch_array(pg_query($sqlproduto));
+	if ($row[pro_entrada] == 'S' ) {
+		$vlent1 = 'selected '; $vlent2 = '';
+	}
+	else {
+		$vlent1 = ''; $vlent2='selected';
+	}
+	if ($row[pro_saida] == 'S' ) {
+		$vlsai1 = 'selected '; $vlsai2 = '';
+	}
+	else {
+		$vlsai1 = ''; $vlsai2='selected';
+	}
+	if ($row[pro_dispensacao] == 'S' ) {
+		$vldis1 = 'selected '; $vldis2 = '';
+	}
+	else {
+		$vldis1 = ''; $vldis2='selected';
+	}
+	if ($row[pro_transferencia] == 'S' ) {
+		$vltra1 = 'selected '; $vltra2 = '';
+	}
+	else {
+		$vltra1 = ''; $vltra2='selected';
+	}
+
+	if ($row['pro_tipo'] == 'D' ) {
+		$vltip1 = 'selected '; $vltip2 = ''; $vltip3 = ''; $vltip4 = '';
+	}
+	if ($row['pro_tipo'] == 'M' ) {
+		$vltip1 = ''; $vltip2 = 'selected'; $vltip3 = ''; $vltip4 = '';
+	}
+	if ($row['pro_tipo'] == 'T' ) {
+		$vltip1 = ''; $vltip2 = ''; $vltip3 = 'selected';  $vltip4 = '';
+	}
+	if ($row['pro_tipo'] == 'O' ) {
+		$vltip1 = ''; $vltip2 = ''; $vltip3 = '';  $vltip4 = 'selected';
+	}
+
+	echo "<br><br><form method='post' action='materiais.php' name='form' id='form'>
+	<input type=hidden name=acao value=edit>
+	<input type=hidden name=id_login value=$id_login>
+	<input type=hidden name=pro_codigo value=$pro_codigo>
+	<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
+	 <tr>
+	  <td>
+	   <fieldset>
+	    <legend>Cadastro de Produto</legend>
+	     <table width=100% align=center cellspacing=3 cellpadding=0 border=0>
+			<tr>
+				<td width=170 align=right>Nome:</td>
+				<td><input type=text name=pro_nome class=box size=60 value='$row[pro_nome]'></td>
+			</tr>
+			<tr>
+				<td width=170 align=right>Codigo DCB:</td>
+				<td><input type=text name=pro_codigo_dcb class=box size=60 value='$row[pro_codigo_dcb]'></td>
+			</tr>
+			<tr>
+				<td width=170 align=right>Descricao DCB:</td>
+				<td><input type=text name=pro_descricao_dcb class=box size=60 value='$row[pro_descricao_dcb]'></td>
+			</tr>
+			<tr>
+				<td width=170 align=right>Concentracao:</td>
+				<td><input type=text name=pro_apresentacao_concentracao class=box size=60 value='$row[pro_apresentacao_concentracao]'></td>
+			</tr>
+	      <tr>
+		<td width=170 align=right>Grupo:</td>
+		<td>
+		 <select name=gru_codigo class=box>";
+	//
+	//-> SQL do Estado
+	$query = pg_query("select gru_codigo, gru_nome from grupo order by gru_nome");
+	while($grupo=pg_fetch_array($query)) {
+		echo ($grupo[gru_codigo]==$row[gru_codigo])?"<option value='$grupo[gru_codigo]' selected>$grupo[gru_nome]</option>":"<option value='$grupo[gru_codigo]'>$grupo[gru_nome]</option>";
+	}
+	echo "</select>
+	        </td>
+	      </tr>
+	      <tr id=fracionado>
+	      	<td align=right>Fracionado:</td>
+	      	<td><input type='radio' name='pro_fracionado' value='S' ".($row['pro_fracionado'] == 'S' ? "checked = checked" : '')."> SIM <input type='radio' name='pro_fracionado' value='N' ".($row['pro_fracionado'] == 'N' ? "checked = checked" : '')."> NAO</td>
+	      </tr>
+	      <tr>
+		<td width=110  align=right>Tipo do Produto:</td>
+		<td>
+		 <select name=pro_tipo class=box onchange=\"mostrarBula(this.value);\" id=\"pro_tipo\">
+		  <option value='D' $vltip1>Diversos</option>
+		  <option value='M' $vltip2>Medicamentos</option>
+		  <option value='T' $vltip3>Materiais Hospitalares</option>
+          <option value='O' $vltip4>Odontol&oacute;gico</option>
+		 </select>
+	      </tr>
+	      <tr>
+		<td width=170 align=right>Unidade de Medida:</td>
+		<td>
+		 <select name=umed_codigo class=box>";
+	//
+	//-> SQL da Unidade de Medida
+	$query = pg_query("select umed_codigo, umed_nome from unidmedida order by umed_nome");
+	while($umed=pg_fetch_array($query)) {
+		echo ($umed[umed_codigo]==$row[umed_codigo])?"<option value='$umed[umed_codigo]' selected>$umed[umed_nome]</option>":"<option value='$umed[umed_codigo]'>$umed[umed_nome]</option>";
+	}
+	echo "</select>
+	        </td>
+	      </tr>
+	      <tr>
+		<td width=170 align=right>Portaria Psicotropico:</td>
+		<td>
+		 <select name=psico_codigo class=box>";
+	//
+	//-> SQL Psicotropico
+	$query = pg_query("select psico_codigo, psico_nome from psicotropicos order by psico_nome");
+	echo "<option value=''>---</option>";
+	while($psico=pg_fetch_array($query)) {
+		echo ($psico[psico_codigo]==$row[psico_codigo])?"<option value='$psico[psico_codigo]' selected>$psico[psico_nome]</option>":"<option value='$psico[psico_codigo]'>$psico[psico_nome]</option>";
+	}
+	echo "</select>
+	        </td>
+		</tr>
+		<tr>
+			<td width=170 align=right>Subgrupo: </td>
+			<td>
+				<select name='pros_codigo' class='box'>
+					<option value=''>--SELECIONE--</option>";
+					$sqlSub = "select * from produto_subgrupo";
+					$query_sub = pg_query($sqlSub);
+					while($regSub = pg_fetch_array($query_sub)){
+						echo "<option value='$regSub[pros_codigo]' ".($row[pros_codigo] == $regSub[pros_codigo] ? "selected='selected'" : "").">$regSub[pros_descricao]</option>";
+					}
+		echo"
+				</select>
+			</td>
+		</tr>
+	      <tr>
+		<td width=170 align=right>Codigo Barras: </td>
+		<td><input type=text name=pro_barcode class=box size=15 value='$row[pro_barcode]' onKeyPress=\"return Bloqueia_Caracteres(event);\"></td>
+	      </tr>
+	      <tr>
+		<td width=170 align=right>Custo de Referencia: </td>
+		<td><input type=text name=pro_custo class=box size=20 value='$row[pro_custo]' onKeyPress=\"return Bloqueia_Caracteres(event);\"></td>
+	      </tr>
+	      <tr>
+		<td width=170 align=right>Embalagem:</td>
+		<td><input type=text name=pro_embalagem class=box size=60 value='$row[pro_embalagem]'></td>
+	      </tr>
+	      <tr>
+		<td width=170 align=right>Descricao Tecnica:</td>
+		<td><input type=textarea name=pro_descricao_tecnica class=box size=40 value='$row[pro_descricao_tecnica]'></td>
+	      </tr>
+	      <tr>
+		<td width=110 align=right>Mov. Entrada?:</td>
+		<td>
+		 <select name=pro_entrada class=box>
+		  <option value=S $vlent1>Sim</option>
+		  <option value=N $vlent2>Nao</option>
+		 </select>
+	      </tr>
+	      <tr>
+		<td width=110 align=right>Mov. Saida?:</td>
+		<td>
+		 <select name=pro_saida class=box>
+		  <option value=S $vlsai1>Sim</option>
+		  <option value=N $vlsai2>Nao</option>
+		 </select>
+	      </tr>
+	      <tr>
+		<td width=110 align=right>Mov. Dispensacao?:</td>
+		<td>
+		 <select name=pro_dispensacao class=box>
+		  <option value=S $vldis1>Sim</option>
+		  <option value=N $vldis2>Nao</option>
+		 </select>
+	      </tr>
+	      <tr>
+		<td width=110 align=right>Mov. Transferencia?:</td>
+		<td>
+		 <select name=pro_transferencia class=box>
+		  <option value=S $vltra1>Sim</option>
+		  <option value=N $vltra2>Nao</option>
+		 </select>
+	      </tr>";
+	echo " <tr>";
+	echo "<td width=110 align=right>Validade:</td>";
+	echo "<td>";
+	$selected1 = ($row[pro_validade] == 'S' ? "selected" : null);
+	$selected2 = ($row[pro_validade] == 'N' ? "selected" : null);
+	echo "<select name=pro_validade class=box>";
+	echo "<option value=N $selected2>Nao</option>";
+	echo "<option value=S $selected1>Sim</option>";
+	echo "</select>";
+	echo "</td>";
+	echo "</tr>";
+	echo "
+	      
+	      <tr id=\"bula\">
+			<td align=right>Bula:</td>
+			<td><textarea name=\"pro_bula\" class=\"box tinymce\">{$row['pro_bula']}</textarea></td>
+	      </tr>
+
+	      <tr>
+			<td width=170 align=right>Observacao:</td>
+			<td><input type=textarea name=pro_observacao class=box size=40 value='$row[pro_observacao]'></td>
+	      </tr>
+	      <tr>
+			<td width=170 align=right>Fracionamento Minimo:</td>
+			<td><input type=textarea name=pro_frmmin class=box size=20 value='$row[pro_frmmin]' onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength='4'></td>
+	      </tr>
+	      <tr>
+			<td width=170 align=right>Situacao:</td>
+			<td><input type=\"radio\" name=\"pro_situacao\" class=\"box\" value=\"A\" ".(($row['pro_situacao']=='A')?'checked="checked"':'')."> Ativo <input type=\"radio\" name=\"pro_situacao\" class=\"box\" value=\"\" ".($row['pro_situacao']!='A'?'checked="checked"':'')."> Desativado</td>
+	      </tr>
+	      <tr>
+	       <td>&nbsp;</td>
+	       <td>".
+			$common->commonButton("Editar", null, "editar_on.png", "onClick=\"form.submit();\"").
+	      "</td>
+	      </tr>
+	     </table>
+	   </fieldset>
+	  </td>
+	 </tr>
+        </table><br></form>";
+}
+
+//------------------------------------------------------------------>
+//-> SQL's
+//------------------------------------------------------------------>
+//
+//-> ADD <---------------------------------------------------------->
+else if($acao=="add")
+{
+	//echo "<pre>".print_r($_POST,true)."</pre>";exit();
+	$sql = "insert into produto ( " .
+           "pro_nome, " .
+		   "pro_codigo_dcb, " .
+		   "pro_descricao_dcb, " .
+		   "pro_apresentacao_concentracao, " .
+           "gru_codigo, " .
+           "pro_barcode, " .
+           "pro_custo, " .
+           "pro_embalagem, " .
+           "pro_descricao_tecnica, " .
+           "pro_observacao, " .
+           "pro_saida, " .
+           "pro_entrada, " .
+           "pro_dispensacao, " .
+           "pro_transferencia, " .
+           "umed_codigo, " .
+           "psico_codigo, " .
+           "pro_tipo," .
+		   "pro_validade, " .
+   		   "pro_fracionado, " .
+   		   "pro_bula, " .
+   		   "pro_situacao, " .
+		   "pros_codigo, " .
+		   "pro_frmmin " .
+            ") values ( " .
+                       "upper('$pro_nome'), " .
+	($pro_codigo_dcb            ? "'$pro_codigo_dcb'"            : "null") . "," .
+	($pro_descricao_dcb            ? "'$pro_descricao_dcb'"            : "null") . "," .
+	($pro_apresentacao_concentracao            ? "'$pro_apresentacao_concentracao'"            : "null") . "," .
+	($gru_codigo            ? "'$gru_codigo'"            : "null") . "," .
+	($pro_barcode           ? "'$pro_barcode'"           : "null") . "," .
+	($pro_custo             ? "'$pro_custo'"             : "null") . "," .
+	($pro_embalagem         ? "'$pro_embalagem'"         : "null") . "," .
+	($pro_descricao_tecnica ? "'$pro_descricao_tecnica'" : "null") . "," .
+	($pro_observacao        ? "'$pro_observacao'"        : "null") . "," .
+	($pro_entrada        ? "'$pro_entrada'"        : "null") . "," .
+	($pro_saida        ? "'$pro_saida'"        : "null") . "," .
+	($pro_dispensacao        ? "'$pro_dispensacao'"        : "null") . "," .
+	($pro_transferencia        ? "'$pro_transferencia'"        : "null") . "," .
+	($umed_codigo        ? "'$umed_codigo'"        : "null") . "," .
+	($psico_codigo        ? "'$psico_codigo'"        : "null") . "," .
+	($pro_tipo        ? "'$pro_tipo'"        : "null") . "," .
+	($pro_validade        ? "'$pro_validade'"        : "null") . "," .
+	($pro_fracionado        ? "'$pro_fracionado'"        : "null") . "," .
+	($pro_bula        ? "'$pro_bula'"        : "null") . ", " .
+
+                     "'A',
+    ".($pros_codigo        ? "'$pros_codigo'"        : "null").",
+
+	".($pro_frmmin        ? "'$pro_frmmin'"        : "0") . "" .
+
+")";
+	//echo $sql; exit;
+	//pro_saida char(1) NOT NULL,
+	//pro_entrada char(1) NOT NULL,
+	//pro_emprestimo char(1) NOT NULL,
+	//pro_dispensacao char(1) NOT NULL,
+	//pro_transferencia char(1) NOT NULL,
+	//pro_tipo char(1) NOT NULL, -- M - MEDICAMENTOS
+
+	//echo "=>".$sql."<br>";
+
+
+	$query=pg_query($sql);
+	reglog($id_login,"Adicionando Material $pro_nome Uni.: $pro_unidade Entr.: $pro_entrada Said. $pro_saida");
+	msg($id_login,$acao,$query);
+
+}
+
+//
+//-> EDIT <--------------------------------------------------------->
+
+if($acao=="edit") {
+	$query = "update produto set " .
+            "pro_nome=upper('$pro_nome'), " .
+            "gru_codigo='$gru_codigo', " .
+	($pro_barcode ? "pro_barcode='$pro_barcode'" : "pro_barcode=null") . ", " .
+	($pro_codigo_dcb ? "pro_codigo_dcb='$pro_codigo_dcb'" : "pro_codigo_dcb=null") . ", " .
+	($pro_descricao_dcb ? "pro_descricao_dcb='$pro_descricao_dcb'" : "pro_descricao_dcb=null") . ", " .
+	($pro_apresentacao_concentracao ? "pro_apresentacao_concentracao='$pro_apresentacao_concentracao'" : "pro_apresentacao_concentracao=null") . ", " .
+	($pro_custo ? "pro_custo='$pro_custo'" : "pro_custo=null") . ", " .
+	($pro_embalagem ? "pro_embalagem='$pro_embalagem'" : "pro_embalagem=null") . ", " .
+	($pro_descricao_tecnica ? "pro_descricao_tecnica='$pro_descricao_tecnica'" : "pro_descricao_tecnica=null") . ", " .
+	($pro_observacao ? "pro_observacao='$pro_observacao'" : "pro_observacao=null") . "," .
+	($pro_entrada ? "pro_entrada='$pro_entrada'" : "pro_entrada=null") . ", " .
+	($pro_saida ? "pro_saida='$pro_saida'" : "pro_saida=null") . ", " .
+	($pro_dispensacao ? "pro_dispensacao='$pro_dispensacao'" : "pro_dispensacao=null") . ", " .
+	($pro_transferencia ? "pro_transferencia='$pro_transferencia'" : "pro_transferencia=null") . ", " .
+	($umed_codigo ? "umed_codigo='$umed_codigo'" : "umed_codigo=null") . ", " .
+	($psico_codigo ? "psico_codigo='$psico_codigo'" : "psico_codigo=null") . ", " .
+	($pro_tipo ? "pro_tipo='$pro_tipo'" : "pro_tipo=null") . ",  " .
+	($pro_validade ? "pro_validade='$pro_validade'" : "pro_validade=null") . ",  " .
+	($pro_fracionado ? "pro_fracionado='$pro_fracionado'" : "pro_fracionado=null") . ",  " .
+	($pro_bula ? "pro_bula='$pro_bula'" : "pro_bula=null") . ",  " .
+	($pros_codigo ? "pros_codigo='$pros_codigo'" : "pros_codigo=null") . ",  " .
+	($pro_situacao ? "pro_situacao='$pro_situacao'" : "pro_situacao=''") . ",  " .
+	($pro_frmmin ? "pro_frmmin='$pro_frmmin'" : "pro_frmmin='0'") . "  " .
+            "where pro_codigo='$pro_codigo'";
+           // die($query);
+	$sql = pg_query($query) or die(pg_last_error()."<pre>".$query);
+	reglog($id_login,"Editando Material $pro_nome Uni.: $pro_unidade Entr.: $pro_entrada Said. $pro_saida");
+	msg($id_login,$acao,$sql);
+}
+
+//
+//-> DEL <---------------------------------------------------------->
+
+if($acao=="del") {
+	$sql = pg_query("UPDATE produto set pro_situacao = 0 WHERE pro_codigo='$pro_codigo'");
+	reglog($id_login,"Excluindo Material Cod.: $pro_codigo");
+	msg($id_login,$acao,$sql);
+}
+
+?></fieldset>

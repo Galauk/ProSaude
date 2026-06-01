@@ -1,0 +1,529 @@
+<?php
+session_start();
+
+
+    // echo "<pre>";var_dump($this->dados[0]);die();
+    // echo "<pre>";print_r($this->raca[rac_codigo]);die();
+
+
+$this->errorMsg();
+?>
+
+<br />
+<input type="hidden" name="aise" id="aise" value="<?=$this->aise?>">
+<input type="hidden" id="poupup" value="<?=$this->poupup?>">
+<div id="resultado">
+</div>
+<input type="hidden" id="baseUrlProc" value="<?=$_SESSION['linkroot'].$_SESSION['modulo']."mountela.php?id_login=".$_GET["id_login"].""?>" />
+<div class='abas'>
+  <ul class="tabs">
+    <li><a href="#tabs1-1">Dados Básicos</a></li>
+    <li><a href="#tabs1-2">Dados Domicílio</a></li>
+    <li><a href="#tabs1-3">Outros Documentos</a></li>
+    <li><a href="#tabs1-4">Demais Dados - Esus </a></li>
+    <!--<li><a href="#tabs1-5">Documentos Unidade</a></li>-->
+  </ul>
+  <form id="form">
+                 
+    <input type="hidden" name="pessoa-edita" id="pessoa-edita" value="<?=$this->dados[0]->pessoa?>" />
+    <div id='tabs1-1' class="abas-aba" data-n="0">
+        <label>Profissional:</label>
+        <select name="usr_codigo" id="usr_codigo" style="width:300px;" onchange="carregaUnidadesProfissional()">
+          <option value="">Selecione</option>
+           <?php
+            foreach ($this->usuarios as $usuarios){
+                $selected = "";
+                if(trim($usuarios->usr_codigo) == trim($this->usuario_logado)){
+                    $selected = "selected=selected";
+                }
+                echo "<option $selected value='$usuarios->usr_codigo'>$usuarios->usr_nome</option>";
+            }
+            ?>
+        </select><br />
+        <label>Unidade:</label>
+        <input type="hidden" id="uni_codigo_edit" value="<?=$this->dados[0]->uni_codigo?>">
+        <select name="uni_codigo" id="uni_codigo" style="width:300px;"></select><br />
+        <label>Bloqueado:</label>
+        <input name="pep_bloqueado" id="pep_bloqueado" type="radio" value="t" <?=$this->dados[0]->pep_bloqueado == "" ? "" : $this->dados[0]->pep_bloqueado == "1" ? "checked='checked'" : "" ?> />Sim
+        <input name="pep_bloqueado" id="pep_bloqueado" type="radio" value="f" <?=$this->dados[0]->pep_bloqueado == "" ? "checked" : $this->dados[0]->pep_bloqueado == "0" ? "checked='checked'" : "" ?> />Não<br />
+        <label class="obrigatorio">Cartão SUS:</label>
+        <input name="pep_cartao_sus" id="pep_cartao_sus"  maxlength="18"
+               value="<?=$this->dados[0]->pep_cartao_sus == "NULL" ? "" : $this->dados[0]->pep_cartao_sus ?>"
+               onblur="validaCns(this.value)" /><br />
+        <label><?= $this->prontuarioObrigatorio ? ' class="obrigatorio"' : '' ?>Prontuário:</label>
+        <input name="pep_prontuario" id="pep_prontuario" onchange="getProntuarioDuplicado(this.value)" maxlength="15" value="<?=$this->dados[0]->pep_prontuario == "NULL" ? "" : $this->dados[0]->pep_prontuario?>"<?= $this->prontuarioObrigatorio ? ' class="obrigatorio"' : '' ?> /><br />
+        <? if($this->exibirCiscomcam){ ?>
+        <label>CISCOMCAM:</label>
+        <input name="usu_ciscomcam" id="usu_ciscomcam" maxlength="8" value="<?=$this->dados[0]->usu_ciscomcam == "NULL" ? "" : $this->dados[0]->usu_ciscomcam?>" /><br />
+        <? } ?>
+        <input type="hidden" name="pep_prontuario_val" id="pep_prontuario_val" value="0"/>
+        <label class="obrigatorio">Nome:</label> <!-- OBRIGATÓRIO PARA O ESUS -->
+        <div id="nomeNovo" style="display: inline-table;">
+            <input name="nome" id="nome"  maxlength="80" onblur="validaEspacamento(this.name);validaEspacoNome()"
+                   style="text-transform: uppercase" value="<?=$this->dados[0]->nome == "NULL" ? "" : $this->dados[0]->nome?>" />
+        </div> 
+        <?if($this->aise == 1):?>
+            <input type="checkbox" name="novo" id="novo" onclick="validaPaciente()"> Novo paciente?
+        <?endif;?>
+        <br />     
+        <div>
+            <label >Masculino</label>
+            <input name="pep_sexo" id="pep_sexo" type="radio" value="M" <?=$this->dados[0]->pep_sexo == "" ? "" : $this->dados[0]->pep_sexo = 'M' || $this->dados[0]->pep_sexo = '0' ? "checked='checked'" : "" ?> >
+            <br/><label>Feminino</label>
+            <input name="pep_sexo" id="pep_sexo" type="radio" value="F" <?=$this->dados[0]->pep_sexo == "" ? "" : $this->dados[0]->pep_sexo = 'F' || $this->dados[0]->pep_sexo = '1' ? "checked='checked'" : "" ?> ><br />
+        </div>
+        <label>CPF:</label>
+      	<input name="cnpj_cpf" id="cnpj_cpf"  class="mask" rel="999.999.999-99" maxlength="20" value="<?=$this->dados[0]->cnpj_cpf == "NULL" ? "" : $this->dados[0]->cnpj_cpf ?>" /><br />
+      	<label>RG:</label>
+      	<input name="rg" id="rg" maxlength="20" value="<?=$this->dados[0]->rg == "NULL" ? "" : $this->dados[0]->rg ?>" /><br />
+      	<label>Data Emissão RG:</label>
+      	<input name="dataemissao" id="dataemissao" class="mask" style="" rel="99/99/9999" onblur="validaData(this.name)" value="<?=$this->dados[0]->dataemissao == "NULL" ? "" : $this->data($this->dados[0]->dataemissao,Zend_Date::DATE_MEDIUM) ?>" /><br />
+       <label>Título de Eleitor:</label>
+      <input name="pep_titulo_eleitor" id="pep_titulo_eleitor" maxlength="14" value="<?=$this->dados[0]->pep_titulo_eleitor == "NULL" ? "" : $this->dados[0]->pep_titulo_eleitor ?>" /><br />
+
+      <label>Título de Eleitor - Zona:</label>
+      <input name="pep_titulo_zona" id="pep_titulo_zona" maxlength="4" value="<?=$this->dados[0]->pep_titulo_zona == "NULL" ? "" : $this->dados[0]->pep_titulo_zona ?>" /><br />
+
+      <label>Título de Eleitor - Seção:</label>
+      <input name="pep_titulo_secao" id="pep_titulo_secao" maxlength="4" value="<?=$this->dados[0]->pep_titulo_secao == "NULL" ? "" : $this->dados[0]->pep_titulo_secao ?>" /><br />
+        <label class="obrigatorio">Data de Nascimento:</label> <!-- OBRIGATÓRIO PARA O ESUS -->
+        <input type="hidden" name="data_atual" id="data_atual" value="<?=date("Ymd")?>" />
+        <input name="datanascimento" id="datanascimento" class="mask" rel="99/99/9999" onblur="validaData(this.name)"
+               value="<?=$this->dados[0]->datanascimento == "NULL" ? "" : $this->data($this->dados[0]->datanascimento,Zend_Date::DATE_MEDIUM)?>" /><br />
+        <label class="obrigatorio">Nome da Mãe:</label> <!-- OBRIGATÓRIO PARA O ESUS -->
+        <input name="pep_mae" id="pep_mae" maxlength="70" onblur="validaEspacamento(this.name);validaNomeMae()"
+               style="text-transform: uppercase" value="<?=$this->dados[0]->pep_mae == "NULL" ? "" : $this->dados[0]->pep_mae?>" /><br />
+        <label>Nome do Pai:</label> <!-- OBRIGATÓRIO PARA O ESUS -->
+        <input name="pep_pai" id="pep_pai" maxlength="70"  onblur="validaEspacamento(this.name)" style="text-transform: uppercase" value="<?=$this->dados[0]->pep_pai == "NULL" ? "" : $this->dados[0]->pep_pai?>" /><br />
+        <label>Celular:</label>
+        <input name="pep_celular" id="pep_celular" class="mask" rel="(99) 99999-9999" value="<?=$this->dados[0]->pep_celular == "NULL" ? "" : $this->dados[0]->pep_celular ?>" /><br />
+        <label class="obrigatorio">Nacionalidade:</label> <!-- OBRIGATÓRIO PARA O ESUS -->
+        
+        <select name="cd_nacionalidade" id="cd_nacionalidade" style="width: 305px;">
+            <option value="">Selecione</option>
+            <option <?=$this->dados[0]->cd_nacionalidade == 'B' || $this->dados[0]->cd_nacionalidade == '' ? 'selected': ''?> value="B" onclick="habilitaCidade()">
+                Brasileiro
+            </option>
+            <option <?=$this->dados[0]->cd_nacionalidade == 'E' ? 'selected': ''?> value="E" onclick="habilitaCidade()">Estrangeiro</option>
+            <option <?=$this->dados[0]->cd_nacionalidade == 'N' ? 'selected': ''?> value="N" onclick="habilitaCidade()">Naturalizado</option>
+        </select>
+        
+        <br/>
+
+        <div id="div_cidade" <?=$this->dados[0]->cid_codigo_nasc != "" ? "style='display: show;'" : "style='display: none;'" ?>>
+            <label>Cidade de nascimento:</label>
+            <input type="text" name="cid_nome" id="cidade" value="<?=$this->dados[0]->cid_nasc_nome;?>" onkeypress="buscaCidades()" />
+            <input type="hidden" name="cid_codigo_nasc" id="cid_codigo" value="<?=$this->dados[0]->cid_codigo_nasc;?>" />
+            <br/>
+        </div>
+        
+        <label class="obrigatorio">Raça:</label> <!-- OBRIGATÓRIO PARA O ESUS -->
+        <input type="hidden" name="codigoRaca" id="codigoRaca" value="<?$this->dados[0][rac_codigo]?>">
+        <select name="rac_codigo">
+            <option value="">Selecione</option>
+            <?php  foreach ($this->raca as $raca){?>
+                <option <?=$this->dados[0][rac_codigo] == $raca->rac_codigo ? 'selected': ''?> value="<?=$raca->rac_codigo?>">
+                    <?=$raca->rac_descricao?>
+                </option>
+            <?} ?>
+        </select><br />
+        <label class="obrigatorio">Frenquenta Escola ou Creche:</label> <!-- OBRIGATÓRIO PARA O ESUS -->
+        <input name="pep_frenquencia_escolar" id="pep_frenquencia_escolar" type="radio" value="t" <?=$this->dados[0]->pep_frenquencia_escolar == "t" ? "checked='checked'" : "" ?>/>Sim
+        <input name="pep_frenquencia_escolar" id="pep_frenquencia_escolar" type="radio" value="f" <?=$this->dados[0]->pep_frenquencia_escolar == "f" || $this->dados[0]->pep_frenquencia_escolar == "" ? "checked='checked'" : "" ?>/>Não<br />
+        
+        
+<fieldset class="abas ui-tabs ui-widget ui-widget-content ui-corner-all"
+                      style="width: 512px;">
+                <legend>
+                    <label style="color: #2e6e9e; background-color: transparent; width: auto;">Estratificação de Risco
+                        do Paciente</label>
+                </legend>
+                <div id="estrat_familiar">
+                    <label>Risco familiar:</label>
+                    <span style="color: <?= $cor ?>; font-weight: bolder; font-size: 13px;">
+                       
+                    </span>
+                </div>
+                <label>Tem Diabetes ?</label>
+                <input name="usu_tem_diabete" id="usu_tem_diabete" type="radio" 
+                       onclick="exibeEstratificacaoRadio('usu_tem_diabete', 'estrat_diabetes', 'risco_diabetes');"
+                       value="t" />Sim
+                <input name="usu_tem_diabete" id="usu_tem_diabete" type="radio" 
+                       onclick="exibeEstratificacaoRadio('usu_tem_diabete', 'estrat_diabetes', 'risco_diabetes');"
+                       value="f" />Não
+                <div id="estrat_diabetes">
+                    <label>Risco da Diabetes:</label>
+                    <select name="risco_diabetes" id="risco_diabetes" class="ui-state-default"
+                            style="width: 305px;" <?= $desabilitaEstratificacao ?>>
+                        <option value="" >Não estratificado
+                        </option>
+                        <option value="B" >Bom
+                        </option>
+                        <option value="M" >Regular
+                        </option>
+                        <option value="A" >Ruim
+                        </option>
+                    </select>
+                </div>
+                <br/>
+                <div id="gestante" name="gestante">
+                    <label>Está Gestante ?</label>
+                    <input class="usu_esta_gestante" name="usu_esta_gestante" id="usu_esta_gestante1"
+                           type="radio" 
+                           onclick="validaCamposGestante(); exibeEstratificacaoRadio('usu_esta_gestante1', 'estrat_gestante', 'risco_gestacao');"
+                           value="t" />Sim
+                    <input class="usu_esta_gestante" name="usu_esta_gestante" id="usu_esta_gestante2"
+                           type="radio"
+                           onclick="validaCamposGestante(); exibeEstratificacaoRadio('usu_esta_gestante2', 'estrat_gestante', 'risco_gestacao');"
+                           value="f" />Não
+                    <small style="color:orangered;">(A idade deve ser entre 9 e 60 anos)</small>
+                </div>
+                <div id="maternidade_referencia" style="display: none">
+                    <label>Maternidade de Referência:</label>
+                    <input name="usu_maternidade_ref" id="usu_maternidade_ref" "/>
+                </div>
+                <div id="estrat_gestante" style="padding-bottom: 16px;">
+                    <label>Risco da Gestação:</label>
+                    <select name="risco_gestacao" id="risco_gestacao" class="ui-state-default"
+                            style="width: 305px;">
+                        <option value="" >Não estratificado
+                        </option>
+                        <option value="B" >Habitual
+                        </option>
+                        <option value="M" >Intermediário
+                        </option>
+                        <option value="A">Alto
+                        </option>
+                    </select>
+                </div>
+                <label>Tem Hipertensão Arterial ?</label>
+                <input name="usu_tem_hipertensao" id="usu_tem_hipertensao" type="radio" 
+                       onclick="exibeEstratificacaoRadio('usu_tem_hipertensao', 'estrat_hipertensao', 'risco_hipertensao');"
+                       value="t" />Sim
+                <input name="usu_tem_hipertensao" id="usu_tem_hipertensao" type="radio" 
+                       onclick="exibeEstratificacaoRadio('usu_tem_hipertensao', 'estrat_hipertensao', 'risco_hipertensao');"
+                       value="f"/>Não
+                <div id="estrat_hipertensao">
+                    <label>Risco da Hipertensão:</label>
+                    <select name="risco_hipertensao" id="risco_hipertensao" class="ui-state-default"
+                            style="width: 305px;" >
+                        <option value="" >Não estratificado
+                        </option>
+                        <option value="B" >Baixo
+                        </option>
+                        <option value="M" >Moderado
+                        </option>
+                        <option value="A" >Alto
+                        </option>
+                    </select>
+                </div>
+                <br/>
+                    <div id="estrat_odonto">
+                        <label>Risco em saúde bucal:</label>
+                        <select name="risco_odonto" id="risco_odonto" class="ui-state-default"
+                                style="width: 305px;">
+                            <option value="" >Não estratificado
+                            </option>
+                            <option value="B">Baixo
+                            </option>
+                            <option value="M" >Médio
+                            </option>
+                            <option value="A" >Alto
+                            </option>
+                        </select>
+                    </div>
+                    <div id="estrat_psico">
+                        <label>Risco em saúde mental:</label>
+                        <select name="risco_psico" id="risco_psico" class="ui-state-default"
+                                style="width: 305px;">
+                            <option value="" >Não estratificado
+                            </option>
+                            <option value="B" >Baixo
+                            </option>
+                            <option value="M" >Médio
+                            </option>
+                            <option value="A" >Alto
+                            </option>
+                        </select>
+                    </div>
+                <br/>
+            </fieldset>
+
+
+        <div style="margin: 24px -19px -19px -15px;" id="cidadao_situacao_rua" name="cidadao_situacao_rua">
+            <fieldset id="sit_rua" class="abas ui-tabs ui-widget ui-widget-content ui-corner-all"
+                      style="width: 667px">
+                <div class="clear" style="height: 7px"></div>
+                <legend style="color: #2e6e9e; background-color: transparent; width: auto;">
+                    Cidadão em situação de rua
+                </legend>
+                <label>Está em situação de rua?</label> <!-- OBRIGATÓRIO PARA O ESUS -->
+                <input name="usu_sit_rua" id="usu_sit_rua" type="radio" value="t" <?= $this->dados[0]->usu_sit_rua == "t" ? "checked" : "" ?>/>Sim
+                <input name="usu_sit_rua" id="usu_sit_rua" type="radio" value="f"  <?= $this->dados[0]->usu_sit_rua == "f" || $this->dados[0]->usu_sit_rua == null ? "checked" : "" ?> />Não
+                <br/>
+
+            </fieldset>
+        </div>    
+        <br>
+        <label class="obrigatorio">Possui alguma deficiência?: </label> <!-- OBRIGATÓRIO PARA O ESUS -->
+        <input name="usu_deficiencia" id="usu_deficiencia" type="radio" onclick="habilitaDeficiencias()"
+               value="t" <?=$this->dados[0]->usu_deficiencia == 1 && $this->dados[0]->usu_deficiencia != "" ? "checked='checked'" : "" ?>/>Sim
+        <input name="usu_deficiencia" id="usu_deficiencia" type="radio" onclick="desabilitaDeficiencias()"
+               value="f" <?=($this->dados[0]->usu_deficiencia == " " ? "" : $this->dados[0]->usu_deficiencia == 0 ? "checked='checked'" : "")?>/>Não<br />
+        <div id="deficiencias">
+            <fieldset style="width:500px;">
+                <legend>Se sim, qual(is)? <input type="hidden" name="conf_def" id="conf_def" value="<?=count($this->deficienciasEdit)?>" /></legend>
+                <?php
+                foreach ($this->deficiencias as $value) { ?>
+                    <input name="deficiencias[]" id="co_pergunta_detalhe<?=$value->co_pergunta_detalhe?>" type="checkbox"
+                           onclick="validaDeficiencias()"
+                           value="<?=$value->co_pergunta_detalhe?>"
+                           <?=($this->validaArray($value->co_pergunta_detalhe, $this->deficienciasEdit) >= 1 ? "checked" : "")?>/>
+                    <?=$value->ds_pergunta_detalhe?>
+                <?php
+                } ?>
+            </fieldset>
+        </div>
+
+        <label style="margin-top: 4px;">Óbito:</label>
+        <input name="pep_obito" class="pep_obito" type="radio" value="t" <?=$this->dados[0]->pep_obito == "" ? "" : $this->dados[0]->pep_obito == "t" ? "checked='checked'" : "" ?> />Sim
+        <input name="pep_obito" class="pep_obito" type="radio" value="f" <?=$this->dados[0]->pep_obito == "" ? "checked" : $this->dados[0]->pep_obito == "f" ? "checked='checked'" : "" ?> />Não<br />
+
+        <div id="data_obito" style="display: none">
+            <label>Data Óbito:</label>
+            <input name="pep_data_obito" id="pep_data_obito" class="mask" style="" rel="99/99/9999" style="width: 80px" value="<?=$this->dados[0]->pep_data_obito == "NULL" ? "" : $this->data($this->dados[0]->pep_data_obito,Zend_Date::DATE_MEDIUM)?>" /><br />
+        </div>
+    </div>
+    <div id='tabs1-2' class="abas-aba" data-n="1">
+        <div id="campos_div" style="float: left; height: auto;">
+            <input type="hidden" name="valida_domicilio" id="valida_domicilio" />
+            <?php
+            //echo "<pre>" . print_r($this->dados[0], 1);
+            //die();
+            ?>
+            <?php
+            /*
+            <!--Essa parte é relacionada ao campo antigo de texto, apenas a fins de informação para quem alimentava antes.-->
+            <label>Responsável <small>(Desativado)</small>:</label>
+            <input name="usu_nome_resp" id="usu_nome_resp" value="<?=$this->dados[0]->usu_nome_resp;?>" readonly="readonly" class="campos_dom"/><br />
+            */?>
+            <?php $display = ""?>
+            <?php if($this->dados[0]->dom_codigo == ""):?>
+                <?php $display = "display: none;"?>
+
+            <?php else:?>
+                <?php $readonly = "readonly ='readonly'"?>
+                <?php $disabled = "disabled='disabled'"?>
+
+            <?php endif;?>
+
+
+            <div id="acoes" style=" width: 95%;<?=$display?>">
+                <a href="#" class="ui-button novo" onclick="removeDom();">Novo Domicilio</a>
+                <a href="#" class="ui-button atualizar" onclick="liberaCampos()">Editar Domicilio</a>
+            </div>
+            <?php if($this->dados[0]->pessoa == $this->dados[0]->usu_codigo_responsavel && $this->dados[0]->usu_codigo_responsavel) { ?>
+                <?php $checked = "checked='checked'";?>
+            <?php } else { ?>
+                <?php $checked = "checked='checked'";?>
+            <?php } ?>
+            <label>Próprio responsável: </label>&nbsp;<input type="radio" name="proprio_responsavel" <?=$checked?> onChange="inativaResponsavel()" id="proprio_responsavel" class="proprio_responsavel" value="S">Sim<input type="radio" name="proprio_responsavel" id="proprio_responsavel" class="proprio_responsavel" value="N" onChange="inativaResponsavel()" <?=$checked2?>>Não<br/>
+            
+            <label>Responsável do Domicílio: </label>
+            <input name="usu_nome_responsavel" id="usu_nome_responsavel" onkeypress="buscarResponsavelModal()" <?=$readonly;?> value="<?=$this->dados[0]->usu_nome_responsavel;?>"  class="campos_dom"/><br />
+            <input type="hidden" name="usu_codigo" id="usu_codigo"  value="<?=$this->dados[0]->usu_codigo_responsavel;?>" onChange="getEnderecos()"/>
+            <input type="hidden" name="dom_codigo" id="dom_codigo" value="<?=$this->dados[0]->dom_codigo;?>"/>
+            
+
+
+            <label>Logradouro:</label>
+            <input type="hidden" name="rua_codigo" id="rua_codigo" value="<?=$this->dados[0]->rua_codigo;?>">
+            <input type="text" onchange="" <?=$readonly;?> name="rua_nome" style="text-transform:uppercase;" id="rua_nome" maxlength="100"  value="<?=$this->dados[0]->rua_nome;?>" class="campos_dom" onkeyup="buscarRua()"/>
+            <img src="<?=$this->baseUrl('/public/images/icons/add.png');?>" alt="Nova Rua" title="Nova Rua" onclick="addRua()" style="<?=(empty($this->dados[0]->pessoa) || empty($this->dados[0]->dom_codigo) ? "" : "display: none;");?>" id="add_rua" />
+            <br />
+
+            <label>CEP:</label>
+            <input name="rua_cep" id="rua_cep" maxlength="10" readonly="readonly" value="<?=$this->dados[0]->rua_cep;?>" class="ui-state-default mask masterTooltip" title="Este campo serve apenas como busca e informativo. Para editar o cep, faça edição de rua!"  rel="99999-999"/>
+            <span class='ui-state-error erro' id='erro-cep' style='display:none'>Cep Inválido(99999-999)!</span>
+            <br/>
+            <label>Número:</label>
+            <input name="dom_numero" id="dom_numero" tabindex="2" value="<?=($this->dados[0]->dom_numero == "0" ? "S/N" : $this->dados[0]->dom_numero);?>"  class="campos_dom" onkeyup="" onkeypress="return SomenteNumero(event)"/>
+            <input type="checkbox" name="sn" id="sn" value="1" <?=($this->dados[0]->dom_numero == "0"  ? "checked=checked" : "");?> class="campos_dom_combo" onchange="informaSn(this)" <?=$disabled?>>S/N
+            <br />
+            <label>Bairro:</label>
+            <input type="hidden" name="bai_codigo" id="bai_codigo" value="<?=$this->dados[0]->bai_codigo;?>"  class="campos_dom">
+            <input name="rua_bairro" style="text-transform:uppercase;" readonly="readonly" id="rua_bairro" maxlength="150" onkeyup="buscaBairro()" onchange="" value="<?=$this->dados[0]->rua_bairro;?>"  class="campos_dom"/><br />
+            <label>Localidade:</label>
+            <input type="text" name="localidade" id="localidade" style=" text-transform:uppercase; "  value="<?= ($this->dados[0]->localidade ? $this->dados[0]->localidade : $this->dados[0]->cid_nome)?>" readonly="readonly"/><br />
+            <label>Complemento:</label>
+            <input name="dom_complemento" id="dom_complemento" <?=$readonly;?> class="campos_dom" style="text-transform: uppercase" value="<?=$this->dados[0]->dom_complemento;?>" /><br />
+            <label>Ponto de Referência:</label>
+            <input name="dom_ponto_referencia" id="dom_ponto_referencia" class="campos_dom" style="text-transform: uppercase" value="<?=$this->dados[0]->dom_ponto_referencia;?>" /><br />
+            <label>Telefone Domicilio:</label>
+            <input name="dom_telefone" id="dom_telefone" class="mask campos_dom" rel="(99) 99999-9999" value="<?=$this->dados[0]->dom_telefone == "NULL" ? "" : $this->dados[0]->dom_telefone ?>"  /><br />
+            
+        </div>
+        
+        <div id="pesquisa_div" class="divRolagem" style="float: left; width: 57%;height: 253px;">
+          <table id="results" class="gridtable hoverTable">
+
+          </table>
+        </div>
+        
+    </div>
+    <div id='tabs1-3'>
+
+      <label>Orgão Emissor RG:</label>
+      <input name="orgaoemissor" id="orgaoemissor" value="<?=$this->dados[0]->orgaoemissor == "NULL" ? "" : $this->dados[0]->orgaoemissor ?>" style="text-transform: uppercase"/><br />
+
+      <label>Estado Emissor RG:</label>
+      <input name="estadoemissor" id="estadoemissor" maxlength="2" style="text-transform: uppercase" value="<?=$this->dados[0]->estadoemissor == "NULL" ? "" : $this->dados[0]->estadoemissor ?>" /><br />
+      <label>Cartório Nasc.:</label>
+      <input name="pep_cartorio_nasc" id="pep_cartorio_nasc" maxlength="100" value="<?=$this->dados[0]->pep_cartorio_nasc == "NULL" ? "" : $this->dados[0]->pep_cartorio_nasc ?>" /><br />
+
+      <label>Livro Nasc.:</label>
+      <input name="pep_livro_nasc" id="pep_livro_nasc" style="" maxlength="100" value="<?=$this->dados[0]->pep_livro_nasc == "NULL" ? "" : $this->dados[0]->pep_livro_nasc ?>" /><br />
+
+      <label>Folha Nasc.:</label>
+      <input name="pep_folha_nasc" id="pep_folha_nasc" style=""  maxlength="100" value="<?=$this->dados[0]->pep_folha_nasc == "NULL" ? "" : $this->dados[0]->pep_folha_nasc ?>" /><br />
+
+      <label>Termo Nasc.:</label>
+      <input name="pep_termo_nasc" id="pep_termo_nasc"  style="" maxlength="100" value="<?=$this->dados[0]->pep_termo_nasc == "NULL" ? "" : $this->dados[0]->pep_termo_nasc ?>" /><br />
+
+      <label>Ocupação:</label>
+      <input name="co_ocupacao" id="co_ocupacao" type="hidden" value="<?=$this->dados[0]->usu_cbo_r == "NULL" ? "" : $this->dados[0]->usu_cbo_r ?>" />
+      <input name="no_ocupacao" onkeypress="buscarOcupacoes()" id="no_ocupacao" value="<?=$this->dados[0]->no_ocupacao == "NULL" ? "" : $this->dados[0]->no_ocupacao ?>"/><br />
+
+      <label>CNH:</label>
+      <input name="pep_cnh" id="pep_cnh" value="<?=$this->dados[0]->pep_cnh == "NULL" ? "" : $this->dados[0]->pep_cnh ?>" /><br />
+
+      <label> CNH Categoria:</label>
+      <input name="pep_categoria_cnh" id="pep_categoria_cnh" maxlength="2" value="<?=$this->dados[0]->pep_categoria_cnh == "NULL" ? "" : $this->dados[0]->pep_categoria_cnh ?>" /><br />
+
+      <label>Carteira de Trabalho:</label>
+      <input name="pep_carteira_trabalho" id="pep_carteira_trabalho" maxlength="10" value="<?=$this->dados[0]->pep_carteira_trabalho == "NULL" ? "" : $this->dados[0]->pep_carteira_trabalho ?>"  /><br />
+
+      <label>Cart. Trabalho - Série:</label>
+      <input name="pep_carteira_trabalho_serie" id="pep_carteira_trabalho_serie" maxlength="7" value="<?=$this->dados[0]->pep_carteira_trabalho_serie == "NULL" ? "" : $this->dados[0]->pep_carteira_trabalho_serie ?>" /><br />
+
+      <label> Cart. Trabalho - Data Emissão:</label>
+      <input name="pep_carteira_trabalho_data" id="pep_carteira_trabalho_data" class="mask" rel="99/99/9999" value="<?=$this->dados[0]->pep_carteira_trabalho_data == "NULL" ? "" : $this->data($this->dados[0]->pep_carteira_trabalho_data,Zend_Date::DATE_MEDIUM) ?>" /><br />
+
+      <label>PIS/PASEP:</label>
+      <input name="pispasep" id="pispasep" maxlength="12" value="<?=$this->dados[0]->pispasep == "NULL" ? "" : $this->dados[0]->pispasep ?>" /><br />
+
+      
+    </div>
+   <div id='tabs1-4'>
+        <input type="hidden" id="uni_codigo" value="<?=$this->dados[0]->uni_codigo?>">
+        <div id="nomeDoProfissional">
+            <label>Nome do Profissional</label>
+            <input type='text' name='profs_part_nome' id="profs_part_nome" onkeypress="buscaProfissionais()" />
+            <input type='hidden' name='usr_codigo' id="usr_codigo"class="field" />
+        </div>
+        
+        <div id="td_profs_part_esp">
+            <label>Especialidade</label>
+            <select name="profs_part_esp" id="profs_part_esp" class="ui-state-default">
+                
+            </select>
+        </div>
+
+        <div width='14%'>
+            <label for="">Cód. CNES Unidade</label>
+            <input type="hidden" name="cod_cnes_edit" id="cod_cnes_edit"
+                   value="<?=$this->dados->cod_cnes_unidade?>" />
+            <select name='cod_cnes_uni' id="cod_cnes_uni" style="width:230px;"  class="field">
+                <option value = "" >Selecione Profissional Responsável</option>
+            </select>
+        </div>
+        
+        <div width='14%'>
+            <label for="">Cód. equipe(INE)</label>
+            <input type="hidden" name="cod_equipe_ine" id="cod_equipe_ine"
+                   value="<?=$this->dados->cod_equipe_ine?>" />
+            <select name='cod_equipe' id="cod_equipe" style="width:230px;"
+                    class="field" onchange="validaIne()">
+                <option value="">Selecione Cód. CNES Unidade</option>
+            </select>
+        </div>
+
+        <label>Estado Civil:</label>
+        <select name="estc_codigo" id="estc_codigo" style="width: 305px;">
+            <option value="">Selecione</option>
+            <?  foreach ($this->estadoCivil as $estadoCivil){ ?>
+                <option <? if (trim($estadoCivil->estc_codigo) == trim($this->dados[0]->estc_codigo)) { echo "selected"; }  ?> value="<?=$estadoCivil->estc_codigo?>"><?=$estadoCivil->estc_descricao?></option>
+            <?} ?>
+        </select><br />
+        <div id="conjuge" style="display: none">
+            <label>Cônjuge:</label>
+            <input name="pep_conjuge" id="pep_conjuge" maxlength="70" style="text-transform: uppercase" value="<?=$this->dados[0]->pep_conjuge == "NULL" ? "" : $this->dados[0]->pep_conjuge?>" /><br />
+        </div>
+        <label>Email:</label>
+        <input name="pep_email" id="pep_email" maxlength="70" value="<?=$this->dados[0]->pep_email == "NULL" ? "" : $this->dados[0]->pep_email ?>"/><br />
+        <label>Telefone de recado:</label>
+        <input name="pep_telefone" id="pep_telefone" class="mask" rel="(99) 99999-9999" value="<?=$this->dados[0]->pep_telefone == "NULL" ? "" : $this->dados[0]->pep_telefone ?>" /><br />
+        <label>Transporte Público:</label>
+        <input name="pep_transporte_publico" id="pep_transporte_publico" type="radio" value="t" <?=$this->dados[0]->pep_transporte_publico == "t" ? "checked='checked'" : "" ?>/>Sim
+        <input name="pep_transporte_publico" id="pep_transporte_publico" type="radio" value="f" <?=$this->dados[0]->pep_transporte_publico == "f" ? "checked='checked'" : "" ?>/>Não<br />
+
+
+        <label>Nº Portaria de Naturalização:</label>
+        <input name="pep_portaria_naturalizacao" id="pep_portaria_naturalizacao" maxlength="16" value="<?=$this->dados[0]->pep_portaria_naturalizacao == "NULL" ? "" : $this->dados[0]->pep_portaria_naturalizacao ?>" /><br />
+
+        <label>Data de Naturalização:</label>
+        <input name="pep_data_naturalizacao" id="pep_data_naturalizacao" class="mask" style="" rel="99/99/9999" value="<?=$this->dados[0]->pep_data_naturalizacao == "NULL" ? "" : $this->data($this->dados[0]->pep_data_naturalizacao,Zend_Date::DATE_MEDIUM) ?>" /><br />
+
+        <label>Data de Entrada no País:</label>
+        <input name="pep_data_entrada_pais" id="pep_data_entrada_pais" class="mask" style="" rel="99/99/9999" value="<?=$this->dados[0]->pep_data_entrada_pais == "NULL" ? "" : $this->data($this->dados[0]->pep_data_entrada_pais,Zend_Date::DATE_MEDIUM) ?>" /><br />
+
+        <label>Escolaridade:</label>
+        <select name="pep_ecd_codigo" style="width:300px;">
+            <option value="">Selecione</option>
+            <?  foreach ($this->escolaridade as $escolaridade){?>
+                   <option <? if (trim($escolaridade->ecd_codigo) == trim($this->dados[0]->pep_ecd_codigo)) { echo "selected"; }  ?> value="<?=$escolaridade->ecd_codigo?>"><?=$escolaridade->ecd_descricao?></option>
+            <?} ?>
+        </select><br />
+
+        <label>Situação Familiar:</label>
+        <select name="pep_situacao_familiar" id="situacaoFamiliar" style="width:300px;">
+             <option value="">Selecione</option>
+             <?  foreach ($this->situacaoFamiliar as $situacaoFamiliar){?>
+                   <option <? if (trim($situacaoFamiliar->sitf_codigo) == trim($this->dados[0]->pep_situacao_familiar)) { echo "selected"; }  ?> value="<?=$situacaoFamiliar->sitf_codigo?>"><?=$situacaoFamiliar->sitf_descricao?></option>
+             <? } ?>
+        </select><br />
+
+        <label>Bolsa Alimentação:</label>
+        <input name="pep_bolsa_alimentacao" id="pep_bolsa_alimentacao" type="radio" value="t" <?=$this->dados[0]->pep_bolsa_alimentacao == "t" ? "checked='checked'" : "" ?>/>Sim
+        <input name="pep_bolsa_alimentacao" id="pep_bolsa_alimentacao" type="radio" value="f" <?=$this->dados[0]->pep_bolsa_alimentacao == "f" ? "checked='checked'" : "" ?>/>Não<br />
+
+        <label>Bolsa Família:</label>
+        <input name="pep_bolsa_familia" id="pep_bolsa_familia" type="radio" value="t" <?=$this->dados[0]->pep_bolsa_familia == "t" ? "checked='checked'" : "" ?>/>Sim
+        <input name="pep_bolsa_familia" id="pep_bolsa_familia" type="radio" value="f" <?=$this->dados[0]->pep_bolsa_familia == "f" ? "checked='checked'" : "" ?>/>Não<br />
+
+        <label>Plano de Saúde:</label>
+        <input name="pep_plano_saude" id="pep_plano_saude" type="radio" value="t" <?=$this->dados[0]->pep_plano_saude == "t" ? "checked='checked'" : "" ?>/>Sim
+        <input name="pep_plano_saude" id="pep_plano_saude" type="radio" value="f" <?=$this->dados[0]->pep_plano_saude == "f" ? "checked='checked'" : "" ?>/>Não<br />
+
+        <label>Renda Média:</label>
+        <input name="pep_renda" id="pep_renda" class="float" rel="9,2"  value="<?=$this->dados[0]->pep_renda == "NULL" ? "" : number_format($this->dados[0]->pep_renda , 2, '.', '')?>"/><br />
+
+        <label>Observação:</label>
+        <div class="textarea">
+            <textarea name="pep_observacao" id="pep_observacao" class="tinymce focus" style="width: 500px;height: 250px;">
+                <?=$this->dados[0]->pep_observacao?>
+            </textarea>
+        </div>
+        <br />
+    </div>
+	
+
+
+            
+
+    <div class="clear"></div>
+    <div class="space"></div>
+        <a href="#" class="ui-button salvar" onclick="validaCdastro();">Salvar</a>
+    <!--<a href="#" class="ui-button limpar">Limpar</a>-->
+    </form>
+</div>

@@ -1,0 +1,16 @@
+<form method="post" action="<?= $_SESSION[linkroot].$_SESSION[modulo]."PHPJasperXML/laboratorio/exames_solicitados_age.php" ?>" target="_blank">
+    <input name="tipo" id="tipo" type="hidden" value="<?=$this->action?>"/><br />
+	<label >Profissional Solicitante:</label>
+        <input type="hidden" id="usr_codigo" name="usr_codigo_solicitante" value="<?=($this->dados->usr_codigo_solicitante?$this->dados->usr_codigo_solicitante:$this->dados->med_codigo_solicitante); ?>" />
+        <input type="text" id="buscar5" name="usr_nome" value="<?=($this->dados->usr_nome?$this->dados->usr_nome:$this->dados->med_nome); ?>" />
+        <input type="hidden" id="interno" name="interno" value="<?=($this->dados->usr_codigo_solicitante?"1":"0");?>" style="width: 20px" /><br />
+        
+	<label>Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+
+        <div class="clear"></div>
+        <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>	
+</form>

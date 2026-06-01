@@ -1,0 +1,33 @@
+table {
+       //width: 100%;
+       //border: 1px solid #cef;
+       //text-align: left; 
+}
+th {
+       font-weight: bold;
+       background-color: #acf;
+       border-bottom: 1px solid #cef; 
+}
+
+.odd {
+       background-color: #def; }
+.odd td {
+       border-bottom: 1px solid #cef; }
+
+.bordertotal {
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    border-right: 1px solid; 
+    border-color:#c3c3c3;
+    border-radius: 10px;
+}
+fieldset {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    border-right: 1px solid; 
+    border-color:#c3c3c3;
+}

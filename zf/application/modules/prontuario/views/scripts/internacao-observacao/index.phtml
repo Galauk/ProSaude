@@ -1,0 +1,19 @@
+<?php $this->errorMsg(); ?>
+
+
+<div class='abas' id="abas"> 
+	<ul class="tabs">
+            <li><a id="1" href="#tabs2-1" >Evolucao Clinica</a></li>	
+            <li><a id="2" href="#tabs2-2" >Prescricao da Medicacao</a></li>
+		
+	</ul>
+	<div id='tabs2-1'>
+		<?= $this->action("form", "conduta", "prontuario", array("tipo"=>"posto")); ?>
+	</div>
+	<div id='tabs2-2'>
+		<?= $this->action("form", "receita-medica", "prontuario", array("tipo"=>"controlados")); ?>
+	</div>
+		
+		
+</div>
+

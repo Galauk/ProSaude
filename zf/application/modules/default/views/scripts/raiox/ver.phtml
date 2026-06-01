@@ -1,0 +1,27 @@
+<script>
+$(function(){   
+   
+    $("#img_01").elevateZoom({zoomWindowPosition: "localiza", zoomWindowHeight: 200, zoomWindowWidth:280, easing:true,gallery:'gal1',galleryActiveClass: 'active',cursor: "crosshair",borderSize:10,borderColor:"#888"});
+   
+    $("#img_01").css("z-index","2");
+   
+    $("#img_01").bind("click", function(e) {  
+       var ez =   $('#img_01').data('elevateZoom');	
+             $.fancybox(ez.getGalleryList());
+       return false;
+    });
+});
+</script>
+
+    <?$i = 1;?>
+    <?foreach($this->arquivos as $arquivo):?>
+         <?if($i == 1):?>
+<a href="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/".$arquivo->upl_codigo."-".$arquivo->upl_arquivo_nome?>" target="_blank"><img id="img_01" border="4" src="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/small/".$arquivo->upl_codigo."-".$arquivo->upl_arquivo_nome?>" data-zoom-image="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/".$arquivo->upl_codigo."-".$arquivo->upl_arquivo_nome?>"/></a>
+            <div id="gal1" border="1" >
+         <?endif;?>
+         <a href="#" data-image="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/small/".$arquivo->upl_codigo."-".$arquivo->upl_arquivo_nome?>" data-zoom-image="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/".$arquivo->upl_codigo."-".$arquivo->upl_arquivo_nome?>">
+            <img id="img_01" src="<?=$_SESSION[linkroot].$_SESSION[modulo]."raiox/server/php/files/thumbnail/".$arquivo->upl_codigo."-".$arquivo->upl_arquivo_nome?>" />
+         </a>
+        <?$i++?>
+    <?endforeach;?>
+            </div>

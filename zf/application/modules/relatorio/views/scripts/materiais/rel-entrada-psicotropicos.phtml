@@ -1,0 +1,48 @@
+<table>
+    <td>CNPJ:_______________________________________  EXERCÍCIO:_____________________ PERÍODO: TRIMESTRAL: 1º( ) 2º( ) 3º( ) 4º( ) ANUAL:( )</td><br><br>
+    <td>Nº DA LICENÇA DE FUNCIONAMENTO:_______________________</td>
+</table>
+<br />
+<table>
+    <tr>
+        <th>Código DCB</th>
+        <th>Discriminação DCB</th>
+        <th>Nome do Medicamento</th>
+        <th>Apresentação/Concentração</th>
+        <th>Nome do Fornecedor</th>
+        <th>CNPJ do Fornecedor</th>
+        <th>Nota Fiscal</th>
+        <th>Quantidade</th>
+        <th>Portaria</th>
+    </tr>
+    <?php //echo "<pre>".print_r($this->dados,1)."aaaaaa";die();?>
+    <?php if (count($this->where) > 0) {  ?>
+        <?php foreach ($this->where as $prod) { ?>
+                <?php $prod["ite_quantidade"] = substr($prod["ite_quantidade"], 0,-5); ?>
+                <tr>
+                    <td><?=($prod["pro_codigo_dcb"] != "" ? $prod["pro_codigo_dcb"] : "-")?></td>
+                    <td><?=($prod["pro_descricao_dcb"] != "" ? $prod["pro_descricao_dcb"] : "-")?></td>
+                    <td><?=($prod["pro_nome"])?></td>
+                    <td><?=($prod["pro_apresentacao_concentracao"] != "" ? $prod["pro_apresentacao_concentracao"] : "-")?></td>
+                    <td><?=($prod["for_nome"] != "" ? $prod["for_nome"] : "-")?></td>
+                    <td><?=($prod["for_cnpj"] != "" ? $prod["for_cnpj"] : "-")?></td>
+                    <td><?=($prod["mov_nr_nota"] != "" ? $prod["mov_nr_nota"] : "-")?></td>
+                    <td><?=($prod["ite_quantidade"] != "" ? $prod["ite_quantidade"] : "-")?></td>
+                    <td><?=($prod["psico_nome"])?></td>
+                </tr>
+                <?php $i++; ?>
+            <?php } ?>
+    <?php } else { ?>
+           <tr>
+                <td colspan='8'>Nenhum registro encontrado até o momento!</td>
+           </tr> 
+    <?php } ?>
+</table>
+<br />
+<table width="250">
+
+    <td>Assinatura do Responsável Técnico: ________________________________________________________ CRF-__:____</td>
+
+</table>
+
+

@@ -1,0 +1,13 @@
+<form method="post" action="<?= $this->url(array("action" => "consulta-dados")); ?>" target="_blank" id="form">
+    <input name="tipo" id="tipo" type="hidden" value="<?=$this->action?>"/><br />
+    <label>Usuário:</label>
+    <input type="text" id="hor_dad_respenvio" name="hor_dad_respenvio" class="focus" /><br />
+    <label>Código IBGE do Municipio:</label>
+    <input name="data_inicial" class="data" style="width: 80px"/><br />
+    <label>Número de Protocolo:</label>
+    <input name="hor_dad_numprotocolo_envio" class="data" style="width: 80px" /><br />
+    <label>Data de envio:</label>
+    <input name="hor_dad_dtenvio" class="data" style="width: 80px" /><br />
+    <div class="clear"></div>
+    <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+</form>

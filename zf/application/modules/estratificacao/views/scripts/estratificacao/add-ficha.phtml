@@ -1,0 +1,234 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+
+<?php
+    // echo '<pre>';print_r($this->monitoramento);die();
+?>
+
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/table.css?<?=time()?>">
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/grid.css?<?=time()?>">
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/estratificacao/add-ficha.css">
+<script src="/WebSocialSaude/zf/public/js/estratificacao/estratificacao.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+<form name="busca" id = "ficha" method="post" action="<?=$this->url(array("action" => "add-ficha"))?>">
+    
+    <div>
+        <div>
+            <label for="nomeFicha">Nome da Ficha</label>
+            <input type="text" name = "nomeDaFicha" id = "nomeDaFicha"value="">
+        </div>
+
+        <label>Especialidades:</label>        
+
+        <input type="text" id="especi" name="especi">
+        
+        <table class="tb_cids" style="margin-bottom: 0px; width: 487px; border: 1px solid; border-color: #fff;" border="0">
+            <div id="erro"></div>
+        </table>
+
+        
+    </div>
+    
+    <div>
+        
+        <label for="">Informe os Grupos</label>
+        <select name="estratificacaoGruposId" id="estratificacaoGruposId">        
+
+            <?php
+
+                for ($contador = 0; $contador < count($this->recebeListaDeGrupos); $contador++) { ?>
+
+                    <option value="<?=$this->recebeListaDeGrupos[$contador][id_grupoperg]?>">
+                        <?=$this->recebeListaDeGrupos[$contador][est_gruponome]?>
+                    </option>
+
+                <?}
+
+            ?>
+
+        </select>
+
+        <button style = "padding: 7px 8px 6px;background-image: url(/WebSocialSaude/zf/public/images/btn-bg.png);background-repeat: round;background-size: contain;border: 1px solid #ACACAC;margin-bottom: 3px;color: #000;border-radius: 6px;" type = "button" onclick = "adiconaGrupos()">Adicionar Grupos</button>
+        <div id = "perguntas"></div>
+
+
+    </div>
+
+    <!-- <div>
+        <label for="">Idade Inicial :</label>
+        <input type="number" name = "idadeInicial" id = "idadeInicial" value="">
+    </div>
+                                         
+    <div>
+        <label for="">Idade Final :</label>
+        <input type="number" name = "idadeFinal" id = "idadeFinal" value="">
+    </div> -->
+    <div class = "col-md-12">
+        <fieldset>
+            
+            <legend>Nivel Baixo</legend>
+
+            <div class="col-md-4">
+            
+                <p class="col-md-2">De :</p>
+
+                <input class="col-md-7" type="text" id="est_nivelbaixo_inicio" name="est_nivelbaixo_inicio" placeholder = '0'>            
+
+            </div>
+            
+
+
+            <div class="col-md-4">
+            
+                <p class="col-md-2">Até :</p>
+
+                <input type="text" id="est_nivelbaixo_fim" name="est_nivelbaixo_fim" class="col-md-7" placeholder = '10'>      
+
+            </div>
+                    
+            <div class = "col-md-12">
+            
+                <label for="est_recomendacao_nivel_baixo" maxlength="140">Recomendação</label>
+                <input id = "est_recomendacao_nivel_baixo" name = "est_recomendacao_nivel_baixo" type="text">
+
+            </div>
+
+            <div class = "col-md-12">
+                
+                <label>Monitoramento</label>
+                <select name="est_monitoramento_baixo" id="est_monitoramento_baixo">
+                    
+                    <?
+                    
+                        for ($contador=0; $contador < count($this->monitoramento); $contador++) { ?>
+
+                            <option value="<?=$this->monitoramento[$contador][id_monitoramento]?>">
+                                <?=$this->monitoramento[$contador][desc_monitoramento]?>
+                            </option>
+
+                        <?}
+
+                    ?>
+
+                </select>
+            
+            </div>
+            
+
+        </fieldset>
+    </div>
+
+    <div class = "col-md-12">                                                                
+        <fieldset>
+        
+            <legend>Nivel Medio</legend>
+
+            <div class="col-md-4">
+            
+                <p class="col-md-2">De :</p>
+
+                <input class="col-md-7" type="text" id="est_nivelmedio_inicio" name="est_nivelmedio_inicio" placeholder = '11'>            
+
+            </div>
+            
+
+
+            <div class="col-md-4">
+            
+                <p class="col-md-2">Até :</p>
+
+                <input type="text" id="est_nivelmedio_fim" name="est_nivelmedio_fim" class="col-md-7" placeholder = '30'>      
+
+            </div>
+                    
+            <div class = "col-md-12">
+            
+                <label for="est_recomendacao_nivel_medio" maxlength="140">Recomendação</label>
+                <input id = "est_recomendacao_nivel_medio" name = "est_recomendacao_nivel_medio" type="text">
+
+            </div>
+
+            <div class = "col-md-12">
+                
+                <label>Monitoramento</label>
+                <select name="est_monitoramento_medio" id="est_monitoramento_medio">
+                    
+                    <?
+                    
+                        for ($contador=0; $contador < count($this->monitoramento); $contador++) { ?>
+
+                            <option value="<?=$this->monitoramento[$contador][id_monitoramento]?>">
+                                <?=$this->monitoramento[$contador][desc_monitoramento]?>
+                            </option>
+
+                        <?}
+
+                    ?>
+
+                </select>
+            
+            </div>
+            
+
+        </fieldset>
+
+    </div>
+
+    <div class = "col-md-12">
+        
+        <fieldset>
+        
+            <legend>Nivel Alto</legend>
+
+            <div class="col-md-12">
+            
+                <p class="col-md-1">Acima de :</p>
+
+                <input class="col-md-7" type="number" id="est_nivelalto_inicio" name="est_nivelalto_inicio" placeholder = '31'>            
+
+            </div>
+                    
+            <div class = "col-md-12">
+            
+                <label for="est_recomendacao_nivel_alto" maxlength="140">Recomendação</label>
+                <input id = "est_recomendacao_nivel_alto" name = "est_recomendacao_nivel_alto" type="text">
+
+            </div>
+
+            <div class = "col-md-12">
+                
+                <label>Monitoramento</label>
+                <select name="est_monitoramento_alto" id="est_monitoramento_alto">
+                    
+                    <?
+                    
+                        for ($contador=0; $contador < count($this->monitoramento); $contador++) { ?>
+
+                            <option value="<?=$this->monitoramento[$contador][id_monitoramento]?>">
+                                <?=$this->monitoramento[$contador][desc_monitoramento]?>
+                            </option>
+
+                        <?}
+
+                    ?>
+
+                </select>
+            
+            </div>
+            
+
+        </fieldset>
+                            
+
+    </div>
+    
+
+    <div >
+        
+        <div class="col-md-5"></div>
+        <a type ="button" class="ui-button salvar" >Salvar</a>
+
+    </div>
+</form>
+

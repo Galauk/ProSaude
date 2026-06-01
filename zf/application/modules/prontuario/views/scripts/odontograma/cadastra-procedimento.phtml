@@ -1,0 +1,111 @@
+<form method="post" action="<?=$this->url(array("action"=>"salvar-procedimento"));?>" id="formDente">
+    <input type="hidden" name="odo_proc_dentenum"  id="odo_proc_dentenum" value="<?=$this->dente;?>" />
+    <div id="face" class="f ui-widget-content ui-corner-all">
+        <span class="title">Faces:</span><br />
+        <div class="f">
+            <?if ($this->dente >= 21 && $this->dente <= 28 || $this->dente >= 31 && $this->dente <= 38):?>
+                <?
+                $cords2 = "12,11,24,22,24,41,13,53";
+                $cords4 = "55,11,54,52,44,41,45,23";
+                ?>
+            <?else:?>
+                <?
+                $cords4 = "12,11,24,22,24,41,13,53";
+                $cords2 = "55,11,54,52,44,41,45,23";
+                ?>
+            <?endif;?>
+            <map name="mapeamento_face">
+                <area shape="poly" coords="26,23,43,23,43,41,26,41" data-area="5" style="background-color: #000000;"  />
+                <area shape="poly" coords="<?=$cords4?>" data-area="4" />
+                <area shape="poly" coords="14,54,25,43,43,43,54,54" data-area="3" />
+                <area shape="poly" coords="<?=$cords2?>" data-area="2" />
+                <area shape="poly" coords="15,11,52,11,43,21,26,21" data-area="1" />
+            </map>
+            <img src="<?= $this->baseUrl("/public/images/dente/dentes_faces.jpg"); ?>" usemap="#mapeamento_face" border="0" alt="Faces" />
+        </div>
+        <div class="f">
+            <? if ($this->dente <= 28) { ?>
+                <input type="checkbox" name="odo_proc_denteface[]" value="L" id="face3"  /> <label for="face1" class="not">Lingual</label><br />
+            <? } else { ?>
+                <input type="checkbox" name="odo_proc_denteface[]" value="L" id="face1"  /> <label for="face1" class="not">Lingual</label><br />
+            <? } ?>
+            <? if ($this->dente <= 28) { ?>
+                <input type="checkbox" name="odo_proc_denteface[]" value="V" id="face1"  /> <label for="face3" class="not">Vestibular</label><br />
+            <? } else { ?>
+                <input type="checkbox" name="odo_proc_denteface[]" value="V" id="face3"  /> <label for="face3" class="not">Vestibular</label><br />
+            <? } ?>       
+            <input type="checkbox" name="odo_proc_denteface[]" value="M" id="face2"  /> <label for="face2" class="not">Mesial</label><br />
+            <input type="checkbox" name="odo_proc_denteface[]" value="D" id="face4"  /> <label for="face4" class="not">Distal</label><br />
+            <input type="checkbox" name="odo_proc_denteface[]" value="O" id="face5"  /> <label for="face5" class="not">Oclusal</label>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="procedimento-status" class="f ui-widget-content ui-corner-all">
+        <label class="ui-corner-bl ui-corner-tr">Procedimentos:</label>
+        <input type="radio" name="odo_proc_status" value="T" id="odo_proc_statusT" onchange="esconde_dt_programada();" checked="checked"/>Realizado
+        <input type="radio" name="odo_proc_status" value="F" id="odo_proc_statusF" onchange="mostra_dt_programada();" class="checkb_dt"/>A Realizar<br/>
+        <div class="data-programada" style="display:none;">
+            <label class="ui-corner-bl ui-corner-tr">Programado para:</label>
+            <input class="ui-state-default" name="odo_proc_dtprogramada" id="odo_proc_dtprogramada" style="width: 160px" />
+            <input type="hidden" name="dt_atual" value="<?=date("Y-m-d")?>" id="dt_atual">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="space"></div>
+    <div id="procedimento" class="f ui-widget-content ui-corner-all">
+        <label>Busca Proced.:</label>
+        <input type="text" id="proc_nome_buscar" value="" onkeypress="buscarProcedimentoOdontologico()"/>
+        <input type="hidden" id="co_seq_ciap" name="co_seq_ciap" value="" style="width: 20px" />
+        
+        <select name="proc_codigo" id="proc_codigo" size="6" style="width: 100%">
+            <?php foreach($this->situacao as $sit) { ?>
+                <option class="<?=$sit["proc_codigo_sus"]?>" value="<?=$sit["proc_codigo"]?>" label="<?=rtrim($sit["proc_nome"])?>"><?=rtrim($sit["proc_nome"])?></option>
+            <? } ?>
+        </select>                	
+    </div>
+    <div class="clear"></div>
+    <div class="space"></div>
+    <div id="anotacoes" class="f ui-widget-content ui-corner-all">
+        <span class="title">Anotações:</span><br />
+        <textarea name="odo_proc_denteanot" id="odo_proc_denteanot" style="width: 480px"></textarea><br />
+    </div>
+    <div class="clear"></div>
+    <div class="space"></div>
+    <div id="historico" class="f ui-widget-content ui-corner-all">
+            <span class="title">Histórico do dente:</span>
+            <? if ($this->historicoDente->count() > 0) { ?>
+                    <table style="width: 480px" class="grid ui-widget ui-widget-content ui-corner-all">
+                            <tr class="ui-widget-header">
+                                    <th>Data</th>
+                                    <th>Faces</th>
+                                    <th>Procedimento</th>
+                            </tr>
+                            <? foreach ($this->historicoDente as $item) { ?>
+                                    <tr>
+                                            <td class="ui-state-default"><?= $this->data($item->odo_preal_dtcadastro, "dd/MM/YY"); ?></td>
+                                            <td class="ui-state-default c" nowrap="nowrap"><?=$item->odo_preal_denteface; ?></td>
+                                            <td class="ui-state-default"><?=$item->proc_nome;?></td>
+
+                                    </tr>
+                                    <? if($item->odo_preal_denteanot):?>
+                                    <tr>
+                                            <td colspan="3" class="ui-state-default"><?= $this->escape($item->odo_preal_denteanot); ?></td>
+                                    </tr>
+                                    <? endif;?>
+                            <? } ?>
+                    </table>
+            <? } else { ?>
+                    <table style="width: 486px" class="grid ui-widget ui-widget-content ui-corner-all">
+                        <tr class="ui-widget-header">
+                                <th>Data</th>
+                                <th>Faces</th>
+                                <th>Procedimento</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="ui-state-default">Nenhum procedimento realizado até o momento!</td>
+                        </tr>
+                    </table>
+            <? } ?>
+    </div>
+    <div class="clear"></div>
+</form>

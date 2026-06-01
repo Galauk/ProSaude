@@ -1,0 +1,180 @@
+<?php $this->errorMsg(); ?>
+<?php $this->dialog(); ?>
+<form method="post" name="form" id="form-agendamento-profissionais" action="<?=$this->url(array("action" => "salvar"))?>">
+    <span><?= $this->conv->nome_convenio ?></span><br />
+    <input type="hidden" name="conv_codigo" id="conv_codigo" value="<?= $this->escape($this->conv->conv_codigo); ?>" />
+    <input type="hidden" name="coni_codigo" id="coni_codigo" value="<?= $this->escape($this->dados->coni_codigo); ?>" />
+    <input type="hidden" name="prestador" id="prestador" value="<?= $this->conv->prestador_servico ?>" />
+    <input type="hidden" name="esp_codigo_hidden" id="esp_codigo_hidden" value="<?= $this->dados->esp_codigo?>" />
+    <label>Profissional:</label>
+    <input type="text" class='ui-state-default'  name="usr_nome" id="usr_nome" value="<?= $this->escape($this->dados->usr_nome); ?>" class="focus" />
+    <input type="hidden" name="usr_codigo" id="usr_codigo" value="<?= $this->escape($this->dados->usr_codigo); ?>"  /><br />
+    <div style="display: none" id="med_esp">
+        <label >Especialidade:</label>
+        <select class='ui-state-default' name="esp_codigo" id="esp">
+        </select>
+    </div>
+    <label>Data de Início:</label>
+    <input type="text" name="coni_data_inicio" id="coni_data_inicio" style="width:88px;" class="data" value="<?= ($this->dados->coni_data_inicio == "" ? "" : $this->data($this->dados->coni_data_inicio)) ?>" />
+    <label style="width:110px">Data de Término:</label>
+    <input type="text" name="coni_data_termino" id="coni_data_termino" style="width:88px;" class="data" value="<?= ($this->dados->coni_data_termino == "" ? "" : $this->data($this->dados->coni_data_termino)) ?>" /><br />
+    <label>Atende aos:</label>
+    <input type="checkbox" <? if (!empty($this->hora)) { if (array_key_exists("1",$this->hora)) { echo "checked='checked'"; } } ?> value="1" name="dias[]" id="1" onclick="populaComboDiasDaSemana('1','Segunda-Feira')" /><label class="not" for="segunda">Segunda-Feiras</label>
+    <input type="checkbox" <? if (!empty($this->hora)) { if (array_key_exists("2",$this->hora)) { echo "checked='checked'"; } } ?> value="2" name="dias[]" id="2" onclick="populaComboDiasDaSemana('2','Terça-Feira')" /><label class="not" for="terca">Terça-Feiras</label>
+    <input type="checkbox" <? if (!empty($this->hora)) { if (array_key_exists("3",$this->hora)) { echo "checked='checked'"; } } ?> value="3" name="dias[]" id="3" onclick="populaComboDiasDaSemana('3','Quarta-Feira')" /><label class="not" for="quarta">Quarta-Feiras</label>
+    <input type="checkbox" <? if (!empty($this->hora)) { if (array_key_exists("4",$this->hora)) { echo "checked='checked'"; } } ?> value="4" name="dias[]" id="4" onclick="populaComboDiasDaSemana('4','Quinta-Feira')" /><label class="not" for="quinta">Quinta-Feiras</label>
+    <input type="checkbox" <? if (!empty($this->hora)) { if (array_key_exists("5",$this->hora)) { echo "checked='checked'"; } } ?> value="5" name="dias[]" id="5" onclick="populaComboDiasDaSemana('5','Sexta-Feira')"  /><label class="not" for="sexta">Sexta-Feiras</label></br>
+    <? if ($this->fds->sabado) { ?>
+        <input type="checkbox" <? if (!empty($this->hora)) { if (array_key_exists("6",$this->hora)) { echo "checked='checked'"; } } ?> class="m" value="6" name="dias[]" id="6" onclick="populaComboDiasDaSemana('6','Sábado')" /><label class="not" for="sabado">Sábados</label>
+    <? 
+    }
+    if ($this->fds->domingo) {
+        ?>
+        <input type="checkbox" <? if (!empty($this->hora)) { if (array_key_exists("7",$this->hora)) { echo "checked='checked'"; } } ?> style="margin-left: 40px;"value="7" name="dias[]" id="7" onclick="populaComboDiasDaSemana('7','Domingo')" /><label class="not" for="domingo">Domingos</label>
+    <? } ?>
+    <input type="hidden" name="qtd_hr" id="qtd_hr" value="1" class="focus" />
+    <div id="erro-inclusao-horarios">
+    </div>        
+    <div id="inclusao-horarios" class="menuAbreFecha" style="display: none">
+        <a onclick="abreFechaInclusaoDeHorarios()" class="itemMenuAbreFecha">
+            <img src="<?= $this->baseUrl("/public/images/icons/add.png"); ?>"  title="Expandir" alt="Clique aqui para visualizar os horários" />
+            INCLUSÃO DE HORÁRIOS
+        </a>
+    </div>
+    <div id="inclusao-horarios-det" style="display:none" class="menuAbreFechaDet">
+        <div id="dados-horario-vagas">
+            <label class="f ui-corner-bl ui-corner-tr">Dias:</label>
+            <select multiple name="dias-semana" id="dias" style="margin-left: 4px; margin-bottom: 2px;">
+            </select><br/>
+            <div id="hrs">                
+                <label>Hora de Início:</label>
+                <input type="text" name="hr_inicio1" id="hr_inicio1" style="width:58px;" class="mask ini qtd-hor" maxlength="5" rel="99:99" value="" class="focus" />
+                <label style="width:110px">Hora de Término:</label>
+                <input type="text" name="hr_fim1" id="hr_fim1" style="width:58px;"  class="mask fim"  rel="99:99" value="" class="focus" />
+                <img src="<?=$this->baseUrl("/public/images/icons/add.png"); ?>" id="<?=$i?>adiciona-hora" onclick="adicionaCamposHoraInicialFinalInclusaoDeHorarios(<?=$i?>)" style="cursor:pointer; margin-left: 2px;"><br />
+            </div>
+            <?/*<label>Quantidade de vagas mês:</label>
+            <input type="hidden" name="<?= $i ?>coni_cota_mes_original" value="" />
+            <input type="text" name="<?= $i ?>coni_cota_mes" id="coni_cota_mes" style="width:50px;" value="" /><br />*/?>
+            <label>Quantidade de vagas dia:</label>
+            <input type="hidden" name="<?=$i?>coni_cota_dia_original" value="" />
+            <input type="text" name="<?=$i?>coni_cota_dia" id="coni_cota_dia" style="width:58px;" onchange="chamaCalculo()"  value="" />
+            <label style="width:100px;">Tem encaixe?</label> &nbsp;&nbsp;<input type="checkbox" value="S" name="encaixe" id="encaixe" onchange="mostraEncaixe()">
+            <div id="checkbox_div" style="display:none;">
+                <label>Quantidade de encaixes:</label>
+                <input type="text" name="coni_encaixe" id="coni_encaixe" style="width:50px;"  value="0" onChange="calculaComEncaixe()"/>
+            </div>
+            <!-- <label>Estratificacao</label>
+            <select id='estratificacao' onchange="mostraEstratificacao()">
+                <option></option>
+                <? foreach($this->estratificacoes as $estratificacao){ 
+                     ?>
+                    <option value="<?=$estratificacao->est_codigo?>"><?=$estratificacao->est_nome?></option>
+                <? } ?>
+            </select>
+            <div id="estratificacao_div" style="display:none;">
+                <label>Vagas estratificação:</label>
+                <input type="text" name="cie_quantidade" id="cie_quantidade" style="width:50px;"  value="0" /> <img src="<?=$this->baseUrl("/public/images/icons/add.png"); ?>" id="<?=$i?>adiciona-hora" onclick="adicionaNaListagemEstratificacao()" style="cursor:pointer; margin-left: 2px;">
+            </div>   -->  
+            <label>Tempo de atendimento <small>(min)</small></label>
+            <input type="text" name="<?=$i?>coni_intervalo_int" id="coni_intervalo_int" value="" style="width:25px;" /><br />
+            <input type="hidden" name="<?=$i?>coni_intervalo" id="coni_intervalo" value="" style="width:50px;"  />
+            
+            <!-- <table id=listagemEstratificacao class='grid ui-widget ui-widget-content ui-corner-all'>
+            <tr class='ui-widget-header'>
+                <th>Código</th>
+                <th>Estratifição</th>
+                <th>Quantidade</th>                
+            </tr>
+            <? foreach($this->estratificacoes as $estratificacao){ ?>
+                <tr>
+                    <td><?=$estratificacao->est_codigo?></td>
+                    <td><?=$estratificacao->est_nome?></td>
+                    <td><input type="text" name="cie_quantidade" id="cie_quantidade" value="" style="width:25px;" /></td>                
+                </tr>
+            <? } ?> -->
+        </table>
+            <a href="#" onclick="adicionaHorariosDiaDaSemana()" class="ui-button"  style="margin-left: 185px;">Adicionar</a>
+        </div>
+
+           
+    </div>
+    <? for($i=1; $i<=7; $i++) { ?>
+        <input type="hidden" name="<?=$i?>dia" id="dia<?=$i?>" value="" />
+        <div id="<?=$i?>-dia-semana" class="menuAbreFecha" <? if (!empty($this->hora)) { if (array_key_exists($i,$this->hora)) { echo "style='display: show'"; } else { echo "style='display: none'"; } } else { echo "style='display: none'"; }?>>
+            <a onclick="abreFechaDiasDaSemana(<?=$i?>)" class="itemMenuAbreFecha">
+                <img src="<?= $this->baseUrl("/public/images/icons/add.png"); ?>"  title="Expandir" alt="Clique aqui para visualizar os horários" />
+                <? switch ($i) {
+                    case 1: echo "SEGUNDA-FEIRA"; break;
+                    case 2: echo "TERÇA-FEIRA"; break;
+                    case 3: echo "QUARTA-FEIRA"; break;
+                    case 4: echo "QUINTA-FEIRA"; break;
+                    case 5: echo "SEXTA-FEIRA"; break;
+                    case 6: echo "SÁBADO"; break;
+                    case 7: echo "DOMINGO"; break;
+                }
+                ?>
+            </a>
+            <div id="menuAbreFechaOpcoes">
+                <img src="<?= $this->baseUrl("/public/images/icons/excluir.png"); ?>" onclick="excluiHorariosDiasDaSemana(<?=$i?>)" title="Excluir Horários" alt="Clique aqui para excluir os horários do dia" style="cursor: pointer" />
+            </div>
+        </div>
+        <div id="<?=$i?>-dia-semana-det" style="display: none" class="menuAbreFechaDet">
+            <div id="dados-horario-vagas">
+                <div id="hrs<?=$i?>">
+                    <? if (count($this->hora[$i]) == 0) { ?>
+                            <label>Hora de Início:</label>
+                            <input type="text" name="<?=$i?>_hora_inicial_1" id="<?=$i?>hr_inicio1" style="width:58px;" maxlength="5" value="" />
+                            <label style="width:110px">Hora de Término:</label>
+                            <input type="text" name="<?=$i?>_hora_final_1" id="<?=$i?>hr_fim1" style="width:58px;" value="" />
+                            <img src="<?= $this->baseUrl("/public/images/icons/add.png"); ?>" id="<?=$i?>adiciona-hora" onclick="adicionaHorarioInicialFinal(<?=$i?>)" style="cursor:pointer; margin-left:10px;"><br />
+                    <? } else { ?>
+                            <? $y = 1; ?>
+                            <? foreach ($this->hora[$i] as $item) { ?>
+                                <? if ($y > 1) { echo "<div class='horario$i'>"; } ?>
+                                    <label>Hora de Início:</label>
+                                    <input type="text" name="<?=$i?>_hora_inicial_<?=$y?>" id="<?=$i?>hr_inicio<?=$y?>" style="width:58px;" value="<?=$item["hora_inicial"]?>" class="focus" />
+                                    <label style="width:110px">Hora de Término:</label>
+                                    <input type="text" name="<?=$i?>_hora_final_<?=$y?>" id="<?=$i?>hr_fim<?=$y?>" style="width:58px;" value="<?=$item["hora_final"]?>" class="focus" />
+                                <? if ($y > 1) { echo "</div>"; } ?>
+                                <? $y++; ?> 
+                            <? } ?> 
+                    <? } ?>
+                </div>
+                <label>Quantidade de vagas dia:</label>
+                <input type="hidden" name="<?=$i?>condi_age_cota_dia_original" id="condi_age_cota_dia_original<?=$i?>" value="<?=$this->dadosDia[$i]["condi_age_cota_dia"]?>" />
+                <input type="text" name="<?=$i?>condi_age_cota_dia" id="coni_cota_dia<?=$i?>" style="width:58px;" value="<?=$this->dadosDia[$i]["condi_age_cota_dia"]?>" />
+                <label style="width:100px;">Tem encaixe?</label> &nbsp;&nbsp;<input type="checkbox" value="S" name="encaixe" id="encaixe<?=$i?>" <? ($this->dadosDia[$i]["condi_age_encaixe"] ? "checked=checked" : "") ?> onchange="mostraEncaixe()">
+                <div id="qtd-enc<?=$i?>" style="display:none;">
+                    <label>Quantidade de encaixes:</label>
+                    <input type="text" name="<?=$i?>condi_age_encaixe" id="coni_encaixe<?=$i?>" style="width:50px;"  value="<?=$this->dadosDia[$i]["condi_age_encaixe"]?>" onChange="calculaComEncaixe()"/>
+                </div><br />
+                <label>Tempo de atendimento <small>(min)</small></label>
+                <input type="text" name="<?=$i?>condi_age_intervalo_int" id="coni_intervalo_int<?=$i?>" value="<? if ($this->dadosDia[$i]["condi_age_intervalo"]!="") { echo round($this->dadosDia[$i]["condi_age_intervalo"]); } ?>"style="width:25px;"  value="" /><br />
+                <input type="hidden" name="<?=$i?>condi_age_intervalo" id="coni_intervalo<?=$i?>" value="<?=$this->dadosDia[$i]["condi_age_intervalo"]?>"style="width:50px;"  value="" />
+
+                <!-- <table id=listagemEstratificacao class='grid ui-widget ui-widget-content ui-corner-all'>
+                    <tr class='ui-widget-header'>
+                        <th>Código</th>
+                        <th>Estratifição</th>
+                        <th>Quantidade</th>                
+                    </tr>
+                    <? foreach($this->estratificacoes as $estratificacao){ ?>
+                        <tr>
+                            <td><?=$estratificacao->est_codigo?></td>
+                            <td><?=$estratificacao->est_nome?></td>
+                            <td><input type="text" name="<?=$i?>cie_quantidade" id="cie_quantidade<?=$i?>" value="<?=$this->dadosDia[$i]["cie_quantidade"]?>" style="width:25px;" /></td>                
+                        </tr>
+                    <? } ?>
+                </table> -->
+            </div>
+        </div>
+    <? } ?>
+   <br />
+    <a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>
+    <?/*<a href="<?=$this->url(array("action" => "salvar", "module" => "agenda", "controller" => "convenio-itens"))?>" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>*/?>
+    <?/*<a href="#" onclick="salvar()" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>*/?>
+    <a href="<?=$this->url(array("action" => "agendamento-estabelecimentos-de-saude", "module" => "agenda", "controller" => "convenio"), NULL, TRUE) ?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>
+</form>
+<div class="space"></div>
+<?=$this->action("agendamento-estabelecimentos-de-saude-profissionais-itens", "convenio-itens", "agenda", array("conv" => $this->conv->conv_codigo)); ?>

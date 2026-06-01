@@ -1,0 +1,13 @@
+﻿Módulo: Saúde - Versão: 3.20.19
+
+- Atendimento > Porta de Entrada > Fila de Atendimento
+Adicionado opção de reorganizar a lista de atendimento. Dessa forma é possível priorizar o atendimento, colocando um paciente no inicio da fila
+
+- Agendamento > Recepção
+Adicionado opção de reorganizar a lista de atendimento. Dessa forma é possível priorizar o atendimento, colocando um paciente no inicio da fila
+
+- Prontuário > Sis Pré-natal
+Opções para registro de informações sobre o atendimento a paciente gestante. Acompanhamento da gestação, do pré-natal ao perpério.
+
+- Materiais > Editar
+Adicionado campo "Situação" no produto (apenas ao editar). Assim é possivel desativar um produto.

@@ -1,0 +1,110 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/atendimento/atendimento-simplificado/form-procedimento.css">
+<script src="/WebSocialSaude/zf/public/js/atendimento/atendimento-simplificado/form-ficha-raas.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<br />
+
+
+<?
+if($_GET['alert']){
+    if($_GET['alert'] == "sucessexcluir"){ ?>
+    <script>
+        Swal.fire({
+            title: 'Sucesso!',
+            text: 'Sucesso ao excluir Ação!',
+            type: 'success',
+            confirmButtonText: 'Ok'
+        })
+    </script>
+    <? } else if($_GET['alert'] == "error"){?>
+        <script>
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Erro ao cadastrar Unidade de ESF!',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <? } else if($_GET['alert'] == "errorpaciente"){?>
+        <script>
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Paciente não informado!',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <?}else if($_GET['alert'] == "sucesseditar"){?>
+        <script>
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Sucesso ao Editar Ficha!',
+                type: 'success',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <?}else if($_GET['alert'] == "errorcid"){?>
+        <script>
+            Swal.fire({
+                title: 'Erro!!',
+                text: 'Necessário cadastrar 1 CID!',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <?}
+}
+?>
+
+
+
+<form name="busca" method="post" action="<?=$this->url(array("action" => "lista-acoes-raas"))?>">
+            <input type="hidden" name="prontuario" id="prontuario" value="<?=$this->message?>">
+
+    <label style="text-align: left; font-size: 14px; height: 20px " id="recebeNumeroProntuarioLabel" >Prontuario: <?=$this->message == null ? $this->msg : $this->message ?></label>
+</form>
+<br/>
+
+
+
+<table>
+    <tr>
+        <th>Data</th>
+        <th>Quantidade</th>
+        <th>Ação</th>
+        <th>Observações</td>
+        <th>Opções</th>
+    </tr>
+    <? if (count($this->dados) > 0) {
+        foreach ($this->dados as $item) { ?>
+        <tr>
+            <td><?=$this->data($item->ras_dataexe,Zend_Date::DATE_MEDIUM)?></td>
+            <td><?=$item->ras_qnt?></td>
+            <td><?=$item->proc_nome?></td>
+            <td><?=$item->ras_obs?></td>
+            <td>
+                <a href="<?=$this->url(array("action"=>"adicionar-acoes-raas","module"=>"atendimento","controller"=>"atendimento-simplificado","acaoid"=>"$item->ras_acoes_id"), NULL, TRUE);?>"> 
+                    <img src="<?=$this->baseUrl("public/images/icons/editar.png")?>" title='Editar' alt='Clique aqui para editar' style='cursor: pointer' onclick="" />
+                </a> 
+
+                <a href="<?=$this->url(array("action"=>"excluir-acao-raas","module"=>"atendimento","controller"=>"atendimento-simplificado","acaoid"=>"$item->ras_acoes_id"), NULL, TRUE);?>" > 
+                    <img src="<?=$this->baseUrl("public/images/icons/excluir.png")?>" title='Excluir' alt='Clique aqui para excluir' style='cursor: pointer' />
+                </a>    
+
+            </td>
+        </tr>
+    <?  } 
+    } else { ?>
+        <tr>
+            <td colspan="4">Nenhuma ação para o paciente até o momento!</td>
+        </tr>
+<?  } ?>
+
+
+</table>
+<div class="div-footer center-block" style="width: 365px; margin-top: 15px">
+        <a href="<?=$this->url(array("action"=>"lista-ficha-raas", "module"=>"atendimento","controller" => "atendimento-simplificado", "param"=>"1"),NULL,TRUE);?>" class="ui-button voltar" data-atalho="ESC">Voltar
+        </a>
+</div>

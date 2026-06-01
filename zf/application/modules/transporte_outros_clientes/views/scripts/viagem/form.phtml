@@ -1,0 +1,55 @@
+<?php $this->errorMsg(); ?>
+<?php $this->dialog();
+    //echo"<pre>".print_r($this->dados,1);
+    // echo"<pre>";print_r($this->unidades);die();
+?>
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/transporte/viagem/form.css">
+
+<form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar")); ?>">
+    <input type="hidden" name="via_codigo" id="via_codigo"   value="<?= $this->dados->via_codigo?>" />
+    <label>Data Viagem:</label>
+    <input type="text" name="via_data" id="via_data" style="width:80px;" maxlength="14"  value="<?=(!$this->dados->via_data ? "" : $this->data($this->dados->via_data,Zend_Date::DATE_MEDIUM));?>" class="mask data" rel="99/99/9999" /><br />
+    <label>Veículo:</label>
+    <select name="vei_codigo" id="vei_codigo">     
+        <?
+        foreach ($this->veiculo as $veiculo){
+            
+            if($veiculo->veis_codigo==1 || $this->dados->vei_codigo == $veiculo->vei_codigo ){
+            ?>
+        <option value="<?=$veiculo->vei_codigo?>" <? if ($this->dados->vei_codigo == $veiculo->vei_codigo) { echo("selected=\"selected\""); } ?>><?=$veiculo->vei_descricao?></option>         
+            <?
+            }
+        }
+        ?>           
+    </select><br />
+    
+    <label>Motorista:</label>	
+    <input type="text" name="usr_nome" id="usr_nome"  value="<?= $this->dados->usr_nome ; ?>" /><br />
+    <input type="hidden" name="usr_codigo" id="usr_codigo" value="<?= $this->dados->usr_codigo?>">
+    
+    <label>Local de Embarque:</label>
+    <input type="text" onclick="limparEmbarqueUnidade()" name="via_local" id="via_local" value="<?= $this->dados->via_local ; ?>" /><br />
+    
+    <div>
+        <label for="">Embarque em unidade </label>
+        <?php
+            for ($count =0; $count <  count($this->unidades); $count ++) { ?>
+                <input onclick="limparLocalEmbarque()" class="unidades" type="radio" name="unidades" id="unidades" value="<?=$this->unidades[$count][uni_desc]?>"><?=$this->unidades[$count][uni_desc]?>
+                <br>
+            <?}
+        ?>
+    </div>
+
+    <label>Hora de Embarque:</label>
+    <input type="text" name="via_hora" id="via_hora" style="width:40px;" class="mask" rel="99:99" value="<?= $this->dados->via_hora ; ?>" /><br />
+    
+    <label class="">Motivo da Viagem:</label>
+    <div class="textarea">
+        <textarea name="via_motivo" id="via_motivo"  class="tinymce" ></textarea>		
+    </div>
+    <br />
+   <a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>
+	<a href="<?=$this->url(array("action"=>"index", "module"=>"transporte","controller" => "viagem"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+
+</form>
+<div class="space"></div>

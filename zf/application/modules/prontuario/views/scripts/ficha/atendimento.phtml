@@ -1,0 +1,155 @@
+<input id="usu_codigo" value="<?= $this->usu_codigo; ?>" type="hidden" />
+<div id="page">
+	<div id="header">
+		<div id="logo">
+			<img src="<?= $this->baseUrl('/public/images/brasao.gif') ?>" title="Logo Prefeitura" width="80"/>
+		</div>
+		<div id="titulo">
+			<h2>Prefeitura Municipal de <?= $this->dadosSecretaria()->cidade; ?></h2>
+			<h3>Secretaria Municipal de Saúde</h3>
+                        <?php 
+                        // Imprimindo dados da unidade responsável atendimento
+                        if ($this->uni_desc != "") {
+                            echo "<h4>$this->uni_desc</h4>";
+                        }?>
+		</div>
+		<div id="barcode">
+			<img src="<?= $this->baseUrl() ?>/public/images/codigo_barras.php?codigo=<?= $this->dados->usu->usu_codigo; ?>&lw=1&hi=18" alt="Código de Barras: <?= $this->dados->usu->usu_codigo; ?>" title="Código de Barras: <?= $this->dados->usu->usu_codigo; ?>" />
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div id="info">
+		<div id="foto">
+			<img src="<?= $this->baseUrl('/public/images/sem_foto_' . $this->dados->usu->usu_sexo . '.png') ?>" alt="Foto do Paciente" title="<?= $this->dados->usu->usu_nome; ?>" />
+		</div>
+		<h2><?= ucwords(strtolower($this->dados->usu->usu_nome)); ?></h2>
+		<div class="f">
+			<label>Sexo:</label> <span><?= $this->mask($this->dados->usu->usu_sexo, "sexo"); ?></span><br />
+			<label>Mãe:</label> <span><?= $this->dados->usu->usu_mae; ?></span><br />
+			<label>End.:</label> <span><?= $this->dados->usu->usu_endereco; ?></span><br />
+			<label>Profis.:</label> <span><?= $this->dados->usu->usu_ocupacao; ?></span>			
+		</div>
+		<div class="f l2">
+			<label>Data Nasc.:</label> <span><?= $this->data($this->dados->usu->usu_datanasc) . " (" . $this->idade($this->dados->usu->usu_datanasc) . ")"; ?></span><br />
+			<label>Est. Civil:</label> <span><?= $this->dados->usu->estado_civil; ?></span><br />
+			<label>Telefone:</label> <span><?= $this->mask($this->dados->usu->usu_fone); ?></span><br />
+			<label>Cartão SUS:</label> <span><?= $this->dados->usu->usu_cartao_sus; ?></span>
+		</div>
+		<div class="clear"></div>
+		<div class="space"></div>
+	</div>
+		<div class="space"></div>
+	<div id="relatorio">
+		<table border="0">
+		<?php foreach($this->dados->atendimentos as $atendimento): ?>
+			<tr>
+				<th width="200">Data - Hora</th>
+				<th>Profissional</th>
+				<th>Especialidade</th>
+				<th>Unidade</th>
+			</tr>
+			<tr>
+				<td align="center"><?=$this->data($atendimento->age_data);?> - <?php echo $atendimento->ate_horafinal; ?> </td>
+				<td align="center"><?=$atendimento->usr_nome;?></td>
+				<td align="center"><?=$atendimento->esp_nome;?></td>
+				<td align="center"><?=$atendimento->uni_desc;?></td>
+			</tr>
+			<tr>
+				<td>Pré-Consulta:</td>
+				<td colspan="3" class="escape">
+					<table class="font-mais-grande">
+					<?php if($atendimento->pre_consulta->pc_altura):?>
+						<tr>
+							<td width="100"><strong>Altura: </strong></td>
+							<td><?=number_format($atendimento->pre_consulta->pc_altura,2);?>m</td>
+						</tr> 
+					<?php endif;?>
+					<?php if($atendimento->pre_consulta->pc_temperatura):?>
+						<tr>
+							<td><strong>Temperatura: </strong></td>
+							<td><?=number_format($atendimento->pre_consulta->pc_temperatura,1);?>ºC</td>
+						</tr>
+					<?php endif;?>
+					<?php if($atendimento->pre_consulta->pc_pressao_sistolica || $atendimento->pre_consulta->pc_pressao_diastolica ):?>
+						<tr>
+                                                    <td style="width: 20px;">P.A.: </td>
+                                                    <td colspan="4"><?=$atendimento->pre_consulta->pc_pressao_sistolica."/".$atendimento->pre_consulta->pc_pressao_diastolica;?></td>
+						</tr>
+					<?php endif;?>
+					<?php if($atendimento->pre_consulta->pc_dados):?>
+						<tr>
+							<td colspan="4"><?=$atendimento->pre_consulta->pc_dados;?></td>
+						</tr>
+					<?php endif;?>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>Atendimento:</td>
+				<td colspan="3">
+					<?= $atendimento->ate_reclamacao; ?>
+					<?= $atendimento->ate_exame_fisico; ?>
+					<?= $atendimento->ate_diagnostico; ?>
+					<?= $atendimento->ate_tratamento; ?>
+					<?= $atendimento->ate_curativo; ?>
+				</td>
+			</tr>
+                        <tr>
+                            <td>Internação / Observação:</td>
+                            <td colspan="3"><?=($atendimento->internacoes->io_observacao ? $atendimento->internacoes->io_observacao : "<em>Nenhuma internação solicitado</em>");?></td>
+			</tr>
+                        <tr>
+                            <td colspan="4">
+                                <?php if ($atendimento->internacoes->io_codigo): ?>
+                                    <?= $this->action("ver", "medicamentos", "leito", array("obs" => "S", "io_codigo" => $atendimento->internacoes->io_codigo, "ate_codigo" => $atendimento->ate_codigo, "prontuario" => "S","impresso"=>"S")); ?>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        
+			<tr>
+				<td>Procedimentos:</td>
+				<td colspan="3"><?=($atendimento->procedimentos?$atendimento->procedimentos:"<em>Nenhum procedimento realizado</em>");?></td>
+			</tr>
+			<tr>
+				<td>Exames:</td>
+				<td colspan="3"><?=($atendimento->exames?$atendimento->exames:"<em>Nenhum exame solicitado</em>");?></td>
+			</tr>
+			<tr><?=$atendimento->medicamentos->irec_recomendacao?>
+				<td>Medicamentos:</td>
+				<td colspan="3"><?=($atendimento->medicamentos?$atendimento->medicamentos:"<em>Nenhum medicamento receitado</em>");?></td>
+			</tr>
+			<tr>
+				<td>Encaminhamento:</td>
+				<td colspan="3"><?=($atendimento->encaminhamentos?$atendimento->encaminhamentos:"<em>Nenhum encaminhamento solicitado</em>");?></td>
+			</tr>
+                        <tr>
+                            <td>Encaminhamento Externo:</td>
+                            <td colspan="3"><?=($atendimento->encamihamentos_externos?$atendimento->encamihamentos_externos:"<em>Nenhum encaminhamento solicitado</em>");?></td>
+			</tr>
+			<tr><td colspan="4">&nbsp;</td></tr>
+		<?php endforeach; ?>
+		</table>
+	</div>
+	<div class="clear"></div>
+	<div class="space"></div>
+	<div class="space"></div>
+	<div class="space"></div>
+	<div id="medico">
+		<h2><?= $this->usr_nome ?></h2>
+		<h3><?= $this->usr_num_conselho; ?></h3>
+	</div>
+	<div class="clear"></div>
+	<div id="footer">
+            <span>
+                <?php
+                // Verifica se tem endereço e número e imprime os dados
+                if ($this->uni_endereco != "") {
+                    $endereco = $this->uni_endereco;
+                    if ($this->uni_numero != "")  {
+                        $endereco .= ", ".$this->uni_numero;
+                    }
+                    echo $endereco;
+                } ?>
+            </span>
+	</div>
+</div>

@@ -1,0 +1,218 @@
+<script language=javascript>
+
+function imprimir() {
+       window.print();
+}
+</script>
+
+<body>
+
+<?php
+//------------------------------------------------------------------>
+// -> Inclusao principal para montagem do sistema
+//------------------------------------------------------------------>
+	session_start();
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/db.inc.php";
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+//----------------  Dados Recebidos  ---------------->
+
+$dt_i=$dt_inicial;
+$dt_f=$dt_final;
+
+//echo "Inicial-->".$dt_inicial."<br>";
+//echo "Final---->".$dt_final."<br>";
+//echo "Setor---->".$set_codigo."<br>";
+//echo "Grupo---->".$gru_codigo."<br>";
+
+
+$titulo="Posicao do Estoque Por Centro Estocador e Periodo";    //       NOME DO RELATÓRIO
+
+if ($set_codigo) {
+    $sql = "SELECT setor.set_codigo, setor.set_nome " .  //       Pega Setor
+           "  FROM setor " .
+           " WHERE setor.set_codigo = $set_codigo";
+    $query=pg_query($sql);
+    while($rowSetor=pg_fetch_array($query)) {
+          $SetNome=$rowSetor[1];
+    }
+} else {
+	$SetNome = "TODOS";
+}
+
+if ($gru_codigo) {
+    $sql = "SELECT grupo.gru_codigo, grupo.gru_nome " .  //       Pega Grupo
+           "  FROM grupo " .
+           " WHERE grupo.gru_codigo = $gru_codigo";
+    $query=pg_query($sql);
+    while($rowGrupo=pg_fetch_array($query)) {
+          $GruNome=$rowGrupo[1];
+    }
+} else {  $GruNome = "TODOS";  }
+
+
+function cabeca($Tit, $dtIni, $dtFin, $SetNo, $GruNo, $tpCab, $zerado) {
+
+        //---------  Cabeçalho do Relatorio  ----------------->
+
+         if ($tpCab == '0') {
+             echo "<table  width=720 cellspacing=0 cellpadding=0 border=0 align=center>
+	 	            <tr>
+	     	         <td width=250><font size=1 face=courier>GESTÃO PÚBLICA DE SAÚDE</font></td>
+         	         <td width= 10><font size=1 face=courier align=right>".date("d/m/Y h:i:s")."</font></td>
+	    	        </tr>
+ 	    	        <tr>
+ 	     	         <td colspan=2><font size=1 face=courier>".strtoupper($Tit)."</font></td>
+ 	    	        </tr>
+ 	    	        <tr>
+ 	     	         <td colspan=2><font size=1 face=courier>ESTOQUE EM: $dtFin</font></td>
+ 	    	        </tr>
+ 	    	        <tr>
+ 	     	         <td colspan=2><font size=1 face=courier>SETOR:   $SetNo</font></td>
+ 	    	        </tr>
+ 	    	        <tr>
+ 	     	         <td colspan=2><font size=1 face=courier>Grupo:   $GruNo</font></td>
+ 	    	        </tr>
+ 	    	        <tr>
+ 	     	         <td colspan=2><font size=1 face=courier>Lista Zerado:   $zerado</font></td>
+ 	    	        </tr>
+                    ";
+ 	    	 if ($pro_codigo) {
+ 	    	     echo "<tr>
+ 	     	            <td colspan=2><font size=1 face=courier>PRODUTO:   $ProNo</font></td>
+ 	    	           </tr>";
+             }
+ 	    	 echo " <tr>
+		             <td>&nbsp;</td>
+		             <td>&nbsp;</td>
+	    	        </tr>
+ 	               </table>";
+
+ 	         echo "<table style='font-size:11px;font-family:Tahoma,Arial;' border=0 width=720 align=center cellspacing=0 cellpadding=1 topmargin=0 leftmargin=0>\n";
+         }
+        //---------  Cabeçalho dos Dados  ----------------->
+
+         if ($tpCab == '1') {
+             echo " <tr>\n";
+		 	 echo "  <td width= '5%' colspan=1 align=right>                         </td>\n";
+		 	 echo "  <td width='50%' colspan=1 align=left > Produto                 </td>\n";
+			 echo "  <td width='10%'           align=right> Estoque &nbsp;&nbsp;&nbsp;</td>\n";
+			 echo "  <td width= '6%'                      >                         </td>\n";
+			 echo "  <td width= '8%'> Custo                                         </td>\n";
+			 echo "  <td width= '8%' align=right> Total &nbsp;&nbsp;&nbsp;          </td>\n";
+			 echo " </tr>\n";
+			 echo " <tr>\n";
+			 echo "  <td align=center cellspacing=0 cellpadding=0 colspan=6>&nbsp;</td>\n";
+             echo " </tr>\n";
+         }
+}
+
+//-------------  Rotina Captação dos Dados  --------------->
+
+
+//---- Captação Produto/Movimentos --->
+$sql = "SELECT pro_nome,
+			   sal_qtde,
+			   (select sum(ite_custo_medio) 
+				   from itens_movimento im
+				   join movimento m
+					 on m.mov_codigo = im.mov_codigo
+				  where im.ite_lote = s.sal_lote
+					and im.pro_codigo = p.pro_codigo
+					and (m.set_entrada = s.set_codigo or m.set_saida=s.set_codigo)),
+			   sal_codigo
+	   FROM saldo s
+	   JOIN produto p
+            ON s.pro_codigo = p.pro_codigo
+	  WHERE sal_qtde>=0 and set_codigo = $set_codigo ";
+
+if ($zerado == 'NAO' ) {
+    $sql .= " AND sal_qtde > 0 ";
+    if ($gru_codigo) {
+       $sql .= "AND gru_codigo = $gru_codigo ";
+    }
+} else {
+    if ($gru_codigo) {
+       $sql .= "AND  gru_codigo = $gru_codigo ";
+    }
+}
+
+if ($pros_codigo) {
+	$sql .= "AND  pros_codigo = $pros_codigo ";
+}
+
+$sql .= " ORDER BY p.pro_nome ";
+
+// vSQL($sql,"1");
+
+//echo "<pre>$sql</pre>";
+//die($sql);
+//die($sql);
+$query=pg_query($sql);
+
+if (pg_num_rows($query) == 0) {
+    echo "NÃO TEM DADOS PARA ESTES PARÂMETROS<br><br>";
+    echo "&nbsp;&nbsp;&nbsp;Data ->".$dt_final."<br>";
+    echo "&nbsp;&nbsp;&nbsp;Setor     ->".$set_codigo."<br>";
+}
+
+//----------------  Rotina de Impressão  ------------------>
+
+$lin = 999;
+
+// Zebragem
+$controle = 0;
+
+while($row=pg_fetch_row($query)) {
+      if ($lin > 20) {
+          if ($lin== 999) {
+              cabeca($titulo, $dt_inicial, $dt_final, $SetNome, $GruNome, '0', $zerado);
+            }
+         cabeca($titulo, $dt_inicial, $dt_final, $SetNome, $GruNome , '1', $zerado);
+
+         echo " <tr>\n";
+		 echo "  <td></td>\n";
+		 echo " </tr>\n";
+         $lin=0;
+      }
+
+ //---- Pega Saldo --->
+
+	  $Saldo=$row[1];
+	  $TotalItem=$row[2] * $Saldo;
+      $TotalItemGeral = $TotalItemGeral + $TotalItem;
+
+	  	$c1 = "";
+		$c2 = "#A6A6A6";
+		
+		if ($controle == 0) {
+		  $cor = $c1;
+		  $controle++;
+		} else {
+		  $cor = $c2;
+		  $controle = 0;
+		}
+
+      echo " <tr bgcolor='$cor'>\n";
+      echo "  <td colspan=2 align=left>$row[0] </td>\n";
+      echo "  <td align=right>$Saldo </td>\n";
+      echo "  <td>                      </td>\n";
+      echo "  <td align=right>".number_format($row[2],5,',','.')."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
+      $TotalItemfmt = number_format($TotalItem,2,',','.');
+//      $TotalItemfmt = formata_valor($TotalItem);
+      echo "  <td align=right>$TotalItemfmt    </td>\n";
+	  echo " </tr>\n";
+
+}
+      echo " <tr><h2>\n";
+      echo "  <td colspan=2 align=left><h4> Total Geral</h4></td>\n";
+      echo "  <td align=right> </td>\n";
+      echo "  <td>                      </td>\n";
+      echo "  <td>               </td>\n";
+//      $TotalItemfmt = formata_valor($TotalItemGeral);
+      $TotalItemfmt = number_format($TotalItemGeral,2,',','.');
+      echo "  <td align=right><h4>$TotalItemfmt  </h4>  </td>\n";
+	  echo " </h2></tr>\n";
+
+echo "</table>";
+
+?>

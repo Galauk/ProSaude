@@ -1,0 +1,32 @@
+<?php
+	// echo "<pre>";print_r($this->recebeSolicitacoes);die();
+?>
+
+<form action="salvar-posologia" method="POST">
+	<fieldset style="width: 51%;margin: auto;border-radius: 5px;">
+		<legend>Posologia</legend>
+	<?php
+		foreach ($this->recebeSolicitacoes as $recebeSolicitacao) { ?>
+			
+				<div style="margin-bottom: 5px; text-align: center;">
+					<label style="text-align: left;font-size: 14px;">
+						Medicamento : 
+					</label>
+					
+					<input name="nomeMedicamento" id="<?=$recebeSolicitacao[id]?>" style="width: 340px!important;padding: 5px!important;" type="text" value="<?=$recebeSolicitacao[nomeMed]?>">	
+
+					<input name="id[]" type="hidden" value="<?=$recebeSolicitacao[id]?>">
+
+					<input required id="quantidade[]" name="quantidade[]" style="width: 37px;padding: 5px!important" type="text" placeholder="Qtde" value="<?=$recebeSolicitacao[quantidade]?>">
+
+					<input required id= "frequencia[]" name="frequencia[]" style="width: 37px;padding: 5px!important" type="text" placeholder="Freq" value="<?=$recebeSolicitacao[frequencia]?>">
+				</div>	
+		<?}
+	?>
+
+
+	<button id="" type="submit"  style="padding: 5px 10px 0px;background-image: url(/WebSocialSaude/zf/public/images/btn-bg.png);background-repeat: round;background-size: contain;border: 1px solid #ACACAC;margin-bottom: 3px;color: #000;border-radius: 5px;margin-left: 333px" class="">
+						Salvar
+	</button>
+	</fieldset>
+</form>

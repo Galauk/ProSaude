@@ -1,0 +1,43 @@
+<?php $this->errorMsg(); ?>
+<?php $this->dialog();?>
+<form method="post" name="form" id="form" action="<?=$this->url(array("action"=>"rel-atendimento-por-idade"));?>" target="_blank">
+	<label>Unidade:</label>
+	<input name="uni_desc" id="uni_desc" />
+	<input name="uni_codigo" id="uni_codigo" type="hidden" /><br />
+        
+           <label>Médico:</label>
+            <input type="text" id="usr_nome" name="usr_nome" onKeypress="mostraMedico()" />
+            <input type="hidden" id="usr_codigo" name="usr_codigo" />         
+            <br />
+                
+        <div style="display: none" id="med_esp">
+            <label>Especialidade:</label>
+            <input type="hidden" name="esp_codigo_sessao" id="esp_codigo_sessao" value="<?=$this->dados_sessao[esp_codigo]?>" />
+           
+            <select class='ui-state-default' name="esp_codigo" id="esp">
+            </select>
+        </div>
+            
+
+         <label>Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+
+        <div  id="med_esp">
+            <label>Sexo:</label>
+           
+            <select class='ui-state-default' name="usu_sexo" id="esp">
+                <option value="0">Ambos</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+            </select>
+        </div>
+        
+	<div class="clear"></div>
+	<a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+</form>
+
+
+

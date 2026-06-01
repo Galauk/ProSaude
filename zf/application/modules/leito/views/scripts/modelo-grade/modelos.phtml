@@ -1,0 +1,8 @@
+<h2><?= $this->categoria; ?></h2>
+<a href="#" id="voltar-categoria" class="ui-button ui-corner-bl ui-corner-tr" style="margin-left: 450px;">Voltar</a>
+<ul>
+	<?php foreach ($this->itens as $item): ?>
+		<li data-codigo="<?=$item->lgm_codigo;?>" class="ui-corner-all ui-state-default"><?= $this->escape($item->lgm_descricao); ?></li>
+	<?php endforeach; ?>
+	<div class="clear"></div>
+</ul>

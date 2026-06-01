@@ -1,0 +1,92 @@
+<? if($this->usu_codigo){ ?>
+<input type="hidden" id="usu_codigo" value="<?=$this->usu_codigo;?>" />
+<input type="hidden" id="impressao" value="1" />
+<? } ?>
+
+<div id="carteirinha">
+            
+<? if($this->imp=='true'){?>
+    <!-- <table width="100%">
+		<tr>
+			<th align="left" width="25">Paciente: <?=$this->dados->usu_nome;?></th>
+        </tr>
+		<tr>
+			<th align="left">Dt. Nasc.: <?=$this->dados->usu_datanasc;?></th>
+        </tr>
+		<tr>
+			<th align="left">Mae: <?=$this->dados->usu_mae;?></th>
+        </tr>
+		<tr>
+			<th align="left">Vias: <?=$this->via->prt_via;?>ª</th>
+        </tr>
+		<tr>
+			<th align="left">Local: <?=$this->via->uni_desc;?></th>
+        </tr>
+    </table>
+    <br> -->
+<? } ?>        
+	<table class="grid ui-widget ui-widget-content ui-corner-all" style="width: calc(100% - 15px);">
+		<tr class="ui-widget-header">
+			<th>Produto</th>
+			<th>Dose</th>
+            <th>Dose Ún.</th>
+			<th>1ª Dose</th>
+			<th>2ª Dose</th>
+			<th>3ª Dose</th>
+			<th>4ª Dose</th>
+			<th>5ª Dose</th>
+			<th>Reforço 1</th><? if(!$this->ocultarEstoque) { ?>
+			<th>Reforço 2</th>
+			<th>Revacinação</th>
+            <th>Tratamento</th>
+            <th>Doses</th>
+			<th>Lote</th>
+			<th>Validade</th>
+			<th>Frascos</th>
+            <th>Opções</th><? }?> 
+		</tr>
+        <!-- <? echo "<pre>"; echo count($this->vacinas);?> -->
+    <? foreach($this->vacinas as $item){ ?>
+		<tr>
+			<th class="ui-widget-header">
+				<?=$item->pro_nome;?>
+				<input value="<?=$item->pro_codigo;?>" type="hidden" />
+			</th>
+			<td id="vac_1_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=((intval($item->dose) == 0 || $item->dose == "") ?'ui-state-disabled' : 'dose');?>" data-dose="<?=intval($item->dose);?>"></td>
+			<td id="vac_2_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=($item->dose_unica!='S'?'ui-state-disabled':'vac');?>"></td>
+			<td id="vac_3_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=($item->dose_um!='S'?'ui-state-disabled':'vac');?>"></td>
+			<td id="vac_4_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=($item->dose_dois!='S'?'ui-state-disabled':'vac');?>"></td>
+			<td id="vac_5_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=($item->dose_tres!='S'?'ui-state-disabled':'vac');?>"></td>
+			<td id="vac_6_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=($item->dose_quatro!='S'?'ui-state-disabled':'vac');?>"></td>
+			<td id="vac_7_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=($item->dose_cinco!='S'?'ui-state-disabled':'vac');?>"></td>
+			<td id="vac_8_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=($item->reforco!='S'?'ui-state-disabled':'vac');?>"></td>
+			<td id="vac_9_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=($item->reforco_2!='S'?'ui-state-disabled':'vac');?>"></td>
+			<td id="vac_10_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=($item->revacinacao!='S'?'ui-state-disabled':'rev');?>"></td>
+			<?php if(!$this->ocultarEstoque){?>
+			<td id="vac_R_<?=$item->pro_codigo;?>" class="h">
+				<table class="grid ui-widget ui-widget-content ui-corner-all reforcos">
+					<thead>
+						<tr class="ui-widget-header">
+							<th>#</th>
+							<th>Data</th>
+							<th>Local</th>
+							<th>Ação</th>
+							<th>Usuário</th>
+							<th>Opções</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</td>
+			<td id="vac_11_<?=$item->pro_codigo;?>" class="ui-widget ui-widget-content <?=((intval($item->tratamento) == 0 || $item->tratamento == "") ? 'ui-state-disabled' : 'trat');?>" data-trat="<?=intval($item->tratamento);?>"></td>
+			<td id="vac_doses_<?=$item->pro_codigo;?>" class="ui-widget-content estoque">--</td>
+			<td id="vac_lote_<?=$item->pro_codigo;?>" class="ui-widget-content estoque">--</td>
+			<td id="vac_validade_<?=$item->pro_codigo;?>" class="ui-widget-content estoque">--</td>
+			<td id="vac_qtde_<?=$item->pro_codigo;?>" class="ui-widget-content estoque">--</td>
+			<td id="vac_opcao_<?=$item->pro_codigo;?>" class="ui-widget-content estoque">--</td>
+            <? } ?> 
+		</tr>
+    <?php } ?>
+	</table>
+    <div id="tooltip_esp"></div>
+    

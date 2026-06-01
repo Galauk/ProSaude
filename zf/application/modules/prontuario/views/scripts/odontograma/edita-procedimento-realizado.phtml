@@ -1,0 +1,68 @@
+<form method="post" action="<?=$this->url(array("action"=>"salvar-posts-procedimento-realizado"));?>" id="formDente">
+	<input type="hidden" name="odo_preal_codigo" value="<?=$this->dados->odo_preal_codigo?>" id="odo_preal_codigo" />
+        <input type="hidden" name="odo_preal_dentenum" value="<?=$this->dados->odo_preal_dentenum?>"  id="odo_preal_dentenum"/>
+        <input type="hidden" name="odo_pcon_codigo" value="<?=$this->dados->odo_pcon_codigo?>" id="odo_pcon_codigo" />
+        <div id="face" class="f ui-widget-content ui-corner-all">
+		<span class="title">Faces:</span><br />
+		<div class="f">
+                        <?if ($this->dente >= 21 && $this->dente <= 28 || $this->dente >= 31 && $this->dente <= 38):?>
+                            <?
+                            $cords2 = "12,11,24,22,24,41,13,53";
+                            $cords4 = "55,11,54,52,44,41,45,23";
+                            ?>
+                        <?else:?>
+                            <?
+                            $cords4 = "12,11,24,22,24,41,13,53";
+                            $cords2 = "55,11,54,52,44,41,45,23";
+                            ?>
+                        <?endif;?>
+			<map name="mapeamento_face">
+				<area shape="poly" coords="26,23,43,23,43,41,26,41" data-area="5"  />
+				<area shape="poly" coords="<?=$cords4?>" data-area="4" />
+				<area shape="poly" coords="14,54,25,43,43,43,54,54" data-area="3" />
+				<area shape="poly" coords="<?=$cords2?>" data-area="2" />
+				<area shape="poly" coords="15,11,52,11,43,21,26,21" data-area="1" />
+			</map>
+			<img src="<?= $this->baseUrl("/public/images/dente/dentes_faces.jpg"); ?>" usemap="#mapeamento_face" border="0" alt="Faces" />
+		</div>
+                <div class="f">
+                    <? if ($this->dente <= 28) { ?>
+                        <input type="checkbox" name="dente_face[]" value="L" id="face1" <? if (substr_count($this->dados->odo_preal_denteface,"L")>0) { ?> checked="checked" <? } ?> /> <label for="face1" class="not">Lingual</label><br />
+                    <? } else { ?>
+                        <input type="checkbox" name="dente_face[]" value="V" id="face3" <? if (substr_count($this->dados->odo_preal_denteface,"V")>0) { ?> checked="checked" <? } ?> /> <label for="face3" class="not">Vestibular</label><br />
+                    <? } ?>
+                    <? if ($this->dente > 28) { ?>
+                        <input type="checkbox" name="dente_face[]" value="V" id="face3" <? if (substr_count($this->dados->odo_preal_denteface,"V")>0) { ?> checked="checked" <? } ?> /> <label for="face3" class="not">Vestibular</label><br />
+                    <? } else { ?>
+                        <input type="checkbox" name="dente_face[]" value="L" id="face1" <? if (substr_count($this->dados->odo_preal_denteface,"L")>0) { ?> checked="checked" <? } ?> /> <label for="face1" class="not">Lingual</label><br />
+                    <? } ?>    
+                    <input type="checkbox" name="dente_face[]" value="M" id="face2" <? if (substr_count($this->dados->odo_preal_denteface,"M")>0) { ?> checked="checked" <? } ?> /> <label for="face2" class="not">Mesial</label><br />
+                    <input type="checkbox" name="dente_face[]" value="V" id="face3" <? if (substr_count($this->dados->odo_preal_denteface,"V")>0) { ?> checked="checked" <? } ?> /> <label for="face3" class="not">Vestibular</label><br />
+                    <input type="checkbox" name="dente_face[]" value="D" id="face4" <? if (substr_count($this->dados->odo_preal_denteface,"D")>0) { ?> checked="checked" <? } ?> /> <label for="face4" class="not">Distal</label><br />
+                    <input type="checkbox" name="dente_face[]" value="O" id="face5" <? if (substr_count($this->dados->odo_preal_denteface,"O")>0) { ?> checked="checked" <? } ?> /> <label for="face5" class="not">Oclusal</label>
+		</div>
+                <div class="clear"></div>
+	</div>
+        <div class="clear"></div>
+	<div class="space"></div>
+	<div id="procedimento" class="f ui-widget-content ui-corner-all">
+           <label>Busca Proced.:</label>
+           <input type="text" id="proc_nome_buscar" value="" onkeypress="buscarProcedimentoOdontologico()"/>
+           <input type="hidden" id="co_seq_ciap" name="co_seq_ciap" value="" style="width: 20px" />
+            <select name="proc_codigo" id="proc_codigo" size="6">
+                <? foreach($this->situacao as $sit) { ?>
+                    <option <? if ($sit["proc_codigo"] == $this->dados->proc_codigo) { ?> selected="selected" <? } ?> value="<?=$sit["proc_codigo"]?>" label="<?=rtrim($sit["proc_nome"])?>"><?=rtrim($sit["proc_nome"])?></option>
+                <? } ?>
+            </select>
+        </div>
+        <div class="clear"></div>
+	<div class="space"></div>
+	<div id="anotacoes" class="f ui-widget-content ui-corner-all">
+		<span class="title">Anotações:</span><br />
+		<textarea name="odo_preal_denteanot" id="odo_preal_denteanot" style="width: 480px">
+                    <? if ($this->dados->odo_preal_denteanot != "") { ?>
+                        <?=$this->dados->odo_preal_denteanot?>
+                    <? } ?>
+                </textarea><br />
+	</div>
+</form>

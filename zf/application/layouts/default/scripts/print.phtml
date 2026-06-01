@@ -1,0 +1,59 @@
+<?= $this->doctype() . "\n"; ?>
+<?php
+	// echo "<pre>";print_r($this->secretaria);die();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+        <?= $this->headMeta() . "\n"; ?>
+        <?= $this->headTitle() . "\n"; ?>
+        <?= $this->headLink() . "\n"; ?>
+		<link href='<?=$this->baseUrl('/public/css/print.css')?>' rel='stylesheet' type='text/css'></link>
+		<script type="text/javascript">
+			var baseUrl = '<?=$this->baseUrl();?>';
+		</script>
+        <?= $this->headScript() . "\n"; ?>
+		<?php if(APPLICATION_ENV != "development"):?>
+		<script type="text/javascript">
+			$(function(){
+				window.print();
+			});
+		</script>
+		<?php endif;?>
+		<?= $this->analytics(); ?>
+    </head>
+	<body>
+	 	<div id="page">
+	 		<div id="header" >
+	 			<div id="header_logo">
+	 				<img src="<?=$this->baseUrl('/public/images/brasao.gif')?>" title="Logo Prefeitura" />
+	 			</div>
+                                
+	 			<div id="header_dados">
+	 				<div id="pref_nome"><?=$this->secretaria[nome_secretaria]?></div>
+	 			</div>
+                                <?if($this->dados->codigo):?>
+                                    <div id="header_barcode">
+                                            <img src="<?=$this->baseUrl()?>/public/images/codigo_barras.php?codigo=<?=$this->dados->codigo;?>&lw=1&hi=18" alt="Código de Barras: <?=$this->dados->codigo;?>" title="Código de Barras: <?=$this->dados->codigo;?>" />
+                                    </div>
+                                    <div class="clear"></div>
+                                <?endif;?>
+	 		</div>
+	 		<br/>
+	 		<div id="dados_pac">
+	 			<div id="pac_nome"><?=$this->dados->usu_nome;?></div>
+                                <br/>
+                                <?if($this->dados->dom_codigo):?>
+                                    <div id="pac_end">
+                                        <b>Rua: </b><?=$this->dados->rua_nome;?>    <b>Nr: </b><?=$this->dados->dom_numero;?>  <b>Bairro: </b><?=$this->dados->rua_bairro;?>
+                                    </div>
+                                <?endif;?>
+	 		</div>
+	 		
+			<?= $this->layout()->content; ?>
+	 		
+	 		<div id="footer">
+	 			<?=$this->dados->uni_desc;?> - <?=$this->dados->uni_endereco;?>
+	 		</div>
+	 	</div>
+	 </body>
+</html>

@@ -1,0 +1,48 @@
+.component {
+	
+	opacity:0.8; 
+	filter:alpha(opacity=80);
+	background-color:white;
+	color:black;
+	font-family:helvetica;
+	padding:0.5em; 
+	
+}
+
+.window { 
+	border:2px solid #346789; 
+ 	width:10em; 
+ 	height:5em; 
+	z-index:20; 
+	position:absolute; 
+	font-size:0.8em;
+	
+	/*margin:1em;*/
+}
+
+.label {
+	
+}
+.label:hover {
+border-color:#5d94a6;	
+}
+
+.l1 { 
+	font-size:13px;
+	 
+}
+
+#window1 {  top:0em;left:20em;}
+#window2 { top:0em; left:40em;}
+#window3 { top:15em;left:30em; }
+#window4 { top:15em; left:50em;}
+#window5 {top:30em;left:20em;}
+#window6 {top:30em;left:40em;}
+#window7 {top:18em;left:40em;}
+#window8 {left:63em;top:32em;}
+._jsPlumb_connector { z-index:4; }
+._jsPlumb_endpoint { z-index:5; }
+._jsPlumb_overlay { z-index:6; }
+.hl { border:3px solid red; }
+
+

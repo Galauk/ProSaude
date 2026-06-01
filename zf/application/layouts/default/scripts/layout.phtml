@@ -1,0 +1,30 @@
+<?= $this->doctype() . "\n"; ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+        <?= $this->headMeta() . "\n"; ?>
+        <?= $this->headTitle() . "\n"; ?>
+        <?= $this->headLink() . "\n"; ?>
+		<script type="text/javascript">
+			var baseUrl = '<?=$this->baseUrl();?>';
+		</script>
+        <?= $this->headScript() . "\n"; ?>
+		<?= $this->analytics(); ?>
+    </head>
+    <body>
+		<div id="page">
+
+		 
+			<div id="corpo">
+				<div id='tabs'> 
+					<ul class="tabs">
+						<li><a href="#tabs-1"><?= $this->title; ?></a></li>
+					</ul>
+					<div id='tabs-1'>
+						<?= $this->layout()->content; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="sys"></div>
+    </body>
+</html>

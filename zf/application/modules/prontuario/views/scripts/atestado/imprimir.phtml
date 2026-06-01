@@ -1,0 +1,30 @@
+<head>
+    <script>
+        window.print();
+    </script>
+    <link rel="stylesheet" href="/WebSocialSaude/zf/public/css/print2.css">
+</head>
+<div style="min-height: 200px; " id="conteudo">
+        <div class="item">
+            º Esteve em consulta médica dia <?=$this->data($this->dados->data);?> as <?=$this->dados->hora;?>
+        </div>
+        <?php foreach($this->dados->itens as $item):?>
+                <div class="item">
+                    <b>º</b> <?=$item;?>
+                </div>
+        <?php endforeach;?>
+    <?php if(!empty ($this->dados->obs)):?>
+            <div class="obs_item_atestado"><b><?=$this->dados->obs?></b></div>
+    <?php endif; ?>
+    <div id="cid">
+        <?if($this->dados->cid != "") { ?><span>CID: <strong><?=$this->dados->cid;?></strong></span><? } ?>
+        <p>_____________________<br />Ass. paciente ou reponsável</p>
+        <div>O código de ética médica Resolução CRM n: 1246/88, art. 117 veda a informação do diagnóstico nos atestados (C.I.D.). O mesmo só poderá ser aposto com consentimento assinado pelo paciente.</div>
+    </div>
+</div>
+<?php if(!$this->atest_codigo){?>
+<!--<div id="validacao">-->
+   <!-- Codigo de Validação:-->
+    <?//= rand(1000,9999)."-".$this->dados->usu_codigo."-". $this->dados->codigo?>
+<!--</div>-->
+<?php }?>

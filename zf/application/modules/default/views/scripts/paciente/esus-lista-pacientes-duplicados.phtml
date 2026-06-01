@@ -1,0 +1,20 @@
+<?=$this->errorMsg();?>
+<?php $this->dialog(); ?>
+<p><b>Selecione o paciente correto e corrija o erro indicado:</b></p>
+<div class="msgAtencaoMenor">
+    <b>Incosistência(s):</b> <br /><?=$this->erroImportacao?>
+</div>
+<? foreach ($this->dados as $item) { ?>
+    <a href="#" onclick="formPaciente(<?=$this->dadosEir->eir_codigo?>,<?=$item->usu_codigo?>)" >
+        <div style="margin-bottom: 10px" >
+            <strong>Código:</strong> 
+            <?=$item->usu_codigo?>,
+            <strong>Nome:</strong> 
+            <?=$item->usu_nome?>, 
+            <strong>Data de Nascimento:</strong> 
+            <?=$this->data($item->usu_datanasc,Zend_Date::DATE_MEDIUM)?>, 
+            <strong>Nome da Mãe:</strong> 
+            <?=$item->usu_mae?><br />
+        </div>
+    </a>
+<? } ?>

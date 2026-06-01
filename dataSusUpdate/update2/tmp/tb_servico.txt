@@ -1,0 +1,67 @@
+100Serviço de Atenção a Saúde no Sistema Penitenciário                                                                     201906
+101Estratégia de Saúde da Família                                                                                          201906
+102Estratégias de Agentes Comunitário de Saúde                                                                             201906
+103Serviço de Atendimento Móvel de Urgências                                                                               201906
+104Regulação Assistêncial dos Serviços de Saúde                                                                            201906
+105Serviço de Atenção em Neurologia/ Neurocirurgia                                                                         201906
+106Serviço de Atenção a DST/HIV/AIDS                                                                                       201906
+107Serviço de Atenção a Saúde Auditiva                                                                                     201906
+108Serviço de Atenção a Saúde do Trabalhador                                                                               201906
+109Serviço de Atenção a Saúde dos Adolecentes em Conflito com a Lei, em Regime de Internação e Internação Provisória       201906
+110Serviço de Atenção a Saúde Reprodutiva                                                                                  201906
+111Serviço de Atenção ao Paciente com Tuberculose                                                                          201906
+112Serviço de Atenção ao Pré-Natal, Parto e Nascimento                                                                     201906
+113Serviço de Atenção Domiciliar                                                                                           201906
+114Serviço de Atenção em Saúde Bucal                                                                                       201906
+115Serviço de Atenção Psicossocial                                                                                         201906
+116Serviço de Atenção Cardiovascular/Cardiologia                                                                           201906
+117Serviço de Cirurgia Reparadora                                                                                          201906
+118Serviço de Cirurgia Torácica                                                                                            201906
+119Serviço de Controle de Tabagismo                                                                                        201906
+120Serviço de Diagnóstico por Anatomia Patológica e/ou Citopatologia                                                       201906
+121Diagnóstico por Imagem                                                                                                  201906
+122Serviço de Diagnóstico por Métodos Gráficos/Dinâmicos                                                                   201906
+123Serviço de Dispensação de Órteses, Próteses e Materiais Especiais                                                       201906
+124Serviço de Endocrinologia                                                                                               201906
+125Serviço de Farmácia                                                                                                     201906
+126Serviço de Fisioterapia                                                                                                 201906
+127Serviço de Atenção à Obesidade                                                                                          201906
+128Serviço de Hemoterapia                                                                                                  201906
+129Servico de Laboratório de Histocompatibilidade                                                                          201906
+130Atenção à Doença Renal Crônica                                                                                          201906
+131Serviço de Oftalmologia                                                                                                 201906
+132Serviço de Oncologia                                                                                                    201906
+133Serviço de Pneumologia                                                                                                  201906
+134Serviço de Práticas Integrativas e Complementares                                                                       201906
+135Serviço de Reabilitação                                                                                                 201906
+136Serviço de Suporte Nutricional                                                                                          201906
+137Serviço de Telemedicina                                                                                                 201906
+138Serviço de Traumato-Ortopedia                                                                                           201906
+139Serviço de Triagem Neonatal                                                                                             201906
+140Serviço de Urgência e Emergência                                                                                        201906
+141Serviço de Vigilância em Saúde                                                                                          201906
+142Serviço de Endoscopia                                                                                                   201906
+143Serviço Móvel de Urgência (exceto SAMU)                                                                                 201906
+144Serviço Posto de Coleta de Materiais Biológicos                                                                         201906
+145Serviço de Diagnóstico por Laboratório Clínico                                                                          201906
+146Serviço de Videolaparoscopia                                                                                            201906
+147Serviço de Apoio a Saúde da Família                                                                                     201906
+148Hospital-Dia                                                                                                            201906
+149Transplante                                                                                                             201906
+150Cirurgia Vascular                                                                                                       201906
+151Medicina Nuclear                                                                                                        201906
+153Atenção Especializada no Processo Transexualizador                                                                      201906
+154Serviço de Banco de Tecidos                                                                                             201906
+155Serviço de Traumatologia  Ortopedia                                                                                     201906
+156Serviço de Atenção á Saúde das Pessoas Ostomizadas                                                                      201906
+157Serviço de Laboratorio de Protese Dentaria                                                                              201906
+158Serviço de Atenção Integral em Hanseniase                                                                               201906
+159Atenção Básica                                                                                                          201906
+160Teleconsultoria                                                                                                         201906
+162Serviço de Terapia Intensiva                                                                                            201906
+163Serviço de Cuidados Intermediários                                                                                      201906
+164Serviço de Órteses,Próteses e Materiais Especiais em Reabilitação                                                       201906
+165Atenção às Pessoas em Situação de Violência Sexual                                                                      201906
+167Atendimento Itinerante de Asistência e Ensino em Saúde                                                                  201906
+168Atenção Às Pessoas com Doenças Raras                                                                                    201906
+169Serviço de Atenção em Urologia                                                                                          201906

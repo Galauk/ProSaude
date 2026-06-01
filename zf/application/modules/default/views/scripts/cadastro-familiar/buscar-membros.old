@@ -1,0 +1,12 @@
+<div name = "membrosFamilia" id="membrosFamilia">
+	<table>
+		<tr>
+			<th>Nome : </th>
+		</tr>
+
+		<?php foreach ($this->membroFamiliar as $membro) { ?>
+			<td class="ui-state-default c" width="50" name="usu_nome" id="usu_nome"> <?=$membro->usu_nome?></td>
+		<? } ?>
+
+	</table>	
+</div>

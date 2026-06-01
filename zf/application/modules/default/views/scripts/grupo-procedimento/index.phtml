@@ -1,0 +1,63 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<?php //die(var_dump($this->grupos)); ?>
+<form name="busca" method="POST" action="<?=$this->baseUrl();?>/default/grupo-procedimento/buscar" id="form-busca">
+    <a href='<?=$this->url(array('controller'=>'grupo-procedimento','action'=>'form'));?>' class="ui-button novo ui-corner-bl ui-corner-tr" data-atalho="CTRL+N">Novo</a>
+    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>
+
+     <select name="gp_codigo" id="gp_codigo">
+     	<option value="">SELECIONE</option>	
+     	<?php foreach ($this->g_select as $grupo) { ?>	        
+	        <option value="<?=$grupo['gp_codigo']?>"><?=$grupo['gp_descricao']?></option>
+        <?php } ?>
+    </select>
+
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+        <tr class='ui-widget-header'>
+        	<th width='10%'>id</th>
+        	<th width='30%'>Grupo</th>
+           	<th width='10%'>Num. Procedimentos</th>
+           	<th width='30%'>Procedimentos</th>
+           	<th width='20%'>Opções</th>
+        </tr>
+    <?php 
+    if(count($this->grupos)>0) {
+    foreach($this->grupos as $grupo) { ?>
+        <tr>
+            <td class='ui-state-default' style="text-align:center"><?=$grupo['gp_codigo']?></td>
+            <td class='ui-state-default' style="text-align:center"><?=$grupo['gp_descricao']?></td>
+            <td class='ui-state-default' style="text-align:center"><?=sizeof($this->procs[$grupo['gp_codigo']])?></td>
+            <td class='ui-state-default' style="text-align:center">
+            <?php foreach($this->procs[$grupo['gp_codigo']] as $proc) { ?>
+            	<?php //foreach($proc as $p) { ?>
+            		<?= $proc->proc_nome ?> <br/>
+            	<?php// } ?>
+             <?php } ?>
+            </td>
+
+            <td class='ui-state-default' style="text-align:center">
+                <?php
+                //die(var_dump(date("d/m/Y")));
+                //if ($this->data($item->ate_data_insert) == date("d/m/Y")) {?> 
+                    <a href='<?=$this->url(array('controller'=>'grupo-procedimento','action'=>'deletar','id'=>$grupo['gp_codigo']));?>' 
+                       class="excluir" />
+                        <img src="<?=$this->baseUrl();?>/public/images/icons/excluir.png" alt="Editar Item" title="Excluir Item">
+                    </a>
+                <?php
+                //} ?>
+                <a href='<?=$this->url(array('controller'=>'grupo-procedimento','action'=>'form','id'=>$grupo['gp_codigo']));?>'
+                       class="editar" />
+                        <img src="<?=$this->baseUrl();?>/public/images/icons/editar.png" alt="Editar Item" title="Editar Item">
+                </a>
+            </td>
+        </tr>
+    <?php 
+    } ?>
+    <?php  
+    } else {?>
+        <td colspan="6">Nenhum item encontrado</td>
+    <?php 
+    } ?>
+</table>

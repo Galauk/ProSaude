@@ -1,0 +1,429 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<?php 
+     //echo "<pre>";print_r($this->recuperaFichaRaas);die();
+if ($this->codigoAtendimento) {?>
+
+  <script>
+      window.open('<?=$this->url(array("action" =>"imprimir-beneficios-eventuais",'codigoAtendimento'=>$this->codigoAtendimento));?>', '', '', true);
+  </script>  
+
+  <?}
+
+  ?>
+
+  <script>
+    function abrirCarterinhaNova() {
+        var paciente = '<?php echo $this->usu_codigo;?>';
+
+        if(paciente == ""){
+            paciente = $("#usu_codigo").val();
+        }
+
+        url = "/WebSocialSaude/zf/vacina/imprimir-carteirinha/usu/" + paciente;
+        window.open(url, null, "height=620,width=650,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes");
+    }
+
+</script>
+
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/atendimento/atendimento-simplificado/form-procedimento.css">
+<script src="/WebSocialSaude/zf/public/js/atendimento/atendimento-simplificado/form-ficha-raas.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<?
+
+if($_GET['imprimir'] > 0){ 
+    $codigoAtendimento = $_GET['imprimir']?>
+    
+    <script>    
+        window.open('<?=$this->url(array("action" =>"imprimir-beneficios-eventuais",'codigoAtendimento'=>$codigoAtendimento));?>', '', '', true);
+    </script>
+
+    <?}
+    ?>
+
+
+<?
+if($_GET['alert']){
+    if($_GET['alert'] == "sucess"){ ?>
+    <script>
+        Swal.fire({
+            title: 'Sucesso!',
+            text: 'Sucesso ao cadastrar Ficha RAAS!',
+            type: 'success',
+            confirmButtonText: 'Ok'
+        })
+    </script>
+    <? } else if($_GET['alert'] == "error"){?>
+        <script>
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Erro ao cadastrar Unidade de ESF!',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <? } else if($_GET['alert'] == "errorpaciente"){?>
+        <script>
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Paciente não informado!',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <?}else if($_GET['alert'] == "sucesseditar"){?>
+        <script>
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Sucesso ao Editar Ficha!',
+                type: 'success',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <?}else if($_GET['alert'] == "errorcid"){?>
+        <script>
+            Swal.fire({
+                title: 'Erro!!',
+                text: 'Necessário cadastrar 1 CID!',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <?}else if($_GET['alert'] == "sucessacao"){?>
+        <script>
+            Swal.fire({
+                title: 'Sucesso!!',
+                text: 'Ações cadastradas!',
+                type: 'success',
+                confirmButtonText: 'Ok'
+            })
+        </script>
+    <?}
+}
+?>
+ 
+    <form method="post" action="<?=$this->recuperaFichaRaas[0][ras_val_ini] =="" ? $this->url(array("action" => "salvar-ficha-raas")) : $this->url(array("action" => "index-ficha-raas"))  ?>
+" id="raas" name = "raas">
+        <input type="hidden" id="tipoDoAtendimento" name="tipoDoAtendimento" class="tipoDoAtendimento" value="R">
+        <input type="hidden" id="tipo_atendimento" value="<?=$this->atendimento->ate_tipo?>">
+        <input type="hidden" id="imprimir" value="<?php echo $this->print;?>" />
+        <input type="hidden" id="cadastro_aise" value="<?php echo $this->cadastro_aise;?>" />
+        <div id="geral">
+           
+            <input type="hidden" name="ras_uf" id="ras_uf" value="41">
+            <!-- <input type="hidden" name="uni_uf" id="uni_uf"> -->
+            
+            <br />
+            <label style= "padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; background-color: rgb(255, 225, 225)!important; height: 20px;">Data Inicio: </label>
+            <input type="date" name="data_atendimento" id="data_atendimento" class="date" rel="99/99/9999" value="<?=(empty($this->recuperaFichaRaas!=""))?date("d/m/Y"):$this->recuperaFichaRaas[0][ras_val_ini]?>" style=" padding-bottom: 5px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;">
+            <br />
+
+            <?php
+            $hr = date("H");
+            if(($hr>='01' and $hr<='12')) {
+                $selM = 'selected';
+                $selT = '';
+                $selN = '';
+            }
+            if(($hr>='13' and $hr<='18')) {
+                $selM = '';
+                $selT = 'selected';
+                $selN = '';
+            }
+            if(($hr>='19' and $hr<='00')) {
+                $selM = '';
+                $selT = '';
+                $selN = 'selected';
+            }
+            ?>
+            <div>
+                
+                <label style="padding: 5px;padding-right: 0px; text-align: left; font-size: 14px; width: 150px; background-color: rgb(255, 225, 225)!important; height: 20px;">Paciente:</label>
+                <input required type="text" name="usu_nome" id="usu_nome" onkeypress="buscaParticipante()" value="<?=$this->recuperaFichaRaas!="" ? $this->recuperaFichaRaas[0][ras_paciente] :"" ?>" style="width: 300px; height: 20px; padding-top: 2px; padding-bottom: 5px;" >
+                <input type="hidden" name="usu_codigo" id="usu_codigo" value="<?=$this->recuperaFichaRaas[0][ras_cod_paciente] =! "" ? $this->recuperaFichaRaas[0][ras_cod_paciente] :"" ?>">
+                <!-- Informações ocultas para atualização dos dados do cidadão -->
+                    
+                <input type="hidden" name="usu_prontuario" id="usu_prontuario" value="<?=$this->recuperaFichaRaas[0][ras_prontuario] =! "" ? $this->recuperaFichaRaas[0][ras_prontuario] :"" ?>"  >
+
+                <input type="hidden" name="id_nome" id="id_nome" value="usu_nome" >
+                <input type="hidden" name="id_codigo" id="id_codigo" value="usu_codigo">
+                <input type="hidden" name="id_button" id="id_button" value="">
+                <input type="hidden" name="id_tipo" id="id_tipo" value="">
+
+                <input type="hidden" name="usu_cartao_sus" id="usu_cartao_sus" value="<?=$this->recuperaFichaRaas[0][ras_cns_paciente] =! "" ? $this->recuperaFichaRaas[0][ras_cns_paciente] :"" ?>"  >
+                <!--VALIDADE ??-->
+                <input type="hidden" name="data_inicial" id="data_inicial" value="<?=$this->recuperaFichaRaas[0][ras_val_ini] =! "" ? $this->recuperaFichaRaas[0][ras_val_ini] :"" ?> ">
+                <input type="hidden" name="data_final" id="data_final" value="">
+
+                <input type="hidden" name="usu_sexo" id="usu_sexo" value="<?=$this->recuperaFichaRaas[0][ras_sexo] =! "" ? $this->recuperaFichaRaas[0][ras_sexo] :"" ?> " >
+                <input type="hidden" name="usu_datanasc" id="usu_datanasc" value="<?=$this->recuperaFichaRaas[0][ras_datanasc] =! "" ? $this->recuperaFichaRaas[0][ras_datanasc] :"" ?>"  >
+                <input type="hidden" name="pais_codigo" id="pais_codigo" value="<?=$this->recuperaFichaRaas[0][ras_nacionalidade] =! "" ? $this->recuperaFichaRaas[0][ras_nacionalidade] :010 ?> ">
+                <input type="hidden" name="rac_codigo" id="rac_codigo" value="<?=$this->recuperaFichaRaas[0][ras_raca] =! "" ? $this->recuperaFichaRaas[0][ras_raca] :"" ?> " > 
+
+                <input type="hidden" name="usu_mae" id="usu_mae" value="<?=$this->recuperaFichaRaas[0][ras_nomemae] =! "" ? $this->recuperaFichaRaas[0][ras_nomemae] :"" ?>">
+
+                <input type="hidden" name="usu_nome_resp" id="usu_nome_resp" value="<?=$this->recuperaFichaRaas[0][ras_responsavel] =! "" ? $this->recuperaFichaRaas[0][ras_responsavel] :"" ?>">
+        
+                <input type="hidden" name="cid_nome" id="cid_nome" value="">
+                <input type="hidden" name="dom_codigo" id="dom_codigo" value="">
+                <input type="hidden" name="dom_numero" id="dom_numero" value="<?=$this->recuperaFichaRaas[0][ras_numero] =! "" ? $this->recuperaFichaRaas[0][ras_numero] :"" ?>">
+                <input type="hidden" name="rua_nome" id="rua_nome" value="<?=$this->recuperaFichaRaas[0][ras_logradouro] =! "" ? $this->recuperaFichaRaas[0][ras_logradouro] :"" ?>">                    
+                <input type="hidden" name="rua_codigo" id="rua_codigo" value="">
+                <input type="hidden" name="bai_codigo" id="bai_codigo" value="">
+                <input type="hidden" name="bai_nome" id="bai_nome" value="">
+                <input type="hidden" name="rua_cep" id="rua_cep" value="<?=$this->recuperaFichaRaas[0][ras_cep] =! "" ? $this->recuperaFichaRaas[0][ras_cep] :"" ?>">
+                <input type = "hidden" name="usu_fone_2" id="usu_fone_2" value="">
+
+
+                <input type="hidden" name="muni_codigo_ibge_resid" id="muni_codigo_ibge_resid" value="<?=$this->recuperaFichaRaas[0][ras_ibge_mun] =! "" ? $this->recuperaFichaRaas[0][ras_ibge_mun] : 0 ?>">
+
+                <input type="hidden" name="usu_sit_rua" id="usu_sit_rua" value="<?=$this->recuperaFichaRaas[0][ras_situacao_rua] =! "" ? $this->recuperaFichaRaas[0][ras_situacao_rua] :"" ?>">
+
+                <input type="hidden" name="dom_complemento" id="dom_complemento" value="<?=$this->recuperaFichaRaas[0][ras_complemento] =! "" ? $this->recuperaFichaRaas[0][ras_complemento] :"" ?>">
+                <input type="hidden" name="usu_celular" id="usu_celular" value="<?=$this->recuperaFichaRaas[0][ras_celular] =! "" ? $this->recuperaFichaRaas[0][ras_celular] :"" ?>">
+                <input type="hidden" name="dom_telefone" id="dom_telefone" value="<?=$this->recuperaFichaRaas[0][ras_telefone] =! "" ? $this->recuperaFichaRaas[0][ras_telefone] :"" ?>">
+
+                <input type="hidden" name="ras_motivosaida" id="ras_motivosaida" value="<?=$this->recuperaFichaRaas[0][ras_motivosaida] =! "" ? $this->recuperaFichaRaas[0][ras_motivosaida] :0 ?>">
+
+                <input type="hidden" name="ras_total_acoes" id="ras_total_acoes" value="<?=$this->recuperaFichaRaas[0][ras_total_acoes] =! "" ? $this->recuperaFichaRaas[0][ras_total_acoes] :0 ?>">
+
+            
+
+                <br />
+                <label style="padding: 5px;padding-right: 0px;text-align: left; font-size: 14px; height: 20px ">É usuario de drogas?</label>
+                <select style="  padding-bottom: 5px;padding-right: 0px; padding-top: 3px; width: 299px; height: 20px;   width: 302px; margin-bottom: 0px !important; height: 30px !important; border-radius: 5px !important; border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #2e6e9e;" id="usu_drogas" name="usu_drogas" onchange="habilitaDesabilitaCheckBox(this.value);">
+                    <option value="N"<?=$this->recuperaFichaRaas[0][ras_usu_droga]== 'N' ? 'selected' : '' ?>>Não</option>
+                    <option value="S"<?=$this->recuperaFichaRaas[0][ras_usu_droga]== 'S' ? 'selected' : '' ?>>Sim</option>
+                </select>
+               
+                <div id="checbox">
+                    <label style="padding: 5px;padding-right: 0px; text-align: left; font-size: 14px;height: 20px;" >Se sim, quais?</label>
+                    <input type="checkbox"   name="alcool" id="alcool" value="A" <?=$this->recuperaFichaRaas[0][ras_usu_tipo_droga][0] == 'A' ? 'checked' : '' ?>> Alcool <!--A-->
+                    <input type="checkbox"  name="crack" id="crack" value = "C" <?=$this->recuperaFichaRaas[0][ras_usu_tipo_droga][1] == 'C' || $this->recuperaFichaRaas[0][ras_usu_tipo_droga][0] == 'C' ? 'checked' : '' ?>> Crack <!--C-->
+                    <input type="checkbox"  name="outros" id="outros" value = "O" <?=$this->recuperaFichaRaas[0][ras_usu_tipo_droga][2] == 'O' || $this->recuperaFichaRaas[0][ras_usu_tipo_droga][1] == 'O' || $this->recuperaFichaRaas[0][ras_usu_tipo_droga][0] == 'O' ? 'checked' : '' ?>> Outros <!--disabled-->
+                <br />
+                </div>
+            </div> 
+            
+            <div style="color: #153854; font-size: 12px;">
+                <fieldset style=" position: relative; margin: 1% auto auto 4%; left: -50px; top: -10px; width: 34.5%; background-color: #E9F3FB; border: 1px #159492 dotted; border-radius: 5px !important;"  >
+                    <legend style="padding: 5px;padding-right: 0px;text-align: left; font-size: 12px; ">Origem do Paciente</legend>
+                    <input type="hidden" id="seguraorigem" value="<?=$this->recuperaFichaRaas[0][id_origem]?>">
+                    <select id="origem_paciente" name="origem_paciente"  style="width: 302px;    margin-bottom: 0px !important; height: 30px !important;border-radius: 5px !important;    border: 1px solid #c5dbec;background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x; font-weight: bold;color: #2e6e9e;">
+                        <option value="01" <?=$this->recuperaFichaRaas[0][ras_origem]== 01 ? 'selected' : '' ?>>SERVICO DE URGENCIA</option>
+                        <option value="02" <?=$this->recuperaFichaRaas[0][ras_origem]== 02 ? 'selected' : '' ?>>ATENCAO BASICA</option>
+                        <option value="03" <?=$this->recuperaFichaRaas[0][ras_origem]== 03 ? 'selected' : '' ?>>INTERNACAO HOSPITALAR</option>
+                        <option value="04" <?=$this->recuperaFichaRaas[0][ras_origem]== 04 ? 'selected' : '' ?>>CENTRO ONCOLOGICO</option>
+                        <option value="05" <?=$this->recuperaFichaRaas[0][ras_origem]== 05 ? 'selected' : '' ?>>OUTROS</option>
+                    </select>
+                        
+                </fieldset>
+            </div>
+
+            <div style="color: #153854; font-size: 12px; ">
+                <fieldset style=" position: relative; margin: 1% auto auto 4%; left: -50px; top: -10px; width: 34.5%; background-color: #E9F3FB; border: 1px #159492 dotted; border-radius: 5px !important;"    >
+                    <legend style="text-align: left; font-size: 12px; ">Existe Cobertura de Estrategia Saude da Familia?</legend>
+                    <input style="font-size: 14px;" type="radio" id="radio2" name="radio2" value="N" checked onclick="habilitaDesabilitaInput(this.value);" <?=$this->recuperaFichaRaas[0][ras_cobertura_esf]=='N' ? 'checked' : ''  ?> > Não
+                    <input style="font-size: 14px;" type="radio" id="radio2" name="radio2" value="S" onclick="habilitaDesabilitaInput(this.value);" <?=$this->recuperaFichaRaas[0][ras_cobertura_esf]=='S' ? 'checked' : '' ?> > Sim <p>
+                        <!--BUSCA CNES-->
+                    <div id="divradio">                      
+                        <legend style="text-align: left; font-size: 12px;"; >Unidade onde adquiriu cobertura Estrategia Saude da Familia:</legend><p>
+                        <input style="  padding-bottom: 5px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #2e6e9e;" disabled <?= $this->restringir == 1 ? "disabled=disabled" : "" ?> type="text" required name="uni_desc" id="uni_desc"
+                        value="<?=$this->recuperaUnidadeEsf!="" ? $this->recuperaUnidadeEsf[0][uni_desc]:"" ?>"
+                        onkeypress="buscaUnidade()" autofocus>
+                        <input type="hidden" name="uni_codigo" id="uni_codigo" value="<?= $this->atendimento->uni_codigo ? $this->atendimento->uni_codigo : $this->uni_codigo_controle ?>">
+                        <input type="hidden" name="uni_cnes" id="uni_cnes" value="<?=$this->recuperaFichaRaas[0][ras_cnes_esf] =! "" ? $this->recuperaFichaRaas[0][ras_cnes_esf] :"" ?>"> 
+                    </div>
+                    </fieldset>
+            </div>
+
+
+            <!--Destino Paciente -->
+            <div style="color: #153854;font-size: 12px;">
+                <fieldset style=" position: relative; margin: 1% auto auto 4%; left: -50px; top: -10px; width: 34.5%; background-color: #E9F3FB; border: 1px #159492 dotted; border-radius: 5px !important;"  >
+                    <legend style="padding: 5px;padding-right: 0px;text-align: left; font-size: 12px; ">Destino do Paciente</legend>
+                    <input type="hidden" id="seguradestino" value="<?=$this->recuperaFichaRaas[0][id_destino] ?>">
+                    <select id="destino_paciente" name="destino_paciente" style="width: 302px;    margin-bottom: 0px !important;height: 30px !important;border-radius: 5px !important;    border: 1px solid #c5dbec;background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x;font-weight: bold;color: #2e6e9e;">
+                        <option value="00" <?=$this->recuperaFichaRaas[0][ras_destino]== 0 ? 'selected' : '' ?>>PERMANENCIA</option>
+                        <option value="01" <?=$this->recuperaFichaRaas[0][ras_destino]== 01 ? 'selected' : '' ?>>ALTA CLINICA</option>
+                        <option value="02" <?=$this->recuperaFichaRaas[0][ras_destino]== 02 ? 'selected' : '' ?>>ENCAMINHAMENTO PARA AD1</option>
+                        <option value="03" <?=$this->recuperaFichaRaas[0][ras_destino]== 03 ? 'selected' : '' ?>>ALTA ADMINISTRATIVA</option>
+                        <option value="04" <?=$this->recuperaFichaRaas[0][ras_destino]== 04 ? 'selected' : '' ?>>INTERNACAO EM URGENCIA</option>
+                        <option value="05" <?=$this->recuperaFichaRaas[0][ras_destino]== 05 ? 'selected' : '' ?>>INTERNACAO HOSPITALAR</option>
+                        <option value="06" <?=$this->recuperaFichaRaas[0][ras_destino]== 06 ? 'selected' : '' ?>>OBITO</option>
+                        
+                    </select>
+
+                </fieldset>
+
+            </div>
+                <!---->
+
+                <!--cid10-->
+            <div>
+                <div <?=$this->recuperaFichaRaas==NULL? 'display' : 'hidden' ?>>
+                    <label style="padding: 5px;padding-right: 0px;text-align: left; font-size: 14px; background-color: rgb(255, 225, 225)!important; height: 20px;">
+                        <abbr  title="Código Internacional de Doença">CID</abbr>:
+                    </label>
+
+                    <input type="hidden" name="cd10_codigo" id="cd10_codigo" value="<?= $this->dados->cd10_codigo; ?>" readonly="readonly"  />
+                    <input type="hidden" name="cd10_codigo_cid" id="cd10_codigo_cid" value="">
+                    <input type="text" name="buscar" id="buscar" onkeyup="buscaCid()" style=" padding-bottom: 5px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;" value="<? ?>" />
+                    <input type="hidden" name="uni_tipo" id="uni_tipo" value="<?=$this->uni_tipo?>">
+                   
+                    
+                    <table class="tb_cids" style="margin-bottom: 0px; width: 487px; border: 1px solid; border-color: #fff;" border="0">
+                        <div id="erro">
+                        </div>
+                    </table>
+                </div>
+                <!--CID EDITAR-->
+                <div <?=$this->recuperaFichaRaas!=NULL ? 'display' : 'hidden' ?>>
+                    <label style="padding: 5px;padding-right: 0px;text-align: left; font-size: 14px; ">CID Principal - Edição:</label>
+                    <input type="hidden"  name="cd10_codigo1" id="cd10_codigo1" value="<?= $this->dados->cd10_codigo1; ?>" readonly="readonly"  />
+                    <input type="hidden" name="cd10_codigo_cid1" id="cd10_codigo_cid1" value="<?$this->recuperaFichaRaas[0][ras_cidp]?>">
+                    <input type="text" name="buscar1" id="buscar1" onkeyup="buscaCidEditar()" value="<?=$this->grupo_doencas[0][ras_cidp]=!"" ? $this->grupo_doencas[0][ras_cidp] : "" ?>" style=" padding-bottom: 5px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;" />
+                    <input type="hidden" name="cid_codigo1" id="cid_codigo1" value="<?=$this->grupo_doencas[0][ras_cidp]?>">
+                    <input type="hidden" name="uni_tipo1" id="uni_tipo1" value="<?=$this->uni_tipo?>">
+                    <br />
+                    
+                    <table class="tb_cids1" style="margin-bottom: 0px; width: 487px; border: 1px solid; border-color: #fff;" border="0">
+                        <div id="erro1">
+                        </div>
+                    </table>
+
+                    <label style="padding: 5px;padding-right: 0px;text-align: left; font-size: 14px; ">CID Secundario 1 - Edição:</label>
+                    <input type="hidden" name="cd10_codigo2" id="cd10_codigo2" value="<?= $this->dados->cd10_codigo2; ?>" readonly="readonly"  />
+                    <input type="hidden" name="cd10_codigo_cid2" id="cd10_codigo_cid2" value="<?$this->recuperaFichaRaas[0][ras_cids1]?>">
+                    <input type="text" name="buscar2" id="buscar2" onkeyup="buscaCidEditar2()" value="<?=$this->grupo_doencas[0][ras_cids1]=!"" ? $this->grupo_doencas[0][ras_cids1] : "" ?>" style=" padding-bottom: 5px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;" />
+                    <input type="hidden" name="cid_codigo2" id="cid_codigo2" value="<?=$this->grupo_doencas[0][ras_cids1]?>">
+                    <input type="hidden" name="uni_tipo2" id="uni_tipo2" value="<?=$this->uni_tipo?>">
+                    <br />
+                    
+                    <table class="tb_cids2" style="margin-bottom: 0px; width: 487px; border: 1px solid; border-color: #fff;" border="0">
+                        <div id="erro2">
+                        </div>
+                    </table>
+
+                    <label style="padding: 5px;padding-right: 0px;text-align: left; font-size: 14px; ">CID Secundario 2 - Edição:</label>
+                    <input type="hidden" name="cd10_codigo3" id="cd10_codigo3" value="<?= $this->dados->cd10_codigo3; ?>" readonly="readonly"  />
+                    <input type="hidden" name="cd10_codigo_cid3" id="cd10_codigo_cid3" value="<?$this->recuperaFichaRaas[0][ras_cids2]?>">
+                    <input type="text" name="buscar3" id="buscar3" onkeyup="buscaCidEditar3()" value="<?=$this->grupo_doencas[0][ras_cids2]=!"" ? $this->grupo_doencas[0][ras_cids2] : "" ?>" style=" padding-bottom: 5px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;" />
+                    <input type="hidden" name="cid_codigo3" id="cid_codigo3" value="<?=$this->grupo_doencas[0][ras_cids2]?>">
+                    <input type="hidden" name="uni_tipo3" id="uni_tipo3" value="<?=$this->uni_tipo?>">
+                    <br />
+                    
+                    <table class="tb_cids3" style="margin-bottom: 0px; width: 487px; border: 1px solid; border-color: #fff;" border="0">
+                        <div id="erro3">
+                        </div>
+                    </table>
+
+                    <label style="padding: 5px;padding-right: 0px;text-align: left; font-size: 14px; ">CID Secundario 3 - Edição:</label>
+                    <input type="hidden" name="cd10_codigo4" id="cd10_codigo4" value="<?= $this->dados->cd10_codigo4; ?>" readonly="readonly"  />
+                    <input type="hidden" name="cd10_codigo_cid4" id="cd10_codigo_cid4" value="<?$this->recuperaFichaRaas[0][ras_cids3]?>">
+                    <input type="text" name="buscar4" id="buscar4" onkeyup="buscaCidEditar4()" value="<?=$this->grupo_doencas[0][ras_cids3]=!"" ? $this->grupo_doencas[0][ras_cids3] : "" ?>" style=" padding-bottom: 5px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;" />
+                    <input type="hidden" name="cid_codigo4" id="cid_codigo4" value="<?=$this->grupo_doencas[0][ras_cids3]?>">
+                    <input type="hidden" name="uni_tipo4" id="uni_tipo4" value="<?=$this->uni_tipo?>">
+                    <br />
+                    
+                    <table class="tb_cids4" style="margin-bottom: 0px; width: 487px; border: 1px solid; border-color: #fff;" border="0">
+                        <div id="erro4">
+                        </div>
+                    </table>
+
+                    <label style="padding: 5px;padding-right: 0px;text-align: left; font-size: 14px; ">CID Secundario Causas Associadas- Edição:</label>
+                    <input type="hidden" name="cd10_codigo5" id="cd10_codigo5" value="<?= $this->dados->cd10_codigo5; ?>" readonly="readonly"  />
+                    <input type="hidden" name="cd10_codigo_cid5" id="cd10_codigo_cid5" value="<??>">
+                    <input type="text" name="buscar5" id="buscar5" onkeyup="buscaCidEditar5()" value="<?=$this->grupo_doencas[0][ras_cidca]=!"" ? $this->grupo_doencas[0][ras_cidca] : "" ?>" style=" padding-bottom: 5px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;" />
+                    <input type="hidden" name="cid_codigo5" id="cid_codigo5" value="<?=$this->grupo_doencas[0][ras_cidca]?>">
+                    <input type="hidden" name="uni_tipo5" id="uni_tipo5" value="<?=$this->uni_tipo?>">
+                    <br />
+                    
+                    <table class="tb_cids5" style="margin-bottom: 0px; width: 487px; border: 1px solid; border-color: #fff;" border="0">
+                        <div id="erro5">
+                        </div>
+                    </table>
+                </div>
+
+
+            </div>
+
+
+                    <div>
+                        <label style="padding: 5px;padding-right: 0px;text-align: left; font-size: 12px; height: 20px;">Carater do Atendimento:</label>
+                        <select style="  padding-bottom: 10px;padding-right: 0px; padding-top: 2px; height: 20px;  width: 301px; margin-bottom: 0px !important; height: 30px !important; border-radius: 5px !important; border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #2e6e9e;" id="carater" name="carater">
+                            <option value="00" <?=$this->recuperaFichaRaas[0][ras_destino]== 00 ? 'selected' : '' ?>>Nao obrigatorio</option>
+                            <option value="01" <?=$this->recuperaFichaRaas[0][ras_destino]== 01 ? 'selected' : '' ?>>Eletivo</option>
+                            <option value="02" <?=$this->recuperaFichaRaas[0][ras_destino]== 02 ? 'selected' : '' ?> >Urgencia</option>
+                            <option value="03" <?=$this->recuperaFichaRaas[0][ras_destino]== 03 ? 'selected' : '' ?> >Acidente no local de trabalho ou a servico da empresa</option>
+                            <option value="04" <?=$this->recuperaFichaRaas[0][ras_destino]== 04 ? 'selected' : '' ?> >Acidente no trajeto para o trabalho</option>
+                            <option value="05" <?=$this->recuperaFichaRaas[0][ras_destino]== 05 ? 'selected' : '' ?> >Outros tipos de acidente de transito</option>
+                            <option value="06" <?=$this->recuperaFichaRaas[0][ras_destino]== 06 ? 'selected' : '' ?> >Outros tipos de lesoes e envenenamento por agentes quimicos ou fisicos</option>
+                            
+                        </select><br/>
+
+                        <label style="padding: 5px;padding-right: 0px;text-align: left; font-size: 12px; height: 20px;">Origem das Informacoes:</label>
+                        <select style="padding-bottom: 10px;padding-right: 0px; padding-top: 2px; height: 20px;   width: 301px; margin-bottom: 0px !important; height: 30px !important; border-radius: 5px !important; border: 1px solid #c5dbec; background: #dfeffc url(images/ui-bg_glass_85_dfeffc_1x400.png) 50% 50% repeat-x; font-weight: bold; color: #2e6e9e;" id="origem_info" name="origem_info">
+                            <option value="RAS" <?=$this->recuperaFichaRaas[0][ras_org] == "RAS" ? 'selected' : '' ?>>RAS</option>
+                            <option value="EXT" <?=$this->recuperaFichaRaas[0][ras_org] == "EXT" ? 'selected' : '' ?>>EXT</option>
+                        </select><br />
+                    
+                        <label style="padding: 5px;padding-right: 0px;text-align: left; font-size: 14px; height: 20px;">Autorização:</label>
+                       <!--  <input type="text" name="autorizacao" id="autorizacao" pattern="\d*" maxlength="13">
+     -->                
+                        <input style="padding-bottom: 5px;padding-right: 0px; padding-top: 2px; width: 299px; height: 20px;"class="foo" type="number" id="autorizacao" name="autorizacao" min="0" max="9999999999999" maxlength="13" value="<?=$this->recuperaFichaRaas[0][ras_autorizacao] =! 0 ? $this->recuperaFichaRaas[0][ras_autorizacao] : "" ?>"><br />
+
+
+                </div>
+
+            <br>
+
+            <div class="div-footer center-block" style="width: 365px; margin-top: 15px;">
+                <?php 
+                  //echo "<pre>";var_dump($this->recuperaFichaRaas);die();
+                    if ($this->recuperaFichaRaas[0][raas_id] != NULL) {?>
+                        <a type ="button" class="ui-button salvar" onclick="salvarEditar(<?=$this->recuperaFichaRaas[0][raas_id]?>)" >Salvar</a>
+                    <?} else{?>
+                        <a type ="button" class="ui-button salvar" >Salvar</a>
+                    <?}
+
+
+                ?>
+                <a href="#" class="ui-button limpar">Limpar</a>
+            </div>
+        </div>
+    </form>
+
+
+
+
+    <script type="text/javascript">
+        var foo = document.querySelector(".foo");
+
+    //Cria uma função que será usando no keyup e no blue
+    var f = maxNumber(9999999999999);
+
+    foo.addEventListener('keyup', f);
+    foo.addEventListener('blur', f);
+
+    function maxNumber(max)
+    {
+        var running = false;
+        
+        return function () {
+            //Para evitar conflito entre o blur e o keyup
+            if (running) return;
+            
+            //Bloqueia multiplas chamadas do blur e keyup
+            running = true;
+            
+            //Se o input for maior que 15.4 ele irá fixa o valor maximo no value
+            if (parseFloat(this.value) > max) {
+                this.value = 9999999999999;
+            }
+            
+            //Habilita novamente as chamadas do blur e keyup
+            running = false;
+        };
+    }
+    </script>

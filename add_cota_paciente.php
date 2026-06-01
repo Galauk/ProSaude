@@ -1,0 +1,1643 @@
+<?php
+/** 
+ * alteração dia 21/05: colocado o numero do prontuario para funcionar e colocado restricao pela tabela usuarios_acessos
+ * alteração: atualizar a grid quando edita o item dispensado e acrescentado a acao pam que é responsavel por
+ * dispensar o produto para o paciente atendido no pam
+ * alteração dia 14/05/2007: colocado a linha $acao = (empty($acao) ? "listar" : $acao);
+ */
+
+//------------------------------------------------------------------>
+// -> Inclusao principal para montagem do sistema
+//------------------------------------------------------------------>
+	session_start();
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/db.inc.php";   
+	include_once "authlib.inc.php";
+	verauth($id_login);
+	cabecario();
+
+echo monta_janela("produto","BUSCA DE PRODUTOS");
+echo monta_janela("editar","EDITAR DISPENSAÇÃO");
+							
+$stmt = "SELECT uni_codigo FROM usuarios WHERE usr_codigo = $id_login";
+$stmt = db_query($stmt);
+$dados = pg_fetch_array($stmt);
+//------------------------------------------------------------------>
+?>
+<script language="JavaScript" type="text/javascript" src="file:///C|/Users/ibitech/Documents/Meus arquivos recebidos/funcoes.js"></script>
+<script language="JavaScript" type="text/javascript" src="file:///C|/Users/ibitech/Documents/Meus arquivos recebidos/ajax_motor.js"></script>
+<script language="JavaScript" type="text/javascript" src="file:///C|/Users/ibitech/Documents/Meus arquivos recebidos/g_ajax.js"></script>
+<script language="JavaScript" type="text/javascript" src="file:///C|/Users/ibitech/Documents/Meus arquivos recebidos/g_script.js"></script>
+<script language="JavaScript" type="text/javascript" src="file:///C|/Users/ibitech/Documents/Meus arquivos recebidos/json.js"></script>
+
+<script>
+//setTimeout("atualizarGrid2()",1);
+ 
+function pacientes(codigo,nome,nascimento,mae,cidade)
+{
+	document.getElementById('botaoPrograma').style.visibility = 'visible';
+	document.getElementById('botao').style.display = '';
+	document.getElementById('gridProdutos').style.display = 'none';
+	document.getElementById('resposta').style.display = 'none';
+	
+	document.getElementById('pro_codigo').value = '';
+	document.getElementById('pro_nome').value = '';
+	document.getElementById('quantidade').value = '';
+	document.getElementById('ite_consolidado').value = '';
+	document.getElementById('posologia').value = '';
+	document.getElementById('detalhes').value = '';
+	document.getElementById('observacoes').value = '';
+	
+	document.getElementById('gridProdutos').innerHTML = '';
+	
+	document.getElementById('pac_nome').value=nome;
+	document.getElementById('pac_codigo').value=codigo;
+	document.getElementById('pac_nascimento').value=nascimento;
+	document.getElementById('pac_mae').value=mae;
+	document.getElementById('pac_cidade').value=cidade;
+	
+	document.getElementById('pac_nascimento').focus();
+	
+	//verificar_medicamento('pacientes');
+	//setTimeout( 'verificar_medicamento();', 500 );
+}
+
+function confirmar()
+{
+	data = document.getElementById('data').value;
+	set_codigo = document.getElementById('set_saida').value;
+	url = "buscarPeriodoSetor.php?data="+data+"&set_codigo="+set_codigo;
+	ajax_tudo(url, trataResultado);
+	
+}
+
+t = "";
+function apagar( codigo, tipo )
+{
+	//alert(codigo);
+	//alert(tipo);
+	if(confirm("Deseja apagar este registro?"))
+	{
+		t = tipo;
+		url = "apagarItensMovimento.php?ite_codigo="+codigo;
+		ajax_tudo(url, buscarProdutos);
+	}
+}
+
+function buscarProdutos( txt )
+{
+	mov_codigo = document.getElementById("mov_codigo").value;
+	if(t == 1)
+	{
+		ajax_tudo('buscarProdutosDispensados.php?mov_codigo='+mov_codigo, atualizarGrid);
+	} else if(t == 2) {
+		ajax_tudo('buscarProdutosDispensados2.php?mov_codigo='+mov_codigo, atualizarGrid);
+	}
+}
+		
+// Gambiarra pra atualizar o grid apos a ediçao
+var timeoutinterval = "";
+function atualizarGrid2(n) {
+	mov_codigo = document.getElementById("mov_codigo").value;
+	ajax_buscar = ajaxInit();
+	ajax_buscar.open("GET", 'buscarProdutosDispensados.php?mov_codigo='+mov_codigo, true);
+	ajax_buscar.onreadystatechange = function()
+	{
+		if(ajax_buscar.readyState == 4)
+		{
+			//alert(ajax_buscar.responseText);
+			document.getElementById("gridProdutos").innerHTML = ajax_buscar.responseText;
+		}
+	}
+	ajax_buscar.send(null);
+	timeoutinterval = setTimeout("atualizarGrid2(2)", 1000);
+	if(n == 2)
+	{
+		clearTimeout(timeoutinterval);
+	}
+	//clearInterval(c);
+	//ajax_tudo('buscarProdutosDispensados.php?mov_codigo='+mov_codigo, blabla);
+}
+
+function trataResultado( txt )
+{
+	if(txt == "yes")
+	{
+					data = document.getElementById('data').value;
+					codigo = document.getElementById('pac_codigo').value;
+					set_codigo = document.getElementById('set_saida').value;
+					id_login = document.getElementById('id_login').value;
+					receita = document.getElementById('receita').value;
+					med_codigo = document.getElementById('medico').value;
+					ate_codigo = document.getElementById('ate_codigo').value;
+					
+					if(set_codigo  == "")
+					{
+						alert("Preencha o setor");
+						document.getElementById('set_saida').focus();
+						return false;
+					} else if(data  == "") {
+						alert("Preencha a data");
+						document.getElementById('data').focus();
+						return false;
+					} else if(codigo  == "") {
+						alert("Escolha o paciente");
+						document.getElementById('pac_codigo').focus();
+						return false;
+					} else if(receita  == "") {
+						alert("Digite o numero da receita");
+						document.getElementById('receita').focus();
+						return false;
+					} else if(med_codigo  == "") {
+						alert("Escolha o medico");
+						document.getElementById('medico').focus();
+						return false;
+					} 
+					
+					ajax_salvar = ajaxInit();
+					if(confirm("Deseja confirmar os dados para dispensacao?"))
+					{
+						document.getElementById('data').readonly = true;
+						document.getElementById('pro_codigo').value = '';
+						document.getElementById('pro_nome').value = '';
+						document.getElementById('quantidade').value = '';
+						document.getElementById('ite_consolidado').value = '';
+						document.getElementById('posologia').value = '';
+						document.getElementById('detalhes').value = '';
+						document.getElementById('observacoes').value = '';
+						document.getElementById('quantidade_dia').value = '';
+						document.getElementById('total_dias').value = '';
+						ajax_salvar.open("POST","salvarMovimento.php",true);
+						ajax_salvar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+						ajax_salvar.send("mov_data="+data+"&mov_tipo=S&usu_codigo="+codigo+"&set_saida="+set_codigo+"&usr_codigo="+id_login+"&mov_saida=D&ate_codigo="+ate_codigo+"&mov_num_receita="+receita);
+						ajax_salvar.onreadystatechange = function()
+						{
+							if(ajax_salvar.readyState == 4)
+							{
+								/*alert(ajax_salvar.responseText);
+								document.getElementById("resposta").style.display = '';
+								document.getElementById("resposta").innerHTML = ajax_salvar.responseText;
+								return false;*/
+								if(ajax_salvar.responseText != "erro")
+								{
+									document.getElementById('botao').style.display = 'none';
+									document.getElementById('localizar').style.display = 'none';
+									document.getElementById('voltar').style.display = 'none';
+									document.getElementById('ficha').style.display = 'none';
+									document.getElementById("mov_codigo").value = ajax_salvar.responseText;
+									document.getElementById("resposta").style.display = '';
+								}
+								else
+								{
+									alert("Ja foi realizado uma dispensacao com esses dados, por favor verifique e altere se necessario!");
+									return false;
+								}
+							}
+						}
+					}
+	} else
+				{
+		alert("Data invalida para dispensar medicamento");
+	}
+}
+
+function passarDados(pro_codigo, pro_nome)
+{
+	document.getElementById('pro_codigo').value = '';
+	document.getElementById('pro_nome').value = '';
+	document.getElementById('quantidade').value = '';
+	document.getElementById('ite_consolidado').value = '';
+	document.getElementById('posologia').value = '';
+	document.getElementById('detalhes').value = '';
+	document.getElementById('observacoes').value = '';
+	document.getElementById('quantidade_dia').value = '';
+	document.getElementById('total_dias').value = '';
+	document.getElementById('pro_codigo').value = pro_codigo;
+	document.getElementById('pro_nome').value = pro_nome;
+	esconde_janela("produto");
+}
+
+function pesqCadastro(valor)
+{
+	exec_ajax('buscarProdutos.php?busca='+valor, 'produto');
+}
+
+function buscarEstoque( qtde )
+{
+	pro_codigo = document.getElementById("pro_codigo").value;
+	set_codigo = document.getElementById('set_saida').value;
+	
+	if(pro_codigo == "")
+	{
+		alert("O produto deve ser escolhido");
+		document.getElementById("pro_nome").focus();
+		document.getElementById("quantidade").value = "";
+		document.getElementById("quantidade_dia").value = "";
+		document.getElementById("total_dias").value = "";
+		return false;
+	}
+	
+	url = "buscarEstoque.php?qtde="+qtde+"&set_codigo="+set_codigo+"&pro_codigo="+pro_codigo;
+	ajax_tudo(url, verificarEstoque);
+}
+
+function verificarEstoque( texto )
+{
+	if(texto == "N")
+	{
+		alert("Este produto nao contem estoque! Nao sera possivel fazer a dispensacao");
+		// as linhas abaixo foram adicionadas por Marcos C. Ramos em 25/07/2007
+		// para atender a solicitação da OS 339
+		// não podera ser dispensado medicamento sem saldo em estoque (conforme reunião realizada entre Geise, Plinio e Roberto)
+		document.getElementById('quantidade').value='';
+		document.getElementById('pro_codigo').value='';
+		document.getElementById('pro_nome').value='';
+		document.getElementById('pro_nome').focus();
+		//fim
+	} else {
+		ite_qtde = document.getElementById('quantidade').value;
+		txt = texto.split("###");
+		if((txt[1] - ite_qtde) < 0)
+		{
+			alert("A quantidade digitada ultrapassa a quantidade em estoque. \nPor favor corriga a quantidade digitada.")
+			document.getElementById('quantidade').value='';
+			document.getElementById('pro_codigo').value='';
+			document.getElementById('pro_nome').value='';
+			document.getElementById('pro_nome').focus();
+		}
+		document.getElementById('ite_consolidado').value = txt[0];
+	}
+}
+tip = "";
+function gravar(tipo)
+{
+	tip = tipo;
+	quantidade = document.getElementById('quantidade').value;
+	quantidade_dia = document.getElementById('quantidade_dia').value;
+	pro_codigo = document.getElementById("pro_codigo").value;
+	
+	if(pro_codigo == "")
+	{
+		alert("O produto deve ser escolhido!");
+		document.getElementById('pro_nome').focus();
+		return false;
+	}
+	
+	if(quantidade == "")
+	{
+		alert("A quantidade deve ser preenchida!");
+		document.getElementById('quantidade').focus();
+		return false;
+	}
+	
+	if(quantidade_dia == "")
+	{
+		alert("A quantidade ao dia deve ser preenchida!");
+		document.getElementById('quantidade_dia').focus();
+		return false;
+	}
+	
+	if(confirm("Deseja gravar os dados?"))
+	{
+		document.getElementById("listaProduto").style.display = "";				
+		buscarCota();
+	}
+}
+
+function buscarCota()
+{
+	pac_codigo = document.getElementById('pac_codigo').value;
+	pro_codigo = document.getElementById('pro_codigo').value;
+	url = "buscarCota.php?usu_codigo="+pac_codigo+"&pro_codigo="+pro_codigo;
+	ajax_tudo(url, respostaCota)
+	
+}
+
+function respostaCota(txt)
+{
+	//document.getElementById("listaProduto").innerHTML = txt;
+	
+	mov_codigo = document.getElementById("mov_codigo").value;
+	pro_codigo = document.getElementById('pro_codigo').value;
+	pro_nome = document.getElementById('pro_nome').value;
+	quantidade = document.getElementById('quantidade').value;
+	ite_consolidado = document.getElementById('ite_consolidado').value;
+	posologia = document.getElementById('posologia').value;
+	detalhes = document.getElementById('detalhes').value;
+	observacoes = document.getElementById('observacoes').value;
+	quantidade_dia = document.getElementById('quantidade_dia').value;
+	
+	// a = produto nÃ£o faz parte de nenhum programa -> entÃ£o pode pegar
+	// b = caso o produto faÃ§a parte de algum programa verifica se o paciente faz parte de algum programa com aquele medicamento, caso o paciente nÃ£o faÃ§a Ã© retornado o valor b
+	// txt != "a" && txt != "b" && txt != "c" = Ã© retornado o valor da cota do paciente e o valor da ultima vez que ele pegou, levando em consideraÃ§Ã£o qual Ã© o tipo de periodo da cota do paciente
+	// c = entre o periodo e a data atual o paciente nao retirou o remedio
+	if(txt == "b")
+	{
+		//alert("Paciente nao faz parte do(s) programa(s) que contem este medicamento!");
+		//return false;
+	}
+	
+	//if(txt != "a" && txt != "b" && txt != "c")
+	//{
+		retorno = txt.split("#");
+		if(txt != "a" && txt != "b" && txt != "c")
+		{
+			quantidadeCota = new Number(retorno[0]);
+		}
+		if(retorno[1] != undefined)
+		{
+			ultimaRetirada = new Number(retorno[1]);
+		}
+		quantidadeDigitada = new Number(quantidade);
+		if(retorno[1] != undefined)
+		{
+			conta = quantidadeCota;
+		} else {
+			if(txt != "a" && txt != "b" && txt != "c")
+			{
+				conta = quantidadeCota - ultimaRetirada;
+			}
+		}
+		if(txt != "a" && txt != "b" && txt != "c")
+		{
+			result = conta - quantidadeDigitada;
+			controle = true;
+		} else {
+			controle = false;
+		}	
+		if(controle)
+		{
+			if(result < 0)
+			{
+				//if(!confirm("Esta quantidade ira ultrapassar a cota restante para o paciente. Deseja continuar essa operacao?"))
+				//{
+					//return false;
+				//}
+			}
+		}
+	//}
+	
+	novo_ajax = ajaxInit();
+	//alert('chamo salvar produtos');
+	novo_ajax.open("POST","salvarProdutosDispensados.php",true);
+	novo_ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	novo_ajax.send("mov_codigo="+mov_codigo+"&pro_codigo="+pro_codigo+"&ite_status=A&ite_quantidade="+quantidade+"&ite_consolidado="+ite_consolidado+"&ite_qtde_solicitada="+quantidade+"&ite_posologia="+posologia+"&ite_detalhes_tratamento="+detalhes+"&ite_observacoes="+observacoes+"&quantidade_dia="+quantidade_dia);
+	novo_ajax.onreadystatechange = function()
+	{
+		if (novo_ajax.readyState == 4)
+		{
+			if(novo_ajax.status == 200)
+			{
+				//alert(novo_ajax.responseText);
+				//document.getElementById("gridProdutos").innerHTML = novo_ajax.responseText;
+				//return false;
+				//alert(novo_ajax.responseText);
+				//alert(tip);
+				if(tip == "salvar")
+				{
+					ajax_tudo('buscarProdutosDispensados.php?mov_codigo='+mov_codigo, atualizarGrid);
+				} else if(tip == "editar") {
+					ajax_tudo('buscarProdutosDispensados2.php?mov_codigo='+mov_codigo, atualizarGrid);
+				}
+			}
+		}
+	}
+	
+}
+
+function atualizarGrid( txt )
+{
+	document.getElementById('pro_codigo').value = '';
+	document.getElementById('pro_nome').value = '';
+	document.getElementById('quantidade').value = '';
+	document.getElementById('ite_consolidado').value = '';
+	document.getElementById('posologia').value = '';
+	document.getElementById('detalhes').value = '';
+	document.getElementById('observacoes').value = '';
+	document.getElementById('quantidade').value = '';
+	document.getElementById('quantidade_dia').value = '';
+	document.getElementById('total_dias').value = '';
+	document.getElementById("gridProdutos").style.display = '';
+	document.getElementById("gridProdutos").innerHTML = txt;
+}
+
+function buscarConsultas(campo)
+{
+	document.getElementById('ate_codigo').value = "";
+	pac_codigo = document.getElementById('pac_codigo').value;
+	url = "buscarConsultas.php?med_codigo="+campo.value+"&pac_codigo="+pac_codigo;
+	ajax_tudo(url, abrirJanelaConsulta);
+}
+
+function abrirJanelaConsulta(txt)
+{
+	document.getElementById('janelaConsulta').style.display = '';
+	document.getElementById('conteudoConsulta').innerHTML = txt;
+}
+
+function verificarCota(e)
+{
+	codigo = document.getElementById('pac_codigo').value;
+	med_codigo = document.getElementById('medico');
+	if(e.keyCode == 120)
+	{
+		if(codigo == "")
+		{
+			alert("Escolha o paciente");
+			return false;
+		} else {
+			//ajax_tudo('verificarCota.php?usu_codigo='+codigo, abrirJanelaCota);
+			abre_programa(codigo);
+		}
+	} else if(e.keyCode == 118) {
+		if(codigo == "")
+		{
+			alert("Escolha o paciente");
+			document.getElementById('pac_codigo').focus();
+			return false;
+		} else if(med_codigo.value == "") {
+			alert("Escolha o medico");
+			document.getElementById('medico').focus();
+			return false;
+		} else {
+			buscarConsultas(med_codigo);
+		}
+	}
+}
+
+function abrirJanelaCota(t)
+{
+	document.getElementById('janela').style.display = '';
+	document.getElementById('divCota').innerHTML = t;
+}
+
+function fecharCota(div)
+{
+	document.getElementById(div).style.display = 'none';
+}
+
+function passarAtendimento(ate_codigo)
+{
+	if(ate_codigo != 0)
+	{
+		document.getElementById('ate_codigo').value = ate_codigo;
+	}
+	document.getElementById('janelaConsulta').style.display = 'none';
+}
+
+function imprimir( id_login, mov_codigo )
+{
+	window.open('imprimirDispensacao.php?id_login='+id_login+'&mov_codigo='+mov_codigo,null,"height=400,width=750,status=yes,toolbar=no,menubar=no,resizable=yes, location=no,scrollbars=yes");
+}
+
+function dividir()
+{
+	pro_codigo = document.getElementById("pro_codigo").value;
+	quantidade = document.getElementById('quantidade').value;
+	quantidade_dia = document.getElementById('quantidade_dia').value;
+	
+	if(pro_codigo == "")
+	{
+		document.getElementById('quantidade').value = "";
+		document.getElementById('quantidade_dia').value = "";
+		document.getElementById("total_dias").value = "";
+		alert("O produto deve ser escolhido");
+		document.getElementById("pro_codigo").focus();
+		return false;
+	}
+	
+	if(quantidade == "")
+	{
+		document.getElementById('quantidade').value = "";
+		document.getElementById('quantidade_dia').value = "";
+		document.getElementById("total_dias").value = "";
+		alert("A quantidade deve ser digitada");
+		document.getElementById("quantidade").focus();
+		return false;
+	}
+	
+	if(quantidade_dia == "")
+	{
+		document.getElementById('quantidade').value = "";
+		document.getElementById('quantidade_dia').value = "";
+		document.getElementById("total_dias").value = "";
+		alert("A quantidade por dia deve ser digitada");
+		document.getElementById("quantidade_dia").focus();
+		return false;
+	}
+	
+	divisao = quantidade/quantidade_dia;
+	document.getElementById('total_dias').value = divisao;
+}
+function abre_hist()
+{
+	var usu_cod = document.getElementById('pac_codigo').value;
+	window.open("list_medicamento_saida.php?id_login=<?=$id_login?>&usu_codigo="+usu_cod,null,"height=460,width=600,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes");
+}
+function abre_programa(usu_cod)
+{
+	//var usu_cod = document.getElementById('pac_codigo').value;
+	window.open("list_paciente_programa.php?id_login=<?=$id_login?>&usu_codigo="+usu_cod,null,"height=300,width=280,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes");
+}
+		
+// funcao para editar os produtos lancados
+function editar(id,mov_cod) {
+	window.open('editar_dispensa_medicamentos.php?id='+id+'&mov_codigo='+mov_cod,null,'width=500,height=150,scrollbars=yes,statusbar=no,toolbar=no,resizable=yes');
+}
+
+function buscar_dados_paciente(valor)
+{
+	url = "buscar_generico.php?tipo=dados_paciente&usu_prontuario="+valor;
+	ajax_tudo(url, preencher_campo);
+}
+
+function preencher_campo(txt)
+{
+	if(txt != "vazio" && txt != undefined && txt != "")
+	{
+		txt = txt.split(";");
+		document.getElementById('pac_codigo').value = txt[0];
+		document.getElementById('pac_nome').value = txt[1];
+		document.getElementById('pac_nascimento').value = txt[2];
+		document.getElementById('pac_mae').value = txt[3];
+		document.getElementById('pac_cidade').value = txt[4];
+		//alert( 'prrenchar_campo' );
+		verificar_medicamento( 'prrenchar_campo' );
+	} else {
+		document.getElementById('pac_codigo').value = "";
+		document.getElementById('pac_nome').value = "NADA ENCONTRADO";
+		document.getElementById('pac_nascimento').value = "";
+		document.getElementById('pac_mae').value = "";
+		document.getElementById('pac_cidade').value = "";
+	}
+	
+}
+
+function buscar_prontuario()
+{
+  pac_codigo = document.getElementById('pac_codigo').value;
+  url = "buscar_generico.php?tipo=prontuario_paciente&usu_codigo="+pac_codigo;
+  ajax_tudo(url, preencher_campo_prontuario);
+}
+
+function preencher_campo_prontuario(txt)
+{
+	if(txt != "vazio" && txt != undefined && txt != "")
+	{
+		document.getElementById('pac_prontuario').value = txt;
+		//alert('preencher_campo_prontuario');
+	}
+
+	verificar_medicamento('preencher_campo_prontuario');	
+	document.getElementById('receita').focus();
+
+}
+
+function salvar_programa_paciente()
+{
+	mov_codigo = document.getElementById("mov_codigo").value;
+	url = "salvar_generico.php?tipo=programa_paciente&mov_codigo="+mov_codigo;
+	ajax_tudo(url, retorno);
+}
+
+function retonro(txt)
+{
+	alert(txt);
+}
+
+// verfica se o usuario fez alguma requisicao de medicamento nos ultimos
+// 30 dias
+function verificar_medicamento( origem )
+{
+	try
+	{
+		var url = 'dispensa_medicamentos_op.php?acao=verificar_medicamento&usu_codigo='+$F('pac_codigo');
+		//alert( origem + "\n" + url );
+		ajax_tudo( url, verificar_medicamento_resp );
+	}
+	catch( Ex )
+	{
+		alert( Ex );
+	}
+	
+}
+function verificar_medicamento_resp ( respTxt )
+{
+	try
+	{
+		var Obj = respTxt.parseJSON();
+		
+		if( ! Obj.ok )
+			alert( Obj.msg );
+			
+	}
+	catch( Ex )
+	{
+		alert( respTxt );
+		alert( Ex );
+	}
+	
+}
+
+</script>
+
+<fieldset><legend>DISPENSAÇÃO DE MEDICAMENTOS</legend>
+
+<?php
+
+	$vepermissao = pg_fetch_array(db_query("select usr_requisicao from usuarios where usr_codigo = $id_login"));
+	if ($vepermissao['usr_requisicao'] == 'N')
+	{
+		echo "<script>";
+			echo "alert('Voce nao tem permissao para fazer requisicao de Movimentacao de Estoque. Procure o Administrador do Estoque ou do Sistema!!!!');";
+			echo "window.history.back();";
+		echo "</script>";
+	}
+	$acao = (empty($acao) ? "listar" : $acao);
+    /*echo "<pre>";
+        print_r($_REQUEST);
+    echo "</pre>";*/
+	if($acao == "listar")
+	{
+		echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>";
+			echo "<tr>";
+				echo "<td>";
+					echo "<fieldset>";
+						echo "<legend>Op&ccedil;&otilde;es</legend>";
+						echo "<table width=100% align=center cellspacing=3 cellpadding=0 border=0>";
+							echo "<tr>";
+								echo "<td width=79>";
+									echo "<a href=farmacia.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a>";
+								echo "</td>";
+								echo "<td width=95>".ChmodBtn($id_login,'adicionar','dispensa_medicamentos.php?acao=form_add')."</td>";
+                                                                if (chmodbtn($id_login,"procurar_if","dispensa_medicamentos.php"))
+                                                                {
+                                                                    echo "<form method=get action=$PHP_SELF>";
+                                                                }
+									echo "<input type=hidden name=acao value=busca>";
+									echo "<input type=hidden name=id_login value=$id_login>";
+									echo "<td width=180 align=right>Buscar </td>";
+									echo "<td width=90>";
+										echo "<input type=text name=palavra_chave class=box onBlur=\"javascript:this.value=this.value.toUpperCase();\">";//"
+										echo "</td>";
+									echo "<td>".ChmodBtn($id_login,'procurar','dispensa_medicamentos.php')."</td>";
+								echo "</form>";
+								echo "<td width=107>";
+									echo "<a href='logoff.php?id_login=$id_login' target='_parent'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/sair.gif border=0></a>";
+								echo "</td>";
+							echo "</tr>";
+						echo "</table>";
+					echo "</fieldset>";
+				echo "</td>";
+			echo "</tr>";
+		echo "</table>";
+	echo "<br />";
+        
+	//-> Listando
+            if (chmodbtn($id_login,"listar_if","dispensa_medicamentos.php")) // faz funcionar a permissão "listagem" da dispensação de medicamento
+            {        
+                echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>";
+                      echo "<tr>";
+                              echo "<td>";
+                                      echo "<fieldset>";
+                                              echo "<legend>Listando &Uacute;ltimas <b>15</b> Dispensacoes Cadastradas</legend>";
+                                              echo "<table width=100% align=center cellspacing=2 cellpadding=4 border=0>";
+                                                      echo "<tr bgcolor=F9f9f9>";
+                                                              echo "<td width=100 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Data</td>";
+                                                              echo "<td width=160 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Centro Estoc. Saida</td>";
+                                                              echo "<td width=350 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Paciente</td>";
+                                                              echo "<td width=30 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Num.Movimento</td>";
+                                                              echo "<td colspan=2 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>&nbsp;</td>";
+                                                              
+                                                              $sql = db_query("SELECT mov_codigo, a.set_nome as desc_saida, usu_nome,
+                                                                              to_char(mov_data,'DD/MM/YYYY') AS mov_data , mov_codigo, usuario.usu_codigo
+                                                                              FROM movimento, setor AS a, usuario
+                                                                              WHERE movimento.set_saida = a.set_codigo
+                                                                              AND movimento.usu_codigo = usuario.usu_codigo
+                                                                              AND mov_tipo = 'S' 
+                                                                              AND mov_saida = 'D'"
+                                          .($dados[0]=="" ? "" : " AND a.uni_codigo = ".$dados[0]).
+                                                                              " ORDER BY mov_codigo DESC LIMIT 15");
+                                                              while($row=pg_fetch_array($sql))
+                                                              {
+                                                                      $select = "select count(*) from itens_movimento where mov_codigo = {$row[mov_codigo]} and ite_consolidado = 'N'"; 
+                                                                      $exec_select = db_query($select);
+                                                                      $qtde = pg_fetch_array($exec_select);
+                                                                      echo "<tr>";
+                                                                              echo "<td align=center style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>";
+                                                                                      echo $row[mov_data];
+                                                                              echo "</td>";
+                                                                              echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>";
+                                                                                      echo $row[desc_saida];
+                                                                              echo "</td>";
+                                                                              echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>";
+                                                                                      echo $row[usu_nome];
+                                                                              echo "</td>";
+                                                                              echo "<td align=center style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>";
+                                                                                      echo "<a href=\"#\" onclick=\"imprimir($id_login, {$row[mov_codigo]})\">";
+                                                                                              echo $row[mov_codigo];
+                                                                                      echo "</a>";
+                                                                              echo "</td>";
+                                                                              echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;' align='center'>";
+                                          //echo "<a href='dispensa_medicamentos.php?acao=detalhe&mov_codigo=$row[mov_codigo]&id_login=$id_login'> Editar </a>";
+                                                                              if($qtde[0] > 0)                                                                        
+                                                                              {                                                                            
+                                                                                      echo ChmodBtn($id_login,'editar','dispensa_medicamentos.php?acao=detalhe&mov_codigo='.$row[mov_codigo]);
+                                                                              } else {
+                                                                                      echo "<img src='".$_SESSION[linkroot].$_SESSION[comum]."imgs/editar_off.jpg' align='top' border=0>";
+                                                                              }
+                                                                              //echo " <a href='#' OnClick='abre_programa($row[usu_codigo])'><img src='".$_SESSION[linkroot].$_SESSION[comum]."imgs/programa_paciente_on.jpg' align='top' border=0></a></td>";
+                                                                      //<td width=66 style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>".ChmodBtn($id_login,'apagar','dispensa_medicamentos.php?acao=apagar&mov_codigo='.$row[mov_codigo])."</td>
+                                                                      echo "</tr>";
+                                                              }
+                                                              echo "</tr>";
+                                                      echo "</table>";
+                                              echo "</fieldset>";
+                                      echo "</td>";
+                              echo "</tr>";
+                     echo "</table>";
+            }
+	}
+	else if($acao == "busca")
+	{
+		
+		reglog($id_login,"Buscando em DISPENSACAO: $palavra_chave ");
+
+		if(strlen($palavra_chave)<"1")
+		{
+			echo "<br><br><br><br><br><br><br><br><br><br><br><br><br>";
+			echo "<table height=100 width=50% align=center cellspacing=0 cellpadding=0 border=0 style='border-top:1px solid;border-bottom:1px solid;border-color:909090;'>";
+				echo "<tr bgcolor=f9f9f9>";
+					echo "<td align=center>";
+						echo "<font color=red size=2>";
+							echo "<b>ERRO</b>";
+						echo "</font>";
+						echo "<br />";
+						echo "Busca com menos de <b>3</b> caracteres n&atilde;o permitida";
+					echo "</td>";
+				echo "</tr>";
+			echo "</table>";
+			echo "<br />";
+			echo "<SCRIPT LANGUAGE=\"JavaScript\">";//"
+				echo "setTimeout(\"location='$PHP_SELF?id_login=$id_login&acao=listar'\", 2000);";//"
+			echo "</SCRIPT>";
+			exit();
+		}
+
+	//-> Subistituindo o + por porcentagem na busca
+	   $str = str_replace("+","%",$palavra_chave);
+	   $pos = strpos($palavra_chave,"+");
+		if($pos=="0")
+		{
+			$v1=1;
+		} else {
+			$v1=2;
+		}
+	//
+	//-> Botoes
+		echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>";
+			echo "<tr>";
+				echo "<td>";
+					echo "<fieldset>";
+						echo "<legend>Opï¿½ï¿½es</legend>";
+							echo "<table width=100% align=center cellspacing=3 cellpadding=0 border=0>";
+								echo "<tr>";
+									echo "<td width=79><a href=farmacia.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a></td>";
+									echo "<td width=95>".ChmodBtn($id_login,'adicionar','dispensa_medicamentos.php?acao=form_add')."</td>";
+										echo "<form method=get action=$PHP_SELF>";
+											echo "<input type=hidden name=acao value=busca>";
+											echo "<input type=hidden name=id_login value=$id_login>";
+											echo "<td width=180 align=right>Buscar </td>";
+											echo "<td width=90>";
+												echo "<input type=text name=palavra_chave class=box onBlur=\"javascript:this.value=this.value.toUpperCase();\">";//"
+											echo "</td>";
+											echo "<td>".ChmodBtn($id_login,'procurar','dispensa_medicamentos.php')."</td>";
+										echo "</form>";
+									echo "<td width=107>";
+										echo "<a href='logoff.php?id_login=$id_login' target='_parent'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/sair.gif border=0></a>";
+									echo "</td>";
+								echo "</tr>";
+						echo "</table>";
+					echo "</fieldset>";
+				echo "</td>";
+			echo "</tr>";
+		echo "</table>";
+		echo "<br/>";
+
+	   $sqlv="SELECT mov_codigo, set_nome AS desc_saida, to_char(mov_data, 'dd/mm/yyyy') AS mov_data, 
+                    mov_data AS mov_data2 , mov_codigo, usu_nome, usuario.usu_codigo
+                    FROM movimento, setor, usuario
+                    WHERE movimento.set_saida = setor.set_codigo 
+                    AND movimento.usu_codigo = usuario.usu_codigo 
+                    AND mov_tipo = 'S' 
+                    AND mov_saida = 'D'"
+                    .($dados[0]=="" ? "" : " AND setor.uni_codigo = ".$dados[0]).
+                    " AND (usu_nome like upper('$palavra_chave%')
+                    OR set_nome like upper('$palavra_chave%') 
+                    OR mov_nr_nota = '$palavra_chave' ";
+		if (strpos($palavra_chave, "/") != 0) 
+			$sqlv .= "OR mov_data = '$palavra_chave'"; 
+			   
+			$sqlv .= ")
+				ORDER BY usu_nome, mov_data2 ";
+				
+		$sql=db_query($sqlv);
+//vsql($sqlv,"1");          
+		$num=pg_num_rows($sql);
+		if($num=="0") { $resp = "Nenhum Registro encontrado com \"$palavra_chave\""; }
+		if($num=="1") { $resp = "Encontrado <b>$num</b> Registro com \"$palavra_chave\""; }
+		if($num>"1") { $resp = "Encontrados <b>$num</b> Registros com \"$palavra_chave\""; }
+
+		echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>";
+                    echo "<tr>";
+                        echo "<td>";
+                            echo "<fieldset>";
+                                echo "<legend>$resp</legend>";
+                                echo "<table width=100% align=center cellspacing=2 cellpadding=4 border=0>";
+                                    echo "<tr>";
+                                        echo "<td width=100 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Data</td>";
+                                        echo "<td width=160 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Centro Estoc. Saida</td>";
+                                        echo "<td width=350 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Paciente</td>";
+                                        echo "<td width=30 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>Num.Movimento</td>";
+                                        echo "<td colspan=2 style='border-bottom:1px solid;border-right:1px solid;border-color:c9c9c9;'>&nbsp;</td>";
+                                        
+                                        while($row=pg_fetch_array($sql))
+                                        {
+                                            $select = "select count(*) from itens_movimento where mov_codigo = {$row[mov_codigo]} and ite_consolidado = 'N'"; 								
+                                            $exec_select = db_query($select);
+                                            $qtde = pg_fetch_array($exec_select);
+                                            echo "<tr>";
+                                                echo "<td align=center style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>";
+                                                    echo $row[mov_data];
+                                                echo "</td>";
+                                                echo "<td align=center style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>";
+                                                    echo $row[desc_saida];
+                                                echo "</td>";
+                                                echo "<td align=center style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>";
+                                                    echo $row[usu_nome];
+                                                echo "</td>";
+                                                echo "<td align=center style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>";
+                                                    echo "<a href=\"#\" onclick=\"imprimir($id_login, {$row[mov_codigo]})\">";
+                                                        echo $row[mov_codigo];
+                                                    echo "</a>";
+                                                echo "</td>";
+                                                echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>";  
+                                                if($qtde[0] > 0)
+                                                {
+                                                    echo ChmodBtn($id_login,'editar','dispensa_medicamentos.php?acao=detalhe&mov_codigo='.$row[mov_codigo]);
+                                                }
+                                                else
+                                                {
+                                                    echo "<img src='".$_SESSION[linkroot].$_SESSION[comum]."imgs/editar_off.jpg' align='top' border=0>";
+                                                }
+                                                echo " <a href='#' OnClick='abre_programa($row[usu_codigo])'><img src='".$_SESSION[linkroot].$_SESSION[comum]."imgs/programa_paciente_on.jpg' align='top' border=0></a></td>";
+                                               //<!--<td width=66 style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>".ChmodBtn($id_login,'apagar','dispensacao.php?acao=del&mov_codigo='.$row[mov_codigo])."</td>
+                                            echo "</tr>";
+                                        }
+                                    echo "</tr>";
+                                echo "</table>";
+                            echo "</fieldset>";
+                        echo "</td>";
+                    echo "</tr>";
+		echo "</table>";
+	}
+	else if($acao == "detalhe")
+	{
+		$select = "select set_saida, to_char(mov_data, 'dd/mm/yyyy') as data, usu_codigo, mov_num_receita from movimento where mov_codigo = $mov_codigo";
+		$exec_select = db_query($select);
+		$linha = pg_fetch_array($exec_select);
+		echo "<body onKeyPress=\"verificarCota(event)\">";
+			echo "<fieldset>";
+				echo "<legend>Dispensa&ccedil;&atilde;o de Medicamentos</legend>";
+				echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
+					echo "<tr>";
+						echo "<td width=\"150px\">";
+							echo "<input type=hidden name=id_login id=id_login value=$id_login>";
+							echo "<input type=hidden name=mov_codigo id=mov_codigo value=$_GET[mov_codigo]>";
+							echo "Centro Estoc. de Saida:";
+						echo "</td>";
+						echo "<td width=\"100px\">";
+							echo "<select name=set_saida id=set_saida class=box readonly>";
+								$sql = "select a.uni_codigo, a.set_codigo, a.set_nome
+                                from setor a
+                                where a.set_estoque = 'S' ".
+                                //.($dados[0]=="" ? "" : " AND a.uni_codigo = ".$dados[0]).
+                                " and a.set_farmacia = 'S'";
+								$exec_sql = db_query($sql);
+								while($setor=pg_fetch_array($exec_sql))
+								{
+									if($linha[set_saida] == $setor[set_codigo])
+									{
+										echo "<option value='$setor[set_codigo]' selected>$setor[set_nome]</option>";
+									} else {
+										echo "<option value='$setor[set_codigo]'>$setor[set_nome]</option>";
+									}
+								}
+							echo "</select>";
+						echo "</td>";
+						echo "<td width=\"30px\">";
+							echo "Data:";
+						echo "</td>";
+						echo "<td>";
+							$date = (!$linha[data] ? date("d/m/Y") : $linha[data]);
+							echo "<input type=\"text\" size=\"15\" name=\"data\" id=\"data\" value=\"$date\" class=\"box\" onKeyPress=\"return Ajusta_Data(this, event)\" maxlength=\"10\" readonly>";
+						echo "</td>";
+						echo "<td><a href=dispensa_medicamentos.php?id_login=$id_login&acao=listar><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a></td>";
+					echo "</tr>";
+				echo "</table>";
+			echo "</fieldset>";
+			
+			$busca_paciente = "select * from usuario where usu_codigo = $linha[usu_codigo]";
+			
+			$exec_busca = db_query($busca_paciente);
+			
+			$row = pg_fetch_array($exec_busca);
+			
+			echo "<fieldset>";
+				echo "<legend>Dados do Paciente</legend>";
+				echo "<table width=100% cellspacing=0 cellpadding=1 border=0>";
+					echo "<tr>";
+						echo "<td width=110>Numero do Paciente</td>";
+						echo "<td width=40>";
+							echo "<input type=text name='pac_codigo' id='pac_codigo' class=boxl size=10 readonly value=$row[usu_codigo]>";
+							echo "</td>";
+						echo "<td width=40>Paciente</td>";
+						echo "<td>";
+							/*echo "<input type=text name=pac_nome id=pac_nome class=boxl size=60 readonly><a href='#' OnClick='window.open(\"list_pacientes.php?id_login=$id_login\",null,\"height=460,width=600,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg align=absmiddle border=0></a>";*/
+							echo "<input type=text name=pac_nome id=pac_nome class=boxl size=60 readonly value=\"$row[usu_nome]\"><!--<a href='#' OnClick='window.open(\"list_pacientes.php?id_login=$id_login&controle=1&from=list\",null,\"height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg align=absmiddle border=0></a>-->";
+						echo "</td>";
+						echo "<td>Nascimento</td>";
+						echo "<td width=250>";
+							$data_nasc = explode("-",$row[usu_datanasc]);
+							$data_nasc = $data_nasc[2]."/".$data_nasc[1]."/".$data_nasc[0];
+
+							echo "<input type=text name=pac_nascimento id=pac_nascimento class=boxl size=15 readonly value=$data_nasc>";
+						echo "</td>";
+					echo "</tr>";
+				//echo "</table>";
+				//echo "<table width=100% cellspacing=0 cellpadding=4 border=0>";
+					echo "<tr>";
+						echo "<td width=70 >M&atilde;e</td>";
+						echo "<td width=100 colspan=3>";
+							echo "<input type=text name=pac_mae id=pac_mae class=boxl size=50 readonly value=\"$row[usu_mae]\">";
+						echo "</td>";
+						echo "<td width=40 >Cidade</td>";
+						echo "<td width=60>";
+							echo "<input type=text name=pac_cidade id=pac_cidade class=boxl size=23 readonly value=\"$row[usu_end_cidade]\">";
+						echo "</td>";
+					echo "</tr>";
+				echo "</table>";
+			echo "</fieldset>";
+			echo "<fieldset>";
+				echo "<legend>Receita</legend>";
+				echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
+					echo "<tr>";
+						echo "<td width=\"120px\">";
+							echo "N&uacute;mero da receita:";
+						echo "</td>";
+						echo "<td width=\"100px\">";
+							echo "<input type=\"text\" name=\"receita\" id=\"receita\" class=\"boxl\" value=$linha[mov_num_receita]>";
+						echo "</td>";
+						echo "<td width=\"40px\">";
+							echo "M&eacute;dico";
+						echo "</td>";
+						echo "<td width=\"220px\">";
+							echo "<input type=hidden name=ate_codigo id=ate_codigo readonly>";
+							echo "<select name=\"medico\" id=\"medico\" class=\"boxl\" onchange=\"buscarConsultas(this)\">";
+								echo "<option value=\"\">--> ESCOLHA <--</option>";
+								$select = "select * from medico order by med_nome";
+								$exec_select = db_query($select);
+								while($linha = pg_fetch_array($exec_select))
+								{
+									echo "<option value=\"$linha[med_codigo]\">$linha[med_nome]</option>";
+								}
+							echo "</select>";
+						echo "</td>";
+						echo "<td>";
+							echo "<input type=image id=botao src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/enviar_on.jpg onclick=\"confirmar()\" style=\"display:none\">";
+						echo "</td>";
+					echo "</tr>";
+				echo "</table>";
+			echo "</fieldset>";
+			echo "<div id=\"resposta\">";
+				echo "<fieldset>";
+					echo "<legend>Produtos</legend>";
+					echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
+						echo "<tr>";
+							echo "<td width=520>";
+								echo "<input type=hidden name=pro_codigo id=pro_codigo readonly>";
+								echo "<input type=hidden name=ite_consolidado id=ite_consolidado readonly>";
+								echo "<input type=text name=pro_nome id=pro_nome class=boxl size=100 readonly>";
+							echo "</td>";
+							echo "<td width=25>";
+								echo "<input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg onclick=\"buscaCad2('buscarProdutos.php','produto',document.getElementById('set_saida').value)\">";
+							echo "</td>";
+							echo "<td width=60>";
+								echo "Quantidade:";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type=text name=quantidade id=quantidade class=box size=5 onChange=buscarEstoque(this.value) onkeypresssssssss=\"return Bloqueia_Caracteres(event);\">";
+							echo "</td>";
+							echo "<td width=100>";
+								echo "Quantidade Dia:";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type=text name=quantidade_dia id=quantidade_dia class=box size=5 onChange=dividir() onkeypresssssssss=\"return Bloqueia_Caracteres(event);\">";
+							echo "</td>";
+							echo "<td width=80>";
+								echo "Total Dias:";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type=text name=total_dias id=total_dias class=box size=5 readonly>";
+							echo "</td>";
+						echo "</tr>";
+					echo "</table>";
+					echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
+						echo "<tr>";
+							echo "<td width=60 valign=top>";
+								echo "Posologia:";
+							echo "</td>";
+							echo "<td>";
+								echo "<textarea name=posologia id=posologia class=box cols=35 rows=2></textarea>";
+							echo "</td>";
+							echo "<td width=60 valign=top>";
+								echo "Detalhes do Tratamento:";
+							echo "</td>";
+							echo "<td>";
+								echo "<textarea name=detalhes id=detalhes class=box cols=35 rows=2></textarea>";
+							echo "</td>";
+							echo "<td width=60 valign=top>";
+								echo "Observa&ccedil;&otilde;es:";
+							echo "</td>";
+							echo "<td>";
+								echo "<textarea name=observacoes id=observacoes class=box cols=35 rows=2></textarea>";
+							echo "</td>";
+						echo "</tr>";
+						echo "<tr>";
+							echo "<td>";
+								echo "<input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/add_on.gif onclick=gravar('editar')>";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/finalizar_on.jpg onclick=\"location.href='dispensa_medicamentos.php?id_login=$id_login&acao=listar'\">";
+							echo "</td>";
+						echo "</tr>";
+					echo "</table>";
+				echo "</fieldset>";
+			echo "</div>";
+			echo "<!--<div>";
+				echo "<fieldset>";
+					echo "<legend>Lista de Dispensa de Produtos</legend>";
+					echo "<table id=\"grid\">";
+					echo "</table>";
+				echo "</fieldset>";
+			echo "</div>-->";
+			echo "<div id=\"listaProduto\">";
+				echo "<fieldset>";
+					echo "<legend>Lista de Produtos Dispensados</legend>";
+					echo "<div id=\"gridProdutos\" style=\"height:100px;overflow:auto;\">";
+						$sql = "select a.ite_codigo, a.pro_codigo, a.ite_quantidade, b.pro_nome, ite_consolidado
+									from itens_movimento a, produto b
+									where a.pro_codigo = b.pro_codigo
+									and mov_codigo = {$_GET[mov_codigo]}
+									order by b.pro_nome";
+                                                
+						$exec_sql = db_query($sql) or die(pg_last_error());
+						echo "<table>";
+							echo "<tr>";
+								echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;' width=35>";
+									echo "C&oacute;digo";
+								echo "</td>";
+								echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;' >";
+									echo "Nome";
+								echo "</td>";
+								echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;' width=75>";
+									echo "Quantidade";
+								echo "</td>";
+								echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;' width=140>";
+									echo "Apagar/Editar";
+								echo "</td>";
+							echo "</tr>";
+						echo "</table>";
+						echo "<div>";
+							echo "<table width=98% cellspacing=0 cellpadding=1 border=0>";
+							while($linha = pg_fetch_array($exec_sql))
+							{
+								echo "<tr>";
+									echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;' width=35>";
+										echo $linha[pro_codigo];
+									echo "</td>";
+									echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;'>";
+										echo $linha[pro_nome];
+									echo "</td>";
+									echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;' width=75>";
+										echo $linha[ite_quantidade];
+									echo "</td>";
+									if($linha[ite_consolidado] == "N")
+									{
+										echo "<td style='border-bottom:1px dotted;border-right:1px dotted;border-color:c9c9c9;' width=140>";
+											echo "<input type=\"image\" src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/apagar_on.jpg\" onclick=\"apagar($linha[ite_codigo], 2)\">";
+                                                echo "&nbsp;<a href='javascript:;' onclick=\"window.open('editar_dispensa_medicamentos.php?pro_cod=$linha[pro_codigo]&mov_cod=$_GET[mov_codigo]&ite_cod=$linha[ite_codigo]','Editar','width=550,height=470')\"><img src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/editar_on.jpg\" border=0></a>";
+										echo "</td>";
+									}
+								echo "</tr>";
+							}
+							echo "</table>";
+						echo "</div>";
+					echo "</div>";
+				echo "</fieldset>";
+			echo "</div>";
+			echo "<div style=\"height:400px;width:900px;position:absolute;top:15%;left:5%;border:1px solid black;border-collapse:collapse;display:none;z-index:5;background:#F0FFF0;\" id=\"janela\">
+				<div class=\"titulo\" id=\"titulo\" style=\"background:url(".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fundo_titulo.jpg);height:18px;\">
+					<span id=\"janela_titulo_txt\" style=\"position:absolute;top:2px\">COTA</span>
+					<div style=\"float:right;position:absolute;top:0px;left:97.2%;cursor:pointer;\"><img src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fechar.jpg\" onclick=\"fecharCota('janela')\" alt=\"Fechar\"/></div>
+				</div>
+				<div id=\"divCota\" style=\"height:375px;width:895px;overflow:auto;background:#F0FFF0;\"></div>
+			</div>";
+			echo "<div style=\"height:400px;width:600px;position:absolute;top:15%;left:20%;border:1px solid black;border-collapse:collapse;display:none;z-index:5;background:#F0FFF0;\" id=\"janelaConsulta\">
+				<div class=\"titulo\" id=\"titulo\" style=\"background:url(".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fundo_titulo.jpg);height:18px;\">
+					<span id=\"janela_titulo_txt\" style=\"position:absolute;top:2px\">ATENDIMENTOS</span>
+					<div style=\"float:right;position:absolute;top:0px;left:96%;cursor:pointer;\"><img src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fechar.jpg\" onclick=\"fecharCota('janelaConsulta')\" alt=\"Fechar\"/></div>
+				</div>
+				<div id=\"conteudoConsulta\" style=\"height:375px;width:595px;overflow:auto;background:#F0FFF0;\"></div>
+			</div>";
+		echo "</body>";
+	}
+	else if($acao == "pam")
+	{
+        $select =  "select a.usu_codigo, b.usu_nome, b.usu_mae,
+                    to_char(b.usu_datanasc, 'dd/mm/yyyy') as usu_datanasc,
+                    c.cid_nome, a.med_codigo
+                    from atendimento as a
+                    inner join usuario as b on a.usu_codigo = b.usu_codigo
+                    left join cidade as c on b.muni_cd_cod_ibge_resid = c.cid_codigo_ibge
+                    where a.ate_codigo = {$_GET['ate_codigo']}";
+        $exec_sel = db_query($select);
+        $row = pg_fetch_array($exec_sel);
+        echo "<body onKeyPress=\"verificarCota(event)\">";
+			echo "<fieldset>";
+				echo "<legend>Dispensa&ccedil;&atilde;o de Medicamentos</legend>";
+				echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
+					echo "<tr>";
+						echo "<td width=\"150px\">";
+							echo "<input type=hidden name=id_login id=id_login value=$id_login>";
+							echo "<input type=hidden name=mov_codigo id=mov_codigo>";
+							echo "Centro Estoc. de Saida:";
+						echo "</td>";
+						echo "<td width=\"100px\">";
+							echo "<select name=set_saida id=set_saida class=box>";
+								/*$sql = "select a.uni_codigo, a.set_codigo, a.set_nome
+											from setor a
+											where a.set_estoque = 'S' ".
+                                            //.($dados[0]=="" ? "" : " AND a.uni_codigo = ".$dados[0]).
+											" and a.set_farmacia = 'S'";*/
+                            
+                                $select = "select uni_codigo from usuarios where usr_codigo = $id_login";
+                            
+                            $exec_select = db_query($select);
+                            
+                            $uni_cod = pg_fetch_array($exec_select);
+                            
+                            if($uni_cod[0] != "")
+                            {
+                                $and_select = " and uni_codigo = $uni_cod[0] ";
+                            }
+                            
+                            $sel = "select * from usuarios_acessos where usr_codigo = $id_login";
+                            
+                            $exec_sel = db_query($sel);
+                            
+                            $row = pg_fetch_array($exec_sel);
+                            
+                            /*if(pg_num_rows($exec_sel) == 0)
+                            {*/
+                                $sql = "select a.uni_codigo, a.set_codigo, a.set_nome
+											from setor a
+											where a.set_estoque = 'S'
+                                            and a.set_farmacia = 'S'
+                                            $and_select
+											order by a.set_nome";
+                            /*} else {
+                                $sql = "select a.uni_codigo, a.set_codigo, a.set_nome
+											from setor a
+											where a.set_estoque = 'S'
+                                            and a.set_farmacia = 'S'
+                                            and a.uni_codigo in (select uni_codigo
+                                                                    from usuarios_acessos
+                                                                    where usr_codigo = $id_login)
+                                            order by a.set_nome";
+                            }*/
+                                
+								$exec_sql = db_query($sql);
+								while($setor=pg_fetch_array($exec_sql))
+								{
+									echo "<option value='$setor[set_codigo]'>$setor[set_nome]</option>";
+								}
+							echo "</select>";
+						echo "</td>";
+						echo "<td width=\"30px\">";
+							echo "Data:";
+						echo "</td>";
+						echo "<td>";
+							$date = (!$data ? date("d/m/Y") : $data);
+							echo "<input type=\"text\" size=\"15\" name=\"data\" id=\"data\" value=\"$date\" class=\"box\" onKeyPress=\"return Ajusta_Data(this, event)\" maxlength=\"10\">";
+						echo "</td>";
+						echo "<td><a href=dispensa_medicamentos.php?id_login=$id_login&acao=listar><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0 id='voltar'></a></td>";
+					echo "</tr>";
+				echo "</table>";
+			echo "</fieldset>";
+			echo "<fieldset>";
+                            echo "<legend>Dados do Paciente</legend>";
+                            echo "<table width=100% cellspacing=0 cellpadding=1 border=0>";
+                                echo "<tr>";
+                                    echo "<td width=110>Numero do Paciente</td>";
+                                    echo "<td width=40>";
+                                        echo "<input type=text name='pac_codigo' id='pac_codigo' class=boxl size=10 value=\"$row[usu_codigo]\" readonly>";
+                                        echo "</td>";
+                                    echo "<td width=40>Paciente</td>";
+                                    echo "<td>";
+                                        echo "<input type=text name=pac_nome id=pac_nome class=boxl size=60 value=\"$row[usu_nome]\" readonly><a href='#' OnClick='window.open(\"list_pacientes.php?id_login=$id_login&from=list\",null,\"height=460,width=600,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg align=absmiddle border=0></a>";
+                                        /*echo "<input type=text name=pac_nome id=pac_nome class=boxl size=60 readonly><a href='#' OnClick='window.open(\"paciente.php?id_login=$id_login&controle=1\",null,\"height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg align=absmiddle border=0></a>";*/
+                                        /*echo "<a href='#' OnClick='window.open(\"paciente.php?acao=form_add&id_login=$id_login&controle=1\",null,\" height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/ficha_on.jpg align=absmiddle border=0></a>";*/
+                                        echo "<a href='#' OnClick='window.open(\"paciente_ficha.php?acao=form_add&type=c&id_login=$id_login&controle=1&from=list\",null,\" height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/ficha_on.jpg align=absmiddle border=0 id='ficha'></a>";
+                                    echo "</td>";
+                                    echo "<td>Nascimento</td>";
+                                    echo "<td width=250>";
+                                        echo "<input type=text name=pac_nascimento id=pac_nascimento class=boxl size=15 value=\"$row[usu_datanasc]\" readonly>";
+                                    echo "</td>";
+                                echo "</tr>";
+                                //echo "</table>";
+                                //echo "<table width=100% cellspacing=0 cellpadding=4 border=0>";
+                                echo "<tr>";
+                                    echo "<td width=70 >Mãe</td>";
+                                    echo "<td width=100 colspan=3>";
+                                        echo "<input type=text name=pac_mae id=pac_mae class=boxl size=50 value=\"$row[usu_mae]\" readonly>";
+                                    echo "</td>";
+                                    echo "<td width=40 >Cidade</td>";
+                                    echo "<td width=60>";
+                                        echo "<input type=text name=pac_cidade id=pac_cidade class=boxl size=23 value=\"$row[cid_nome]\" readonly>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' OnClick='abre_hist()'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/historico_on.jpg align=absmiddle border=0> <a href='#' OnClick='abre_programa($row[usu_codigo])'><img src='".$_SESSION[linkroot].$_SESSION[comum]."imgs/programa_paciente_on.jpg' align='top' border=0></a></a>";
+                                    echo "</td>";
+                                echo "</tr>";
+                            echo "</table>";
+			echo "</fieldset>";
+			echo "<fieldset>";
+                            echo "<legend>Receita</legend>";
+                            echo "<table width=98% cellspacing=0 cellpadding=1 border=0>";
+                                echo "<tr>";
+                                    echo "<td width=\"120px\">";
+                                        echo "N&uacute;mero da receita:";
+                                    echo "</td>";
+                                    echo "<td width=\"100px\">";
+                                        echo "<input type=\"text\" name=\"receita\" id=\"receita\" class=\"boxl\" onkeypresssssssss=\"return Bloqueia_Caracteres(event);\">";
+                                    echo "</td>";
+                                    echo "<td width=\"40px\">";
+                                        echo "M&eacute;dico";
+                                    echo "</td>";
+                                    echo "<td width=\"220px\">";
+                                        echo "<input type=hidden name=ate_codigo id=ate_codigo readonly value=\"$_GET[ate_codigo]\">";
+                                        echo "<select name=\"medico\" id=\"medico\" class=\"boxl\" onchange=\"buscarConsultas(this)\">";
+                                            echo "<option value=\"\">--> ESCOLHA <--</option>";
+                                            $select = "select * from medico order by med_nome";
+                                            $exec_select = db_query($select);
+                                            while($linha = pg_fetch_array($exec_select))
+                                            {
+                                                if($row['med_codigo'] == $linha['med_codigo'])
+                                                {
+                                                    echo "<option value=\"$linha[med_codigo]\" selected>$linha[med_nome]</option>";
+                                                } else {
+                                                    echo "<option value=\"$linha[med_codigo]\">$linha[med_nome]</option>";
+                                                }
+                                            }
+                                        echo "</select>";
+                                    echo "</td>";
+                                    echo "<td>";
+                                        echo "<input type=image id=botao src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/enviar_on.jpg onclick=\"confirmar()\">";
+                                    echo "</td>";
+                                echo "</tr>";
+                            echo "</table>";
+			echo "</fieldset>";
+			echo "<div id=\"resposta\" style=\"display:none\">";
+				echo "<fieldset>";
+                                    echo "<legend>Produtos</legend>";
+                                    echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
+                                        echo "<tr>";
+                                            echo "<td width=520>";
+                                                echo "<input type=hidden name=pro_codigo id=pro_codigo readonly>";
+                                                echo "<input type=hidden name=ite_consolidado id=ite_consolidado readonly>";
+                                                echo "<input type=text name=pro_nome id=pro_nome class=boxl size=100 readonly>";
+                                            echo "</td>";
+                                            echo "<td width=25>";
+                                                echo "<input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg onclick=\"buscaCad2('buscarProdutos.php','produto',document.getElementById('set_saida').value)\">";
+                                            echo "</td>";
+                                            echo "<td width=40>";
+                                                echo "Quantidade:";
+                                            echo "</td>";
+                                            echo "<td>";
+                                                echo "<input type=text name=quantidade id=quantidade class=box size=5 onChange=buscarEstoque(this.value) onkeypresssssssss=\"return Bloqueia_Caracteres(event);\">";
+                                            echo "</td>";
+                                            echo "<td width=100>";
+                                                echo "Quantidade Dia:";
+                                            echo "</td>";
+                                            echo "<td>";
+                                                echo "<input type=text name=quantidade_dia id=quantidade_dia class=box size=5 onChange=dividir() onkeypresssssssss=\"return Bloqueia_Caracteres(event);\">";
+                                            echo "</td>";
+                                            echo "<td width=80>";
+                                                echo "Total Dias:";
+                                            echo "</td>";
+                                            echo "<td>";
+                                                echo "<input type=text name=total_dias id=total_dias class=box size=5 readonly>";
+                                            echo "</td>";
+                                        echo "</tr>";
+                                    echo "</table>";
+                                    echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
+                                        echo "<tr>";
+                                            echo "<td width=60 valign=top>";
+                                                    echo "Posologia:";
+                                            echo "</td>";
+                                            echo "<td>";
+                                                    echo "<textarea name=posologia id=posologia class=box cols=35 rows=2></textarea>";
+                                            echo "</td>";
+                                            echo "<td width=60 valign=top>";
+                                                    echo "Detalhes do Tratamento:";
+                                            echo "</td>";
+                                            echo "<td>";
+                                                    echo "<textarea name=detalhes id=detalhes class=box cols=35 rows=2></textarea>";
+                                            echo "</td>";
+                                            echo "<td width=60 valign=top>";
+                                                    echo "Observa&ccedil;&otilde;es:";
+                                            echo "</td>";
+                                            echo "<td>";
+                                                    echo "<textarea name=observacoes id=observacoes class=box cols=35 rows=2></textarea>";
+                                            echo "</td>";
+                                        echo "</tr>";
+                                        echo "<tr>";
+                                            echo "<td>";
+                                                    echo "<input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/add_on.gif onclick=gravar('salvar')>";
+                                            echo "</td>";
+                                            echo "<td>";
+                                                    echo "<input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/finalizar_on.jpg onclick=\"location.href='dispensa_medicamentos.php?id_login=$id_login&acao=listar'\">";
+                                            echo "</td>";
+                                        echo "</tr>";
+                                    echo "</table>";
+				echo "</fieldset>";
+			echo "</div>";
+			echo "<!--<div>";
+                            echo "<fieldset>";
+                                echo "<legend>Lista de Dispensa de Produtos</legend>";
+                                echo "<table id=\"grid\">";
+                                echo "</table>";
+                            echo "</fieldset>";
+			echo "</div>-->";
+			echo "<div style=\"display:none\" id=\"listaProduto\">";
+                            echo "<fieldset>";
+                                echo "<legend>Lista de Produtos Dispensados</legend>";
+                                echo "<div id=\"gridProdutos\" style=\"height:100px;overflow:auto;\"></div>";
+                            echo "</fieldset>";
+			echo "</div>";
+			echo "<div style=\"height:400px;width:900px;position:absolute;top:15%;left:5%;border:1px solid black;border-collapse:collapse;display:none;z-index:5;background:#F0FFF0;\" id=\"janela\">
+				<div class=\"titulo\" id=\"titulo\" style=\"background:url(".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fundo_titulo.jpg);height:18px;\">
+                                    <span id=\"janela_titulo_txt\" style=\"position:absolute;top:2px\">COTA</span>
+                                    <div style=\"float:right;position:absolute;top:0px;left:97.2%;cursor:pointer;\"><img src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fechar.jpg\" onclick=\"fecharCota('janela')\" alt=\"Fechar\"/></div>
+				</div>
+				<div id=\"divCota\" style=\"height:375px;width:895px;overflow:auto;background:#F0FFF0;\"></div>
+			</div>";
+			echo "<div style=\"height:400px;width:600px;position:absolute;top:15%;left:20%;border:1px solid black;border-collapse:collapse;display:none;z-index:5;background:#F0FFF0;\" id=\"janelaConsulta\">
+				<div class=\"titulo\" id=\"titulo\" style=\"background:url(".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fundo_titulo.jpg);height:18px;\">
+					<span id=\"janela_titulo_txt\" style=\"position:absolute;top:2px\">ATENDIMENTOS</span>
+					<div style=\"float:right;position:absolute;top:0px;left:96%;cursor:pointer;\"><img src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fechar.jpg\" onclick=\"fecharCota('janelaConsulta')\" alt=\"Fechar\"/></div>
+				</div>
+				<div id=\"conteudoConsulta\" style=\"height:375px;width:595px;overflow:auto;background:#F0FFF0;\"></div>
+			</div>";
+		echo "</body>";
+    }
+	else
+	{
+		echo "<body onKeyPress=\"verificarCota(event)\">";
+			echo "<fieldset>";
+				echo "<legend>Dispensa&ccedil;&atilde;o de Medicamentos</legend>";
+				echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
+					echo "<tr>";
+						echo "<td width=\"150px\">";
+							echo "<input type=hidden name=id_login id=id_login value=$id_login>";
+							echo "<input type=hidden name=mov_codigo id=mov_codigo>";
+							echo "Centro Estoc. de Saida:";
+						echo "</td>";
+						echo "<td width=\"100px\">";
+                        
+                            $select = "select uni_codigo from usuarios where usr_codigo = $id_login";
+                            
+                            $exec_select = db_query($select);
+                            
+                            $uni_cod = pg_fetch_array($exec_select);
+                            
+                            if($uni_cod[0] != "")
+                            {
+                                $and_select = " and uni_codigo = $uni_cod[0] ";
+                            }
+                            
+                            $sel = "select * from usuarios_acessos where usr_codigo = $id_login";
+                            
+                            $exec_sel = db_query($sel);
+                            
+                            $row = pg_fetch_array($exec_sel);
+                            
+                            /*if(pg_num_rows($exec_sel) == 0)
+                            {*/
+                                $sql = "select a.uni_codigo, a.set_codigo, a.set_nome
+											from setor a
+											where a.set_estoque = 'S'
+                                            and a.set_farmacia = 'S'
+                                            $and_select
+											order by a.set_nome";
+                            /*} else {
+                                $sql = "select a.uni_codigo, a.set_codigo, a.set_nome
+											from setor a
+											where a.set_estoque = 'S'
+                                            and a.set_farmacia = 'S'
+                                            and a.uni_codigo in (select uni_codigo
+                                                                    from usuarios_acessos
+                                                                    where usr_codigo = $id_login)
+                                            order by a.set_nome";
+                            }*/
+							echo "<select name=set_saida id=set_saida class=box>";
+                                $exec_sql = db_query($sql);
+								while($setor=pg_fetch_array($exec_sql))
+								{
+									echo "<option value='$setor[set_codigo]'>$setor[set_nome]</option>";
+								}
+							echo "</select>";
+						echo "</td>";
+						echo "<td width=\"30px\">";
+							echo "Data:";
+						echo "</td>";
+						echo "<td>";
+							$date = (!$data ? date("d/m/Y") : $data);
+							echo "<input type=\"text\" size=\"15\" name=\"data\" id=\"data\" value=\"$date\" class=\"box\" onKeyPress=\"return Ajusta_Data(this, event)\" maxlength=\"10\">";
+						echo "</td>";
+						echo "<td><a href=dispensa_medicamentos.php?id_login=$id_login&acao=listar><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0 id='voltar'></a></td>";
+					echo "</tr>";
+				echo "</table>";
+			echo "</fieldset>";
+			echo "<fieldset>";
+				echo "<legend>Dados do Paciente</legend>";
+				echo "<table width=100% cellspacing=0 cellpadding=1 border=0>";
+					echo "<tr>";
+						echo "<td width=110>Prontu&aacute;rio</td>";
+						echo "<td width=40>";
+							//*echo "<input type=text name='pac_codigo' id='pac_codigo' class=boxl size=10 readonly>";
+                            echo "<input type=hidden name='pac_codigo' id='pac_codigo' class=boxl size=10 onchange='buscar_dados_paciente();' readonly>";
+                            echo "<input type=text name='pac_prontuario' id='pac_prontuario' class=boxl size=10 onchange='buscar_dados_paciente(this.value);'>";
+							echo "</td>";
+						echo "<td width=40>Paciente</td>";
+						echo "<td>";
+							echo "<input type=text name=pac_nome id=pac_nome class=boxl size=60 readonly><a href='#' OnClick='window.open(\"list_pacientes.php?id_login=$id_login&from=list\",null,\"height=460,width=600,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg align=absmiddle border=0 id='localizar'></a>";
+							/*echo "<input type=text name=pac_nome id=pac_nome class=boxl size=60 readonly><a href='#' OnClick='window.open(\"paciente.php?id_login=$id_login&controle=1\",null,\"height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg align=absmiddle border=0></a>";*/
+							/*echo "<a href='#' OnClick='window.open(\"paciente.php?acao=form_add&id_login=$id_login&controle=1\",null,\" height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/ficha_on.jpg align=absmiddle border=0></a>";*/
+							echo "<a href='#' OnClick='window.open(\"paciente_ficha.php?acao=form_add&type=c&id_login=$id_login&controle=1&from=list\",null,\" height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/ficha_on.jpg align=absmiddle border=0 id='ficha'></a>";
+						echo "</td>";
+						echo "<td>Nascimento</td>";
+						echo "<td width=230>";
+							echo "<input type=text name=pac_nascimento id=pac_nascimento class=boxl size=15 readonly onfocus='buscar_prontuario();'>";
+						echo "</td>";
+					echo "</tr>";
+				//echo "</table>";
+				//echo "<table width=100% cellspacing=0 cellpadding=4 border=0>";
+					echo "<tr>";
+						echo "<td width=70 >Mãe</td>";
+						echo "<td width=100 colspan=3>";
+							echo "<input type=text name=pac_mae id=pac_mae class=boxl size=50 readonly>";
+						echo "</td>";
+						echo "<td width=20>Cidade</td>";
+						echo "<td width=80>";
+							echo "<input type=text name=pac_cidade id=pac_cidade class=boxl size=23 readonly>&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' OnClick='abre_hist()'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/historico_on.jpg align=absmiddle border=0></a> <div id='botaoPrograma' style=\"visibility: visible;\"><a href='#' OnClick=\"abre_programa(document.getElementById('pac_codigo').value)\"><img src='".$_SESSION[linkroot].$_SESSION[comum]."imgs/programa_paciente_on.jpg' align='top' border=0></a></div>";
+						echo "</td>";
+					echo "</tr>";
+				echo "</table>";
+			echo "</fieldset>";
+			echo "<fieldset>";
+				echo "<legend>Receita</legend>";
+				echo "<table width=98% cellspacing=0 cellpadding=1 border=0>";
+					echo "<tr>";
+						echo "<td width=\"120px\">";
+							echo "N&uacute;mero da receita:";
+						echo "</td>";
+						echo "<td width=\"100px\">";
+							echo "<input type=\"text\" name=\"receita\" id=\"receita\" class=\"boxl\" onkeypresssssssss=\"return Bloqueia_Caracteres(event);\">";
+						echo "</td>";
+						echo "<td width=\"40px\">";
+							echo "M&eacute;dico";
+						echo "</td>";
+						echo "<td width=\"220px\">";
+							echo "<input type=hidden name=ate_codigo id=ate_codigo readonly>";
+							echo "<select name=\"medico\" id=\"medico\" class=\"boxl\" onchange=\"buscarConsultas(this)\">";
+								echo "<option value=\"\">--> ESCOLHA <--</option>";
+								$select = "select * from medico order by med_nome";
+								$exec_select = db_query($select);
+								while($linha = pg_fetch_array($exec_select))
+								{
+									echo "<option value=\"$linha[med_codigo]\">$linha[med_nome]</option>";
+								}
+							echo "</select>";
+						echo "</td>";
+						echo "<td>";
+							echo "<input type=image id=botao src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/enviar_on.jpg onclick=\"confirmar()\">";
+						echo "</td>";
+					echo "</tr>";
+				echo "</table>";
+			echo "</fieldset>";
+			echo "<div id=\"resposta\" style=\"display:none\">";
+				echo "<fieldset>";
+					echo "<legend>Produtos</legend>";
+					echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
+						echo "<tr>";
+							echo "<td width=520>";
+								echo "<input type=hidden name=pro_codigo id=pro_codigo readonly>";
+								echo "<input type=hidden name=ite_consolidado id=ite_consolidado readonly>";
+								echo "<input type=text name=pro_nome id=pro_nome class=boxl size=100 readonly>";
+							echo "</td>";
+							echo "<td width=25>";
+								echo "<input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg onclick=\"buscaCad2('buscarProdutos.php','produto',document.getElementById('set_saida').value)\">";
+							echo "</td>";
+							echo "<td width=40>";
+								echo "Quantidade:";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type=text name=quantidade id=quantidade class=box size=5 onChange=buscarEstoque(this.value) onkeypresssssssss=\"return Bloqueia_Caracteres(event);\">";
+							echo "</td>";
+							echo "<td width=100>";
+								echo "Quantidade Dia:";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type=text name=quantidade_dia id=quantidade_dia class=box size=5 onChange=dividir() onkeypresssssssss=\"return Bloqueia_Caracteres(event);\">";
+							echo "</td>";
+							echo "<td width=80>";
+								echo "Total Dias:";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type=text name=total_dias id=total_dias class=box size=5 readonly>";
+							echo "</td>";
+						echo "</tr>";
+					echo "</table>";
+					echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
+						echo "<tr>";
+							echo "<td width=60 valign=top>";
+								echo "Posologia:";
+							echo "</td>";
+							echo "<td>";
+								echo "<textarea name=posologia id=posologia class=box cols=35 rows=2></textarea>";
+							echo "</td>";
+							echo "<td width=60 valign=top>";
+								echo "Detalhes do Tratamento:";
+							echo "</td>";
+							echo "<td>";
+								echo "<textarea name=detalhes id=detalhes class=box cols=35 rows=2></textarea>";
+							echo "</td>";
+							echo "<td width=60 valign=top>";
+								echo "Observa&ccedil;&otilde;es:";
+							echo "</td>";
+							echo "<td>";
+								echo "<textarea name=observacoes id=observacoes class=box cols=35 rows=2></textarea>";
+							echo "</td>";
+						echo "</tr>";
+						echo "<tr>";
+							echo "<td>";
+								echo "<input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/add_on.gif onclick=gravar('salvar')>";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type=image src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/finalizar_on.jpg onclick=\"location.href='dispensa_medicamentos.php?id_login=$id_login&acao=listar'\">";
+							echo "</td>";
+						echo "</tr>";
+					echo "</table>";
+				echo "</fieldset>";
+			echo "</div>";
+			echo "<!--<div>";
+				echo "<fieldset>";
+					echo "<legend>Lista de Dispensa de Produtos</legend>";
+					echo "<table id=\"grid\">";
+					echo "</table>";
+				echo "</fieldset>";
+			echo "</div>-->";
+			echo "<div style=\"display:none\" id=\"listaProduto\">";
+				echo "<fieldset>";
+					echo "<legend>Lista de Produtos Dispensados</legend>";
+					echo "<div id=\"gridProdutos\" style=\"height:100px;overflow:auto;\"></div>";
+				echo "</fieldset>";
+			echo "</div>";
+			echo "<div style=\"height:400px;width:900px;position:absolute;top:15%;left:5%;border:1px solid black;border-collapse:collapse;display:none;z-index:5;background:#F0FFF0;\" id=\"janela\">
+				<div class=\"titulo\" id=\"titulo\" style=\"background:url(".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fundo_titulo.jpg);height:18px;\">
+					<span id=\"janela_titulo_txt\" style=\"position:absolute;top:2px\">COTA</span>
+					<div style=\"float:right;position:absolute;top:0px;left:97.2%;cursor:pointer;\"><img src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fechar.jpg\" onclick=\"fecharCota('janela')\" alt=\"Fechar\"/></div>
+				</div>
+				<div id=\"divCota\" style=\"height:375px;width:895px;overflow:auto;background:#F0FFF0;\"></div>
+			</div>";
+			echo "<div style=\"height:400px;width:600px;position:absolute;top:15%;left:20%;border:1px solid black;border-collapse:collapse;display:none;z-index:5;background:#F0FFF0;\" id=\"janelaConsulta\">
+				<div class=\"titulo\" id=\"titulo\" style=\"background:url(".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fundo_titulo.jpg);height:18px;\">
+					<span id=\"janela_titulo_txt\" style=\"position:absolute;top:2px\">ATENDIMENTOS</span>
+					<div style=\"float:right;position:absolute;top:0px;left:96%;cursor:pointer;\"><img src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/jan_fechar.jpg\" onclick=\"fecharCota('janelaConsulta')\" alt=\"Fechar\"/></div>
+				</div>
+				<div id=\"conteudoConsulta\" style=\"height:375px;width:595px;overflow:auto;background:#F0FFF0;\"></div>
+			</div>";
+		echo "</body>";
+	}
+?>
+    <div id="teste"></div>
+</fieldset>

@@ -1,0 +1,24 @@
+<form method="post" id="form" action="<?= $this->url(array("action" => "rel-extrato-paciente")); ?>" target="_blank">
+    <input name="tipo" id="tipo" type="hidden" value="<?=$this->action?>"/>
+    <input name="interno" id="interno" type="hidden" value=""/>
+    <label>Unidade:</label>
+        <select name="uni_codigo" id="uni_codigo" >
+            <option value="">Selecione</option>
+            <?php foreach ($this->unidades as $unidade){ ?>
+                <option value="<?=$unidade['id']?>"><?=$unidade['label']?></option>
+            <?} ?>
+        </select><br />
+    
+	<label>Data inicial:</label>
+	<input name="data_inicial" id="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" id="data_final" style="width: 80px" /><br />
+
+    <label>Procedimento:</label>
+    <input name="proc_nome" id="proc_nome"/>
+    <input name="proc_codigo" id="proc_codigo" type="hidden" /><br />
+
+        <div class="clear"></div>
+        <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>	
+</form>

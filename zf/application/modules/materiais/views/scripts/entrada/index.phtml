@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <input type="hidden" id="edit" value="">
+<div class="menu_small" id="entrada" data-tipo="E" data-acao="entrada/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-add-icon-small.png");?>" alt="Entrada" title="Entrada" />
+</div>
+<div class="menu_small" id="saida" data-tipo="S" data-acao="saida/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-delete-icon-small.png");?>" alt="Saída" title="Saída" />
+</div>
+<div class="menu_small" id="transferencia" data-tipo="T" data-acao="transferencia/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-go-icon-small.png");?>" alt="Transferência" title="Transferência" />
+</div>
+<div class="menu_small" id="controle-movimentos" data-tipo="C" data-acao="controle-movimentos/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/counter-count-up-icon-small.png");?>" alt="Controle Movimentos" title="Controle Movimentos" />
+</div>
+<div class="menu_small" data-tipo="R" data-acao="requisicao-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/requisicao_small.png");?>" alt="Requisiçao Materiais" title="Requisicao Materiais" />
+</div>
+<div class="menu_small" data-tipo="EV" data-acao="envio-de-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/envio_small.png");?>" alt="Envio de Materiais" title="Envio de Materiais" />
+</div>
+<div class="menu_small" data-tipo="M" data-acao="movimentacao/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/Menu-icon.png");?>" alt="Movimentações" title="Movimentações" />
+</div>
+
+<div class="clear"></div><br/><br/>
+
+<div id="area_entrada" style="height: 400px;">
+    <div class="form_movimento">
+        <form id="form" class="form">
+            <input type="hidden" name="config_imp" id="config_imp" value="<?=$this->config_imp?>">
+            <input type="hidden" name="mov_tipo" id="mov_tipo" value="E">
+            <label>Nº da Nota:</label>
+            <input type="text" name="mov_nr_nota" id="mov_nr_nota" value="<?=$this->itens[mov_nr_nota]?>" maxlength="15" style="width: 362px;" onkeypress="return SomenteNumero(event)">
+            <label>Tipo de Entrada:</label>
+            <select name="mov_entrada" id="mov_entrada">
+                <option value="0">-- Selecione--</option>
+<option value="E-EVENTUAL" <?= trim($this->itens[mov_entrada]) == "E-EVENTUAL" ? "selected='selected'" : "" ?> >ENTRADA EVENTUAL</option>
+
+
+<option value="E-O" <?= trim($this->itens[mov_entrada]) == "E-O" ? "selected='selected'" : "" ?> >ENTRADA ORDINARIA</option>
+<option value="E-AE" <?= trim($this->itens[mov_entrada]) == "E-AE" ? "selected='selected'" : "" ?> >AJUSTE DE ESTOQUE</option>
+<option value="E-D" <?= trim($this->itens[mov_entrada]) == "E-AE" ? "selected='selected'" : "" ?> >DOACAO</option>
+<option value="E-PER" <?= trim($this->itens[mov_entrada]) == "E-AE" ? "selected='selected'" : "" ?> >PERMUTA</option>
+<option value="E-SI" <?= trim($this->itens[mov_entrada]) == "E-AE" ? "selected='selected'" : "" ?> >SALDO IMPLANTACAO</option>
+<option value="E-T" <?= trim($this->itens[mov_entrada]) == "E-AE" ? "selected='selected'" : "" ?> >TRANSFERENCIA REMANEJAMENTO</option>
+
+
+            </select><br/>
+            <label>Fornecedor:</label>
+            <?=$this->fornecedores?>
+            <br/>
+            
+            <label>Centro Estocador:</label>         
+            <input type="hidden" name="set_codigo" id="set_codigo" value="<?=$this->setor[0]->set_codigo?>"/>
+            <input type="hidden" name="set_nome" id="set_nome" value="<?=$this->setor[0]->set_nome?>"/>
+            <span name="nome_setor" id="nome_setor" ></span>
+            
+            <br/>
+            <label style="">Observações:</label>
+            <div class="textarea">
+                <textarea name="mov_observacao" id="mov_observacao" class="tinymce"  style="width: 300px;height: 100px;">
+
+                </textarea>
+            </div>
+            <br/>
+            <?if(!$this->itens[mov_codigo]):?>
+                <a href="#" class="ui-button salvar-icon salvar-entrada" style="margin-left:80px" onclick="validaCadastro();">Salvar</a>
+                <?$display = "style=\"display:none;\"";?>
+            <?endif;?>
+        </form>
+    </div>
+    <div class="form-entrada-esq" <?=$display?>>
+        <form id="itens_entrada" style="margin:10px">
+            <input type="hidden" id="ite_codigo" name="ite_codigo" value="" >
+            <input type="hidden" id="pro_validade" name="pro_validade" value=""><!-- Vem a busca generica-->
+            <input type="hidden" id="pro_fracionado" name="pro_fracionado" value=""><!-- Vem a busca generica-->
+            <input type="hidden" id="mov_codigo" name="mov_codigo" value="<?=$this->itens[mov_codigo]?>"><!-- Vem a busca generica e armazena condição se o produto possui vinculo com setor-->
+            <input type="hidden" id="produto_vinculo_setor" name="produto_vinculo_setor" value="">
+            <input type="hidden" id="data_atual" name="data_atual" value="<?=date("Ymd")?>"><br/>
+            <label>Produto:</label>
+            <input type="hidden" name="pro_codigo" id="pro_codigo" value="">
+            <input type="text" name="pro_nome" class="upper" id="pro_nome" value="" onkeypress="buscaProduto()">
+            <div class="ui-state-error erro" style="display:none">
+                Este produto não possui vinculo com o setor de entrada. Para incluí-lo clique em (Vincular Setor)
+            </div>
+            <div id="lote_validade_entrada" style="display:none">
+                <label>Lote:</label>
+                <input type="text" name="ite_lote" id="ite_lote" maxlength="20" value="" onkeyup="mascara(this,alphanum)">
+                <br/>
+                <label>Validade:</label>
+                <input type="text" name="ite_validade" id="ite_validade" class="data mask" rel="99/99/9999" onchange="validaData(this)" value="">
+            </div>
+            <label>Quantidade:</label>
+            <input type="text" name="ite_quantidade" id="ite_quantidade" maxlength="20" onkeypress="return SomenteNumero(event)" value="">
+            <label>Fracionamento Minimo:</label>
+            <input type="text" name="pro_frmmin" id="pro_frmmin" maxlength="20" onkeypress="return SomenteNumero(event)" value="">
+            <div id="doses" style="display:none">
+                <label>Doses:</label>
+                <input type="text" name="ite_doses" id="ite_doses" onkeypress="return SomenteNumero(event)" value="">
+            </div>
+            <label>Valor Unit.</label>
+            <input type="text" class="float" rel="9,4" name="ite_vlrunid" id="ite_vlrunid" value=""><br/>
+            
+            <label>Fabricante:</label>
+            <input type="hidden" name="fab_codigo" id="fab_codigo" value="" >
+            <input type="text" name="fab_descricao" id="fab_descricao" value="" onkeypress="buscaFabricante()">
+            
+            <div id="botao-add" >
+                <a href="#" class="ui-button add salvar-itens-entrada" style="margin-left:55px" onclick="addItens();">Adicionar</a>
+            </div>
+            <div id="botao-vinculo" style="display:none" >
+                <a href="#" class="ui-button atualizar salvar-itens-entrada" style="margin-left:27px" onclick="vincularProdutoSetor();">Vincular Setor</a>
+            </div>
+        </form>
+    </div>
+    <div style="clear:both;"></div><br/>
+    <div id="itens_movimento" <?=$display?>>
+        <div id="itens_entrada"> <!--style="display: none"-->
+
+            
+
+            <div class="itens-entrada-dir" <?=$display?>>
+                <table width="100%" id="table-itens" border="0">
+                    <tr>
+                        <th width="300">
+                            Produto
+                        </th>
+                        <th width="90">
+                            Qtde / Frac.
+                        </th>
+                        <th width="150">
+                            Lote
+                        </th>
+                        <th width="100">
+                            Validade
+                        </th>
+                        <th width="70">
+                            Valor Unit.
+                        </th>
+                        <th width="70">
+                            Frm Min.
+                        </th>
+                        <th width="70">
+                            Valor Total
+                        </th>
+                        <th width="30">
+                        </th>
+                    </tr>
+              
+                <?if(count($this->itens_movimento)):?>
+                    <input type="hidden" id="finalizar_all" value="1">
+                    <?$total = 0;?>
+                    <?foreach($this->itens_movimento as $item_movimento):?>
+                        <tr class="<?=$item_movimento[pro_codigo].$this->validaCaracteres($item_movimento[ite_lote])?> item_entrada" data-nome="<?=$item_movimento[pro_nome]?>" data-doses="<?=$item_movimento[ite_doses]?>" data-valor="<?=$item_movimento[ite_vlrunit]?>"  data-val="<?=$this->data($item_movimento[ite_validade])?>" data-lote="'<?=$item_movimento[ite_lote]?>" data-qtde="<?=$item_movimento[ite_quantidade]?>"  data-pro="<?=$item_movimento[pro_codigo]?>" data-ite="<?=$item_movimento[ite_codigo]?>" data-vlrtotal="<?=$item_movimento[ite_quantidade] * $item_movimento[ite_vlrunit]?>" data-fab="<?=$item_movimento[fab_codigo]?>" data-nfab="<?=$item_movimento[fab_descricao]?>">
+                            <td><?=$item_movimento[pro_nome]?></td>
+                            <td align=center> <?=round($item_movimento[ite_quantidade])?></td>
+                            <td><?=$item_movimento[ite_lote]?></td>
+                            <td align=center><?=$this->data($item_movimento[ite_validade])?></td>
+                            <td align=center><?=$item_movimento[ite_vlrunit]?></td>
+                            <td align=center><?=$item_movimento[pro_frmmin]?></td>
+                            <td align=center><?=$item_movimento[ite_vlrtotal]?></td>
+                            <td align=center width="80">
+                                <img src="<?=$this->baseUrl("/public/images/icons/wrapping.png");?>" alt="Estorno" title="Estorno" onclick="excluirItem('<?=$item_movimento[pro_codigo]."|".$item_movimento[ite_lote]?>','<?=$item_movimento[ite_codigo]?>')"/>
+                            </td>
+                        </tr>
+                        <?$total += $item_movimento[ite_vlrtotal];?>
+                    <?endforeach;?>
+                        
+                <?endif;?>
+                    <tr class="valor_total">
+                        <td colspan="8" style="text-align: right;">
+                            <div style="margin-right: 10px;" id="vlr_total">
+                                Valor Total: R$ <?=number_format($total,2)?>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+    <div id="div_finalizar" <?=$display?>>
+        <a href="#" class="ui-button finalizar" style="margin-left:55px; margin-top: 5px;" onclick="finalizaMovimentacao();">Finalizar</a>
+    </div>
+</div>
+</body>
+</html>

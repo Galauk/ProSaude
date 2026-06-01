@@ -1,0 +1,62 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<form name="busca" method="POST" action="<?= $this->baseUrl(); ?>/programasfederais/ficha-complementar/buscar" id="form-busca">
+    <a href="<?= $this->baseUrl(); ?>/programasfederais/ficha-complementar/form" class="ui-button novo ui-corner-bl ui-corner-tr" data-atalho="ALT+N">Novo</a>
+    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>
+
+    <input size="50" class="focus ui-state-default" name="busca" id="busca" type="text">
+    <input size="50" class="focus ui-state-default mask" name="busca2" id="busca2" type="text" rel="99/99/9999" style="display: none">
+    <select name="tipo_busca" id="tipoBusca" class="ui-state-default">
+        <option value="">Tipo de busca</option>
+        <option value="1">Profissional</option>
+        <option value="2">Data</option>
+        <option value="3">CBO</option>
+        <option value="4">Unidade</option>
+    </select>
+
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    <tr class='ui-widget-header'>
+        <th>Data</th>
+        <th>Profissional</th>
+        <th>CBO</th>
+        <th>Unidade</th>
+        <th>Ações</th>
+    </tr>
+    <?php
+    if (count($this->dados) > 0) {
+        foreach ($this->dados as $item) {
+            ?>
+            <tr>
+                <td class='ui-state-default'><?= $this->data($item->efc_data) ?></td>
+                <td class='ui-state-default'><?= $item->usr_nome ?></td>
+                <td class='ui-state-default'><?= $item->cod_cbo ?></td>
+                <td class='ui-state-default'><?= $item->uni_desc ?></td>
+                <td class='ui-state-default'>
+                    <?php if($item->uuid_ficha == null){   ?>
+                    <a href='<?= $this->url([
+                      "action" => "form",
+                      "module" => "programasfederais",
+                      "controller" => "ficha-complementar",
+                      "id" => $item->efc_codigo
+                    ], NULL, TRUE); ?>' class='editar'>
+                        <img src='<?= $this->baseUrl('/public/images/icons/editar.png'); ?>' alt='Editar Itens' title='Editar Itens' />
+                    </a>
+                    <a href="<?= $this->baseUrl(); ?>/programasfederais/ficha-complementar/excluir/id/<?= $item->efc_codigo ?>"
+                       class="excluir" />
+                    <img src="<?= $this->baseUrl(); ?>/public/images/icons/excluir.png" alt="Excluir Item" title="Excluir Item"/>
+                    </a>
+                    <?php } else { ?>
+                    <img src="<?= $this->baseUrl(); ?>/public/images/icons/alert.png" alt="Ficha exportada para o E-SUS" title="Ficha exportada para o E-SUS"/>
+                    <?php } ?>
+                </td>
+            </tr>
+        <?php }
+        ?>
+    <?php } else {
+        ?>
+        <td colspan="6">Nenhum item encontrado</td>
+    <?php }
+    ?>
+</table>

@@ -1,0 +1,211 @@
+<div id="rep_federativa">
+    <img src="<?=$this->baseUrl("/public/images/rep_federativa.png");?>"/>
+</div>
+<div id="ministerio">
+    <br/>
+    <p>
+        <b>MINISTÉRIO DA SAÚDE</b>
+        <br/>
+        Secretaria de Vigilância Sanitária
+        <br/>
+        <b>BALANÇO DE MEDICAMENTOS PSICOATIVOS E OUTROS - BMPO</b>
+    </p>
+</div>
+<div style="clear:both;"></div>
+<div id="div_cabecalho">
+    <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>IDENTIFICAÇÃO DO ESTABELECIMENTO</b>
+    <div id="identificacao_estabelecimento">
+        <div id="brasao">
+            <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" width="90%" height="90%"/>
+        </div>
+        <div id="dados_sec">
+            <b><?=$this->sec[nome_secretaria]?></b><br/>
+            Endereço:<b><?=$this->sec[endereco_secretaria]?></b><br/>
+            C.N.P.J.:<b><?=$this->sec[cnpj_secretaria]?></b><br/>
+            Telefone.:<b><?=$this->sec[telefone_secretaria]?></b><br/>
+            Nº da Licença de Funcionamento:<b><?=$this->sec[licenca_funcionamento]?></b>
+
+        </div>
+    </div>
+    <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>IDENTIFICAÇÃO DO FORMULÁRIO</b>
+    <div id="identificacao_formulario">
+        <div id="dados_form">
+            <br/>
+            Balanço Exercício    <b><?=$this->ano?></b>
+            &nbsp;&nbsp;
+            Anual
+            [<?=($this->periodo_meses == 12 ? "X" : "")?> ]
+            Trimestral
+            [<?=($this->periodo_meses == 3 ? "X" : "")?>  ]
+            &nbsp;&nbsp;
+            Período
+            &nbsp;
+            <b><?=$this->periodo_rel[ini]."&nbsp; a &nbsp;".$this->periodo_rel[fim]?></b>
+        </div>
+    </div>
+
+    <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>IDENTIFICAÇÃO DO RESPONSAVEL PELA IDENTIFICAÇÃO</b>
+    <div id="identificacao_responsavel">
+        <div id="dados_resp">
+            <br/>
+            Preenchido por:&nbsp;<b><?=$this->usr->usr_nome?></b>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Nº Conselho:<b><?=$this->usr->usr_num_conselho?></b>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Data &nbsp;&nbsp;<?echo date("d/m/Y")?><br/><br/>
+            Assinatura ________________________________________
+        </div>
+    </div>
+
+    <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>IDENTIFICAÇÃO DO RESPONSAVEL PELO RECEBIMENTO</b>
+    <div id="identificacao_responsavel_receb">
+        <div id="dados_resp_receb">
+            <br/>
+            Recebido por: ________________________R.G.________________Cargo:_______________Data __/__/__<br/><br/>
+            Conferido por:________________________R.G.________________Cargo:_______________Data __/__/__
+        </div>
+    </div>
+</div>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+    <table>
+        <thead>
+            <tr style="height: 30px;">
+                <td colspan="9" align="center"><span style="font-size: 20px;"><b>BALANÇO COMPLETO DE MEDICAMENTOS</b></span></td>
+            </tr>
+            <tr style="height: 30px;">
+                <td colspan="9"><span style="font-size: 14px;">C.N.P.J: ___________________________________________________________ </span></td>
+            </tr>
+            <tr style="height: 30px;">
+                <td colspan="9"><span style="font-size: 14px;">Nº DA LICENÇA DE FUNCIONAMENTO: ___________________________________</span></td>
+            </tr>
+            <tr style="height: 30px;">
+                <td colspan="9"><span style="font-size: 14px;">EXERCÍCIO: _______ PERIODICIDADE: TRIMESTRAL: 1º(  )  2º(  )  3º(  )  4º(  ) ANUAL(  )</span></td>
+            </tr>
+            <tr class="border">
+                <th>Nº do Código DCB</th>
+                <th>Discriminação DCB</th>
+                <th>Medicamento</th>
+                <th>Portaria</th>
+                <th>Apresentação e Concentração</th>
+                <th>Estoque Inicial</th>
+                <th>Entrada</th>
+                <th>Saida</th>
+                <th>Perdas</th>
+                <th>Estoque Final</th>
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+              <tr style="height: 30px;">
+                    <td colspan="9"><span style="font-size: 14px;">ASSINATURA DO RESP.TÉCNICO: _____________________________</span></td>
+                </tr>
+        </tfoot>
+        <tbody>
+            <?$i=0;?>
+            <? if (count($this->dados) > 0) {
+                foreach($this->dados as $item) { ?>
+                    <?$i++;
+                    if($i == 12){
+                        $i=0;
+                    }
+                    ?>
+                    <tr class="b_completo">
+                        <td><?=$item->pro_codigo_dcb?></td>
+                        <td><?=$item->pro_descricao_dcb?></td>
+                        <td><?=$item->pro_nome?></td>
+                        <td><?=$item->psico_nome?></td>
+                        <td><?=$item->pro_apresentacao_concentracao?></td>
+                        <td><?=str_replace(",",".",number_format($item->saldo_inicial))?></td>
+                        <td><?=str_replace(",",".",number_format($item->entrada))?></td>
+                        <td><?=str_replace(",",".",number_format($item->saida))?></td>
+                        <td><?=str_replace(",",".",number_format($item->perda))?></td>
+                        <td><?=($item->saldo_inicial+$item->entrada)-($item->saida+$item->perda)?></td>
+                    </tr>
+
+            <? }
+            } else { ?>
+                <tr>
+                    <td colspan='9'>Nenhum registro encontrado até o momento!</td>
+                </tr>
+            <? } ?>
+        </tbody>
+    </table>
+
+
+<?
+//caso não tenha 12 linhas ele pega a diferença de 12 linhas (que cabe em uma pagina) e multiplica pelo tamanho da linha pra preencher espaço em branco
+if($i != 12){
+    $i = 12 - $i;
+    $pixels = 57 * $i;
+}
+
+?>
+<div style="height: <?=$pixels?>px;"></div>
+
+<table>
+    <thead>
+        <tr style="height: 30px;">
+            <td colspan="9" align="center"><span style="font-size: 20px;"><b>BALANÇO DAS AQUISIÇÕES DE MEDICAMENTOS</b></span></td>
+        </tr>
+        <tr style="height: 30px;">
+            <td colspan="9"><span style="font-size: 14px;">C.N.P.J: ___________________________________________________________ </span></td>
+        </tr>
+        <tr style="height: 30px;">
+            <td colspan="9"><span style="font-size: 14px;">Nº DA LICENÇA DE FUNCIONAMENTO: ___________________________________</span></td>
+        </tr>
+        <tr style="height: 30px;">
+            <td colspan="9"><span style="font-size: 14px;">EXERCÍCIO: _______ PERIODICIDADE: TRIMESTRAL: 1º(  )  2º(  )  3º(  )  4º(  ) ANUAL(  )</span></td>
+        </tr>
+        <tr class="border">
+            <th>Nº do Código DCB</th>
+            <th>Discriminação DCB</th>
+            <th>Medicamento</th>
+            <th>Portaria</th>
+            <th>Apresentação e Concentração</th>
+            <th>Fornecedor</th>
+            <th>C.N.P.J.</th>
+            <th>Nº.Nota</th>
+            <th>Qtde.</th>
+        </tr>
+    </thead>
+
+    <tfoot>
+        <tr>
+          <tr style="height: 30px;">
+                <td colspan="9"><span style="font-size: 14px;">ASSINATURA DO RESP. TÉCNICO: ______________________________</span></td>
+            </tr>
+    </tfoot>
+    <tbody>
+
+        <? if (count($this->dados_aquisicao) > 0) { //valida se existe dados
+            foreach($this->dados_aquisicao as $item_aq) { //laço foreach que percorre a array e define cada "sub array" como objeto
+                $caractere = ""; 
+                $tratamento = str_replace(".","",$this->escape($item_aq[for_cnpj]));
+                $tratamento = str_replace("/","",$tratamento);
+                $tratamento = str_replace("-","",$tratamento);
+
+
+
+        ?>
+                <tr class="b_completo">
+                    <td><?=$item_aq[pro_codigo_dcb]?></td>
+                    <td><?=$item_aq[pro_descricao_dcb]?></td>
+                    <td><?=$item_aq[pro_nome]?></td>
+                    <td><?=$item_aq[psico_nome]?></td>
+                    <td><?=$item_aq[pro_apresentacao_concentracao]?></td>
+                    <td><?=$item_aq[for_nome]?></td>
+                    <td><?=$tratamento?></td>
+                    <td><?=$item_aq[mov_nr_nota]?></td>
+                    <td><?=str_replace(",",".",number_format($item_aq[ite_quantidade]))?></td>
+                </tr>
+
+            <?}
+        } else{ ?>
+            <tr>
+                <td colspan='9'>Nenhum registro encontrado até o momento!</td>
+            </tr>
+        <? } ?>
+    </tbody>
+</table>

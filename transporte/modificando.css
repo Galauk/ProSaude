@@ -1,0 +1,47 @@
+/*----------------------RESET--------------------*/
+
+body{ background:FFF; font-family:Arial, Helvetica, sans-serif;} /*---- 1.0 em = 10px---*/
+
+p{font-size:1.3em; line-height:1.8em; margin-bottom:10px;}
+
+a{text-decoration:none; color:#333; font-size:1.2em;}
+
+/*----------------------RESET--------------------*/
+
+.global-div{
+	width:100px;
+	height:auto;
+	padding:0 15px 15px 15px;
+	position:absolute;
+	float:none;
+	left:480px;
+	margin:5px 0 0 -470px;
+	border:5px solid #fff;
+	
+	box-shadow:0 0 5px #999;
+	-moz-box-shadow:0 0 5px #999;
+	-webkit-box-shadow:0 0 5px #999;
+	top: 38px;
+}
+
+h1{font:italic bold 4em Georgia, "Times New Roman", Times, serif; text-align:center; margin: -5px -20px 20px -20px; background:#111; color:#fff; padding:20px 10px; letter-spacing:-0.04em; text-shadow:0px 0px 5px #eaeaea;}
+
+h2{font:bold 2em Georgia, "Times New Roman", Times, serif;}
+
+ul{list-style:none; padding-left:10px;}
+
+.abas li{float:left; border:1px solid #ccc; border-bottom:0; margin-right:10px; padding:10px; border-top-left-radius:5px; border-top-right-radius:5px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px; -webkit-border-radius-topleft:5px; -webkit-border-radius-topright:5px; }
+
+.abas li:hover{box-shadow:0 -2px 3px #DFDFDF; -moz-box-shadow:0 -2px 3px #DFDFDF; -webkit-box-shadow:0 -2px 3px #DFDFDF; font-weight:bold; border-color:#c0c0c0;}
+
+.ativo{background:#ccc; border-color:#333;}
+
+.ativo a{color:#fff; font-weight:bold; text-shadow:0 0 5px #999;}
+
+#noticia{position:relative; width:880px; height:auto; padding:10px; clear:both; border:1px solid #ccc; -moz-box-shadow:0 -1px 3px #ccc;}
+
+#noticia div{display:none;}
+
+.credito{font-size:1.1em; position:absolute; right:0; bottom:-40px; margin-top:15px;}
+
+.credito a{font-size:1.1em;}

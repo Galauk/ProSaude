@@ -1,0 +1,152 @@
+<form id="form">
+<?php $this->dialog();?>
+
+    <!-- <label>Responsável do Domicílio: </label>
+    <input name="usu_nome" id="usu_nome" onkeypress="buscarResponsavelModal()" <?=$readonly;?> value="<?=$this->dados->usu_nome?>"  class=""/>
+    <a href="#" class="ui-button paciente"  style="margin-left: 5px;" tabindex="5">Novo / Editar</a>
+    <input type="hidden" name="usu_codigo_controle_editar" id="usu_codigo_controle_editar"  value="<?=$this->dados->usu_codigo_responsavel?>"/>
+    <input type="hidden" name="usu_codigo" id="usu_codigo"  value="<?=$this->dados->usu_codigo_responsavel?>"/>
+    <input type="hidden" name="dom_codigo" id="dom_codigo" value="<?=$this->dados->dom_codigo?>"/><br /> -->
+    
+    <input type="hidden" name="usu_codigo_controle_editar" id="usu_codigo_controle_editar"  value="<?=$this->dados->usu_codigo_responsavel?>"/>
+
+    <label for="prontuarioFamiliar">Prontuario Familiar</label>
+    <input type="text" id="prontuarioFamiliar" name="prontuarioFamiliar" value="<?=$this->dados->tcadf_prontuario_familiar?>" >
+
+    <button type="button" onclick="buscarProntuarioFamiliar($('#prontuarioFamiliar').val())" >click</button>
+    
+    <div class="responsavelFamiliar">
+        <label for="responsavelFamiliar">Responsavel Familiar : </label>
+        <input value="<?=$this->dados->usu_nome?>" type="text" name="responsavelFamiliar" id="responsavelFamiliar" disabled placeholder="Preenchimento automático">
+        <input type="hidden" id="codigoResponsavelFamiliar" name="codigoResponsavelFamiliar" class="codigoResponsavelFamiliar">
+    </div>
+    
+    <br>
+    <label>Logradouro:</label>
+    
+    <input type="text" onchange="clearRua()" tabindex="1"  name="rua_nome" style="text-transform:uppercase;" id="rua_nome" maxlength="100" onkeypress="buscarRua()"  value="<?=$this->dados->rua_nome?>" class="campos_dom"/>
+    <input type="hidden" name="rua_codigo" id="rua_codigo" value="<?=$this->dados->rua_codigo?>">
+    <input type="hidden" name="rua_codigo_controle_editar" id="rua_codigo_controle_editar" value="<?=$this->dados->rua_codigo?>">
+    <img src="<?=$this->baseUrl('/public/images/icons/add.png');?>" alt="Nova Rua" title="Nova Rua" onclick="addRua()" style="" id="add_rua" />
+    <br />
+    <label>CEP:</label>
+    <input name="rua_cep" id="rua_cep" maxlength="10" tabindex="0" readonly="readonly" value="<?=$this->dados->rua_cep?>" class="ui-state-default mask masterTooltip" title="Este campo serve apenas como busca e informativo. Para editar o cep, faça edição de rua!"  rel="99999-999"/>
+    <span class='ui-state-error erro' id='erro-cep' style='display:none'>Cep Inválido(99999-999)!</span>
+    <br/>
+    <label>Número:</label>
+    <input name="dom_numero" tabindex="2" id="dom_numero"  value="<?=($this->dados->dom_numero == "0" ? "S/N" : $this->dados->dom_numero)?>"  class="campos_dom" onkeypress="return SomenteNumero(event)"/>
+    <input type="hidden" name="dom_numero_controle_editar" tabindex="2" id="dom_numero_controle_editar"  value="<?=($this->dados->dom_numero == "0" ? "S/N" : $this->dados->dom_numero)?>"  class="campos_dom" onkeypress="return SomenteNumero(event)"/>
+    <input type="checkbox" name="sn" id="sn" value="1" <?=($this->dados->dom_numero == "0" ? "checked=checked" : "")?>  class="campos_dom_combo" onchange="informaSn(this)" >S/N
+    <br />
+    <label>Bairro:</label>
+    <input name="bai_nome" style="text-transform:uppercase;" readonly="readonly" id="bai_nome" maxlength="150" value="<?=$this->dados->bai_nome?>"  class="campos_dom"/>
+    <input type="hidden" name="bai_codigo" id="bai_codigo" value="<?=$this->dados->bai_codigo?>"  class="campos_dom"><br />
+    <label>Localidade:</label>	
+    <input type="text" name="localidade" id="localidade" style=" text-transform:uppercase; "  value="<?= ($this->dados->localidade ? $this->dados->localidade : $this->dados->cid_nome)?>" readonly="readonly"/><br />
+    
+    <fieldset>
+        <legend>Tipo Imovel</legend>
+        <select class="form-control" name="tb_tipo_domicilio">
+            <?php
+                foreach ($this->tipodom as $dom){
+             ?>
+                <option  name = "tb_tipo_domicilio" id="" value="<?=$dom->ttd_codigo?>"><?=$dom->ttd_descricao?></option>
+            <?php
+                }
+             ?>
+        </select>
+    </fieldset>
+
+    <fieldset>
+        <legend>Situacao Moradia / Posse de terra</legend>
+        <select class="form-control" name="tb_situacao_moradia">
+            <?php
+                foreach ($this->sitmoradia as $sit){
+             ?>
+                <option name= "tb_situacao_moradia" value="<?=$sit->tsm_codigo?>"><?=$sit->tsm_descricao?></option>
+            <?php
+                }
+             ?>
+        </select>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Localização</legend>
+        <input type="radio" value="1" name="dom_localizacao">Urbano
+        <input type="radio" value="2" name="dom_localizacao">Rural
+    </fieldset>
+
+    <label>Complemento:</label>
+    <input name="dom_complemento" id="dom_complemento" <?=$readonly;?> class="campos_dom" style="text-transform: uppercase" value="<?=$this->dados->dom_complemento?>" /><br />
+    <input type="hidden" name="dom_complemento_controle_editar" id="dom_complemento_controle_editar" <?=$readonly;?> class="campos_dom" style="text-transform: uppercase" value="<?=$this->dados->dom_complemento?>" /><br />
+    <label>Ponto de Referência:</label>
+    <input name="dom_ponto_referencia" id="dom_ponto_referencia" class="campos_dom" style="text-transform: uppercase" value="<?=$this->dados->dom_ponto_referencia?>" /><br />
+    <label>Telefone Domicilio:</label>
+    <input name="dom_telefone" id="dom_telefone" class="mask campos_dom" rel="(99)99999-9999" value="<?=$this->dados->dom_telefone?>"  /><br />
+    <a href="#" class="ui-button salvar" >Salvar</a>
+</form>
+
+
+<div style="display: none" id = "resumoGeralDosIntegrantes" name = "resumoGeralDosIntegrantes" class="resumoGeralDosIntegrantes">
+    <table class="grid ui-widget ui-widget-content ui-corner-all">
+        <tr>
+            <th>Número do prontuario Familiar</th>
+            <th>Nome</th>
+            <th>Grau Parentesco</th>
+            <th>Responsavel</th>
+            <th>Renda Individual </th>
+        </tr>
+        
+    </table>
+</div>
+
+<script>
+    function buscarProntuarioFamiliar(prontuarioFamiliar){
+        $.ajax({
+            url: baseUrl+"/default/tb-composicao-familiar/resumo-geral-familiar",
+            type: "GET",
+            data: {prontuarioFamiliar: prontuarioFamiliar},
+            success:function(resumoGeralFamiliar){
+                var resumoGeralFamiliarObject = JSON.parse(resumoGeralFamiliar);
+
+                $("#codigoResponsavelFamiliar").val(resumoGeralFamiliarObject[0].usu_codigo);
+
+                for (var cont = 0 ; cont < resumoGeralFamiliarObject.length ; cont ++ ) {
+
+                $("#responsavelFamiliar").val(resumoGeralFamiliarObject[0].usu_nome)
+
+                    $("#resumoGeralDosIntegrantes").dialog({
+                        modal: true,
+                        title: 'Integrantes .',
+                        width: 700,
+                        height: 500,
+                        buttons:{
+                            Finalizar: function(){
+
+                                $(this).dialog('close');
+                            }
+                        }  
+                    }).append(`
+
+                    <tr id="dadosDosIntegrantes">
+                        <td class="ui-state-default c" width="50" name="" id=""> ${resumoGeralFamiliarObject[cont].tcf_numero_prontuario_familiar} </td>
+
+                        <td class="ui-state-default c" width="50" name="" id=""> ${resumoGeralFamiliarObject[cont].usu_nome} </td>
+
+                        <td class="ui-state-default c" width="50" name="" id=""> ${resumoGeralFamiliarObject[cont].tgp_descricao} </td>
+                                                        
+                        <td class="ui-state-default c" width="50" name="" id=""> ${resumoGeralFamiliarObject[cont].tcomf_responsavel} </td>
+                        
+                        <td class="ui-state-default c" width="50" name="" id=""> ${resumoGeralFamiliarObject[cont].tcomf_renda_mensal_usuario}</td>
+
+                        <br/>
+                    </td>
+                        
+                    `);
+
+                } 
+
+            }
+        });
+    }
+</script>

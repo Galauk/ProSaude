@@ -1,0 +1,515 @@
+<script type="text/javascript" src="/WebSocialComum/library/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="/WebSocialSaude/lib/ui/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="/WebSocialComum/library/js/jquery.buscar.js"></script>
+<script type="text/javascript" src="../funcoes.js"></script>
+<link rel="stylesheet" href="/WebSocialSaude/lib/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="/WebSocialSaude/lib/themes/ui-lightness/jquery-ui-1.8.10.custom.css">
+<script>
+function abrePopUp(age_codigo){
+	//age_codigo = document.getElementById('age_codigo').value();
+	//$('#cadastra_rua').val
+	//alert(age_codigo);
+	//alert('pelo menos chegou');
+	//var url ="guiaColeta.php?age_codigo="+age_codigo;
+	//window.open(url,null,'height=650,width=650,status=yes,toolbar=no,menubar=no,location=no top=TopPosition,left=LeftPosition');
+	//window.print();
+	
+	var url ="../zf/laboratorio/mapa-trabalho/imprimir/age_codigo/"+age_codigo;
+	//window.open(url,null,'height=750,width=750,status=yes,toolbar=yes,menubar=yes,location=yes');
+	window.open(url,'_blank',' _blank,toolbar=no,left=0,top=0,location=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=750,height=750');
+	
+	var url2 ="../zf/agenda/agenda/imprimir/age/"+age_codigo+"/coletados/1";
+	//window.open(url,null,'height=750,width=750,status=yes,toolbar=yes,menubar=yes,location=yes');
+	
+	//var comprovante = document.getElementById("conf_comprovante").value();
+	var comprovante = jQuery("#conf_comprovante").val();
+	if(comprovante == "t" || comprovante == "1" ){
+		window.open(url2,'_blank',' _blank,toolbar=no,left=0,top=0,location=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=750,height=750');
+	}
+	
+	//window.print();
+	formColeta.submit();
+	//var url = "../etiquetas/imprimirEtiquetas.php?age_codigo="+age_codigo;
+	//window.open(url,null,'height=50,width=50,status=yes,toolbar=no,menubar=no,location=no');
+}
+</script>
+
+<?php 
+include_once "../global.php";
+include_once COMUM."/library/php/funcoes.inc.php";
+//echo "<pre>".print_r($_REQUEST,1)."</pre>";
+$form = new classForm();
+$common = new commonClass();
+//echo $common->incJquery();
+// FORMATA DATA
+$dtp = explode("-",$age_data);
+$dtpedido = "$dtp[2]/$dtp[1]/$dtp[0]"; 
+
+// DESCOBRE O LABORAT�RIO ONDE VAI SER FEITO O EXAME
+$sqlLaboratorio = "select * from medico where med_codigo = $_GET[med_codigo]"; 
+$queryLaboratorio = pg_query($sqlLaboratorio);
+$lab = pg_fetch_array($queryLaboratorio);
+//echo $sqlLaboratorio;die();
+	//echo "<pre>".print_r($_REQUEST,1);
+
+if($acao_col == "add"){
+	$bioquimico = $_POST[usr_codigo];
+	$age_codigo = $_POST[age_codigo];
+	
+	// atualizar medico solitante:
+	$interno = $_POST['interno'];
+	$med_codigo = $_POST['usr_codigo'];
+	$age_codigo = $_POST['age_codigo'];
+	$sql = "UPDATE agenda SET %s=%d WHERE age_codigo=%d";
+	$query = pg_query(sprintf( $sql, $interno?"usr_codigo_medico":"med_codigo", $med_codigo, $age_codigo ));
+	
+	foreach ($_POST[data_previsao] as $cod => $dia){
+		$update = "UPDATE coleta
+					  SET 
+					      col_data_entrega = ".($dia == '' ? "NULL": "'$dia'" )."
+					WHERE agei_codigo = $cod";
+		pg_query($update) or die(pg_last_error());	
+	}
+	?>
+	<script>
+			window.location.href = '../exa_digitacaoresultado2.php?age_codigo=<?=$age_codigo?>';
+	</script>
+	<?
+	exit();
+	
+}
+
+
+
+
+//DESCOBRE OS PROCEDIMENTO DO AGENDAMENTO NAQUELA RECEP��O
+$sqlProcedimento = "SELECT med_nome, 
+					i.proc_codigo,
+					proc_nome,
+					c.med_codigo medico,
+					a.usu_codigo,
+					u.usu_nome,
+					ai.agei_data,
+					ai.agei_status,
+					a.age_codigo,
+					a.med_codigo,
+					a.usr_codigo_medico,
+					ai.agei_codigo,
+					i.coni_codigo
+				  FROM medico m 
+				  JOIN convenio c
+				    ON c.med_codigo = m.med_codigo
+				  JOIN convenio_itens i
+				    ON i.conv_codigo = c.conv_codigo
+				 left JOIN agenda_itens ai
+				    ON ai.coni_codigo = i.coni_codigo
+				  JOIN agenda a
+				    ON a.age_codigo = ai.age_codigo
+				  JOIN usuario u
+				    ON u.usu_codigo = a.usu_codigo
+				  JOIN procedimento proc
+				    ON proc.proc_codigo = i.proc_codigo
+				   AND agei_data = '$age_data' 
+			       AND a.age_codigo = $age_codigo
+				 GROUP BY med_nome,
+					   c.med_codigo,
+					   a.usu_codigo,
+					   u.usu_nome,
+					   agei_data,
+					   ai.agei_status,
+					   a.age_codigo,
+					   a.med_codigo,
+					a.usr_codigo_medico,
+					i.proc_codigo,
+					proc_nome,
+					ai.agei_codigo,
+					i.coni_codigo
+				ORDER BY proc_nome";
+//echo "<pre>".print_r($sqlProcedimento,1);
+$queryProcedimento = pg_query($sqlProcedimento);
+$queryProcedimento2 = pg_query($sqlProcedimento);
+
+//DESCOBRI SE TEM COLETA PARA O EXAME OU N�O
+
+?>
+
+<script type="text/javascript">
+var _i=0;
+jQuery(function(){
+	jQuery("[src$='excluir.png']").parents('tr').find('td input').hide();
+	
+});
+
+function excluirExame(agei_codigo,id_login,age_data,med_codigo,age_codigo,usr_codigo_medico){
+	decisao = confirm("Deseja realmente excluir este exame?");
+	if (decisao){
+		jQuery.ajax({
+			url: "exclui_exame.php",
+			type:"POST",
+			data: {
+				agei_codigo: agei_codigo
+			},
+			success:function(r){
+				window.location.href = "exa_coleta.php?id_login="+id_login+"&age_data="+age_data+"&med_codigo="+med_codigo+"&age_codigo="+age_codigo+"&usr_codigo_medico="+usr_codigo_medico+"";
+			}
+		});
+	} else {
+		//alert ("Voc� clicou no bot�o CANCELAR,\n"+"porque foi retornado o valor: "+decisao);
+	}
+}
+
+function coleta(to,id,esp_codigo){
+	//alert(to+"-"+id);
+        
+        if (!esp_codigo){
+            esp_codigo = jQuery("#esp_codigo_v").val();
+        }
+        
+	jQuery("#coleta"+id)
+		.attr("src","<?=LINKCOMUM?>/imgs/loading.gif")
+		.attr("alt","Carregando...")
+		.removeAttr("onclick");
+	jQuery.ajax({
+		url: "coleta.ajax.php",
+		type:"POST",
+		data: {
+			agei_codigo: id,
+			esp_codigo:esp_codigo,
+			tipo: 'coleta',
+			
+			to: to
+		},
+		success:function(r){
+			if(r == 1){
+				to = 0;
+				img = "selecionar";
+				alt = "Sim";
+			} else {
+				to = 1;
+				img = "excluir";
+				alt = "N�o";
+			}
+			jQuery("#coleta"+id)
+				.attr("src","<?=LINKCOMUM?>/imgsBotoes/"+img+".png")
+				.attr("alt",alt)
+				.attr("onclick","")
+				.unbind("click")
+				.stop()
+				.click(function(){
+					coleta(to,id);	
+				});
+
+			if(r==1){			
+				jQuery("#data_previsao"+id)
+					.stop()
+					.bind('keypress',function(event){
+						Ajusta_Data(this, event)
+						})
+					.show('fast');
+				_i++;
+
+				//if(_i==2) jQuery("body").hide(5000);
+			}else{
+				jQuery("#data_previsao"+id)
+				.stop()
+				.hide('normal');
+			}
+		}
+	});
+}
+
+function addExames(age_codigo){
+	var html = "<input type=hidden name=coni_codigo id=coni_codigo value=''>";
+	html += "<input type=text name=proc_nome id=proc_nome value='' placeholder='Procedimento' class='inputForm' style='width:250px;'>";
+	
+	jQuery("#modal")
+	.html(html)
+	.dialog({
+		modal: true,
+		width: 520,
+		height: 300,
+		close: function(){
+			jQuery("#modal").dialog('close');
+		},
+		buttons: {
+			Ok: function(){
+				salvaProcedimentos(age_codigo);				
+				//jQuery(this).dialog('close');
+			}
+		}
+	});
+	
+	jQuery("#proc_nome").buscar({
+	   tipo:'procedimento_convenio',
+	   parametro:jQuery("#lab_codigo").val(),
+	   template : function(ul, item) {
+					return jQuery("<li></li>").data("item.autocomplete", item).append(
+							"<a>" + item.label + "</a>").appendTo(ul);
+			}
+	});
+
+}
+
+function salvaProcedimentos(age_codigo){
+	if(jQuery("#coni_codigo").val() == null)
+		return false;
+
+	jQuery(".proced").each(function(){
+		//alert(jQuery(this).val() +"== "+ jQuery("#coni_codigo").val());
+		if(jQuery(this).val() == jQuery("#coni_codigo").val()){
+			alert("Este procedimento ja foi inserido!");
+			jQuery("#modal").dialog('close');
+			jQuery("#modal1").html("<div id='modal' style='display:none;' title='Adicionar Procedimento'> </div>");
+			return false;
+		}
+	});
+	 
+	jQuery.ajax({
+		url: "inserir_novo_exame.php",
+		data:{age_codigo:age_codigo,
+		coni_codigo:jQuery("#coni_codigo").val(),
+		proc_nome: jQuery("#proc_nome").val(),
+		id_login : jQuery("#id_login").val(),
+		age_data : jQuery("#age_data").val()},
+	    success: function(txt){
+			//alert(txt[0].age_codigo+"a");
+			resultObj = jQuery.parseJSON(txt);;
+                       
+			if (txt == 2){
+				alert("Erro ao salvar procedimento!");
+				
+			}else{
+                            //alert(jQuery("#esp_codigo_v").val());
+                            if(jQuery("#permissao").val() == "0"){
+                                var tr = "<tr>"+
+							"<td>"+
+								resultObj.proc_nome+
+							"</td>"+
+							"<td>"+
+								"<input type='text' id='data_previsao"+resultObj.agei_codigo+"' name='data_previsao["+resultObj.agei_codigo+"]' value='' size=''   maxlength='10'   class='inputForm ' onkeypress=Ajusta_Data(this, event); >"+
+							"<td>"+
+                                                        "</td>"+
+                                                        "<td>"+
+								"<img src='/WebSocialComum/imgs/excluir_on.jpg' id='coleta"+resultObj.agei_codigo+"' onclick=excluirExame('"+resultObj.agei_codigo+"',null,'"+resultObj.age_data+"','"+jQuery("#usr_codigo").val()+"','"+age_codigo+"','') alt='Clique para cancelar' title='Clique para cancelar' style='cursor:pointer'>"
+							"</td>"+
+						 "</tr>";
+                                
+                            }else{
+				var tr = "<tr>"+
+							"<td>"+
+								resultObj.proc_nome+
+							"</td>"+
+							"<td>"+
+								"<input type='text' id='data_previsao"+resultObj.agei_codigo+"' name='data_previsao["+resultObj.agei_codigo+"]' value='' size=''   maxlength='10'   class='inputForm ' onkeypress=Ajusta_Data(this, event); >"+
+							"<td>"+
+								"<img src='/WebSocialComum/imgsBotoes/excluir.png' id='coleta"+resultObj.agei_codigo+"' onclick=coleta(1,"+resultObj.agei_codigo+",'"+jQuery("#esp_codigo_v").val()+"') alt='Nao' title='Clique para alterar' style='width:16px;cursor:pointer'>"+
+							"</td>"+
+							"<td>"+
+								"<img src='/WebSocialComum/imgs/excluir_on.jpg' id='coleta"+resultObj.agei_codigo+"' onclick=excluirExame('"+resultObj.agei_codigo+"',null,'"+resultObj.age_data+"','"+jQuery("#usr_codigo").val()+"','"+age_codigo+"','') alt='Clique para cancelar' title='Clique para cancelar' style='cursor:pointer'>"
+							"</td>"+
+						 "</tr>";
+                            }
+				 jQuery(".exames").append(tr);
+				 jQuery("#modal").dialog('close');
+				 jQuery("#modal1").html("<div id='modal' style='display:none;' title='Adicionar Procedimento'> </div>");
+			 }
+		}
+		
+	});
+}
+
+jQuery(function(){
+	jQuery('#tabs').tabs(); 
+	jQuery("#usr_nome").buscar({
+	       tipo:'usuarios',
+	       template : function(ul, item) {
+	                    return jQuery("<li></li>").data("item.autocomplete", item).append(
+	                            "<a>" + item.label + "</a>").appendTo(ul);
+	            }
+	 	});
+ 	
+	jQuery("#buscar_medico").buscar({
+	       url:'/WebSocialSaude/zf/default/usuarios/buscar/externo/1',
+	       template : function(ul, item) {
+	                    return jQuery("<li></li>").data("item.autocomplete", item).append(
+	                            "<a>" + item.label + "</a>").appendTo(ul);
+	            }
+	 	});
+ });
+</script>
+<body>
+<form method=post name='formColeta' action='exa_listapedidoexame.php?'>
+         <input type="hidden" name="esp_codigo_v" value="<?=$_SESSION[logon][usr]->esp_codigo?>" id="esp_codigo_v">
+	 <input type=hidden id=id_login name=id_login value='<?=$id_login?>'>
+<!--      <input type=hidden name=agex_codigo value='$agex_codigo'>-->
+<!--      <input type=hidden name=med_codigo value='$med_codigo'>-->
+<!--      <input type=hidden name=age_data value='$age_data'>-->
+<!--      <input type=hidden name=pac_codigo value='$pac_codigo'>";-->
+	  <input type=hidden name=acao_col value=add>
+	  <input type=hidden name=acao value=listar>
+	  <input type="hidden" name="age_codigo" value="<?=$_REQUEST['age_codigo'];?>" />
+	<? echo $common->menuTab('Pedido do Exame');
+	echo $common->bodyTab('1');
+	$res2=pg_fetch_array($queryProcedimento2);
+	
+//	echo $res2[med_codigo];
+//	echo $res2[usr_codigo_medico];
+//	
+	// DESCOBRE O M�DICO QUE SOLICITOU
+	if($res2[med_codigo] != ''){
+	$sle = "SELECT med_codigo as codigo,
+	 				UPPER(med_nome) as nome
+				FROM medico
+			   WHERE med_codigo = $res2[med_codigo]";
+	$interno = 0;
+	}else{
+	$sle = "SELECT usr_codigo codigo,
+				   usr_nome nome
+			 FROM usuarios
+			 WHERE usr_codigo = $res2[usr_codigo_medico] ";
+	$interno = 1;
+	}
+	$select = pg_query($sle);
+	$med=pg_fetch_array($select);
+	
+	$sqlConfig = "SELECT * FROM config where conf_chave = 'COMPROVANTE_COLETA'";
+	$queryConfig = pg_query($sqlConfig);
+	$regConfig = pg_fetch_array($queryConfig);
+	?> 
+	<?php echo $form->inputText('',$lab[med_nome],'Laboratorio','60','','','','S');?>
+	<?//echo $form->inputLabel($lab[med_nome],'Laborat�rio','');?>
+	<input type="hidden" id="conf_comprovante" value=<?=$regConfig[conf_valor_bool];?> >
+ 	<input type=hidden id=lab_codigo name=lab_codigo value='<?=$lab[med_codigo]?>'>
+	<input type=hidden id=med_codigo name=med_codigo value='<?=$lab[med_codigo]?>'>
+ 	<input type=hidden id=med_codigo_solicitante name=med_codigo_solicitante value='<?=$_GET[med_codigo_solicitante]?>'>
+ 	<input type=hidden id=usr_codigo_medico name=usr_codigo_medico value='<?=$_GET[usr_codigo_medico]?>'>
+	<input type=hidden id=age_data name=age_data value=<?=$dtpedido?>>
+
+	<?php echo $form->inputText("buscar_medico",$med[nome],'Medico Solicitante');?>
+	<input type=hidden id=usr_codigo name=usr_codigo value='<?=$med[codigo]?>'>
+	<input type=hidden id=interno name=interno value='<?=$interno;?>'>
+	<?php echo $form->inputText('',$lab[med_nome],'Local de Coleta','60','','','','S');?>
+	<?//echo $form->inputAlert($lab[med_nome],'Local de Coleta','');?>
+  	<?php echo $form->inputText('',$dtpedido,'Data do Pedido','20','','','','S');?>
+	<?//echo $form->inputAlert($dtpedido,'Data do Pedido','');?>
+  	
+	<? echo $common->divisoria('Exames Agendados');	?>
+	<table class='lista exames'>
+		<tr>
+			<th>Exames</th>
+			<th>Data Previs&atilde;o de Entrega</th>
+			<th>Coletado</th>
+			<th>Op&ccedil;&otilde;es</th>
+		</tr>
+		<?php while($res=pg_fetch_array($queryProcedimento)){
+			
+                        $sqlColeta = "select TO_CHAR(col_data_coleta,'DD/MM/YYYY') as data,* 
+                                          from coleta c
+                                          JOIN agenda_itens ai
+                                            ON ai.agei_codigo = c.agei_codigo
+                                          JOIN agenda a
+                                            ON a.age_codigo = ai.age_codigo
+                                         WHERE ai.agei_codigo =$res[agei_codigo]";
+                        //echo $sqlColeta."<br>";
+                        $queryColeta = pg_query($sqlColeta);
+		?>
+
+			<input type=hidden  name=agei_codigo value='<?=$res['agei_codigo']?>'>
+			<input type=hidden  name=age_codigo value='<?=$res['age_codigo']?>'>
+			<input type=hidden name=proc_codigo_<?=$res[coni_codigo];?> class=proced id=proc_codigo_<?=$res[coni_codigo];?> value=<?=$res[coni_codigo];?>>
+			<tr>
+				<td><?=$res[proc_nome]?></td>
+				
+				<?php //cho "<pre>".print_r($_SESSION,1); die($_SESSION[logon][usr]->esp_codigo."a");
+                                    $sqlPermissoes = "select count(*) as qtde from rl_procedimento_ocupacao  where co_ocupacao in (select cod_cbo from especialidade where esp_codigo =".$_SESSION[logon][usr]->esp_codigo.") and co_procedimento = '0201020041'";
+                                    //die($sqlPermissoes);
+                                    $temPermissao = pg_fetch_array(pg_query($sqlPermissoes))["qtde"];
+                                    ?>
+                        <input type="hidden"  id="permissao" name="permissao" value='<?=$temPermissao?>'>
+                                    <?php 
+                                    if(pg_num_rows($queryColeta) > 0){
+					$res2=pg_fetch_array($queryColeta);
+                                        
+                                        ?>
+					<td>
+						<?echo $form->inputText("data_previsao[".$res[agei_codigo]."]",$res2[data],'',NULL,'10',null,NULL,'N',NULL,NULL,'data_previsao'.$res['agei_codigo']);?>
+					</td>
+					<td>
+                                            
+						<?php
+						
+							
+							if($temPermissao >=1 && !empty($_SESSION[logon][usr]->esp_codigo)){
+								echo "<img src=\"".LINKCOMUM."/imgsBotoes/selecionar.png\" id=\"coleta".$res['agei_codigo']."\" onclick=\"coleta(0,".$res['agei_codigo'].",'".$_SESSION[logon][usr]->esp_codigo."');\" alt=\"Sim\" title=\"Clique para alterar\" style=\"width:16px;cursor:pointer\">";
+							}
+						?>
+					</td>
+                                        
+				<?php } else {?>
+                                        <td>
+                                            <?php echo $form->inputText("data_previsao[".$res[agei_codigo]."]",'','',NULL,'10','onkeypress=Ajusta_Data(this, event);','text','N',NULL,NULL,'data_previsao'.$res['agei_codigo']);?>
+                                        </td>
+                                        <td>
+                                    
+                                    <?php if($temPermissao >=1 && !empty($_SESSION[logon][usr]->esp_codigo)){?>
+                                            <?php echo "<img src=\"".LINKCOMUM."/imgsBotoes/excluir.png\" id=\"coleta".$res['agei_codigo']."\" onclick=\"coleta(1,".$res['agei_codigo'].",'".$_SESSION[logon][usr]->esp_codigo."');\" alt=\"N�o\" title=\"Clique para alterar\" style=\"width:16px;cursor:pointer\">";?>
+                                            
+                                        <?php }?>
+                                        </td>
+				<?php } ?>
+                                    
+                                    
+				<?php
+				$sql_conf_cancelar = "SELECT usr_codigo_bioquimico FROM 
+										agenda_itens AS agei
+									INNER JOIN 
+										agenda AS age ON agei.age_codigo=age.age_codigo
+									WHERE
+										agei.usr_codigo_bioquimico IS NOT NULL AND 
+										agei.agei_codigo = '".$res['agei_codigo']."'";
+				$query_conf_cancelar = pg_query($sql_conf_cancelar);
+				$num_conf_cancelar = pg_num_rows($query_conf_cancelar);
+                                $sqlPermissoes = "select count(*) as qtde from rl_procedimento_ocupacao  where co_ocupacao in (select cod_cbo from especialidade where esp_codigo =".$_SESSION[logon][usr]->esp_codigo.") and co_procedimento = '0201020041'";
+                                $temPermissao = pg_fetch_array(pg_query($sqlPermissoes))["qtde"];
+				if ($num_conf_cancelar > 0) { ?>
+					<td>
+                                            <?php
+                                                if($temPermissao >=1 && !empty($_SESSION[logon][usr]->esp_codigo)){
+                                                    echo "<img src=\"".LINKCOMUM."/imgs/excluir_off.jpg\" alt=\"Exame Liberado, Cancelamento nao permitido!\" title=\"Exame Liberado, Cancelamento n�o permitido!\" style='cursor:none'>";
+                                                }    
+                                                ?>
+                                        </td>
+				<?php } else { ?>
+					<td><?php
+                                                echo "<img src=\"".LINKCOMUM."/imgs/excluir_on.jpg\" id=\"coleta".$res['agei_codigo']."\" onclick=\"excluirExame('".$res['agei_codigo']."','".$_GET["id_login"]."','".$_GET["age_data"]."','".$_GET["med_codigo"]."','".$_GET["age_codigo"]."','".$_GET["usr_codigo_medico"]."');\" alt=\"Clique para cancelar\" title=\"Clique para cancelar\" style='cursor:pointer'>";
+                                            ?>
+                                        </td>
+				<?php } ?>
+			</tr>
+		<?php }?>
+	</table>
+    <?php
+    echo "<div style='clear:both'>";
+		echo "<div style='clear:both; border:solid 0px; float:left'>";
+					echo"<div style='float:right; width:205px;'>";		
+						echo $common->commonButton("Salvar","","report.png","onClick=abrePopUp($age_codigo);");
+					echo"</div>";
+					echo"<div style='float:right'>";
+						echo $common->commonButton("voltar","exa_listapedidoexame.php?id_login=$id_login&age_data=$dtpedido&med_codigo=$lab[med_codigo]&acao=listar","voltar.png");
+					echo"</div>";
+					echo"<div style='float:right'>";
+						echo $common->commonButton("Adicionar exames",null,"adicionar.png","onClick=\"addExames($age_codigo)\"");
+					echo"</div>";
+				echo"</div>";
+		
+		
+		echo "</div>";
+    ?>
+       
+</form>
+<div id="modal1"> 
+	<div id="modal" style="display:none;" title="Adicionar Procedimento"> </div>
+</div>
+</body>
+	<?php echo $common->closeTab();?>
+	

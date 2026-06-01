@@ -1,0 +1,25 @@
+#menu, .navegacao, .banners, .publicidade, .animacoes { 
+        display:none; 
+        font-family:Tahoma,Arial;
+        font-size:10px;
+        width:750px;
+}
+
+body {
+        font-family:Tahoma,Arial;
+        font-size:10px;
+	width:750px;
+
+	margin:       0px;
+	margin-left:  1px;
+	margin-right: 1px;
+	margin-top:   0px;
+	margin-bottom:2px;
+	
+	vertical-align: middle;
+	padding:0;
+	border:none;
+	text-align:center;
+	float:none;
+}
+

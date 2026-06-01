@@ -1,0 +1,29 @@
+<style>  
+    INPUT.limpar {  
+     width: 70px;  
+     height: 19px;
+}  
+</style>  
+
+
+<form method="post" action="<?= $this->url(array("action" => $this->action)); ?>" target="_blank" id="form_bpa">
+    <input name="tipo" id="tipo" type="hidden" value="<?=$this->action?>"/><br />
+	<label>Local:</label>
+	<input type="text" id="med_nome" name="med_nome" value="<?=($this->dados->med_nome); ?>" class="focus" />
+        <input type="submit" value="Limpar" id="limpar" name="limpar" onclick="limpaLocal()" class="limpar"/>
+        <label style="width: 150px">(Em branco para TODOS).</label>
+        <input type="hidden" id="codigo_convenio" name="codigo_convenio" value="" />
+	<input type="hidden" id="prestador_servico" name="prestador_servico" value="" style="width: 20px " /><br />
+        
+	<label>Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+        <label>Competência</label>
+        <input name="competencia" id="competencia" style="width: 80px" /><br />
+	
+        <div class="clear"></div>
+        <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+	
+</form>

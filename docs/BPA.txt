@@ -1,0 +1,3 @@
+/WebSocialSaude/zf/configuracao
+
+Sigla do Município (3 letras): necessário para gerar o "Relatorio de Controle de Remessa" do BPA

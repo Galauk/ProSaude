@@ -1,0 +1,25 @@
+<?php $this->errorMsg(); ?>
+<?php $this->dialog(); ?>
+<form method="post" action="<?= $this->url(array("action" => "salvar-encaminhamento-externo")); ?>">
+    <label>Solicitação :</label>
+    <input class="ui-state-default" name="enc_ext_agendado_para" value=""><br/>
+    <label>Contato:</label>
+    <input class="mask campos_dom" rel="(99) 9999-9999" name="enc_ext_contato" value=""><br/>
+    <label>Data:</label>
+    <input name="enc_ext_data" style="width:88px;" class="data mask" rel="99/99/9999" value="" type="text"><br />
+    <label>Hora:</label>
+    <input name="enc_ext_hora" style="width:88px;" class="mask" rel="99:99" maxlength="5" value="" type="text"><br />
+    <label>Internação Hospitalar:</label>
+    <?= $this->arrayToRadio("enc_internacao", array('T' => "Sim", 'F' => "Não"), is_null($this->dados->enc_internacao) ? 'F' : $this->dados->enc_internacao); ?><br />
+    <label>Urgência:</label>
+    <?= $this->arrayToRadio("enc_urgencia", array('T' => "Sim", 'F' => "Não"), is_null($this->dados->enc_urgencia) ? 'F' : $this->dados->enc_urgencia); ?><br />
+    <label>Motivo/Observações</label>
+    <div class="textarea">
+
+        <textarea name="enc_descricao" class="tinymce"><?= $this->escape($this->dados->enc_descricao); ?></textarea>
+    </div><br />
+    <div class="space"></div>
+    <a href="#" class="ui-button salvar">Salvar</a>
+    <a href="#" class="ui-button limpar">Limpar</a>
+</form>
+<?=$this->action("encaminhamento-externo-itens","encaminhamento","prontuario")?>

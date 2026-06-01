@@ -1,0 +1,18 @@
+table.calend { font-size: 1em;  background: #fff;  color: #000; font-family: Georgia, Verdana, serif; padding: 0; 
+	border-collapse: collapse; border-spacing: 0px; width: 350px;}
+table.calend tr { padding: 0; }
+table.calend th { background: #e1e1e1; color: #000;  font-variant: small-caps; }
+table.calend td, table.calend th { width: 15%; padding: 3px;  border-bottom: 1px solid #ccc; border-right: 1px solid #ccc;}
+table.calend td { text-align: center;  }
+table.calend td:hover { border-color: #00f; background-color: #fafafa;  }
+table.calend span { padding: 1px; }
+table.calend span.fer { font-style: italic; text-decoration: line-through; font-weight: bold; cursor: help;}
+table.calend span.dom { color: #f00; background: #fff; font-weight: bold; }
+table.calend td.dom, table.calend th.dom { border-left: 1px solid #ccc; }
+table.calend td.hoje { background-color: #eaeaea; }
+table.calend caption { font-weight: bold; text-align: center; padding: 3px; }
+table.calend a  { color: #00a; background: transparent;  text-decoration: underline; }
+table.calend a:hover  { color: #f00; background: transparent;  text-decoration: none; }
+table.calend span.nav { margin-left: 20px; }
+table.calend span.nav a { font-weight: bold; }
+table.calend span.txt { font-size: 0.95em; margin: 3px; font-weight: bold;}

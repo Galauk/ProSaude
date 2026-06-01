@@ -1,0 +1,24 @@
+<? //echo "<pre>".print_r($this->dados,1); exit;?>
+<div id="receita">
+
+	<br/>
+	<br/>
+	<div id="rec_titulo">
+		<div class="left">Produto</div>
+		<div class="right">Código Horus</div>
+		<div class="clear"></div>
+	</div>
+        <?//echo "<pre>".print_r($this->dados,1);?>
+	<?php if ($this->dados):?>
+		<?php foreach ($this->dados as $item): //echo $item[label];?>
+			<div class="medItem">
+				<div class="medQtd"><?= $item[data][horus]; ?></div>	
+				<div class="clear"></div>
+				<div class="medUso"><?= $item[label]; ?></div>
+			</div>
+		<?php endforeach; ?>	 		
+	<?php 
+        
+        endif;?>
+</div>
+

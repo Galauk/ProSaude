@@ -1,0 +1,214 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+
+<?php 
+    // echo "<pre>";var_dump($this->atendimento[beneficio_emergencia]);die();
+    if ($this->codigoAtendimento) {?>
+      
+      <script>
+          window.open('<?=$this->url(array("action" =>"imprimir-beneficios-eventuais",'codigoAtendimento'=>$this->codigoAtendimento));?>', '', '', true);
+      </script>  
+        
+    <?}
+
+?>
+<script>
+
+    function abrirCarterinhaNova() {
+        var paciente = '<?php echo $this->usu_codigo;?>';
+
+        if(paciente == ""){
+            paciente = $("#usu_codigo").val()
+        }
+
+        url = "/WebSocialSaude/zf/vacina/imprimir-carteirinha/usu/" + paciente;
+        window.open(url, null, "height=620,width=650,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes");
+    }
+</script>
+
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/atendimento/atendimento-simplificado/form-procedimento.css">
+<script src="/WebSocialSaude/zf/public/js/atendimento/atendimento-simplificado/form-procedimento.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<?
+
+    if($_GET['imprimir'] > 0){ 
+        $codigoAtendimento = $_GET['imprimir']?>
+        
+        <script>    
+            window.open('<?=$this->url(array("action" =>"imprimir-beneficios-eventuais",'codigoAtendimento'=>$codigoAtendimento));?>', '', '', true);
+        </script>
+
+    <?}
+?>
+
+<form method="post" action="<?= $this->url(array("action" => "salvar-beneficios-concedidos")); ?>" id="procedimento">
+    <input type="hidden" id="tipoDoAtendimento" name="tipoDoAtendimento" class="tipoDoAtendimento" value="B">
+    <input type="hidden" id="tipo_atendimento" value="<?=$this->atendimento->ate_tipo?>">
+    <input type="hidden" id="imprimir" value="<?php echo $this->print;?>" />
+    <input type="hidden" id="cadastro_aise" value="<?php echo $this->cadastro_aise;?>" />
+    <div id="geral">
+        <div id="div_locals">
+            <label class="campoObrigatorio" style="width: 150px;">Local:</label>
+            <?= $this->selectLocais ?>
+        </div>
+        <label>Unidade:</label>
+        <input <?= $this->restringir == 1 ? "disabled=disabled" : "" ?> type="text" name="uni_desc" id="uni_desc" tabindex="1"
+                value="<?= $this->atendimento->uni_desc ? $this->atendimento->uni_desc : $this->unidade_controle ?>"
+                onkeypress="buscaUnidade()"/>
+        <input type="hidden" name="uni_codigo" id="uni_codigo"
+                value="<?= $this->atendimento->uni_codigo ?
+                    $this->atendimento->uni_codigo :
+                    $this->uni_codigo_controle ?>">
+        <br>
+        <label style="width: 150px;">Data:</label>
+        <input type="text" name="data_atendimento" id="data_atendimento" class="mask data-futura" rel="99/99/9999" tabindex="1" value="<?=(empty($this->atendimento->ate_codigo_formatado))?date("d/m/Y"):$this->atendimento->ate_codigo_formatado?>" style=""/>
+        <br />
+
+ <?php
+          $hr = date("H");
+      if(($hr>='01' and $hr<='12')) {
+        $selM = 'selected';
+        $selT = '';
+        $selN = '';
+      }
+      if(($hr>='13' and $hr<='18')) {
+        $selM = '';
+        $selT = 'selected';
+        $selN = '';
+      }
+      if(($hr>='19' and $hr<='00')) {
+        $selM = '';
+        $selT = '';
+        $selN = 'selected';
+      }
+    ?>
+        <div>
+            <div>
+                <label style="width: 150px;">Paciente<font color="red">*</font>:</label>
+                <input type="text" class="focus" name="usu_nome" id="usu_nome" onkeypress="buscaParticipante()" tabindex="2" value="<?= $this->agendamento->age_paciente ?>" style="width: 261px;" />
+                <input type="hidden" name="usu_codigo" id="usu_codigo" value="<?= $this->atendimento->usu_codigo ?>">
+                <!-- Informações ocultas para atualização dos dados do cidadão -->
+                <input type="hidden" name="id_nome" id="id_nome" value="usu_nome" />
+                <input type="hidden" name="id_codigo" id="id_codigo" value="usu_codigo" />
+                <input type="hidden" name="id_data" id="id_data" value="" />
+                <input type="hidden" name="id_button" id="id_button" value="" />
+                <input type="hidden" name="id_tipo" id="id_tipo" value="" />
+                <input type="hidden" name="usu_sexo" id="usu_sexo" value="" />
+
+                <button id="historicoPreNatal" class="ui-button historicoPreNatal" name="historicoPreNatal" type="button"       style=" padding: 7px 8px 6px;
+                                background-image: url(/WebSocialSaude/zf/public/images/btn-bg.png);
+                                background-repeat: round;
+                                background-size: contain;
+                                border: 1px solid #ACACAC;
+                                margin-bottom: 3px;
+                                color: #000;
+                                border-radius: 6px;"
+                        onclick="exibirHistoricoPreNatal()"
+                >
+                    <img src="/WebSocialSaude/zf/public/images/icons/gravida.png">
+                </button>
+
+                <!-- <select class="ui-state-default" id="tipo_busca" style="width: 15% !important">
+                    <option value="">Tipo de Busca</option>
+                    <option value="N">Nome</option>
+                    <option value="D">Dt.Nasc</option>
+                    <option value="M">Mãe</option>
+                    <option value="C">CNS</option>
+                    <option value="P">Prontuário</option>
+                </select>
+                <a href="#" class="ui-button paciente" style="margin-left: 5px;" tabindex="5">Novo / Editar</a><br /> -->
+            </div>
+        </div>
+
+
+        <div id="profissional">
+            <label class="campoObrigatorio" style="width: 150px;">Profissional:</label>
+            <input class="campoObrigatorio" type="text" id="usr_nome" placeholder="Informe a unidade" tabindex="3" value="<?= $this->atendimento->usr_nome ? $this->atendimento->usr_nome : $this->usr_nome_controle ?>"/>
+            <input type="hidden" id="usr_codigo" name="usr_codigo" value="<?= $this->atendimento->usr_codigo ? $this->atendimento->usr_codigo : $this->usr_codigo_controle ?>" /><br />
+            <div style="display:none;" id="especialidade">
+                <label style="width: 110px;">Especialidade:</label>
+                <input type="hidden" name="esp_codigo_editar" id="esp_codigo_editar" value="<?=$this->agendamento->esp_codigo;?>"></input>
+                <select class='ui-state-default' name="esp_codigo" id="esp_codigo">
+                    <option disabled readonly>Carregando...</option>
+                </select>
+            </div>
+
+        </div>
+        <div> 
+            <label style="width: 150px;">Benefício :</label>
+            <input type="text" id="proc_nome" name="proc_nome" value="<?= $this->dados->proc_nome; ?>" tabindex="4" onkeypress="buscaProcedimentosTipoBeneficio()" />
+            <input type="hidden" id="proc_codigo" name="proc_codigo" value="<?= ($this->dados->proc_codigo ? $this->dados->proc_codigo : $this->procedimento[0]->proc_codigo); ?>" />
+            <input type="hidden" id="proc_codigo_sus" name="proc_codigo_sus" value="<?= $this->dados->proc_codigo_sus; ?>" /><br />
+            
+            <label for="">Urgencia :</label>
+            <input type="radio" name="estaEmUrgencia" value="T" <?=$this->atendimento[beneficio_emergencia] == 1 ? 'checked' : ''  ?>>Sim 
+            <input type="radio" name="estaEmUrgencia" value="F" <?=$this->atendimento[beneficio_emergencia] != 1 ? 'checked' : ''  ?>>Não
+
+            <div>
+                <label for="">Laboratório</label>
+                <select name="LaboratorioDeDestino" id="LaboratorioDeDestino">
+                <?php
+                    //echo "<pre>";print_r($this->atendimento[laboratorio_de_destino]);die();
+                    $x = intval($this->atendimento[laboratorio_de_destino]);
+
+                    
+                    for ($count = 0; $count < count($this->destino); $count ++) { ?>
+                        <option <?=$this->atendimento[laboratorio_de_destino]== $this->destino[$count][med_codigo] ? 'selected' : '' ?> value="<?=$this->destino[$count][med_codigo]?>">
+                            <?=$this->destino[$count][med_nome_fantasia]?>        
+                        </option>  
+                    <?}
+                ?>
+                </select>
+            </div>
+
+            <div>
+                <label class="campoObrigatorio" style="width: 150px;"><abbr>
+                Lista de Benefícios</abbr>:</label>
+                <select name="cd10_codigo" id="cid" disabled="disabled">
+                    <option value="0">-- Preencha o Benefício acima --</option>
+                </select>
+                <br />
+                <div id="dadosProcAtendSimp" style="height: auto;">
+                    <!-- Aqui o conteúdo é alimentado pelo jQuery -->
+                    <?php
+                    // echo "<pre>";print_r($this->procedimento);die();
+                    foreach ($this->procedimento as $procedimento) {
+                        echo
+                            '
+                            <div class="procAtendSimp" id=procAtendSimp' . $procedimento->proc_codigo . '>
+                                <span class="titProcAtendSimp">
+                                    <font color=#3DA305>' . $procedimento->proc_codigo_sus . '</font> / ' . substr($procedimento->proc_nome, 0, 80) . '...' . '
+                                </span>
+                                <div class="excProcAtendSimp">
+                                    <img src="/WebSocialSaude/zf/public/images/icons/excluir.png" onclick="excluiProcedimento(' . $procedimento->proc_codigo . ')" title="Excluir Horários" alt="Clique aqui para excluir os horários do dia" style="cursor: pointer;position: relative;top: -5px;"/>
+                                    <input type="hidden" name="procedimento[]" value=' . $procedimento->proc_codigo . ' />
+                                </div>
+                                <div>
+                                    <label style="width: 114px!important;" for="">Quantidade</label>
+                                    <input  style="padding: 5px;border-radius: 4px;" value ='.($procedimento->quantidade_total_do_procedimento =="" ? '---' : $procedimento->quantidade_total_do_procedimento).' id = "quantidadeTotalDoProcedimento[]" name ="quantidadeTotalDoProcedimento[]" type="number"/>
+                                </div>
+
+                                <div>
+                                    <label style="width: 114px!important;" for="">Valor</label>
+                                    <input value ='.($procedimento->valor_do_procedimento == ""? '---' : $procedimento->valor_do_procedimento).' class="valorFormatado" id="valorDoProcedimento[]" name ="valorDoProcedimento[]"  onkeypress="formataValor()" type="text"/>
+                                </div>
+                            </div>
+                            ';
+                    }
+                    ?>
+                    <?php  ?>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="observacao" style="display: inline-flex;">
+            <label style="margin-right: 11px;margin-left: 50px">Observações: </label>
+                <textarea name="agee_observacao" class="tinymce" style="padding-left: 5px;padding-right: 5px; paddding-top: 15px !important; width:800 !important; margin-top: 20px;" rows="10"><?= $this->atendimento->ate_reclamacao ?></textarea>
+        </div>
+        <div class="apresentacaoDosDadosPreNatal" id="apresentacaoDosDadosPreNatal" style="display: none"></div>
+        <div class="div-footer center-block" style="width: 365px; margin-top: 15px">
+            <a href="#" class="ui-button salvar" onclick="selecionarTodosOsCiapSelecionados(); validaData();">Salvar</a>
+            <a href="#" class="ui-button limpar">Limpar</a>
+        </div>
+    </div>
+</form>

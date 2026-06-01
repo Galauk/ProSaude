@@ -1,0 +1,38 @@
+<table>
+    <? $cont = 1;?>
+    <?  foreach ($this->itens as $item){?>
+    <?if($item['usu_nome'] != $usu_nome){
+        if($usu_nome){?>
+                <tr><td style=\"border:none;\" colspan=\"3\">&nbsp;</td></tr>
+        <?}        
+        $usu_nome = $item['usu_nome'];        
+        ?>
+				
+        <tr>
+          <th align="left" colspan="4">Paciente: <?=$item['usu_nome']?></th>
+        </tr>
+        <?if($cont == 1):?>
+            <tr>
+                 <th>Produto</th>
+                 <th>Lote</th>
+                 <th>Quantidade</th>
+                 <th>Data</th>
+                 <th>Profissional</th>
+            </tr>
+        <?endif;$cont++;?>
+    <?
+    }
+    ?>
+    
+    <tr>
+        <td style="text-align: center;"><?=($item['pro_nome'] == "" ? "Nenhum Procedimento" : $item['pro_nome'])?></td>
+        <td style="text-align: center;"><?=$item['ite_lote']?></td>
+        <td style="text-align: center;" class="float" ><?=number_format($item['ite_quantidade'],0, '.', '')?></td>
+        <td style="text-align: center;"><?=$this->data($item['mov_data'])?></td>
+        <td style="text-align: center;"><?=$item['med']?></td>
+    </tr>
+
+<?
+} 
+?>
+</table>

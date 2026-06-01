@@ -1,0 +1,333 @@
+<table id="cabecalho">
+	<tr>
+		<th>Relatório<br />PMA2</th>
+		<th colspan="6">SECRETARIA MUNICIPAL DE SAÚDE<br />SISTEMA DE INFORMAÇÃO DE ATENÇÃO BÁSICA</th>
+	</tr>
+	<tr>
+		<td colspan="2">MUNICIPIO<br /><?=$this->dados['CABECALHO.MUNICIPIO'];?></td>
+		<td>SEGMENTO<br /><?=$this->dados['CABECALHO.SEGMENTO'];?></td>
+		<td>UNIDADE<br /><?=$this->dados['CABECALHO.UNIDADE'];?></td>
+		<td>ÁREA<br /><?=$this->dados['CABECALHO.AREA'];?></td>
+		<td>MÊS<br /><?=$this->dados['CABECALHO.MES'];?></td>
+		<td>ANO<br /><?=$this->dados['CABECALHO.ANO'];?></td>
+	</tr>
+	<tr>
+		<th colspan="7">RELATÓRIO DE PRODUÇÃO E DE MARCADORES PARA AVALIAÇÃO</th>
+	</tr>
+</table>
+<div class="space"></div>
+
+<div id="col1">
+	<table>
+		<tr class="b2">
+			<th colspan="4">Atividades/Produção</th>
+		</tr>
+		<tr>
+			<td rowspan="12" class="c b2" style="width: 13px;">C<br />O<br />N<br />S<br />&nbsp;<br />M<br />É<br />D<br />I<br />C<br />A</td>
+			<td colspan="2">residentes fora da área de abrangência</td>
+			<td style="width: 40px" class="d"><?=$this->dados['CONSULTA.FORA_DA_AREA'];?></td>
+		</tr>
+		<tr>
+			<td rowspan="10" class="c">Residente<br />na área de<br />abrangência<br />da equipe</td>
+			<td class="c">&lt; 1</td>
+			<td class="d"><?=$this->dados['CONSULTA.MENOR_DE_1_ANO'];?></td>
+		</tr>
+		<tr>
+			<td class="c">1 - 4</td>
+			<td class="d"><?=$this->dados['CONSULTA.DE_1_A_4'];?></td>
+		</tr>
+		<tr>
+			<td class="c">5 - 9</td>
+			<td class="d"><?=$this->dados['CONSULTA.DE_5_A_9'];?></td>
+		</tr>
+		<tr>
+			<td class="c">10 - 14</td>
+			<td class="d"><?=$this->dados['CONSULTA.DE_10_A_14'];?></td>
+		</tr>
+		<tr>
+			<td class="c">15 - 19</td>
+			<td class="d"><?=$this->dados['CONSULTA.DE_15_A_19'];?></td>
+		</tr>
+		<tr>
+			<td class="c">20 - 39</td>
+			<td class="d"><?=$this->dados['CONSULTA.DE_20_A_39'];?></td>
+		</tr>
+		<tr>
+			<td class="c">40 - 49</td>
+			<td class="d"><?=$this->dados['CONSULTA.DE_40_A_49'];?></td>
+		</tr>
+		<tr>
+			<td class="c">50 - 59</td>
+			<td class="d"><?=$this->dados['CONSULTA.DE_50_A_59'];?></td>
+		</tr>
+		<tr>
+			<td class="c">60 ou mais</td>
+			<td class="d"><?=$this->dados['CONSULTA.60_OU_MAIS'];?></td>
+		</tr>
+		<tr>
+			<td class="c">Total</td>
+			<td class="d"><?=$this->dados['CONSULTA.SUBTOTAL'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="c b2">Total geral de consultas</td>
+			<td class="b2 d"><?=$this->dados['CONSULTA.TOTAL'];?></td>
+		</tr>
+		
+		<tr>
+			<td rowspan="8" colspan="2" class="c b2">Tipo de<br />Atendimento<br />de Médico e<br />de Enfermeiro</td>
+			<td>Puericultura</td>
+			<td class="d"><?=$this->dados['TIPO.PUERICULTURA'];?></td>
+		</tr>
+		<tr>
+			<td>Pré-Natal</td>
+			<td class="d"><?=$this->dados['TIPO.CANCER'];?></td>
+		</tr>
+		<tr>
+			<td>Prevenção do Câncer Cérvico-Uterino</td>
+			<td class="d"><?=$this->dados['TIPO.PRE_NATAL'];?></td>
+		</tr>
+		<tr>
+			<td>DST/AIDS</td>
+			<td class="d"><?=$this->dados['TIPO.DST'];?></td>
+		</tr>
+		<tr>
+			<td>Diabetes</td>
+			<td class="d"><?=$this->dados['TIPO.DIABETES'];?></td>
+		</tr>
+		<tr>
+			<td>Hipertensão Arterial</td>
+			<td class="d"><?=$this->dados['TIPO.HIPERTENSAO'];?></td>
+		</tr>
+		<tr>
+			<td>Hanseníase</td>
+			<td class="d"><?=$this->dados['TIPO.HANSENIASE'];?></td>
+		</tr>
+		<tr>
+			<td class="b2">Tuberculose</td>
+			<td class="b2 d"><?=$this->dados['TIPO.TUBERCULOSE'];?></td>	
+		</tr>
+		
+		<tr>
+			<td rowspan="5" colspan="2" class="c b2">Solicitação<br />médica<br />de exames<br />complementares</td>
+			<td>Patologia Clínica</td>
+			<td class="d"><?=$this->dados['EXAMES.PATOLOGIA'];?></td>
+		</tr>
+		<tr>
+			<td>Radiodiagnóstico</td>
+			<td class="d"><?=$this->dados['EXAMES.RADIODIAGNOSTICO'];?></td>
+		</tr>
+		<tr>
+			<td>Citopatógico cérvico-vaginal</td>
+			<td class="d"><?=$this->dados['EXAMES.CITOPATOLOGIA'];?></td>
+		</tr>
+		<tr>
+			<td>Ultrassonografia obstétrica</td>
+			<td class="d"><?=$this->dados['EXAMES.ULTRASSONOGRAFIA'];?></td>
+		</tr>
+		<tr>
+			<td class="b2">Outros</td>
+			<td class="b2 d"><?=$this->dados['EXAMES.OUTROS'];?></td>
+		</tr>
+		
+		<tr>
+			<td rowspan="3" colspan="2" class="c b2">Encaminhamentos<br />médicos</td>
+			<td>Atend. Especializado</td>
+			<td class="d"><?=$this->dados['ENCAMINHAMENTO.ESPECIALIZADO'];?></td>
+		</tr>
+		<tr>
+			<td>Internação Hospitalar</td>
+			<td class="d"><?=$this->dados['ENCAMINHAMENTO.INTERNACAO'];?></td>
+		</tr>
+		<tr>
+			<td class="b2">Urgência/Emergência</td>
+			<td class="b2 d"><?=$this->dados['ENCAMINHAMENTO.URGENCIA'];?></td>
+		</tr>
+		
+		<tr class="b2">
+			<td colspan="3" class="c">Internação Domiciliar</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.INTERNACAO_DOMICILIAR'];?></td>
+		</tr>
+		
+		<tr>
+			<td rowspan="13" class="c b2">P<br />R<br />O<br />C<br />E<br />D<br />I<br />M<br />E<br />N<br />T<br />O<br />S</td>
+			<td colspan="2">Atendimento específico para AT</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.AT'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Visita de Inspeção Sanitária</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.INSPECAO_SANITARIA'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Atend. individual Enfermeiro</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.INDIVIDUAL_ENFERMEIRO'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Atend.individual <small>outros prof. nível superior</small></td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.INDIVIDUAL_OUTROS'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Curativos</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.CURATIVOS'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Inalações</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.INALACOES'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Injeções</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.INJECOES'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Retirada de pontos</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.RETIRADA_DE_PONTOS'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Terapia da Reidratação Oral</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.REIDRATACAO'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Sutura</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.SUTURA'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Atend. Grupo - Educação em Saúde</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.ATENDIMENTO_GRUPO'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2">Procedimentos Coletivos I (PC I)</td>
+			<td class="d"><?=$this->dados['PROCEDIMENTOS.COLETIVOS'];?></td>
+		</tr>
+		<tr>
+			<td colspan="2" class="b2">Reuniões</td>
+			<td class="b2 d"><?=$this->dados['PROCEDIMENTOS.REUNIOES'];?></td>
+		</tr>
+	</table>
+</div>
+
+<div id="col2">
+	<table>
+		<tr class="b2">
+			<th colspan="2">Marcadores</th>
+		</tr>
+		<tr>
+			<td>Valvulopatias reumáticas em pessoas de 5 a 14 anos</td>
+			<td class="d"><?=$this->dados['MARCADORES.VALVULOPATIAS'];?></td>
+		</tr>
+		<tr>
+			<td>Acidente Vascular Cerebral</td>
+			<td class="d"><?=$this->dados['MARCADORES.AVC'];?></td>
+		</tr>
+		<tr>
+			<td>Infarto Agudo do Miocárdio</td>
+			<td class="d"><?=$this->dados['MARCADORES.INFARTO'];?></td>
+		</tr>
+		<tr>
+			<td>DHEG (forma grave)</td>
+			<td class="d"><?=$this->dados['MARCADORES.DHEG'];?></td>
+		</tr>
+		<tr>
+			<td>Doença Hemolítica Perinatal</td>
+			<td class="d"><?=$this->dados['MARCADORES.DHP'];?></td>
+		</tr>
+		<tr>
+			<td>Fraturas de colo de fêmur em &gt; 50 anos</td>
+			<td class="d"><?=$this->dados['MARCADORES.FRATURAS_FEMUR'];?></td>
+		</tr>
+		<tr>
+			<td>Meningite tuberculosa em menores de 5 anos</td>
+			<td class="d"><?=$this->dados['MARCADORES.MENINGITE'];?></td>
+		</tr>
+		<tr>
+			<td>Hanseníase com grau de incapacidade II e III</td>
+			<td class="d"><?=$this->dados['MARCADORES.HANSENIASE'];?></td>
+		</tr>
+		<tr>
+			<td>Citologia Oncótica NIC II (carcinoma <em>in situ</em>)</td>
+			<td class="d"><?=$this->dados['MARCADORES.CITOLOGIA'];?></td>
+		</tr>
+		<tr>
+			<td>RN com peso &lt; 2500g</td>
+			<td class="d"><?=$this->dados['MARCADORES.RN_2500'];?></td>
+		</tr>
+		<tr>
+			<td>Gravidez em &lt; 20 anos</td>
+			<td class="d"><?=$this->dados['MARCADORES.GRAVIDEZ_20'];?></td>
+		</tr>
+		<tr>
+			<td>Hospitalizações em &lt; anos por pneumonia</td>
+			<td class="d"><?=$this->dados['MARCADORES.HOSP_PNEUMONIA'];?></td>
+		</tr>
+		<tr>
+			<td>Hospitalizações em &lt; anos por desidratação</td>
+			<td class="d"><?=$this->dados['MARCADORES.HOSP_DESIDRATACAO'];?></td>
+		</tr>
+		<tr>
+			<td>Hospitalizações por abuso de álcool</td>
+			<td class="d"><?=$this->dados['MARCADORES.HOSP_ALCOOL'];?></td>
+		</tr>
+		<tr>
+			<td>Hospitalizações por complicações do Diabetes</td>
+			<td class="d"><?=$this->dados['MARCADORES.HOSP_DIABETES'];?></td>
+		</tr>
+		<tr>
+			<td>Hospitalizações por qualquer causa</td>
+			<td class="d"><?=$this->dados['MARCADORES.HOSP_QUALQUER'];?></td>
+		</tr>
+		<tr>
+			<td>Internações em Hospital Psiquiátrico</td>
+			<td class="d"><?=$this->dados['MARCADORES.HOSP_PSIQUIATRICO'];?></td>
+		</tr>
+		<tr>
+			<td>Óbitos em &lt; 1 ano por todas as causa</td>
+			<td class="d"><?=$this->dados['MARCADORES.OBITOS_TODAS'];?></td>
+		</tr>
+		<tr>
+			<td>Óbitos em &lt; 1 ano por diarréia</td>
+			<td class="d"><?=$this->dados['MARCADORES.OBITOS_DIARREIA'];?></td>
+		</tr>
+		<tr>
+			<td>Óbitos em &lt; 1 ano por infecção respiratória</td>
+			<td class="d"><?=$this->dados['MARCADORES.OBITOS_INFECCAO'];?></td>
+		</tr>
+		<tr>
+			<td>Óbitos de mulheres de 10 a 49 anos</td>
+			<td class="d"><?=$this->dados['MARCADORES.OBITOS_MULHERES'];?></td>
+		</tr>
+		<tr>
+			<td>Óbitos de adolescentes (10-19) por violência</td>
+			<td class="d"><?=$this->dados['MARCADORES.OBITOS_ADOLESCENTES'];?></td>
+		</tr>
+	</table>
+	
+	<div style="height: 100px"></div>
+	<table>
+		<tr class="b2">
+			<th colspan="2">Visitas Domiciliares</th>
+		</tr>
+		<tr>
+			<td>Médico</td>
+			<td class="d"><?=$this->dados['VISITAS.MEDICO'];?></td>
+		</tr>
+		<tr>
+			<td>Enfermeiro</td>
+			<td class="d"><?=$this->dados['VISITAS.ENFERMEIRO'];?></td>
+		</tr>
+		<tr>
+			<td>Outros profissionais de nível superior</td>
+			<td class="d"><?=$this->dados['VISITAS.SUPERIOR'];?></td>
+		</tr>
+		<tr>
+			<td>Profissionais de nível médio</td>
+			<td class="d"><?=$this->dados['VISITAS.MEDIO'];?></td>
+		</tr>
+		<tr>
+			<td>ACS</td>
+			<td class="d"><?=$this->dados['VISITAS.ACS'];?></td>
+		</tr>
+		<tr>
+			<td>Total</td>
+			<td class="d"><?=$this->dados['VISITAS.TOTAL'];?></td>
+		</tr>
+	</table>
+</div>
+<div class="clear space"></div>

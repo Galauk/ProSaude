@@ -1,0 +1,34 @@
+<?php $this->errorMsg(); ?>
+<?php echo $this->action("form","buscar");?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+    	
+<?php 
+$i=0;
+if($this->itens && $this->itens->count()):
+foreach($this->itens as $item): ?>
+        <?php if($i < 1) :?>
+            <tr class="ui-widget-header">
+		<th>Procedimento</th>
+		<th>Valor</th>
+                <th>Idade Minima</th>
+                <th>Idade Maxima</th>
+                <th>Sexo</th>
+		<th>Opções</th>
+            </tr>
+        <?php $i++; endif;?>
+        <tr>
+            <td class="ui-state-default"><?=$this->escape($item->proc_nome);?></td>
+            <td class="ui-state-default c" width="80"><?=number_format($item->proc_vlsa,2,",",".");?></td>
+            <td class="ui-state-default c" width="80"><?=$this->escape($item->proc_idade_minima);?></td>
+            <td class="ui-state-default c" width="80"><?=$this->escape($item->proc_idade_maxima);?></td>
+            <td class="ui-state-default c" width="120"><?=$this->mask($item->proc_sexo_novo,"sexo");?></td>
+            <td class="ui-state-default c" width="100">
+                <a href="<?=$this->url(array("controller"=>"procedimento","action"=>"editar","id"=>$item->proc_codigo));?>" class="editar"><img src="<?=$this->baseUrl('/public/images/icons/editar.png');?>" alt="Editar" title="Editar" /></a>
+                <a href="<?=$this->url(array("controller"=>"procedimento","action"=>"excluir","id"=>$item->proc_codigo));?>" class="excluir"><img src="<?=$this->baseUrl('/public/images/icons/excluir.png');?>" alt="Excluir" title="Excluir" /></a>
+            </td>
+        </tr>
+<?php endforeach; ?>
+</table>
+<?php else:?>
+        <em>Nenhum item encontrado</em>
+<?php endif;?>

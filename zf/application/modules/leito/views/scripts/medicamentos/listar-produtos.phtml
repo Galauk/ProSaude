@@ -1,0 +1,35 @@
+<input type="hidden" id="status" value="<?= $this->lgra->lgra_status; ?>" />
+<div class="f">
+	<form method="post" action="#" id="form-grade">
+		<input type="hidden" name="usr_codigo" value="<?=$this->dadosUsr->usr_codigo;?>" />
+		<?php if($this->itens && count($this->itens)) echo $this->arrayDispensacao($this->itens); ?>
+		<input type="hidden" id="tipo" name="tipo" value="<?= $this->tipo; ?>" />
+		<?php if($this->tipo==1):?>		
+		<input type="hidden" name="lgra_codigo"  id="lgra_codigo" value="<?=$this->lgra_codigo;?>" />
+		<input type="hidden" name="num" id="num" value="" />
+		<?php else: ?>
+		<input type="hidden" name="tipo" value="lgra_codigo" />
+		<input type="hidden" name="codigo" value="<?=$this->lgra_codigo;?>" />
+		
+		<?php endif; ?>
+	</form>
+</div>
+
+<div class="f" style="margin-left: 10px;">
+	<?php if($this->itens && count($this->itens)): ?>
+	<h4>Legenda</h4>
+	<?php $t = current($this->itens); 
+		if(!isset($t['cfr'])):?>
+		<div class="legenda ui-state-default">A</div> Já fracionado<br />
+		<div class="legenda ui-state-active">A</div> Em estoque<br />
+		<div class="legenda ui-state-error">A</div> Sem saldo<br />
+		<?php else: ?>
+	<div class="legenda ui-state-active">A</div> Já separado<br />
+	
+	<?php endif;?>
+	<?php endif;?>
+</div>
+<div class="clear"></div>
+<div id="responsavel">
+	<b>PROFISSIONAL RESPONSÁVEL:</b> <?=$this->dadosUsr->usr_nome?>
+</div>

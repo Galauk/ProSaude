@@ -1,0 +1,34 @@
+<div id="conteudo">
+    <?if(count($this->produtos) > 0):?>
+        <table width="100%">
+            <tr>
+                <th style="width: 80%">
+                    Produto
+                </th>
+                <th style="width: 20%" >
+                    Quantidade
+                </th>
+            </tr>
+            <? $qtdTotal = 0; ?>
+            <?foreach($this->produtos as $produto):?>
+                <tr>
+                    <td>
+                        <?=$produto->pro_nome?>
+                    </td>
+                    <td>
+                        <?=round($produto->quantidade)?>
+                    </td>
+                </tr>
+                <? $qtdTotal = $qtdTotal + round($produto->quantidade); ?>
+            <?endforeach;?>
+            <tr>
+                <td>
+                    <span style="float: right; font-weight: bold;">TOTAL:</span>
+                </td>
+                <td><?=$qtdTotal?></td>
+            </tr>
+        </table>
+    <?else:?>
+        <em>Nenhum Item encontrado</em>
+    <?endif;?>
+</div>

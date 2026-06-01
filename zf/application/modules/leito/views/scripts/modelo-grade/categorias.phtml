@@ -1,0 +1,21 @@
+<div id="categorias">
+	<h2>Categorias</h2>
+	<ul>
+	<?php foreach($this->itens as $item): ?>
+		<li data-codigo="<?=$item->lgc_codigo;?>" class="ui-corner-all ui-state-default"><a href="javascript:void(0);"><?=$this->escape($item->lgc_descricao);?></a></li>
+	<?php endforeach; ?>
+	</ul>
+	<div class="clear"></div>
+</div>
+<div id="modelos" class="h">
+	<br />
+	<div class="f">
+		<table id="grid"></table>
+		<div id="footer"></div>
+	</div>
+	<div id="modelos-medicamentos" class="h f" style="margin-left: 5px">
+		<table id="grid2"></table>
+		<div id="footer2"></div>
+	</div>
+	<div class="clear"></div>
+</div>

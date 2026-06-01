@@ -1,0 +1,13 @@
+<input type="hidden" id="data-atestado" value="<?=$this->data($this->dados->data);?>" />
+<input type="hidden" id="data-solicitada" value="<?=$this->dados->dataSolicitada;?>" />
+<div id="receita">
+	<p>
+		Atestamos para os devidos fins que de acordo com o calendário vacinal vigente o usuário <strong><?=$this->dados->usu_nome;?></strong> 
+		está com suas vacinas em dia até: <strong><?=$this->data($this->dados->data);?></strong>
+	</p>
+</div>
+
+<div id="medico">
+	<h2><?= $this->dados->usr_nome ?></h2>
+	<h3>CRM: <?= $this->dados->usr_num_conselho; ?></h3>
+</div>

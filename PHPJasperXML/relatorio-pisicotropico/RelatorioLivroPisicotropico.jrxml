@@ -1,0 +1,2273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioProntuarioSuas" language="groovy" pageWidth="780" pageHeight="1150" columnWidth="740" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b5235e2b-a7ce-4fc6-b9c4-0edfa4878234">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="uni_desc" class="java.lang.String"/>
+	<parameter name="caminho_img" class="java.lang.String"/>
+	<parameter name="nome_secretaria" class="java.lang.String"/>
+	<parameter name="rodape" class="java.lang.String"/>
+	<parameter name="sqlPessoaReferencia" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cidade_pref" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="primAtendimentoRazao" class="java.lang.String"/>
+	<parameter name="primAtendimentoFormaAcesso" class="java.lang.String"/>
+	<parameter name="compFamiliarNome" class="java.lang.String"/>
+	<parameter name="compFamiliarSexo" class="java.lang.String"/>
+	<parameter name="compFamiliarNascimento" class="java.lang.String"/>
+	<parameter name="compFamiliarParentesco" class="java.lang.String"/>
+	<parameter name="compFamiliarDeficiencia" class="java.lang.String"/>
+	<parameter name="compFamiliarNome2" class="java.lang.String"/>
+	<parameter name="compFamiliarSexo2" class="java.lang.String"/>
+	<parameter name="compFamiliarNascimento2" class="java.lang.String"/>
+	<parameter name="compFamiliarParentesco2" class="java.lang.String"/>
+	<parameter name="compFamiliarDeficiencia2" class="java.lang.String"/>
+	<parameter name="compFamiliarNome3" class="java.lang.String"/>
+	<parameter name="compFamiliarSexo3" class="java.lang.String"/>
+	<parameter name="compFamiliarNascimento3" class="java.lang.String"/>
+	<parameter name="compFamiliarParentesco3" class="java.lang.String"/>
+	<parameter name="compFamiliarDeficiencia3" class="java.lang.String"/>
+	<parameter name="condHabitacionalTipoResid" class="java.lang.String"/>
+	<parameter name="condHabitacionalMaterial" class="java.lang.String"/>
+	<parameter name="condHabitacionalEnergia" class="java.lang.String"/>
+	<parameter name="condHabitacionalFormaAbaste" class="java.lang.String"/>
+	<parameter name="condHabitacionalEscoamento" class="java.lang.String"/>
+	<parameter name="condHabitacionalColetaLixo" class="java.lang.String"/>
+	<parameter name="condHabitacionalAreaRisco" class="java.lang.String"/>
+	<parameter name="condHabitacionalAcessoGeog" class="java.lang.String"/>
+	<parameter name="condHabitacionalPossuiAgua" class="java.lang.String"/>
+	<parameter name="compRendSaudeNome" class="java.lang.String"/>
+	<parameter name="compRendSaudeIdade" class="java.lang.String"/>
+	<parameter name="compRendSaudeSabeLerEsc" class="java.lang.String"/>
+	<parameter name="compRendSaudeFreqEscola" class="java.lang.String"/>
+	<parameter name="compRendSaudeEscolaridade" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiCartTrab" class="java.lang.String"/>
+	<parameter name="compRendSaudeOcupacao" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiQualProf" class="java.lang.String"/>
+	<parameter name="compRendSaudeRenda" class="java.lang.String"/>
+	<parameter name="compRendSaudeTipoDefic" class="java.lang.String"/>
+	<parameter name="compRendSaudeNome2" class="java.lang.String"/>
+	<parameter name="compRendSaudeIdade2" class="java.lang.String"/>
+	<parameter name="compRendSaudeSabeLerEsc2" class="java.lang.String"/>
+	<parameter name="compRendSaudeFreqEscola2" class="java.lang.String"/>
+	<parameter name="compRendSaudeEscolaridade2" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiCartTrab2" class="java.lang.String"/>
+	<parameter name="compRendSaudeOcupacao2" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiQualProf2" class="java.lang.String"/>
+	<parameter name="compRendSaudeRenda2" class="java.lang.String"/>
+	<parameter name="compRendSaudeTipoDefic2" class="java.lang.String"/>
+	<parameter name="compRendSaudeResponsavel2" class="java.lang.String"/>
+	<parameter name="compRendSaudeNome3" class="java.lang.String"/>
+	<parameter name="compRendSaudeIdade3" class="java.lang.String"/>
+	<parameter name="compRendSaudeSabeLerEsc3" class="java.lang.String"/>
+	<parameter name="compRendSaudeEscolaridade3" class="java.lang.String"/>
+	<parameter name="compRendSaudeFreqEscola3" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiCartTrab3" class="java.lang.String"/>
+	<parameter name="compRendSaudeOcupacao3" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiQualProf3" class="java.lang.String"/>
+	<parameter name="compRendSaudeRenda3" class="java.lang.String"/>
+	<parameter name="compRendSaudeTipoDefic3" class="java.lang.String"/>
+	<parameter name="compRendSaudeResponsavel3" class="java.lang.String"/>
+	<parameter name="compRendSaudeNecCuidado" class="java.lang.String"/>
+	<parameter name="compRendSaudeNecCuidado2" class="java.lang.String"/>
+	<parameter name="compRendSaudeNecCuidado3" class="java.lang.String"/>
+	<parameter name="compRendSaudeResponsavel" class="java.lang.String"/>
+	<parameter name="compRendSaudeDescriQualifi" class="java.lang.String"/>
+	<parameter name="compRendSaudeDescriQualifi2" class="java.lang.String"/>
+	<parameter name="compRendSaudeDescriQualifi3" class="java.lang.String"/>
+	<parameter name="convFamiliarAnosFamEstado" class="java.lang.String"/>
+	<parameter name="convFamiliarResideEstado" class="java.lang.String"/>
+	<parameter name="convFamiliarAnosFamMunic" class="java.lang.String"/>
+	<parameter name="convFamiliarResideMunic" class="java.lang.String"/>
+	<parameter name="convFamiliarAnosFamBairro" class="java.lang.String"/>
+	<parameter name="convFamiliarResideBairro" class="java.lang.String"/>
+	<parameter name="convFamiliarRelConjugal" class="java.lang.String"/>
+	<parameter name="convFamiliarRelConflito" class="java.lang.String"/>
+	<parameter name="violacaoSituacao" class="java.lang.String"/>
+	<parameter name="violacaoPersiste" class="java.lang.String"/>
+	<parameter name="violacaoDataInicio" class="java.lang.String"/>
+	<parameter name="violacaoDataEncerramento" class="java.lang.String"/>
+	<parameter name="acolhimentoNome" class="java.lang.String"/>
+	<parameter name="acolhimentoMotivo" class="java.lang.String"/>
+	<parameter name="acolhimentoDataInicio" class="java.lang.String"/>
+	<parameter name="acolhimentoDataEncerramento" class="java.lang.String"/>
+	<parameter name="medSocioNome" class="java.lang.String"/>
+	<parameter name="medSocioMedida" class="java.lang.String"/>
+	<parameter name="medSocioProcesso" class="java.lang.String"/>
+	<parameter name="medSocioDataInicio" class="java.lang.String"/>
+	<parameter name="medSocioDataEncerramento" class="java.lang.String"/>
+	<parameter name="tipoUsuarioLogado" class="java.lang.String"/>
+	<parameter name="compRendSaudeNome4" class="java.lang.String"/>
+	<parameter name="compRendSaudeIdade4" class="java.lang.String"/>
+	<parameter name="compRendSaudeSabeLerEsc4" class="java.lang.String"/>
+	<parameter name="compRendSaudeFreqEscola4" class="java.lang.String"/>
+	<parameter name="compRendSaudeEscolaridade4" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiCartTrab4" class="java.lang.String"/>
+	<parameter name="compRendSaudeOcupacao4" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiQualProf4" class="java.lang.String"/>
+	<parameter name="compRendSaudeDescriQualifi4" class="java.lang.String"/>
+	<parameter name="compRendSaudeRenda4" class="java.lang.String"/>
+	<parameter name="compRendSaudeTipoDefic4" class="java.lang.String"/>
+	<parameter name="compRendSaudeResponsavel4" class="java.lang.String"/>
+	<parameter name="compRendSaudeNecCuidado4" class="java.lang.String"/>
+	<parameter name="compRendSaudeNome5" class="java.lang.String"/>
+	<parameter name="compRendSaudeIdade5" class="java.lang.String"/>
+	<parameter name="compRendSaudeSabeLerEsc5" class="java.lang.String"/>
+	<parameter name="compRendSaudeFreqEscola5" class="java.lang.String"/>
+	<parameter name="compRendSaudeEscolaridade5" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiCartTrab5" class="java.lang.String"/>
+	<parameter name="compRendSaudeOcupacao5" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiQualProf5" class="java.lang.String"/>
+	<parameter name="compRendSaudeDescriQualifi5" class="java.lang.String"/>
+	<parameter name="compRendSaudeRenda5" class="java.lang.String"/>
+	<parameter name="compRendSaudeTipoDefic5" class="java.lang.String"/>
+	<parameter name="compRendSaudeResponsavel5" class="java.lang.String"/>
+	<parameter name="compRendSaudeNecCuidado5" class="java.lang.String"/>
+	<parameter name="compFamiliarNome4" class="java.lang.String"/>
+	<parameter name="compFamiliarSexo4" class="java.lang.String"/>
+	<parameter name="compFamiliarNascimento4" class="java.lang.String"/>
+	<parameter name="compFamiliarParentesco4" class="java.lang.String"/>
+	<parameter name="compFamiliarDeficiencia4" class="java.lang.String"/>
+	<parameter name="compFamiliarNome5" class="java.lang.String"/>
+	<parameter name="compFamiliarSexo5" class="java.lang.String"/>
+	<parameter name="compFamiliarNascimento5" class="java.lang.String"/>
+	<parameter name="compFamiliarParentesco5" class="java.lang.String"/>
+	<parameter name="compFamiliarDeficiencia5" class="java.lang.String"/>
+	<parameter name="compRendSaudeNome6" class="java.lang.String"/>
+	<parameter name="compRendSaudeIdade6" class="java.lang.String"/>
+	<parameter name="compRendSaudeSabeLerEsc6" class="java.lang.String"/>
+	<parameter name="compRendSaudeFreqEscola6" class="java.lang.String"/>
+	<parameter name="compRendSaudeEscolaridade6" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiCartTrab6" class="java.lang.String"/>
+	<parameter name="compRendSaudeOcupacao6" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiQualProf6" class="java.lang.String"/>
+	<parameter name="compRendSaudeDescriQualifi6" class="java.lang.String"/>
+	<parameter name="compRendSaudeRenda6" class="java.lang.String"/>
+	<parameter name="compRendSaudeTipoDefic6" class="java.lang.String"/>
+	<parameter name="compRendSaudeResponsavel6" class="java.lang.String"/>
+	<parameter name="compRendSaudeNecCuidado6" class="java.lang.String"/>
+	<parameter name="compRendSaudeNome7" class="java.lang.String"/>
+	<parameter name="compRendSaudeIdade7" class="java.lang.String"/>
+	<parameter name="compRendSaudeSabeLerEsc7" class="java.lang.String"/>
+	<parameter name="compRendSaudeFreqEscola7" class="java.lang.String"/>
+	<parameter name="compRendSaudeEscolaridade7" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiCartTrab7" class="java.lang.String"/>
+	<parameter name="compRendSaudeOcupacao7" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiQualProf7" class="java.lang.String"/>
+	<parameter name="compRendSaudeDescriQualifi7" class="java.lang.String"/>
+	<parameter name="compRendSaudeRenda7" class="java.lang.String"/>
+	<parameter name="compRendSaudeTipoDefic7" class="java.lang.String"/>
+	<parameter name="compRendSaudeResponsavel7" class="java.lang.String"/>
+	<parameter name="compRendSaudeNecCuidado7" class="java.lang.String"/>
+	<parameter name="compRendSaudeNome8" class="java.lang.String"/>
+	<parameter name="compRendSaudeIdade8" class="java.lang.String"/>
+	<parameter name="compRendSaudeSabeLerEsc8" class="java.lang.String"/>
+	<parameter name="compRendSaudeFreqEscola8" class="java.lang.String"/>
+	<parameter name="compRendSaudeEscolaridade8" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiCartTrab8" class="java.lang.String"/>
+	<parameter name="compRendSaudeOcupacao8" class="java.lang.String"/>
+	<parameter name="compRendSaudePossuiQualProf8" class="java.lang.String"/>
+	<parameter name="compRendSaudeDescriQualifi8" class="java.lang.String"/>
+	<parameter name="compRendSaudeRenda8" class="java.lang.String"/>
+	<parameter name="compRendSaudeTipoDefic8" class="java.lang.String"/>
+	<parameter name="compRendSaudeResponsavel8" class="java.lang.String"/>
+	<parameter name="compRendSaudeNecCuidado8" class="java.lang.String"/>
+	<parameter name="compFamiliarNome6" class="java.lang.String"/>
+	<parameter name="compFamiliarSexo6" class="java.lang.String"/>
+	<parameter name="compFamiliarNascimento6" class="java.lang.String"/>
+	<parameter name="compFamiliarParentesco6" class="java.lang.String"/>
+	<parameter name="compFamiliarDeficiencia6" class="java.lang.String"/>
+	<parameter name="compFamiliarNome7" class="java.lang.String"/>
+	<parameter name="compFamiliarSexo7" class="java.lang.String"/>
+	<parameter name="compFamiliarNascimento7" class="java.lang.String"/>
+	<parameter name="compFamiliarParentesco7" class="java.lang.String"/>
+	<parameter name="compFamiliarDeficiencia7" class="java.lang.String"/>
+	<parameter name="compFamiliarNome8" class="java.lang.String"/>
+	<parameter name="compFamiliarSexo8" class="java.lang.String"/>
+	<parameter name="compFamiliarNascimento8" class="java.lang.String"/>
+	<parameter name="compFamiliarParentesco8" class="java.lang.String"/>
+	<parameter name="compFamiliarDeficiencia8" class="java.lang.String"/>
+	<queryString language="plsql">
+		<![CDATA[SELECT usu.*,
+                               dom.dom_codigo,
+                               dom.dom_numero,
+                               dom.dom_complemento,
+                               dom.dom_ponto_referencia,
+                               dom.dom_telefone,
+                               dom.dom_as_localizacao,
+                               dom.dom_as_abrigo,
+                               bai.bai_codigo,
+                               bai.bai_nome,
+                               rua.rua_nome,
+                               rua.rua_codigo,
+                               rua.rua_cep,
+                               cid.cid_codigo,
+                               cid.cid_nome,
+                               est.uf_codigo,
+                               est.uf_nome,
+                               est.uf_sigla
+                        FROM usuario usu
+                        INNER JOIN as_prontuario_suas_usuario aspsu ON usu.usu_codigo = aspsu.usu_codigo
+                        INNER JOIN as_prontuario_suas asps ON aspsu.asps_codigo = asps.asps_codigo
+                        LEFT JOIN domicilio dom ON dom.dom_codigo = usu.dom_codigo
+                        LEFT JOIN bairro bai ON dom.bai_codigo = bai.bai_codigo
+                        LEFT JOIN rua ON rua.rua_codigo = dom.rua_codigo
+                        LEFT JOIN cidade cid ON cid.cid_codigo = rua.cid_codigo
+                        LEFT JOIN estado est ON cid.uf_codigo = est.uf_codigo
+                        WHERE usu.usu_asps_ativo ='t' AND
+                              usu.usu_asps_ref ='t']]>
+	</queryString>
+	<field name="usu_codigo" class="java.lang.Long"/>
+	<field name="usu_nome" class="java.lang.String"/>
+	<field name="fam_codigo" class="java.lang.Long"/>
+	<field name="usu_observacao" class="java.lang.String"/>
+	<field name="usu_sexo" class="java.lang.String"/>
+	<field name="usu_datanasc" class="java.sql.Date"/>
+	<field name="cid_codigo_nasc" class="java.lang.Long"/>
+	<field name="usu_dt_entrada_pais" class="java.sql.Date"/>
+	<field name="usu_sit_familiar" class="java.lang.String"/>
+	<field name="usu_ocupacao" class="java.lang.String"/>
+	<field name="usu_cbo_r1" class="java.lang.Integer"/>
+	<field name="usu_pis_pasep" class="java.lang.String"/>
+	<field name="usu_cpf" class="java.lang.String"/>
+	<field name="usu_cartao_p_sus" class="java.lang.String"/>
+	<field name="usu_cartao_sus" class="java.lang.String"/>
+	<field name="usu_tipo_certidao" class="java.lang.Integer"/>
+	<field name="usu_cert_cartorio" class="java.lang.String"/>
+	<field name="usu_cert_livro" class="java.lang.String"/>
+	<field name="usu_cert_termo" class="java.lang.String"/>
+	<field name="usu_cert_emissao" class="java.sql.Date"/>
+	<field name="usu_rg" class="java.lang.String"/>
+	<field name="usu_rg_compl" class="java.lang.String"/>
+	<field name="usu_rg_dt_emissao" class="java.sql.Date"/>
+	<field name="usu_ctps" class="java.lang.String"/>
+	<field name="usu_ctps_serie" class="java.lang.String"/>
+	<field name="usu_ctps_dt_emissao" class="java.sql.Date"/>
+	<field name="usu_tit_eleitor" class="java.lang.String"/>
+	<field name="usu_tit_eleitor_zona" class="java.lang.String"/>
+	<field name="usu_tit_eleitor_secao" class="java.lang.String"/>
+	<field name="usu_mae" class="java.lang.String"/>
+	<field name="usu_pai" class="java.lang.String"/>
+	<field name="rac_codigo" class="java.lang.String"/>
+	<field name="usu_cisvir" class="java.lang.String"/>
+	<field name="usu_end_rua" class="java.lang.String"/>
+	<field name="usu_end_nr" class="java.lang.String"/>
+	<field name="usu_end_compl" class="java.lang.String"/>
+	<field name="usu_end_bairro" class="java.lang.String"/>
+	<field name="usu_end_cep" class="java.lang.String"/>
+	<field name="usu_end_cidade" class="java.lang.String"/>
+	<field name="usu_cidade_nasc" class="java.lang.String"/>
+	<field name="usu_fone" class="java.lang.String"/>
+	<field name="usu_celular" class="java.lang.String"/>
+	<field name="usu_same" class="java.lang.String"/>
+	<field name="usu_prontuario" class="java.lang.String"/>
+	<field name="uni_origem" class="java.lang.Long"/>
+	<field name="usu_freq_escolar" class="java.lang.String"/>
+	<field name="uni_unidade_bkp" class="java.lang.String"/>
+	<field name="usr_cad" class="java.lang.Integer"/>
+	<field name="usr_alt" class="java.lang.Integer"/>
+	<field name="dt_add" class="java.sql.Timestamp"/>
+	<field name="dt_update" class="java.lang.Integer"/>
+	<field name="usu_ibge_codigo" class="java.lang.String"/>
+	<field name="id_rua" class="java.lang.Long">
+		<fieldDescription><![CDATA[id_rua = saude.rua.rua_codigo]]></fieldDescription>
+	</field>
+	<field name="usu_resp_nome" class="java.lang.String"/>
+	<field name="usu_resp_doc_tipo" class="java.lang.String"/>
+	<field name="usu_resp_doc" class="java.lang.String"/>
+	<field name="usr_cad_dt" class="java.sql.Timestamp"/>
+	<field name="usr_alt_dt" class="java.sql.Timestamp"/>
+	<field name="muni_cd_cod_ibge_resid" class="java.lang.String"/>
+	<field name="uni_unidade" class="java.lang.Long"/>
+	<field name="muni_cd_cod_ibge_nasc" class="java.lang.String"/>
+	<field name="id_usuario" class="java.lang.String"/>
+	<field name="cd_nacionalidade" class="java.lang.String"/>
+	<field name="dt_naturalizacao" class="java.sql.Date"/>
+	<field name="dt_preenchimento_form" class="java.sql.Date"/>
+	<field name="dt_inclusao" class="java.sql.Date"/>
+	<field name="dt_alteracao" class="java.sql.Date"/>
+	<field name="nr_uso_municipal" class="java.lang.String"/>
+	<field name="nr_portaria_naturalizacao" class="java.lang.String"/>
+	<field name="uf_codigo_pac" class="java.lang.String"/>
+	<field name="usu_escolaridade" class="java.lang.String"/>
+	<field name="usu_st_conjugal" class="java.lang.String"/>
+	<field name="usu_nr_ficha" class="java.lang.Long"/>
+	<field name="usu_cadastrador" class="java.lang.String"/>
+	<field name="usu_bolsa_alimentacao" class="java.lang.String"/>
+	<field name="usu_prodea" class="java.lang.String"/>
+	<field name="usu_nome_operador" class="java.lang.String"/>
+	<field name="usu_situacao_emprego" class="java.lang.String"/>
+	<field name="usu_renda_media" class="java.math.BigDecimal"/>
+	<field name="usu_doencas" class="java.lang.String"/>
+	<field name="usu_habitos_vida" class="java.lang.String"/>
+	<field name="usu_nr_lote" class="java.lang.String"/>
+	<field name="usu_reservista" class="java.lang.String"/>
+	<field name="usu_cnh_numero" class="java.lang.String"/>
+	<field name="usu_cnh_categoria" class="java.lang.String"/>
+	<field name="usu_fone_recado" class="java.lang.String"/>
+	<field name="usu_email" class="java.lang.String"/>
+	<field name="usu_zona_residencia" class="java.lang.String"/>
+	<field name="usu_estado_civil" class="java.lang.String"/>
+	<field name="usu_conjuge" class="java.lang.String"/>
+	<field name="nesp_codigo" class="java.lang.Long"/>
+	<field name="usu_bolsa_familia" class="java.lang.String"/>
+	<field name="usu_transporte_publico" class="java.lang.String"/>
+	<field name="usu_cert_civil_emissor" class="java.lang.String"/>
+	<field name="usu_nis" class="java.lang.String"/>
+	<field name="usu_data_cad" class="java.sql.Date"/>
+	<field name="usu_qtd_comodos" class="java.lang.Long"/>
+	<field name="usu_prontuario_num" class="java.lang.Long"/>
+	<field name="usu_cert_cartorio_nasc" class="java.lang.String"/>
+	<field name="usu_cert_livro_nasc" class="java.lang.String"/>
+	<field name="usu_cert_lv_fls_nasc" class="java.lang.String"/>
+	<field name="usu_cert_termo_nasc" class="java.lang.String"/>
+	<field name="usu_gestor" class="java.lang.String"/>
+	<field name="codigo_secretaria" class="java.lang.Integer"/>
+	<field name="pais_codigo" class="java.lang.String"/>
+	<field name="usu_codigo_sus" class="java.lang.String"/>
+	<field name="usu_dt_obito" class="java.sql.Date"/>
+	<field name="usu_obito" class="java.lang.String"/>
+	<field name="usu_uf_cert_civil" class="java.lang.String"/>
+	<field name="uf_sigla_rg" class="java.lang.String"/>
+	<field name="uf_sigla_ctps" class="java.lang.String"/>
+	<field name="usu_ativacao" class="java.lang.String"/>
+	<field name="usu_dt_ativacao_desativacao" class="java.sql.Date"/>
+	<field name="usu_cert_emissao_nasc" class="java.sql.Date"/>
+	<field name="usu_tipo_esgoto" class="java.lang.String"/>
+	<field name="usu_tipo_const_casa" class="java.lang.String"/>
+	<field name="usu_rede_eletrica" class="java.lang.String"/>
+	<field name="usu_tipo_abast_agua" class="java.lang.String"/>
+	<field name="usu_cbo_r" class="java.lang.String"/>
+	<field name="usu_cert_lv_fls" class="java.lang.String"/>
+	<field name="usu_codigo_pai" class="java.lang.Integer"/>
+	<field name="usu_codigo_mae" class="java.lang.Integer"/>
+	<field name="usu_codigo_conjuge" class="java.lang.Integer"/>
+	<field name="usu_codigo_enc" class="java.lang.String"/>
+	<field name="usu_codigo_ver" class="java.lang.String"/>
+	<field name="ecd_codigo" class="java.lang.String"/>
+	<field name="dom_codigo" class="java.lang.Long"/>
+	<field name="usu_plano_saude" class="java.lang.String"/>
+	<field name="usu_desc_plano_saude" class="java.lang.String"/>
+	<field name="etn_codigo" class="java.lang.Long"/>
+	<field name="idbio" class="java.lang.Integer"/>
+	<field name="usu_fator_rh" class="java.lang.String"/>
+	<field name="usu_tipo_sanguineo" class="java.lang.String"/>
+	<field name="usu_rg_emissor" class="java.lang.String"/>
+	<field name="usu_bloqueado" class="java.lang.Boolean"/>
+	<field name="uni_codigo_obito" class="java.lang.Long"/>
+	<field name="cd10_codigo_obito" class="java.lang.Long"/>
+	<field name="usu_nome_resp" class="java.lang.String"/>
+	<field name="usu_foto" class="java.lang.Object"/>
+	<field name="usu_foto_nome" class="java.lang.String"/>
+	<field name="usu_importacao" class="java.lang.String"/>
+	<field name="usr_codigo" class="java.lang.Long"/>
+	<field name="usu_st_responsavel_familiar" class="java.lang.String"/>
+	<field name="usu_cns_responsavel_familiar" class="java.lang.String"/>
+	<field name="uni_codigo" class="java.lang.Long"/>
+	<field name="estc_codigo" class="java.lang.String"/>
+	<field name="usu_as_aposentado" class="java.lang.Boolean"/>
+	<field name="usu_as_bpc" class="java.lang.Boolean"/>
+	<field name="usu_asdeficiencia" class="java.lang.Boolean"/>
+	<field name="usu_asdoc_cnprov" class="java.lang.String"/>
+	<field name="usu_asdoc_rgprov" class="java.lang.String"/>
+	<field name="usu_asdoc_ctpsprov" class="java.lang.String"/>
+	<field name="usu_asdoc_cpfprov" class="java.lang.String"/>
+	<field name="usu_asdoc_teprov" class="java.lang.String"/>
+	<field name="usu_as_apelido" class="java.lang.String"/>
+	<field name="usu_asps_ativo" class="java.lang.Boolean"/>
+	<field name="usu_asps_ref" class="java.lang.Boolean"/>
+	<field name="as_usu_alfabetizado" class="java.lang.Boolean"/>
+	<field name="as_usu_estuda" class="java.lang.Boolean"/>
+	<field name="as_usu_escolaridade" class="java.lang.Integer"/>
+	<field name="as_cond_ocupacao" class="java.lang.Integer"/>
+	<field name="as_possui_qualificacao" class="java.lang.Boolean"/>
+	<field name="as_possui_qualificacao_qual" class="java.lang.String"/>
+	<field name="as_renda_mensal" class="java.math.BigDecimal"/>
+	<field name="usu_as_tipo_deficiencia" class="java.lang.Integer"/>
+	<field name="usu_as_cuidado_constante" class="java.lang.Boolean"/>
+	<field name="usu_as_resp_cuidado" class="java.lang.String"/>
+	<field name="usu_as_doenca_grava" class="java.lang.Boolean"/>
+	<field name="usu_as_remedio_controlado" class="java.lang.Boolean"/>
+	<field name="usu_as_alcoolatra" class="java.lang.Boolean"/>
+	<field name="usu_as_drogado" class="java.lang.Boolean"/>
+	<field name="usu_as_situacao" class="java.lang.Boolean"/>
+	<field name="usu_sit_rua" class="java.lang.String"/>
+	<field name="usu_recado" class="java.lang.String"/>
+	<field name="usu_deficiencia" class="java.lang.Boolean"/>
+	<field name="aspsu_parentesco" class="java.lang.Integer">
+		<fieldDescription><![CDATA[1 - Pessoa de referencia
+2 - Conjuge / companheiro
+3 - Filho
+4 - Enteado;
+5 - Neto
+6 - Pai / Mãe
+7 - Sogro
+8 - Irmão / Irmã
+9 - Genro / Nora
+10 - Outro Parente
+11 - Não Parente]]></fieldDescription>
+	</field>
+	<field name="usu_ciscomcam" class="java.lang.String"/>
+	<field name="usu_doenca" class="java.lang.Boolean"/>
+	<field name="usu_codigofamilia" class="java.lang.Integer"/>
+	<field name="dom_numero" class="java.lang.Integer"/>
+	<field name="dom_complemento" class="java.lang.String"/>
+	<field name="dom_ponto_referencia" class="java.lang.String"/>
+	<field name="dom_telefone" class="java.lang.String"/>
+	<field name="dom_as_localizacao" class="java.lang.String"/>
+	<field name="dom_as_abrigo" class="java.lang.Boolean"/>
+	<field name="bai_codigo" class="java.lang.Long"/>
+	<field name="bai_nome" class="java.lang.String"/>
+	<field name="rua_nome" class="java.lang.String"/>
+	<field name="rua_codigo" class="java.lang.Long"/>
+	<field name="rua_cep" class="java.lang.String"/>
+	<field name="cid_codigo" class="java.lang.Long"/>
+	<field name="cid_nome" class="java.lang.String"/>
+	<field name="uf_codigo" class="java.lang.Long"/>
+	<field name="uf_nome" class="java.lang.String"/>
+	<field name="uf_sigla" class="java.lang.String"/>
+	<filterExpression><![CDATA[]]></filterExpression>
+	<group name="beneficios">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="77"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="1060">
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="2" width="750" height="1027" uuid="962c5005-9147-45b1-a58c-d87a19c2bbb8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement mode="Opaque" x="10" y="20" width="728" height="91" backcolor="#FFFFFF" uuid="c65591bb-d6ca-4827-a73d-d4f02ea0dd52"/>
+			</rectangle>
+			<line>
+				<reportElement mode="Opaque" x="107" y="20" width="1" height="91" uuid="9ed61941-cb0b-4db4-b65b-3817c6c60877"/>
+			</line>
+			<line>
+				<reportElement mode="Opaque" x="10" y="111" width="1" height="918" uuid="9fae4da4-85cc-45dd-b178-a0f8d86f5ce7"/>
+			</line>
+			<line>
+				<reportElement mode="Opaque" x="738" y="111" width="1" height="918" uuid="ad175171-44c1-46df-aae7-4429d7e49c12"/>
+			</line>
+		</band>
+	</background>
+	<pageHeader>
+		<band height="112" splitType="Stretch">
+			<image>
+				<reportElement x="28" y="33" width="62" height="64" uuid="829ca8b7-e339-4e62-95c1-cd8b777bfbbe"/>
+				<imageExpression><![CDATA[$P{caminho_img}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="103" y="73" width="635" height="20" uuid="307b2cdd-604c-4c40-9add-00fb253de190"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{uni_desc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="52" width="635" height="20" uuid="42303ad0-6be7-4c14-83e4-33613d1a50eb"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nome_secretaria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="103" y="31" width="635" height="20" uuid="16c7f4f2-6d25-468a-a317-59d3a01cc93c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PREFEITURA MUNICIPAL DE " + $P{cidade_pref}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="855" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="20" width="239" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="dc02e94a-6faa-4ffa-a5c4-87264e357336"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome Completo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="249" y="20" width="108" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="2fc7a91f-b339-499e-adb7-ee6c73c62ca1"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Nascimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="411" y="20" width="327" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="ab0ddc7d-b905-4b1d-a934-385e77fa4c7c"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Endereço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="357" y="20" width="54" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="0c04f776-0d9d-44d6-8323-2d5ac8371696"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="3" width="536" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="53d2908f-3608-48b5-93c6-b2a8eecafa71"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Identificação da Pessoa de Referência e Endereço da Família]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="10" y="34" width="239" height="12" uuid="4030595e-925c-4333-941f-8d887294103c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usu_nome}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="249" y="34" width="108" height="12" uuid="622a5228-87c3-4079-9423-20b6685bfe4d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usu_datanasc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="357" y="34" width="54" height="12" uuid="7950aeca-255e-454d-beaf-67a65869317d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{usu_sexo} == "M" ? "MASCULINO" : "FEMININO"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="411" y="34" width="327" height="12" uuid="5581fe3e-8531-4e92-a644-b0e511bccbea"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rua_nome} + ", " +$F{dom_numero}+", " + $F{cid_nome} + "-" +$F{uf_sigla}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="77" width="363" height="12" uuid="c7afb6ad-c231-4e36-bc29-60e832def7e7"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{primAtendimentoFormaAcesso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="49" width="532" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="300bed0f-5943-477c-8be8-febd8cf1f901"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Forma de Ingresso na Unidade e Primeiro Atendimento]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="374" y="77" width="364" height="12" uuid="32c7805d-904f-4c3e-bbb0-bffdbdf350c0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{primAtendimentoRazao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="374" y="63" width="364" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="b95317b1-d6cf-43d0-9e44-358ef1b55deb"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qual motivo do primeiro atendimento ?]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="63" width="364" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="fefe2c1a-deea-43bd-8a63-861714b22490"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[De que forma acessou a unidade para o primeiro atendimento ?]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="11" y="98" width="532" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="56697094-fd4a-4430-92f0-b026ad7058f3"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Composição Familiar]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="126" width="304" height="12" uuid="28c597b4-593a-4cb2-8df7-59a0a462184e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNome}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="315" y="126" width="108" height="12" uuid="5966af04-eff8-419b-8f2f-edc8f68229f0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNascimento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="126" width="63" height="12" uuid="1933a80a-0a30-455f-95be-daec2b7350c4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarSexo} != "" ? ($P{compFamiliarSexo} == "M" ? "MASCULINO" : "FEMININO") :  ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="423" y="112" width="63" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="6db9e3d7-c471-4883-a796-d27ee1103f33"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="486" y="126" width="163" height="12" uuid="f3b8c93b-6356-469e-922b-fb0d84606339"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarParentesco}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="486" y="112" width="163" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="b70ad128-35de-4896-b2ce-2fae40b1dbd1"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parentesco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="315" y="112" width="108" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="e3e753c5-8fcb-4314-9479-2d41781329f6"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Nascimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="112" width="305" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="9838df55-8d16-424d-885b-f40f7e0086f7"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome Completo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="649" y="112" width="89" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="bc2e94cf-6c4b-4542-8a5b-17ca563014ae"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Possui Deficiência]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="649" y="126" width="89" height="12" uuid="0fc92197-55e3-48e6-ba74-f4858e0805a9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarDeficiencia} != "" ? ($P{compFamiliarDeficiencia} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="138" width="304" height="12" uuid="7f460c10-b2e4-4fbf-b225-52b11db3b195"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNome2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="315" y="138" width="108" height="12" uuid="49a59cfd-fcea-49dd-8ffe-6befdacc0e81"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNascimento2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="486" y="138" width="163" height="12" uuid="f378c03f-147e-459c-90c8-481a25453f52"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarParentesco2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="138" width="63" height="12" uuid="b9a865e1-80ae-4216-95e7-d1b3813900cc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarSexo2} != "" ? ($P{compFamiliarSexo2} == "M" ? "MASCULINO" : "FEMININO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="649" y="138" width="89" height="12" uuid="e6f77fa5-ce1e-4e83-b87f-0fe31693dceb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarDeficiencia2} != "" ? ($P{compFamiliarDeficiencia2} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="315" y="150" width="108" height="12" uuid="2224992d-417b-4d79-bb78-d02e5c441046"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNascimento3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="649" y="150" width="89" height="12" uuid="141b8f3b-be33-4caa-b188-9b4ccc964e90"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarDeficiencia3} != "" ? ($P{compFamiliarDeficiencia3} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="150" width="63" height="12" uuid="0b147539-2d8e-4827-b832-464b1123e737"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarSexo3} != "" ? ($P{compFamiliarSexo3} == "M" ? "MASCULINO" : "FEMININO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="150" width="304" height="12" uuid="d243a89f-d236-4525-954e-01659cf2cbf7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNome3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="486" y="150" width="163" height="12" uuid="131440c6-54c9-468d-ae0b-7d0197a14bcc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarParentesco3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToBandHeight" x="134" y="270" width="123" height="12" uuid="59c205f9-96a6-4340-80d5-46e3d3c61720"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{condHabitacionalMaterial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="11" y="238" width="532" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="537033e1-be41-4cde-bd55-139b15623696"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Condições Habitacionais da Família]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="257" y="270" width="148" height="12" uuid="8276ddf8-276b-453a-a5f5-5ccd30790cf8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{condHabitacionalEnergia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="257" y="255" width="148" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="540a6735-d578-485e-803e-56edbbf4facf"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Acesso à Energia Elétrica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="12" y="255" width="122" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="67d84bad-99fa-4aba-a6b9-ba2b9d503967"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Residência]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="406" y="270" width="194" height="12" uuid="ba635a66-bcc5-410f-a9eb-06731ef83a47"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{condHabitacionalFormaAbaste}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="12" y="270" width="122" height="12" uuid="b4bb2e25-aece-417a-8b03-762f3fb9c68f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{condHabitacionalTipoResid}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="134" y="255" width="124" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="fba6a3be-1e88-4694-ab93-57b4e3e23525"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Material das Paredes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="405" y="255" width="195" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="b54cf37f-ce62-45e8-a890-ccb2c2243e11"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Forma de Abastecimento]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="600" y="270" width="139" height="12" uuid="ea3c23ee-55b9-4c92-a54f-b19874320d06"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{condHabitacionalEscoamento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="600" y="255" width="139" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="73bea92c-e0f7-45a8-8f60-222538a1e021"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Escoamento Sanitário]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="420" y="329" width="99" height="12" uuid="db96af90-3332-4e4f-b079-e550c0378f2a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeFreqEscola} != "" ? ($P{compRendSaudeFreqEscola} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="330" y="329" width="90" height="12" uuid="36be2e5d-691d-4272-a49c-2d52732aab21"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeSabeLerEsc} != "" ? ($P{compRendSaudeSabeLerEsc} == 't' ? "SIM" : "NÂO") : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="330" y="315" width="90" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="319890df-e8be-4924-86e9-c7d0e2e90ec9"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alfabetizado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="9" y="315" width="277" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="cb5b4e84-a36d-4e0e-8264-8f7471c569f0"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome Completo]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="10" y="329" width="276" height="12" uuid="2b6d0cb3-65e3-4474-b4a4-f3925fc2bcd5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToBandHeight" x="286" y="329" width="44" height="12" uuid="6096f96a-a26b-4dff-8dfd-91678c262f77"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeIdade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="298" width="532" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="4b9abc59-4057-4aaa-bad2-49c9ae1d3e00"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Condições Educacionais da Família]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="286" y="315" width="44" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="9d201f73-0d06-4fe3-a035-62536e223de7"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Idade]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="519" y="329" width="218" height="12" uuid="92be1bb1-1309-412e-8b53-29dbab0ade89"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeEscolaridade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="519" y="315" width="218" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="89d272f3-33f8-4997-b543-f6c8558d5fdc"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Escolaridade]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="420" y="341" width="99" height="12" uuid="96da151b-8895-42ff-a25e-f331904da908"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeFreqEscola2} != "" ? ($P{compRendSaudeFreqEscola2} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="330" y="341" width="90" height="12" uuid="0ea9cc49-8789-43b5-9c83-4890f8b287e0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeSabeLerEsc2} != "" ? ($P{compRendSaudeSabeLerEsc2} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="10" y="341" width="276" height="12" uuid="5734844b-8ad7-4cd2-a0f1-de76ee0643f5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToBandHeight" x="286" y="341" width="44" height="12" uuid="97b48a0d-42f0-455d-bc5a-b9af8f0c23a0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeIdade2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="519" y="341" width="217" height="12" uuid="6e28fb14-9f48-4e23-b2eb-3a86f2b8140a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeEscolaridade2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="420" y="315" width="99" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="04d77f2c-1b6f-415a-9956-a1335320d473"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Frequenta Escola]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="330" y="353" width="90" height="12" uuid="eb28e28b-bd48-419d-bfc8-44dd82940c99"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeSabeLerEsc3} != "" ? ($P{compRendSaudeSabeLerEsc3} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="519" y="353" width="217" height="12" uuid="d51cc6cf-94c1-4491-9776-539630459b2b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeEscolaridade3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="10" y="353" width="276" height="12" uuid="703e5b07-ae80-4d0c-903c-74526036b5c8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="420" y="353" width="99" height="12" uuid="2cd03f59-13ba-4c69-ba9b-3af77857f2d8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeFreqEscola3} != "" ? ($P{compRendSaudeFreqEscola3} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToBandHeight" x="286" y="353" width="44" height="12" uuid="544d8e8e-e335-4128-8d49-6f3030dcd149"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeIdade3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="445" y="480" width="206" height="12" uuid="d5e185c0-ef82-48d1-917c-b5c2a8bb4bbb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudePossuiQualProf3} != "" ? ($P{compRendSaudePossuiQualProf3} ==  't' ? $P{compRendSaudeDescriQualifi3} : "NÃO POSSUI") : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="445" y="442" width="207" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="0a844bc5-6209-459a-9c44-730bba1e5920"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qualificação Profissional]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="279" y="468" width="67" height="12" uuid="d40c5b94-a2b9-4c46-a40e-29c48e85967a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome2} != "" ? ($P{compRendSaudePossuiCartTrab2} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="445" y="468" width="206" height="12" uuid="218794d0-2e40-4f8a-992f-592bff4dc941"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudePossuiQualProf2} != "" ? ($P{compRendSaudePossuiQualProf2} == 't' ? $P{compRendSaudeDescriQualifi2} : "NÃO POSSUI") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="456" width="268" height="12" uuid="39175367-0e2e-4951-93b8-b5c683a18304"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="468" width="268" height="12" uuid="2ab6a9bd-dd48-4d31-9ffa-207f01e40e62"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="480" width="268" height="12" uuid="e713c382-4cf3-4bdd-a542-7656e1a4331d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="346" y="442" width="99" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="ca0ed09c-1a30-4c4f-82af-c0bdb14d409b"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ocupação]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="445" y="456" width="207" height="12" uuid="8c843721-ccb2-45ef-ac2c-a02cfd98a443"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudePossuiQualProf} != "" ? ($P{compRendSaudePossuiQualProf} == 't' ? $P{compRendSaudeDescriQualifi} : "NÃO POSSUI") : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="279" y="442" width="67" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="3487b2cb-da94-4e0d-ac98-deda1f47501c"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Possui CTPS]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="346" y="480" width="99" height="12" uuid="e409b6d1-b660-42f4-907d-29e63048db4d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome3} != "" ? ($P{compRendSaudeOcupacao3} == "" ? "NÃO INFORMOU" : $P{compRendSaudeOcupacao3}): ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="346" y="468" width="99" height="12" uuid="d43b0e24-566d-4b58-bcce-c6bdde6c2152"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome2} != "" ? ($P{compRendSaudeOcupacao2} == "" ? "NÃO INFORMOU" : $P{compRendSaudeOcupacao2}) : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="442" width="269" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="4e3b5c4a-eab2-4cb6-8efd-321d2ad39b48"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome Completo]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="279" y="480" width="67" height="12" uuid="76371f7d-5ef8-447b-90f3-d7a754ba7629"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome3} != "" ? ($P{compRendSaudePossuiCartTrab3} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="346" y="456" width="99" height="12" uuid="8e363d67-dbca-4ad9-9a42-e102aecaba4e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudeOcupacao} ==  "" ? "NÃO INFORMOU" : $P{compRendSaudeOcupacao}) : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="11" y="428" width="532" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="89937fac-b245-4d10-9af4-d9f27d66d37c"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Condições de Trabalho da Família]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="279" y="456" width="67" height="12" uuid="b3cdeaa0-9b5f-4648-b8d7-e4dfca36b656"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudePossuiCartTrab} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="652" y="442" width="86" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="3a81510d-75e3-4e24-ab7f-248398addb83"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Renda Mensal]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="652" y="456" width="86" height="12" uuid="24faddd4-e1b6-4391-a015-6b8b935399b8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeRenda}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="237" y="594" width="170" height="12" uuid="7d63ead5-9f40-48af-ad32-6b42096b49e3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudeTipoDefic2} ==  "" ? "NÃO POSSUI" : $P{compRendSaudeTipoDefic2}) : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="564" y="568" width="175" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="c4866d0d-fd33-423b-a9a9-bb910e54a9b2"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Responsável pelo Cuidado]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="13" y="594" width="224" height="12" uuid="a9006c88-af2e-4d4f-9869-cc1d5eaa69ad"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="565" y="605" width="174" height="12" uuid="e18990a8-ba07-45a6-8875-c49e60e4c3e9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeResponsavel3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="407" y="605" width="158" height="12" uuid="f235d70d-3f75-4a4c-bce4-3077055a5053"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome3} != "" ? ($P{compRendSaudeNecCuidado3} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="407" y="582" width="158" height="12" uuid="0fa9e020-3196-421f-a3b8-7b135f655e6a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudeNecCuidado} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="565" y="594" width="174" height="12" uuid="c67e0903-447c-4071-ae4c-e64cf2538319"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeResponsavel2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="407" y="594" width="158" height="12" uuid="79180220-5f90-4e45-8056-368c9e4b76ef"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome2} != "" ? ($P{compRendSaudeNecCuidado2} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="407" y="568" width="157" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="1a263213-861e-478d-9bc0-e8bc3b288fde"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Necessita de Cuidados ?]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="13" y="605" width="224" height="12" uuid="3b34c207-7d23-4517-ac15-7d3b7e5e21a5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="237" y="605" width="170" height="12" uuid="0ba2232e-e1ea-4b76-bfb0-fac4c1185599"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudeTipoDefic3} == "" ? "NÃO POSSUI" : $P{compRendSaudeTipoDefic3}) : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="237" y="568" width="170" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="d2cfb79e-1dde-45f1-a69e-d7f4d0f59aea"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Possui Deficiência? Qual?]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="13" y="582" width="224" height="12" uuid="ec8dcc7f-887c-4d4e-a8e1-373ce6273c69"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="237" y="582" width="170" height="12" uuid="62b7f8ef-d5e7-4774-83ff-932bb66b97c9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudeTipoDefic} == "" ? "NÃO POSSUI" : $P{compRendSaudeTipoDefic}) : ""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="11" y="568" width="226" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="9c5a3040-69d0-48ce-a6ae-3b6f88d8f210"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome Completo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="554" width="532" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="cf599b14-78f1-4e46-baff-a35c9831f89b"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Condições de Saúde da Família]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="564" y="582" width="175" height="12" uuid="5bde20bc-0f2b-4392-8b2d-b14d980bbfcf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeResponsavel}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="652" y="468" width="86" height="12" uuid="01321340-3237-4177-be1c-926fb5b5c5bd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeRenda2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="652" y="480" width="86" height="12" uuid="a0ff7324-b118-422c-9c77-ff0f17b5f747"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeRenda3}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="688" width="128" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="4e0195cb-c222-4288-8550-460e629a5a86"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Anos Morando no Estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="138" y="688" width="137" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="e7311071-a11e-48f5-b45c-faf2fc03c60b"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Anos Morando no Município]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="545" y="688" width="194" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="45be32c2-9f39-45ae-933e-a039a0f63731"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relação Conflituosa Famliar]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="275" y="702" width="119" height="12" uuid="6311f716-f006-4ce5-b7ec-30c6a81ef606"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{convFamiliarAnosFamBairro} == "" ? ($P{convFamiliarResideBairro} == 't' ? "SEMPRE MOROU NO BAIRRO" : "") : $P{convFamiliarAnosFamBairro}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="13" y="702" width="125" height="12" uuid="5150a74b-d1a7-4b78-96cf-684efbd4ed42"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{convFamiliarAnosFamEstado} == "" ? ($P{convFamiliarResideEstado} == 't' ? "SEMPRE MOROU NO ESTADO" : "") : $P{convFamiliarAnosFamEstado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="11" y="674" width="532" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="0a50e02b-df4a-44da-8d14-788257764eb7"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Convivência Familiar e Comunitária]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="138" y="702" width="137" height="12" uuid="b8ac9e3c-996f-4410-8fb4-d9f36ed3a0bd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{convFamiliarAnosFamMunic} == "" ? ($P{convFamiliarResideMunic} == 't' ? "SEMPRE MOROU NO MUNICÍPIO" : "") : $P{convFamiliarAnosFamMunic}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="545" y="702" width="192" height="12" uuid="56211582-231a-4b81-af2a-810c6a6aff69"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{convFamiliarRelConflito}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="394" y="688" width="151" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="fb03ca71-516f-495b-b2bf-7b234e2a6adb"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relação Conjugal Familiar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="275" y="688" width="119" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="3ec99c65-8966-4ede-880c-c215191dcedb"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Anos Morando no Bairro]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="394" y="702" width="151" height="12" uuid="af52540e-8355-4c5e-a0bc-d80d56e066f5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{convFamiliarRelConjugal}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="586" y="752" width="151" height="12" uuid="5a0e2387-21ec-4df9-b125-6c17c269391a">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{violacaoDataEncerramento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="13" y="752" width="274" height="12" uuid="e439651c-eb30-4b76-b4cb-59d24455eb28">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{violacaoSituacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="10" y="738" width="277" height="14" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" backcolor="#016701" uuid="b8a31822-327c-4a07-95f3-7d5ac9c530fc">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Situação"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="287" y="738" width="177" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="f5078ad7-0711-4c40-af98-0272c1e3507a">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Persiste"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="464" y="738" width="122" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="e82a3132-96f3-43f3-af98-f75bc9cb9515">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Data de Início"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="464" y="752" width="122" height="12" uuid="c2d36af6-c831-462e-bdc6-d82d598e2ddf">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{violacaoDataInicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="11" y="723" width="532" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="c45a58bd-5c1a-4521-880b-5b979d2eabbf">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Situações de Violência e Violações de Direito"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="287" y="752" width="177" height="12" uuid="9b23fae8-344c-4af0-b5ce-e91a01c0e75d">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{violacaoPersiste} == 't' ? "SIM" : "NÃO"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="586" y="738" width="153" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="512ab3ba-4377-48ae-9cd5-10288fac3923">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Data de Encerramento"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="256" y="796" width="272" height="12" uuid="04e10efa-4d0e-4d43-bd60-3f1028e5a2ac">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{acolhimentoMotivo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="528" y="796" width="94" height="12" uuid="b84b75c0-2631-4165-b4d7-a6b1dac92975">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{acolhimentoDataInicio}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="10" y="796" width="246" height="12" uuid="6b65bd69-2ca9-485d-9d3b-c7a9a185f4e7">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{acolhimentoNome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="622" y="782" width="117" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="157cabe0-2982-463e-b6ce-6a171dabe9d4">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Data de Encerramento"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="622" y="796" width="115" height="12" uuid="b6f25c08-d04b-4ae6-bb7f-80ddbdf21e88">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{acolhimentoDataEncerramento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="528" y="782" width="94" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="60102b6e-2d52-4d51-af63-ad287a7eb142">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Data de Início"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="256" y="782" width="272" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="5c770fd1-c0db-403b-b946-da790d821c95">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Motivo"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="10" y="768" width="532" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="761df5c1-e7df-4100-b04a-b612cc1ad3a2">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Histórico de Acolhimento Institucional ou Familiar"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="10" y="782" width="246" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="e3eeb20f-0ef8-44cd-86da-f64b5eefcb88">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nome"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="10" y="825" width="226" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="2a31aff4-8b12-4685-bc0f-387bd10346f8">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nome"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="453" y="825" width="75" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="9a07e54e-3e71-4b43-be7b-8182d0167407">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["N° Processo"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="11" y="810" width="532" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="01ceb8a9-9d48-432d-b276-b21640d059f4">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Histórico de Cumprimento de Medidas Socioeducativas"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="528" y="839" width="94" height="12" uuid="d956c877-3acd-4142-a620-5f540cc4712f">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medSocioDataInicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="528" y="825" width="94" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="dbd02fcb-fc05-48fc-a000-6dc6a02751c6">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Data de Início"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="236" y="839" width="217" height="12" uuid="90a638da-1a00-437e-b33c-bf0a24895349">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medSocioMedida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="236" y="825" width="217" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="b9bf61a0-2c32-4577-805e-ee9b03cda50d">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tipo de Medida"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="453" y="839" width="75" height="12" uuid="ae11b41a-8dda-4a77-b9c5-fbf05e02503c">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medSocioProcesso}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="839" width="225" height="12" uuid="193fa755-7c46-4509-88c5-39f3d5e97dd4">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medSocioNome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="622" y="825" width="117" height="14" forecolor="#FFFFFF" backcolor="#016701" uuid="cecfeb38-e7a2-41ef-b18f-4bf3e54f1b47">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" markup="none">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Data de Encerramento"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="622" y="839" width="115" height="12" uuid="34ed3c78-f5fe-42fb-b728-dcd2221597ae">
+					<printWhenExpression><![CDATA[$P{tipoUsuarioLogado} != "CRAS"]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{medSocioDataEncerramento}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="420" y="377" width="99" height="12" uuid="4389fb09-294c-4e77-a2c0-03d900cd8a0c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeFreqEscola5} != "" ? ($P{compRendSaudeFreqEscola5} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="10" y="377" width="276" height="12" uuid="666303f8-46f0-4fc6-bda4-dc84eb44a210"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="330" y="365" width="90" height="12" uuid="03eb5737-e6f5-491d-808d-4f6144d3cc05"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeSabeLerEsc4} != "" ? ($P{compRendSaudeSabeLerEsc4} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="330" y="377" width="90" height="12" uuid="01e27f55-6c74-4373-bb26-8349a6468f30"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeSabeLerEsc5} != "" ? ($P{compRendSaudeSabeLerEsc5} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToBandHeight" x="286" y="365" width="44" height="12" uuid="218b1f8d-cb2c-4077-9ec1-97c4e9ead781"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeIdade4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="10" y="365" width="276" height="12" uuid="46b1a022-215f-45d6-8b3e-3fc275b6aa3e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="519" y="377" width="217" height="12" uuid="b3e7cd48-d9ca-4218-bb06-8d4cfa44fcaf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeEscolaridade5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="420" y="365" width="99" height="12" uuid="c040d840-9707-4400-819a-3512c2709e8f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeFreqEscola4} != "" ? ($P{compRendSaudeFreqEscola4} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="519" y="365" width="217" height="12" uuid="143d5a91-4438-4ec4-abea-0c4b0c679bee"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeEscolaridade4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToBandHeight" x="286" y="377" width="44" height="12" uuid="082e45ed-46bc-4755-88f5-3b88216c8a20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeIdade5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="652" y="504" width="86" height="12" uuid="1627fe0d-f9fc-4eac-b864-18954ea7c3ee"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeRenda5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="445" y="492" width="206" height="12" uuid="f014309b-d5a3-46c8-9a74-243f144094b2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudePossuiQualProf4} != "" ? ($P{compRendSaudePossuiQualProf4} == 't' ? $P{compRendSaudeDescriQualifi4} : "NÃO POSSUI") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="492" width="268" height="12" uuid="499149e1-6228-4b1f-aefa-3124fc6a1b52"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="346" y="504" width="99" height="12" uuid="23de22e2-a02a-4f76-8d72-6c2a7551c020"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome5} != "" ? ($P{compRendSaudeOcupacao5} == "" ? "NÃO INFORMOU" : $P{compRendSaudeOcupacao5}): ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="652" y="492" width="86" height="12" uuid="1d1f4153-4934-43c1-837f-f051a710ddc8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeRenda4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="504" width="268" height="12" uuid="8ec0e61a-d976-4b57-ae10-5c7cdb509120"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="279" y="504" width="67" height="12" uuid="9688ccb9-928d-4a2f-bb0e-cc092e3a1235"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome4} != "" ? ($P{compRendSaudePossuiCartTrab4} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="346" y="492" width="99" height="12" uuid="6f189699-d08d-40e1-ba27-27962d848455"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome4} != "" ? ($P{compRendSaudeOcupacao4} == "" ? "NÃO INFORMOU" : $P{compRendSaudeOcupacao4}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="279" y="492" width="67" height="12" uuid="a47bb1de-d99a-4d92-a76f-806f6ddfe60b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome4} != "" ? ($P{compRendSaudePossuiCartTrab4} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="445" y="504" width="206" height="12" uuid="f747f664-4fea-4dc3-ba48-38656c609e73"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudePossuiQualProf5} != "" ? ($P{compRendSaudePossuiQualProf5} ==  't' ? $P{compRendSaudeDescriQualifi5} : "NÃO POSSUI") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="13" y="616" width="224" height="12" uuid="6084c097-2d00-447f-b673-62a667d2d761"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="565" y="616" width="174" height="12" uuid="1145d497-6d82-4e8f-ae8a-7b20637fe9f2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeResponsavel4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="407" y="616" width="158" height="12" uuid="d2407916-2100-4344-8db8-d9da94917c7b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome4} != "" ? ($P{compRendSaudeNecCuidado4} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="237" y="616" width="170" height="12" uuid="8734467f-71a5-414a-aa82-c98d2947a0d6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudeTipoDefic4} == "" ? "NÃO POSSUI" ? $P{compRendSaudeTipoDefic4}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="237" y="627" width="170" height="12" uuid="07b301b6-188a-4e87-a435-711c1b6bdbb6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudeTipoDefic5} == "" ? "NÃO POSSUI" ? $P{compRendSaudeTipoDefic5}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="407" y="627" width="158" height="12" uuid="45d42c4a-cfcc-4c3c-ba2c-07f9d0e03fcb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome5} != "" ? ($P{compRendSaudeNecCuidado5} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="13" y="627" width="224" height="12" uuid="89de68cd-c307-4d35-ab80-4d1f86cb86df"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="565" y="627" width="174" height="12" uuid="eb13b26f-5b25-489b-a8fa-0da1aea8dad3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeResponsavel5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="315" y="174" width="108" height="12" uuid="00deef09-9e3f-4634-a450-aa9f1690f1ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNascimento5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="315" y="162" width="108" height="12" uuid="d6bbc66f-9e70-4e81-a0b1-ab1ac0537896"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNascimento4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="649" y="162" width="89" height="12" uuid="93bb2722-cb94-450f-96be-c326afd1a84f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarDeficiencia4} != "" ? ($P{compFamiliarDeficiencia4} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="162" width="304" height="12" uuid="4f832b8b-84b8-4fb9-88aa-13277cb549c6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNome4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="486" y="162" width="163" height="12" uuid="198cfb9a-430a-49bc-ac2a-9326d3b3cab0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarParentesco4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="174" width="63" height="12" uuid="b84972b8-042b-4e82-91af-07502fbadf73"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarSexo5} != "" ? ($P{compFamiliarSexo5} == "M" ? "MASCULINO" : "FEMININO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="649" y="174" width="89" height="12" uuid="cad17e4f-f780-4c2f-be43-d5aecfb79baf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarDeficiencia5} != "" ? ($P{compFamiliarDeficiencia5} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="174" width="304" height="12" uuid="25a34662-949c-43f4-8dee-0b98341c0635"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNome5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="162" width="63" height="12" uuid="e7309ff6-7e4e-4f6f-a20f-1ca85c6bc219"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarSexo4} != "" ? ($P{compFamiliarSexo4} == "M" ? "MASCULINO" : "FEMININO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="486" y="174" width="163" height="12" uuid="0d14e54d-02fc-449a-91b3-7b1ac02f205c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarParentesco5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="408" y="661" width="158" height="12" uuid="05e4b3ec-e33c-4b7a-8410-c57ef0ff4ec8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome8} != "" ? ($P{compRendSaudeNecCuidado8} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="566" y="661" width="174" height="12" uuid="11157445-987b-4c32-aa5b-33343c26ab94"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeResponsavel8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="238" y="650" width="170" height="12" uuid="8c24a619-cdf7-4fc7-866e-05429582cb19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudeTipoDefic7} == "" ? "NÃO POSSUI" ? $P{compRendSaudeTipoDefic7}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="566" y="639" width="174" height="12" uuid="29b010f0-bb23-4398-91bc-919b7702881e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeResponsavel6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="14" y="639" width="224" height="12" uuid="e628dd17-a039-4551-92ee-768f050a51ff"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="14" y="661" width="224" height="12" uuid="f72e6390-81e1-4499-8a9b-0f048085daeb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="238" y="661" width="170" height="12" uuid="0b97b935-cb78-4fe6-9fb4-478e77d37b16"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudeTipoDefic8} == "" ? "NÃO POSSUI" ? $P{compRendSaudeTipoDefic8}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="14" y="650" width="224" height="12" uuid="30afb20b-373e-4d3c-81c4-9a360a313c01"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="238" y="639" width="170" height="12" uuid="6ce6f045-f4e2-44bb-a911-18f7fbe0852a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome} != "" ? ($P{compRendSaudeTipoDefic6} == "" ? "NÃO POSSUI" : $P{compRendSaudeTipoDefic6}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="408" y="639" width="158" height="12" uuid="9353bbf8-f24d-46bb-886e-02845357d6b8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome6} != "" ? ($P{compRendSaudeNecCuidado6} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="408" y="650" width="158" height="12" uuid="d1d85697-8247-42eb-886d-f7e846c56f18"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome7} != "" ? ($P{compRendSaudeNecCuidado7} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="566" y="650" width="174" height="12" uuid="553f91fd-3f05-41fb-b32f-eb77510dde37"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeResponsavel7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="540" width="268" height="12" uuid="9cba6317-753d-4e3b-a7c1-b30e56226c38"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="279" y="540" width="67" height="12" uuid="8b2fb211-d23e-46f8-b64d-9fc079d9ed45"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome8} != "" ? ($P{compRendSaudePossuiCartTrab8} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="445" y="516" width="206" height="12" uuid="c7b34654-0584-4cdd-b9f2-bcf1ab3480a2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudePossuiQualProf6} != "" ? ($P{compRendSaudePossuiQualProf6} ==  't' ? $P{compRendSaudeDescriQualifi6} : "NÃO POSSUI") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="652" y="528" width="86" height="12" uuid="683644fe-0f72-480a-9db9-ee77c7ee3690"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeRenda7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="445" y="528" width="206" height="12" uuid="a6afa305-5225-4f05-b75e-df64e3d27d62"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudePossuiQualProf7} != "" ? ($P{compRendSaudePossuiQualProf7} == 't' ? $P{compRendSaudeDescriQualifi7} : "NÃO POSSUI") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="279" y="516" width="67" height="12" uuid="74a65a79-f311-4c9c-8b6c-87a9002c5cc9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome6} != "" ? ($P{compRendSaudePossuiCartTrab6} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="346" y="540" width="99" height="12" uuid="16f5e04f-2e1a-4dca-a27f-7d07c1b0635c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome8} != "" ? ($P{compRendSaudeOcupacao8} == "" ? "NÃO INFORMOU" : $P{compRendSaudeOcupacao8}): ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="528" width="268" height="12" uuid="795b1f98-97d8-400b-a427-292d5cbd7baa"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="346" y="528" width="99" height="12" uuid="f45a69b4-ed8a-475e-b95d-d3f4c20f583c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome7} != "" ? ($P{compRendSaudeOcupacao7} == "" ? "NÃO INFORMOU" : $P{compRendSaudeOcupacao7}) : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="516" width="268" height="12" uuid="99a68ad7-c173-4d66-b734-bfc5f0751305"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="346" y="516" width="99" height="12" uuid="8f18890b-fe8c-4eb9-bcd2-bde80ead0c73"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome6} != "" ? ($P{compRendSaudeOcupacao6} == "" ? "NÃO INFORMOU" : $P{compRendSaudeOcupacao6}): ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="652" y="516" width="86" height="12" uuid="5e5f5cf7-d160-4e10-8d7a-df5e64774d1f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeRenda6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="279" y="528" width="67" height="12" uuid="da94b91a-0c9f-42d6-8979-f640e5c0cb33"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome7} != "" ? ($P{compRendSaudePossuiCartTrab7} == "" ? "NÃO" : "SIM") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="652" y="540" width="86" height="12" uuid="ce26a6dd-cc51-4400-9b21-55232870e346"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeRenda8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="445" y="540" width="206" height="12" uuid="3afbb196-3db9-4796-bf88-6adc26f3067f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudePossuiQualProf8} != "" ? ($P{compRendSaudePossuiQualProf8} ==  't' ? $P{compRendSaudeDescriQualifi8} : "NÃO POSSUI") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToBandHeight" x="286" y="413" width="44" height="12" uuid="e1adb242-84c2-4623-bec7-7f4d3d4d6971"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeIdade8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="519" y="413" width="217" height="12" uuid="02cffd9f-4312-4384-8632-45ac883a3c61"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeEscolaridade8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="10" y="389" width="276" height="12" uuid="3087fdd0-02cc-4fc7-bcec-65cad5c023b8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="330" y="389" width="90" height="12" uuid="cc725e88-3551-4ba3-aba2-af6d990a4181"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeSabeLerEsc6} != "" ? ($P{compRendSaudeSabeLerEsc6} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="519" y="389" width="217" height="12" uuid="7148ea3e-ea1d-41b5-b170-6fd55fe07691"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeEscolaridade6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="420" y="389" width="99" height="12" uuid="64b98d1b-788f-4292-b033-5c35480e1a4c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeFreqEscola6} != "" ? ($P{compRendSaudeFreqEscola6} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="330" y="401" width="90" height="12" uuid="7c44599c-ee26-4bb1-8f35-536d5886caf8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeSabeLerEsc7} != "" ? ($P{compRendSaudeSabeLerEsc7} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="519" y="401" width="217" height="12" uuid="d8ff0755-d8aa-4a9e-8d5a-1aa2b93cb40f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeEscolaridade7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="10" y="401" width="276" height="12" uuid="c934fe83-0370-4180-9824-91be129656df"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="421" y="413" width="99" height="12" uuid="6e89b5c8-be9d-43bd-9736-3d916b21859d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeFreqEscola8} != "" ? ($P{compRendSaudeFreqEscola8} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="421" y="401" width="99" height="12" uuid="ebf05b20-d427-4b17-9f8a-7a949026580d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeFreqEscola7} != "" ? ($P{compRendSaudeFreqEscola7} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="330" y="413" width="90" height="12" uuid="99d48b52-b6c9-4ad5-81f9-f5f239d26b8e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeSabeLerEsc8} != "" ? ($P{compRendSaudeSabeLerEsc8} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToBandHeight" x="286" y="389" width="44" height="12" uuid="aea7b56a-f424-4cbb-87ac-c7f225097e46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeIdade6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="10" y="413" width="276" height="12" uuid="16c4d04a-f894-414f-9d00-e160eb79e6f3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeNome8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToBandHeight" x="286" y="401" width="44" height="12" uuid="8b55c37d-c5d0-48a9-bdff-515f9ba62403"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compRendSaudeIdade7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="486" y="186" width="163" height="12" uuid="725789d5-0ecd-41a4-a423-efac50aa2614"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarParentesco6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="315" y="198" width="108" height="12" uuid="3086f670-237c-46b4-ab61-be3a5b6ffa83"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNascimento7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="649" y="198" width="89" height="12" uuid="d77ef3a6-9374-4186-b4ac-39ec4fe3f6fb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarDeficiencia7} != "" ? ($P{compFamiliarDeficiencia7} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="315" y="210" width="108" height="12" uuid="2c87861b-f9ab-44bc-b333-bb7bc633740c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNascimento8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="198" width="304" height="12" uuid="e0da7e2b-e52b-45a2-b3ab-9a202acfa429"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNome7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="186" width="63" height="12" uuid="f80698af-bd7b-458c-9b88-290f406eb3da"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarSexo6} != "" ? ($P{compFamiliarSexo6} == "M" ? "MASCULINO" : "FEMININO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="210" width="304" height="12" uuid="e4cfc164-cdd7-4313-8ef2-fb36a65bb3c5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNome8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="11" y="186" width="304" height="12" uuid="e49736ee-6684-4906-b4ac-e99bd033d56d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNome6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="649" y="186" width="89" height="12" uuid="bb816130-c2fc-4708-a3d3-c8b2c46c79d1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarDeficiencia6} != "" ? ($P{compFamiliarDeficiencia6} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="198" width="63" height="12" uuid="10216cf6-4745-467a-97bd-0b6c142c9254"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarSexo7} != "" ? ($P{compFamiliarSexo7} == "M" ? "MASCULINO" : "FEMININO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="486" y="198" width="163" height="12" uuid="bcbf30fd-19ff-4592-9c5f-7c3e162abcc0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarParentesco7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="423" y="210" width="63" height="12" uuid="4285b0c8-4343-4c2a-a2f1-ec31e98fa323"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarSexo8} != "" ? ($P{compFamiliarSexo8} == "M" ? "MASCULINO" : "FEMININO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="649" y="210" width="89" height="12" uuid="65ea6456-3838-4c38-bfa7-0be8ceae0aa8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarDeficiencia8} != "" ? ($P{compFamiliarDeficiencia8} == 't' ? "SIM" : "NÃO") : ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="486" y="210" width="163" height="12" uuid="13cad330-ed33-43f8-b612-02916e481b65"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarParentesco8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToBandHeight" x="315" y="186" width="108" height="12" uuid="9ec757f3-a369-4f33-b8cf-7cec4735eb2f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{compFamiliarNascimento6}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="16">
+			<textField>
+				<reportElement x="112" y="0" width="537" height="14" uuid="0a158a0d-1a40-4888-9afa-44997172caa9"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rodape}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="719" y="0" width="20" height="14" uuid="b2f97f1f-8750-498e-9538-9bd0271eded3"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="695" y="0" width="10" height="14" uuid="d958f158-e81f-4f49-9d87-42f866cec04e"/>
+				<textElement textAlignment="Left">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="652" y="0" width="44" height="14" uuid="51890bd6-ed05-4001-8045-9f41d7a3e25e"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="704" y="0" width="16" height="14" uuid="f84e8868-5e40-4f66-bcb7-e6e864914864"/>
+				<textElement textAlignment="Left">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de "]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="16"/>
+	</summary>
+</jasperReport>

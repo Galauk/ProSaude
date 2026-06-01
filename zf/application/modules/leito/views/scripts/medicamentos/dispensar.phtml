@@ -1,0 +1,77 @@
+<div id='tabs'> 
+	<ul class="tabs">
+		<li><a href="#tabs-1">Dispensação de Medicamentos</a></li>
+		<!--<li><a href="#tabs-2">Modelos</a></li>-->
+	</ul>
+	<div id="centro">
+		<div id='tabs-1' style="border-right:dashed 1px; width: 400px; float: left;">
+			<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" name="grade">
+				<input type="hidden" id="io_codigo" name="io_codigo" value="<?=$this->io_codigo;?>" />
+				<input type="hidden" id="ate_codigo" name="ate_codigo" value="<?=$this->ate_codigo;?>" />
+                                <input type="hidden" id="prontuario" name="prontuario" value="<?=$this->prontuario?>">
+
+				<label style="width: 90px;">Intervalo:</label>
+				<select id="lgra_intervalo" name="lgra_intervalo">
+					<option value="1">De hora em hora</option>
+					<option value="2">De 2 em 2 horas</option>
+					<option value="3">De 3 em 3 horas</option>
+					<option value="4">De 4 em 4 horas</option>
+					<option value="6">De 6 em 6 horas</option>
+					<option value="8">De 8 em 8 horas</option>
+					<option value="12">De 12 em 12 horas</option>
+				</select>
+				<br />
+				<label style="width: 90px;">Repetições:</label>
+				<input style="width: 90px" id="lgra_repeticoes" name="lgra_repeticoes" value="1" /><br />
+                                
+                                <div>
+                                    <label style="width: 90px;">Administração:</label>
+                                    <input id="administracao_controle" type="hidden" value="" />
+                                    <input id="administracao_nome" type="hidden" value="" />
+                                    <select id="administracao" name="administracao" style="width:300px;" class="ui-state-default">
+                                        <option onclick="validarAdministracao(0)" class="neutra">-Selecione-</option>
+                                            <?php
+                                            $tipoAdministracao;
+                                            foreach ($this->administracoes as $administracao):
+                                                if($administracao->adm_tipo != $tipoAdministracao){
+                                                    $tipoAdministracao = $administracao->adm_tipo;?>
+                                                    <optgroup label="<?=$tipoAdministracao?>">
+                                                <?php 
+                                                }
+                                                if($administracao->adm_sigla != null ){?>
+                                                    <option onclick="validarAdministracao(<?=$administracao->adm_codigo?>,'<?=$administracao->adm_nome.' ('.$administracao->adm_sigla.')'?>')" value="<?=$administracao->adm_codigo?>"><?=$administracao->adm_nome?> (<?=$administracao->adm_sigla?>)</option>
+                                                <?php
+                                                }else{?>
+                                                    <option onclick="validarAdministracao(<?=$administracao->adm_codigo?>,'<?=$administracao->adm_nome?>')" value="<?=$administracao->adm_codigo?>"><?=$administracao->adm_nome?></option>
+                                                <?php
+                                                }?>
+                                            <?php endforeach; ?>    
+                                    </select>
+                                    <label class="error" id="mensagemErroAdministracao" hidden="">Selecione uma administração para o medicamento.</label>
+
+                                </div>
+                                
+                                
+				<div id="busca">
+				<label style="width: 90px;">Medicamento:</label>
+					<input class="ui-widget-content focus" style="width:295px;" />
+				</div>
+
+				<ul id="lista" style="height:200px; overflow: auto">
+				</ul>
+
+				<!--<a href="#" class="ui-button salvar medicamentos">Salvar</a>-->
+				<img src="<?= $this->baseUrl('/public/images/salvar.jpg');?>"  class="medicamentos" alt="" title=""  style="cursor:pointer"/>
+			</form>	
+		</div>
+		<div id="teste" style="margin-left: 450px;">
+				<?=$this->action("categorias", "modelo-grade", "leito");?>
+		</div>
+	</div>
+	<!--
+	<div id="tabs-2">
+		<?=$this->action("categorias", "modelo-grade", "leito");?>
+	</div>
+	-->
+        <div id="carregando_grade"> </div>
+</div>

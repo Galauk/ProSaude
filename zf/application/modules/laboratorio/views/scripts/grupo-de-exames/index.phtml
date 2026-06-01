@@ -1,0 +1,52 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<div style="align-items: left">
+    <form method="post" action="<?= $this->url(array("action" => "busca-configuracoes")) ?>"
+          id="form-configuracao">
+        <a onclick="novoGrupo()" class="ui-button novo ui-corner-bl ui-corner-tr"
+           data-atalho="ALT+N">Criar Novo Grupo</a>
+        <input style="height: 23px; font-size: 16px" type="text" name="grupo_nome" id="grupo_nome" tabindex="2"
+               value=""/>
+        <a class="ui-button buscar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+        <br/><br/>
+    </form>
+</div>
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    <tr class='ui-widget-header'>
+        <th>Código</th>
+        <th>Descrição</th>
+        <th width="15%">Utilizado em Pré-natal</th>
+        <th width="15%">Ações</th>
+    </tr>
+    <?php if (count($this->dados) > 0) { ?>
+        <?php foreach ($this->dados as $value) { ?>
+            <tr>
+                <td><?= $value->gruex_codigo ?></td>
+                <td><?= $value->gruex_descricao ?></td>
+                <!-- <td> -->
+                    <? //switch ($value->pre_natal) {
+                        //case 'N':
+                          //  echo 'NÃO';
+                            //break;
+                        //case 'S':
+                          //  echo 'SIM';
+                            //break;
+                    //} ?>
+                <!-- </td> -->
+                <td>
+                    <a href="<?=$this->baseUrl();?>/laboratorio/grupo-de-exames/form/id/<?=$value->gruex_codigo?>">
+                        <img src="<?=$this->baseUrl();?>/public/images/icons/editar.png" alt="Editar Item"
+                             title="Editar Item"/></a>
+                    <a href="<?= $this->baseUrl(); ?>/laboratorio/grupo-de-exames/excluir-configuracoes/gruex_codigo/<?= $value->gruex_codigo?>" class="excluir">
+                        <img src="<?= $this->baseUrl(); ?>/public/images/icons/excluir.png" alt="Excluir Item"
+                             title="Excluir Item"/>
+                    </a>
+                </td>
+            </tr>
+        <?php } ?>
+    <?php } else { ?>
+        <tr>
+            <td colspan="4">Nenhum grupo encontrado!</td>
+        </tr>
+    <?php } ?>
+</table>

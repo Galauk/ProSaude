@@ -1,0 +1,7 @@
+<p>Texto</p>
+<? foreach ($this->dados as $item) { ?>
+    <div style="margin-bottom: 10px" >
+        <input name="pessoa" id="pessoa" type="radio" value="<?=$item->pessoa?>"/>
+        <strong>Nome:</strong> <?=$item->nome?>, <strong>Data de Nascimento:</strong> <?=$this->data($item->datanascimento,Zend_Date::DATE_MEDIUM)?>, <strong>Nome da Mãe:</strong> <?=$item->pep_mae?><br />
+    </div>
+<? } ?>

@@ -1,0 +1,25 @@
+<head>
+   <script>
+        window.print();
+    </script>
+</head>
+<div id="conteudo">
+    <?php #if ($this->dados->itens): ?>
+        <?php foreach ($this->dd as $item): ?> 
+    
+            <div class="item" >
+                <b><?=$this->escape($item->esp_nome);?></b>
+            </div>
+            <?php if($item->enc_internacao):?>
+                 <div class="obs_item">Internação Hospitalar: <b>Sim</b> </div>
+            <?php endif; ?>
+            <?php if($item->enc_urgencia):?>
+                <div class="obs_item">Urgência: <b>Sim</b> </div>
+            <?php endif; ?>
+            <div class="obs_item">
+                <b><?=$item->enc_descricao?></b>
+            </div>
+        <?php endforeach; ?>	 		
+    <?php #endif; ?>	 
+</div>
+

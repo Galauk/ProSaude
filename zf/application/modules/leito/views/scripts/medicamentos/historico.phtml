@@ -1,0 +1,51 @@
+<?php if ($this->itens && $this->itens->count()): ?>
+	<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%" id="historico">
+		<thead>
+			<tr class="ui-widget-header">
+				<th>&nbsp;</th>
+				<th>Hora/Data</th>
+				<th>Responsável</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php
+			$last = 0;
+			foreach ($this->itens as $item):
+
+				if ($last != $item->ldis_codigo):
+					if ($last != 0):
+						?>					
+				</table>
+				</td>
+				</tr>		
+				<?php
+			endif;
+			$last = $item->ldis_codigo;
+			?>
+			<tr>
+				<td class="ui-state-default c"><img class="mais" src="<?= $this->baseUrl("/public/images/icons/add.png"); ?>" alt="+" title="Ver medicamentos" /></td>
+				<td class="ui-state-default"><?= $this->data($item->ldis_datahora, "HH:mm dd/MM"); ?></td>
+				<td class="ui-state-default"><?= $item->usr_nome; ?></td>
+			</tr>
+			<tr class="h">
+				<td colspan="3">
+					<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+						<tr class="ui-widget-header">
+							<th>Produto</th>
+							<th>Lote</th>
+							<th>Validade</th>
+							<th>Quant.</th>
+						</tr>
+		<?php endif; ?>
+					<tr>
+						<td class="ui-state-default"><?= $item->pro_nome; ?></td>
+						<td class="ui-state-default"><?= $item->ite_lote; ?></td>
+						<td class="ui-state-default"><?= $this->data($item->ite_validade); ?></td>
+						<td class="ui-state-default"><?= $item->lid_quantidade; ?></td>
+					</tr>
+		<?php endforeach; ?>
+			</tbody>
+		</table>
+	<?php else: ?>
+		<em>Nenhum histórico de dispensação encontrado.</em>
+<?php endif; ?>

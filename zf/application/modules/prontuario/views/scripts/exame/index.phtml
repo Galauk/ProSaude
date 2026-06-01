@@ -1,0 +1,59 @@
+<?php 
+if($this->obs == "S"){
+$url = $this->url(array("module" => "prontuario","controller" => "exame","action" => "salvar","obs" => "S"));
+
+echo $this->headScript()->appendFile('/WebSocialSaude/zf/public/js/prontuario/exame.js');
+echo $this->headLink()->appendStylesheet('/WebSocialSaude/zf/public/css/geral.css','all');	
+
+}else{
+$url = $this->url(array("action" => "salvar"));
+}
+
+?>
+<form method="post" action="<?= $url ?>">
+    <?php $this->errorMsg(); ?>	
+    <label>Procedimento:</label>
+    <input type="hidden" name="config" id="config" value="<?= $this->config ?>">
+    <input type="text" id="procedimento" name="proc_nome" class="focus" />
+    <input type="checkbox" name="proc_solicitado" value="S" /> Solicitado
+    <input type="checkbox" name="proc_avaliado" value="A" /> Avaliado
+    <input type="hidden" id="ate_codigo" name="ate_codigo" value="<?=$this->ate_codigo ?>" />
+    <input type="hidden" id="io_codigo" name="io_codigo" value="<?= $this->io_codigo ?>" />
+    <input type="hidden" id="obs" name="obs" value="<?= $this->obs ?>" />
+    <input type="hidden" id="io_codigo" name="cod" value="<?= $this->cod ?>" />
+    <input type="hidden" id="proc_codigo" name="proc_codigo" /><br />
+    <input type="hidden" id="proc_codigo_sus" name="proc_codigo_sus" value="">
+    <input type="hidden" id="usu_codigo" name="usu_codigo" value="<?=$this->usu_codigo ?>">
+    
+    <div id="check">
+    </div>
+    <label>Observação:</label>
+    <div class="textarea">
+        <textarea name="req_observacao" class="tinymce"></textarea>
+    </div>                       
+    <div class="space"></div>
+
+    <a href="#" class="ui-button salvar">Salvar</a>
+    <a href="#" class="ui-button limpar">Limpar</a>
+    <br/>
+    <br/>
+</form>
+<form method="POST" action="<?=$this->baseUrl();?>/prontuario/exame/grupo-procedimento" id="form-add">
+    <label class="ui-corner-bl ui-corner-tr">Grupo de Exames:</label>
+
+     <select name="gp_codigo" id="gp_codigo" class="ui-state-default">
+        <option value="">SELECIONE</option> 
+        <?php foreach ($this->g_select as $grupo) { ?>          
+            <option value="<?=$grupo->gp_codigo?>"><?=$grupo->gp_descricao?></option>
+        <?php } ?>
+    </select>
+
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Adicionar</a>
+</form>
+<?php
+if ($this->obs == "S") {
+    echo $this->action("itens-internacao", "exame", "prontuario", array("obs" => "S", "io_codigo" => $this->io_codigo, "ate_codigo" => $this->ate_codigo, "imprimi" => $this->imprimi));
+} else {
+    echo $this->action("itens", "exame", "prontuario");
+}
+?>

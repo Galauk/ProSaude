@@ -1,0 +1,14 @@
+<div class="abas">
+    <ul class="tabs">
+        <li><a href="#tabs2-1">Visita Domiciliar</a></li>
+        <li><a href="#tabs2-2">Listagem das Visitas</a></li>
+    </ul>
+    <div id="tabs2-1">
+        <?= $this->action("form-visita-domiciliar", "atendimento-simplificado","atendimento"); ?>
+    </div>    
+
+    <div id="tabs2-2">
+        <?= $this->action("lista-visita-domiciliar", "atendimento-simplificado","atendimento"); ?>
+    </div>
+    
+</div>

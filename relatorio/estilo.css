@@ -1,0 +1,401 @@
+BODY, TABLE, TD, SELECT, INPUT,UL,TEXTAREA {
+        font-family:Tahoma,Arial;
+        font-size:10px;
+}
+
+A			{color:#173A96;text-decoration: none;font-size:10px;}
+
+A:hover			{color:#FF0000}
+
+#t8c				{color:#549926;font-weight:bold;font-size:10px;}
+
+#t8				{font-size:10px;}
+
+#mnhr			{background-color:#C0C0C0}
+
+#mn				{font-size: 11px;}
+
+#mnt				{font-size: 12px; font-weight:bold; background-color: #FFFFFF }
+
+#hmt				{font-size: 11px; font-weight:bold; background-color: #C2EAA8 }
+
+#tbbody		{font-size: 11px;}
+
+#ttbody			{color:#549926;}.menu {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.menu:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #666666;
+
+	text-decoration: underline;
+}
+.titulo {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #000066;
+	text-decoration: none;
+}
+.texto {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.titulo2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #999999;
+	text-decoration: none;
+
+}
+.box {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #EDF0F8;
+	clear: none;
+	float: none;
+	border: 1px solid #291876;
+
+}
+.boxt {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #EDF0F8;
+	clear: none;
+	float: none;
+	border: 1px solid #291876;
+}
+.boxr {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #EDF0F8;
+	clear: none;
+	float: none;
+	border: 1px solid #291876;
+	width: 300px;
+	height: 15px;
+}
+.boxagente {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #ffffff;
+	border: 1px;
+	text-decoration: none;
+	background-color: #ffffff;
+	clear: none;
+	float: none;
+	border: 0px;
+	width:30px;
+	height: 15px;
+}
+.boxa {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #EDF0F8;
+	clear: none;
+	float: none;
+	border: 1px solid #291876;
+	width: 240px;
+	height: 15px;
+}
+.boxl {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #EDF0F8;
+	clear: none;
+	float: none;
+	border: 1px solid #291876;
+}
+.boxn {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #EDF0F8;
+	clear: none;
+	float: none;
+	border: 1px solid #291876;
+	height: 15px;
+}
+.clock {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #F4F2E7;
+	clear: none;
+	float: none;
+	border: 1px solid #F4F2E7;
+
+}
+.boxnumber {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #FC9696;
+	clear: none;
+	float: none;
+	height: 13pt;
+	border: 1px solid #FF4444;
+
+}
+.boxselect {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #F2F7F9;
+	clear: none;
+	float: none;
+	height: 13pt;
+	width: 77pt;
+	border: 1px solid #999999;
+
+}
+.box2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #E1E1E1;
+	clear: none;
+	float: none;
+	border: 1px solid #999999;
+
+}
+.arroba {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	font-style: normal;
+	line-height: normal;
+}
+.box2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #E1E1E1;
+	clear: none;
+	float: none;
+	border: 1px solid #000000;
+}
+.botao {
+	font-size: 8pt;
+	font-weight: normal;
+	color: #003300;
+	text-decoration: none;
+	background-color: #FFFFFF;
+	border: 1px solid #666666;
+
+
+
+
+
+}
+
+.borda {
+	border: 1px solid #000000;
+}
+
+.box3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+	color: #FFFFFF;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #009900;
+	clear: left;
+	float: left;
+	height: 17px;
+	width: 21px;
+	line-height: normal;
+	border-top: 2px double #00CC00;
+	border-right: 2px double #003300;
+	border-bottom: 2px double #003300;
+	border-left: 2px double #00CC00;
+	font-variant: small-caps;
+
+
+
+
+}
+.box4 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: bold;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #999999;
+	clear: none;
+	float: none;
+	height: 17px;
+	width: 21px;
+	line-height: normal;
+	border-top: 2px double #CCCCCC;
+	border-right: 2px double #666666;
+	border-bottom: 2px double #666666;
+	border-left: 2px double #CCCCCC;
+	font-variant: small-caps;
+
+}
+.texto2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: lighter;
+	color: #000000;
+	text-decoration: none;
+	font-style: oblique;
+
+}
+.texto:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #999999;
+	text-decoration: underline;
+}
+.subtitulos {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+	color: #FF9900;
+	text-decoration: none;
+}
+.titulo3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: bold;
+	color: #006633;
+}
+.textolink {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: none;
+	text-align: justify;
+
+}
+.textolink:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: none;
+
+}
+.box00 {
+	border-top: 1px dashed #FFFFFF;
+	border-right: 1px dashed #FFFFFF;
+	border-bottom: 1px dashed #666666;
+	border-left: 1px dashed #666666;
+}
+traços {
+	border: dashed;
+}
+.traços {
+	border: 1px dashed #999999;
+}
+.titulo2:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.boxsenha {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #F2F7F9;
+	clear: none;
+	float: none;
+	height: 13pt;
+	width: 69pt;
+	border: 1px solid #999999;
+}
+.box1px {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 7pt;
+	font-weight: normal;
+	color: #000000;
+	background: #000000;
+	border: 1px;
+	text-decoration: none;
+	background-color: #F2F7F9;
+	clear: none;
+	float: none;
+	height: 13pt;
+	width: 30pt;
+	border: 1px solid #000000;
+}

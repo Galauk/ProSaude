@@ -1,0 +1,47 @@
+<div class='abas'> 
+	<ul class="tabs">
+		<li><a href="#tabs2-1">Dados</a></li>
+		<li><a href="#tabs2-2">Consultas</a></li>
+                <li><a href="#tabs2-3">Acolhimento/Triagem</a></li>
+                <li><a href="#tabs2-4">Ex. Solicitados</a></li>
+                <li><a href="#tabs2-5">Ex. Realizados</a></li>
+                <li><a href="#tabs2-6">Receitas</a></li>
+                <li><a href="#tabs2-7">Medicamentos</a></li>
+                <li><a href="#tabs2-8">Dados Visita Domiciliar</a></li>
+                
+                <!--<li><a href="#tabs2-7">Modo Ficha</a></li>-->
+	</ul>
+	<div id='tabs2-1'>
+		<?= $this->action("dados", "paciente", "index", array("cod" => $this->age->usu_codigo)); ?>
+	</div>
+	<div id='tabs2-2'>
+		<?= $this->action("historico", "atendimento", "prontuario", array("term" => $this->term)); ?>
+	</div>
+	<div id='tabs2-3'>
+		<?= $this->action("historico-de-pre-consulta", "pre-consulta", "prontuario", array("cod" => $this->age->usu_codigo)); ?>
+	</div>
+        <div id='tabs2-4'>
+		<?= $this->action("historico-de-exames", "paciente", "index", array("cod" => $this->age->usu_codigo)); ?>
+	</div>
+        <div id='tabs2-5'>
+		<?= $this->action("historico-de-exames-realizados", "paciente", "index", array("cod" => $this->age->usu_codigo)); ?>
+	</div>
+	<div id='tabs2-6'>
+		<?= $this->action("historico-de-medicamentos", "paciente", "index", array("cod" => $this->age->usu_codigo)); ?>
+	</div>
+    <div id='tabs2-7'>
+		<?= $this->action("historico-de-medicamentos-retirados", "paciente", "index", array("cod" => $this->age->usu_codigo)); ?>
+	</div>
+	<div id='tabs2-8'>
+		<?= $this->action("dados-visita-domiciliar", "paciente", "index", array("cod" => $this->age->usu_codigo)); ?>
+	</div>
+</div>
+<br />
+<div class='abas'> 
+	<ul>
+		<li><a href="#tabs3-1">Alertas</a></li>
+	</ul>
+	<div id='tabs3-1'>
+		<?= $this->action("itens", "alerta", "prontuario"); ?>
+	</div>
+</div>

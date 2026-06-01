@@ -1,0 +1,153 @@
+<?php $this->dialog();?>
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" id="form-pc">
+  <input type="hidden" name="gambi" id="gambi" value="<?= $this->gambi?>">
+  <input type="hidden" name="pc_codigo" value="<?= $this->dados->pc_codigo; ?>" />
+  <?//echo "<pre>";print_r($this->dados->gambi);die();?>
+  <?php $this->errorMsg(); ?>
+
+
+  <a href='<?= $this->url(array("module" => "relatorio", "controller" => "usuario", "action" => "prontuario","usu_codigo" => $_SESSION[prontuario][age]->usu_codigo)); ?>' class="ui-button detalhes popup" rel="900x540">
+            Histórico
+  </a><br/>
+
+    <?php if($this->uni_tipo != "H"):?>
+    <label>Local:</label>
+      <?=$this->selectLocais?><br />
+    <?php endif;?>
+    <?php
+          $hr = date("H");
+      if(($hr>='01' and $hr<='12')) {
+        $selM = 'selected';
+        $selT = '';
+        $selN = '';
+      }
+      if(($hr>='13' and $hr<='18')) {
+        $selM = '';
+        $selT = 'selected';
+        $selN = '';
+      }
+      if(($hr>='19' and $hr<='00')) {
+        $selM = '';
+        $selT = '';
+        $selN = 'selected';
+      }
+    ?>
+    <div>
+        <label>Turno<font color="red">*</font>: </label>
+        <select class="ui-state-default" id="turno" name="turno">
+            <option value=""> Selecione
+            </option>
+            <option value="1"
+               <?=$selM?> <?= $this->dados['turno'] == '1' ? 'selected' : '' ?>>Manhã
+            </option>
+            <option value="2"
+                <?=$selT?> <?= $this->dados['turno'] == '2' ? 'selected' : '' ?>>Tarde
+            </option>
+            <option value="3"
+                <?=$selN?> <?= $this->dados['turno'] == '3' ? 'selected' : '' ?>>Noite
+            </option>
+        </select>
+    </div>
+
+    <label>Temperatura <small>(ºC)</small>:</label>
+        <input type="text" name="temperatura" 
+        value="<?= $this->dados->pc_temperatura?(number_format($this->dados->pc_temperatura,2)):""; ?>"
+        class="float focus" rel="2,1" <?=($this->vizualizar == 1 ? "disabled" : "")?> />
+    <br />
+
+    <label>Peso
+        <small>(Kg)</small>
+        :</label>
+    <input id="peso" type="text" name="peso"
+           value="<?= $this->dados->pc_peso ? (number_format($this->dados->pc_peso, 3)) : ""; ?>"
+           class="float" rel="3,3" <?= ($this->vizualizar == 1 ? "disabled" : "") ?> onblur="atualizaIMC()"/><br/>
+    <label>Altura
+        <small>(m)</small>
+        :</label>
+    <input id="altura" type="text" name="altura"
+           value="<?= $this->dados->pc_altura ? (number_format($this->dados->pc_altura, 2)) : ""; ?>"
+           class="float" rel="1,2" <?= ($this->vizualizar == 1 ? "disabled" : "") ?> onblur="atualizaIMC()"/><br/>
+
+    <label>IMC:</label>
+    <input id="imc" type="text" name="imc" value="<?= $this->imc($this->dados->pc_peso, $this->dados->pc_altura); ?>"
+           disabled="true"/>
+           
+          <small id="r_imc"></small><br>
+	<label>Pressão Sist. <small>(mm/Hg)</small>:</label>
+	<input type="text" name="pressao_sistolica" value="<?= $this->escape($this->dados->pc_pressao_sistolica); ?>"
+               <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+	<label>Pressão Diast. <small>(mm/Hg)</small>:</label>
+	<input type="text" name="pressao_diastolica" value="<?= $this->escape($this->dados->pc_pressao_diastolica); ?>"
+               <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+	<label>Freq. Cardíaca <small>(BPM)</small>:</label>
+	<input type="text" name="freq_cardiaca" value="<?= $this->escape($this->dados->pc_freq_cardiaca); ?>"
+               <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+	<label>Freq. Respiratória <small>(MPM)</small>:</label>
+	<input type="text" name="freq_respiratoria" value="<?= $this->escape($this->dados->pc_freq_respiratoria); ?>"
+               <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+	<label>Perímetro Cefálico <small>(cm)</small>:</label>
+	<input type="text" name="p_cefalico" value="<?= $this->escape(number_format($this->dados->pc_perimetro_cefalico,2)); ?>"
+               class="float" rel="2,2" <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+ <label>Perímetro Torácico <small>(cm)</small>:</label>
+ 	<input type="text" name="pc_perim_torac" value="<?= $this->escape(number_format($this->dados->pc_perim_torac,2)); ?>"
+                class="float" rel="2,2" <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+        <label>Glicose <small>(mg glicose/dl)</small>:</label>
+	<input type="text" name="glicose" value="<?= $this->escape(number_format($this->dados->pc_glicose,2)); ?>"
+               class="float" rel="3,2" <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+        <label>Saturação O²:</label>
+	<input type="text" name="pc_saturacao" value="<?= $this->escape(number_format($this->dados->pc_saturacao,2)); ?>"
+               class="float" rel="3,2" <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+   <label>Batimento Cardiofetal:</label>
+ <input type="text" name="pc_bat_fetal" value="<?= $this->escape(number_format($this->dados->pc_bat_fetal,2)); ?>"
+          class="float" rel="3,2" <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+          <label>Altura Uterina</label>
+        <input type="text" name="pc_alt_uterina" value="<?= $this->escape(number_format($this->dados->pc_alt_uterina,2)); ?>"
+                 class="float" rel="3,2" <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+                 <label>Idade Gestacional:</label>
+               <input type="text" name="pc_idade_gest" value="<?= $this->escape(number_format($this->dados->pc_idade_gest,2)); ?>"
+                        class="float" rel="3,2" <?=($this->vizualizar == 1 ? "disabled" : "")?> /><br />
+	<label>Outras informações:</label>
+	<div class="textarea">
+		<textarea name="obs" class="tinymce" <?=($this->vizualizar == 1 ? "disabled" : "")?>><?= $this->escape($this->dados->pc_dados); ?></textarea>
+	</div><br />
+        <input type="radio" name="pc_clas_risco" value="5" 
+            <?=($this->escape($this->dados->pc_clas_risco) == 5 || $this->escape($this->dados->pc_clas_risco)  == "" ? "checked=checked" : "") ?>
+            <?=($this->vizualizar == 1 ? "disabled" : "")?> />
+        <label style="background-color: blue; color: white; width: 60px; text-align: left; padding-left: 10px; " title="Não Urgente">
+            <b>4 horas</b> 
+        </label>
+        
+        <input type="radio" name="pc_clas_risco" value="4" <?=($this->escape($this->dados->pc_clas_risco) == 4 ? "checked=checked" : "") ?>
+               <?=($this->vizualizar == 1 ? "disabled" : "")?> />
+        <label style="background-color: green; color: white; width: 60px; text-align: left; padding-left: 10px; " title="Pouco Urgente">
+            <b>2 horas</b>
+        </label>
+        
+        <input type="radio" name="pc_clas_risco" value="3" <?= ($this->escape($this->dados->pc_clas_risco) == 3 ? "checked=checked" : "") ?> 
+               <?=($this->vizualizar == 1 ? "disabled" : "")?> />
+        <label style="background-color: yellow; color: black; width: 60px; text-align: left; padding-left: 10px; " title="Urgente">
+            <b>1 hora</b> 
+        </label>
+        
+        <input type="radio" name="pc_clas_risco" value="2" <?= ($this->escape($this->dados->pc_clas_risco) == 2 ? "checked=checked" : "") ?> 
+               <?=($this->vizualizar == 1 ? "disabled" : "")?> />
+        <label style="background-color: orange; color: black; width: 60px; text-align: left; padding-left: 10px; " title="Muito Urgente">
+            <b>10 min</b> 
+        </label>
+        
+        <input type="radio" name="pc_clas_risco" value='1' <?= ($this->escape($this->dados->pc_clas_risco) == 1  ? "checked=checked" : "") ?> 
+               <?=($this->vizualizar == 1 ? "disabled" : "")?> />
+        <label style="background-color: red; color: white; width: 60px;   text-align: left; padding-left: 10px; text-align: center;" title="Emergente">
+            <b>IMEDIATO</b>
+        </label>
+        <?php if (!$this->bloquear && !$this->semLayout && $this->vizualizar != 1): ?>
+    <div class="space"></div>
+    <div class="clear"></div>
+		<a href="#" class="ui-button salvar">Salvar</a>
+		<a href="#" class="ui-button limpar">Limpar</a>
+		<?php if (isset($this->dados->pc_codigo)): ?>
+			<a href="<?= $this->url(array("action" => "index")); ?>" class="ui-button novo" data-atalho="CTRL+N">Novo</a>
+		<?php endif; ?>
+	<?php endif; ?>
+	<div class="clear"></div>
+</form>

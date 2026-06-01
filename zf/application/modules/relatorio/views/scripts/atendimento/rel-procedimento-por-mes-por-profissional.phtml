@@ -1,0 +1,24 @@
+
+<link href='../../../estilo.css' rel='stylesheet' type='text/css'></style>
+<table class="lista">
+
+	<?php foreach ($this->sql as $rr) {?>
+
+	<tr>
+	 	<th colspan="5" style="font-size: 16px; background-color: #CDC9C9;" ><?=$rr->uni_desc?></th>
+	 </tr>
+	<?php foreach ($this->sql as $rw) {?>			 
+	 <tr>
+		<th>Procedimento</th>
+		<th>TOTAL</th>
+	 </tr>
+      <tr>
+		<td><?=$rw->proc_nome?></td>
+
+    			<td><?=$rw->total?></td>
+			 		</tr>
+		<?php }?>
+		<?php }?>
+
+
+</table>

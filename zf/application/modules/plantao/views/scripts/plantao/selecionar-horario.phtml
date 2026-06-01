@@ -1,0 +1,23 @@
+<div class="space"></div>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%" id="grade">
+	<tr>
+        <?php $i=0;$j=1;
+        foreach($this->distribuicao as  $hora): // para cada horario ?>
+            <?php
+            $hora_junto = explode("-",$hora);
+            $hora_inicio = $hora_junto[0];
+            $hora_fim = $hora_junto[1];
+            $hora_inicio = str_replace(":", "_", $hora_inicio);
+            $hora_fim = str_replace(":", "_", $hora_fim);
+            $hora_junto = $hora_inicio."_".$hora_fim;
+            $hora_index = str_replace("_", ":", $hora_junto);
+            if($i == 18) {
+                echo "</tr><tr>";
+                $i=0;
+            } ?>
+            <td class="c <?=($vagas>0?"sem-vaga hora":"com-vaga hora_per");?>" pac="teste" hora="<?=$hora_inicio;?>" data-hora="<?=$hora_junto;?>" data-coni="<?=$hora_fim;?>" data-index="a"><?=$hora_index;?></td>
+            <?php $i++; $j++;
+	    endforeach; ?>
+	</tr>
+</table>
+<div id="tooltip_esp"></div>

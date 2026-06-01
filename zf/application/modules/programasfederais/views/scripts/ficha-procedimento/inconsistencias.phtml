@@ -1,0 +1,41 @@
+<form name="busca" method="POST" action="<?= $this->url(array("action" => "inconsistencias")); ?>" id="busca-comum">
+    <label class="ui-corner-bl ui-corner-tr">Buscar por UUID:</label>
+    <input type="text" name="uuid" /> 
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+<table style="width: 100%;">
+    <tr>
+        <th style="width: 16%"><span style="margin-left: 4px;">Cód. Atendimento</span></th>
+        <th style="width: 10%"><span style="margin-left: 4px;">Local</span></th>
+        <th style="width: 10%"><span style="margin-left: 4px;">Cns Profissional</span></th>
+        <th style="width: 16%"><span style="margin-left: 4px;">Dt. Nascimento paciente</span></th>
+        <th style="width: 10%"><span style="margin-left: 4px;">Cns Paciente</span></th>
+        <th style="width: 10%"><span style="margin-left: 4px;">Sexo Paciente</span></th>
+        <th style="width: 10%"><span style="margin-left: 4px;">Opções</span></th>
+    </tr>
+    <?php if (count($this->dados) > 0) { ?>
+        <?php foreach ($this->dados as $dados) { ?>
+                <tr>
+                    <td style="width: 16%"><span style="margin-left: 4px;"><?=$dados->age_codigo?></span></td>
+                    <td style="width: 10%"><span style="margin-left: 4px;"><?=$dados->no_local_atend?></span></td>
+                    <td style="width: 10%"><span style="margin-left: 4px;"><?=$dados->efp_profissional_cns?></span></td>
+                    <td style="width: 16%"><span style="margin-left: 4px;"><?=$this->data($dados->efp_dtnascimento,Zend_Date::DATE_MEDIUM)?></span></td>
+                    <td style="width: 10%"><span style="margin-left: 4px;"><?=$dados->efp_num_cartao_sus?></span></td>
+                    <td style="width: 10%"><?=($dados->efp_sexo == '0 L' ? 'Masculino' : 'Feminino')?></td>
+                    <td style="width: 10%">
+                        <span style="margin-left: 4px;">
+                            <a href="<?=$this->baseUrl();?>/programasfederais/ficha-procedimento/edita-inconsistencia/id/<?=$dados->age_codigo?>">
+                                <img src="<?=$this->baseUrl();?>/public/images/icons/editar.png" alt="Editar Item" title="Editar Item">
+                            </a>    
+                        </span>
+                    </td>
+                </tr>
+        <?php } ?>
+    <?php } else {  ?>
+            <tr height="26">
+                <td style="border: 1px solid #919B9C;" colspan="9">
+                    <span style="margin-left: 04px;">Nenhuma inconsistência até o momento!</span>
+                </td>
+            </tr>
+    <?php } ?>
+</table>

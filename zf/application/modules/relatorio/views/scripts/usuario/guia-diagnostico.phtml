@@ -1,0 +1,443 @@
+<?$tamanho_linha = "style='height: 25px;'"?>
+
+<div id="page">
+        
+	<div id="header" >
+                <div id="logo" style="margin: auto;">
+                    <img width="100" height="100" src="<?= $this->baseUrl('/public/images/brasao.gif') ?>" title="Logo Prefeitura" />
+		</div>
+		<div id="titulo" style="text-align: left; ">
+			<h2>Prefeitura Municipal de <?=$this->dadosSecretaria()->cidade;?></h2>
+			<b>Secretaria Municipal de Saúde</b><br/>
+                        <b><?=$this->dadosSecretaria()->endereco;?></b><br/>
+                        <b><?php echo date("d/m/Y")."   -   "; echo $this->usr_nome;?></b>
+		</div>
+		
+                 <div id="logo" style="float: right; margin-top: 15px; text-align: right;">
+			<img src="<?= $this->baseUrl('/public/images/logo_elotech.png') ?>" title="Logo Prefeitura" />
+		</div>
+		<div class="clear"></div>
+               
+	</div>
+	<div id="info" style="border:1px solid;">
+		<div id="foto" class="" style="float:left; margin-top: 10px; margin-right:15px;">
+			<img src="<?= $this->baseUrl('/public/images/sem_foto_' . $this->dados->usu->usu_sexo . '.png') ?>" alt="Foto do Paciente" title="<?= $this->dados->usu->usu_nome; ?>" />
+		</div>
+		
+		<div class="f" style=" width: 400px;" >
+                    <label>Pcte: </label><span> <?=$this->dados->usu->usu_prontuario?> - <?= ucwords(strtolower($this->dados->usu->usu_nome)); ?></span><br/>
+                    <label>Sexo:</label> <span><?= $this->mask($this->dados->usu->usu_sexo, "sexo"); ?></span><br />
+                    <label>Mãe:</label> <span><?= $this->dados->usu->usu_mae; ?></span><br />
+                    <label>End.:</label> <font size="1"><span><?= $this->dados->usu->usu_endereco; ?></span></font><br />
+		</div>
+                <div class="f l2" >
+			<label>Data Nasc.:</label> <span><?= $this->data($this->dados->usu->usu_datanasc) . " (" . $this->idade($this->dados->usu->usu_datanasc) . ")"; ?></span><br />
+			<label>Telefone:</label> <span><?= $this->mask($this->dados->usu->usu_fone); ?></span><br />
+			<label>Cartão SUS:</label> <span><?= $this->dados->usu->usu_cartao_sus; ?></span>
+		</div>
+               
+                
+		<div class="clear"></div>
+	</div>
+        <div class="space"></div>
+        
+	<div id="relatorio">
+		<?php if($this->dados->alertas): ?>
+		<h2>Alertas</h2>
+		<?php if ($this->dados->alertas->count()): ?>
+			<?php foreach ($this->dados->alertas as $item): ?>
+				<span><?php echo $item->ale_desc; ?></span><br/>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<em>Nenhum alerta cadastrado.</em>
+		<?php endif; ?>
+		<div class="space"></div>
+		<?php endif;?>
+
+		<?php if($this->dados->atendimentos):?>
+		<h2>Consultas</h2>
+		<?php if ($this->dados->atendimentos->count()): ?>
+			<table>
+                                <tr>
+                                        <th>Data</th>
+                                        <th>Unidade De Saúde</th>
+                                        <th>Profissional</th>
+                                        <th>Especialidade</th>
+                                        <th>Diagnóstico</th>
+                                        
+                                </tr>
+				<?php foreach ($this->dados->atendimentos as $item): ?>
+					
+					<tr>
+						<td><?= $this->data($item->ate_data); ?></td>
+						<td><?= $this->escape($item->uni_desc); ?></td>
+						<td><?= $this->escape($item->usr_nome); ?></td>
+						<td><?= $this->escape($item->esp_nome); ?></td>
+                                                <td colspan="8" class="escape">
+							<?= $item->ate_reclamacao; ?>
+							<?= $item->ate_exame_fisico; ?>
+							<?= $item->ate_diagnostico; ?>
+							<?= $item->ate_tratamento; ?>
+							<?= $item->ate_curativo; ?>
+						</td>
+						
+					</tr>
+					
+				<?php endforeach; ?>
+			</table>
+		<?php else: ?>
+			<em>Nenhuma consulta encontrada.</em>
+		<?php endif; ?>
+		<?php endif;?>
+
+		<?php if($this->dados->pre_consultas):?>
+		<h2>Pré-Consultas</h2>
+		<?php if ($this->dados->pre_consultas->count()): ?>
+			<table>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Profissional</th>
+                                    <th>Temp.</th>
+                                    <th>Peso</th>
+                                    <th>Alt.</th>
+                                    <th>P/A</th>
+                                    <th>IMC</th>
+                                    <?php if($this->dados->pre_consultas->pc_freq_cardiaca):?><th>Freq. Card. </th><?php endif;?>
+                                    <?php if($this->dados->pre_consultas->pc_freq_respiratoria):?><th>Freq. Resp.</th><?php endif;?>
+                                    <?php if($this->dados->pre_consultas->pc_perimetro_cefalico):?><th>Perí. Cef.</th><?php endif;?>
+                                    <th>Glic.</th>
+                                   <?/* <th>Satu.</th>*/?>
+                                    <th>Class.</th>
+                                    <?php if($this->dados->pre_consultas->pc_dados):?><th>Dados</th><?php endif;?>
+                                </tr>
+				<?php foreach ($this->dados->pre_consultas as $item): ?>
+                                   <?php 
+                                   //echo $this->escape($item->pc_clas_risco); exit;
+                                       if($this->escape($item->pc_clas_risco) == ""){
+                                           $clas_risco = "--";
+                                       }
+                                       if($this->escape($item->pc_clas_risco) == 1){
+                                        $clas_risco = "Imediato";
+                                       }else if($this->escape($item->pc_clas_risco) == 2){
+                                        $clas_risco = "20 Min";
+                                       }else if($this->escape($item->pc_clas_risco) == 3){
+                                        $clas_risco = "60 Min";
+                                       }else if($this->escape($item->pc_clas_risco) == 4){
+                                        $clas_risco = "4 Horas";
+                                       }
+                                   
+                                       
+                                       ?>
+					
+					<tr>
+                                            <td><?= $this->data($item->age_data); ?></td>
+                                            <td><?= $this->escape($item->usr_nome_enf); ?></td>
+                                           <?/* <td><?= $this->escape($item->esp_nome); ?></td>*/?>
+                                            <td><?= $this->mask($item->pc_temperatura, "empty", "--"); ?></td>
+                                            <td><?= $this->mask($item->pc_peso, "empty", "--"); ?></td>
+                                            <td><?= $this->mask($item->pc_altura, "empty", "--"); ?></td>
+                                            <td><?= $this->mask($item->pc_pressao_sistolica, "empty", "--") . "/" . $this->mask($item->pc_pressao_diastolica, "empty", "--"); ?></td>
+                                            <td><?= $this->imc($item->pc_peso, $item->pc_altura); ?></td>
+                                            <?php if($item->pc_freq_cardiaca):?><td><?= $this->mask($item->pc_freq_cardiaca,"empty","--"); ?></td><?php endif;?>
+                                            <?php if($item->pc_freq_respiratoria):?><td><?= $this->mask($item->pc_freq_respiratoria,"empty","--"); ?></td><?php endif;?>
+                                            <?php if($item->pc_perimetro_cefalico):?><td><?= $this->mask($item->pc_perimetro_cefalico,"empty","--"); ?></td><?php endif;?>
+                                            <td><?= $this->mask($item->pc_glicose,"empty","--"); ?></td>                                                
+                                           <?/* <td><?= $this->mask($item->pc_saturacao,"empty","--"); ?></td>   */?>                                             
+                                            <td><?= $clas_risco?></td>
+                                            <?php if($item->pc_dados):?>
+                                                <td colspan="15" class="escape">
+                                                        <?= $item->pc_dados; ?>
+                                                </td>
+                                            <?php endif;?>
+					</tr>
+					
+				<?php endforeach; ?>
+			</table>
+		<?php else: ?>
+			<em>Nenhuma consulta encontrada.</em>
+		<?php endif; ?>
+		<?php endif;?>
+                
+                        
+                <?php/*
+		<?php if($this->dados->exames):?>
+		<h2>Exames</h2>
+		<?php if ($this->dados->exames->count()): ?>
+			<table>
+				<tr>
+					<th>Procedimento</th>
+                                        <th>Profissional</th>
+					<th>Prestador</th>
+					<th>Data de Coleta</th>
+				</tr>
+				<?php foreach ($this->dados->exames as $item): ?>
+				<tr>
+					<td><?=$item->proc_nome;?></td>
+                                        <td><?=$item->usr_nome;?></td>
+					<td><?=$item->med_nome;?></td>
+					<td><?=$this->data($item->agei_data);?></td>
+				</tr>
+				<?php endforeach; ?>
+			</table>
+		<?php else: ?>
+			<em>Nenhum exame encontrado.</em>
+		<?php endif; ?>
+		<?php endif;?>
+
+		<?php if($this->dados->procedimentos):?>
+		<h2>Procedimentos</h2>
+		<?php if ($this->dados->procedimentos->count()): ?>
+			<table>
+				<tr>
+					<th>Data</th>
+					<th>Procedimento</th>
+					<th>CID</th>
+					<th>Profissional</th>
+					<th>Observações</th>
+				</tr>
+				<?php foreach ($this->dados->procedimentos as $item): ?>
+				<tr>
+					<td><?=$this->data($item->age_data);?></td>
+					<td><?=$item->proc_nome;?></td>
+					<td><?=$this->mask($item->cd10_descricao,"empty","--");?></td>
+					<td><?=$item->usr_nome;?></td>
+					<td><?=$item->ate_diagnostico;?></td>
+				</tr>
+				<?php endforeach; ?>
+			</table>
+		<?php else: ?>
+			<em>Nenhum procedimento registrado.</em>
+		<?php endif; ?>
+		<?php endif;?>
+                */?>
+		<?php if($this->dados->medicamentos):?>
+		<h2>Medicamentos</h2>
+		<?php if ($this->dados->medicamentos->count()): ?>
+			<table>
+				<tr>
+					<th>Data</th>
+					<th>Unidade</th>
+					<th>Medicamento</th>
+					<th>Quant.</th>
+					
+				</tr>
+				<?php foreach ($this->dados->medicamentos as $item): ?>
+				<tr>
+					<td><?=$this->data($item->mov_data);?></td>
+					<td><?=$item->uni_desc;?></td>
+					<td><?=$item->pro_nome;?></td>
+                                       
+					<td class="d"><?=number_format($item->ite_quantidade,0);?></td>
+					
+				</tr>
+				<?php endforeach; ?>
+			</table>
+		<?php else: ?>
+			<em>Nenhum medicamento dispensado.</em>
+		<?php endif; ?>
+		<?php endif;?>
+		<?/*	
+		<?php if($this->dados->observacoes):?>
+			<h2>Observações</h2>
+			<?=$this->dados->observacoes; ?>
+		<?php endif;?>
+                        
+                <?php if($this->dados->importacoes):?>
+			<h2>Observações</h2>
+			<?=$this->dados->importacoes; ?>
+		<?php endif;?>
+
+		<?php if($this->dados->vacinas):?>
+		<h2>Vacinas</h2>
+		<?php if ($this->dados->vacinas->count()): ?>
+			<table>
+				<tr>
+					<th>Data</th>
+					<th>Unidade</th>
+					<th>Vacina</th>
+					<th>Lote</th>
+					<th>Dose</th>
+				</tr>
+				<?php foreach ($this->dados->vacinas as $item): ?>
+				<tr>
+					<td><?=$this->data($item->vac_data);?></td>
+					<td><?=$item->uni_desc;?></td>
+					<td><?=$item->pro_nome;?></td>
+					<td><?=$item->ite_lote;?></td>
+					<td><?=($item->vac_dose<6?$item->vac_dose."&ordf; dose":"Reforço");?></td>
+				</tr>
+				<?php endforeach; ?>
+			</table>
+		<?php else: ?>
+			<em>Nenhuma vacina aplicada/preenchida.</em>
+		<?php endif; ?>
+		<?php endif;?>
+			
+		<?php if($this->dados->vacinasAprazadas):?>
+		<h2>Vacinas - Aprazadas</h2>
+		<?php if ($this->dados->vacinasAprazadas->count()): ?>
+			<table>
+				<tr>
+					<th>Data</th>
+					<th>Unidade</th>
+					<th>Vacina</th>
+					<th>Dose</th>
+				</tr>
+				<?php foreach ($this->dados->vacinasAprazadas as $item): ?>
+				<tr>
+					<td><?=$this->data($item->vac_data);?></td>
+					<td><?=$item->uni_desc;?></td>
+					<td><?=$item->pro_nome;?></td>
+					<td><?=($item->vac_dose<6?$item->vac_dose."&ordf; dose":"Reforço");?></td>
+				</tr>
+				<?php endforeach; ?>
+			</table>
+		<?php else: ?>
+			<em>Nenhuma vacina aprazada.</em>
+		<?php endif; ?>
+		<?php endif;?>
+                        
+                <?php if($this->dados->vacinasAprazadas):?>
+                        
+                        
+		<h2>Internação</h2>
+		<?php if ($this->dados->internacoes->count()): ?>
+			<table>
+				<tr>
+					<th>Data</th>
+					<th>Unidade</th>
+					<th>Profissional que encaminhou</th>
+					<th>Conduta Médica</th>
+				</tr>
+				<?php foreach ($this->dados->internacoes as $item):
+                                if($io_codigo != $item->io_codigo){
+                                ?>
+				<tr>
+					<td><?=$this->data($item->io_data_cadastro);?></td>
+					<td><?=$this->data($item->io_data_cadastro);?></td>
+					<td><?=$item->usr_nome;?></td>
+					<td><?=$item->io_observacao;?></td>
+				</tr>
+				<?php 
+                                $io_codigo = $item->io_codigo;
+                                }
+                                endforeach; ?>
+			</table>
+		<?php else: ?>
+			<em>Nenhuma internação realizada.</em>
+		<?php endif; ?>
+		<?php endif;?>
+                */?>
+        <h2>Pré-Consulta</h2>
+        <table>
+            <tr <?=$tamanho_linha;?>>
+                <td>Pressão:_________x________</td>
+                <td>Temperatura:______________</td>
+                <td>Peso:______________Kg</td>
+                <td>Glicemia:_____________</td>
+                <td>Estatura:_____________m</td>
+            </tr>
+            <tr <?=$tamanho_linha;?>>
+                <td colspan="5" style="border: 1px solid;">&nbsp;</td> 
+            </tr>
+            <tr <?=$tamanho_linha;?>>
+               <td colspan="5" style="border: 1px solid;">&nbsp;</td> 
+            </tr>
+            
+        </table>
+        
+        
+        <h2>Exame Físico</h2>
+        <table>
+            <tr <?=$tamanho_linha;?>>
+                <td colspan="5" style="border: 1px solid;">&nbsp;</td> 
+            </tr>
+            <tr <?=$tamanho_linha;?>>
+               <td colspan="5" style="border: 1px solid;">&nbsp;</td> 
+            </tr>
+            <tr <?=$tamanho_linha;?>>
+               <td colspan="5" style="border: 1px solid;">&nbsp;</td>
+            </tr>
+        </table>
+        
+        <h2>Diagnóstico</h2>
+        <table>
+            <tr <?=$tamanho_linha;?>>
+                <td colspan="5" style="border: 1px solid;">&nbsp;</td> 
+            </tr>
+            <tr <?=$tamanho_linha;?>>
+               <td colspan="5" style="border: 1px solid;">&nbsp;</td> 
+            </tr>
+            <tr <?=$tamanho_linha;?>>
+               <td colspan="5" style="border: 1px solid;">&nbsp;</td>
+            </tr>
+        </table>
+        
+        <h2>Procedimentos - Conduta</h2>
+        <table>
+            <tr <?=$tamanho_linha;?>>
+                <td colspan="5" style="border: 1px solid;">&nbsp;</td> 
+            </tr>
+            <tr <?=$tamanho_linha;?>>
+               <td colspan="5" style="border: 1px solid;">&nbsp;</td> 
+            </tr>
+            <tr <?=$tamanho_linha;?>>
+               <td colspan="5" style="border: 1px solid;">&nbsp;</td>
+            </tr>
+        </table>
+        
+        <h2>Medicamentos - Diagnóstico</h2>
+        <table>
+            <tr>
+                <td colspan="5" style="border: 1px solid;" width="50%">
+                    <table>
+                        <tr <?=$tamanho_linha;?>>
+                            <td style="border: 1px solid;"><font size="1"><b>Medicamentos Administrados pela entidade</b></font> </td>
+                        </tr>
+                        <tr <?=$tamanho_linha;?>>
+                            <td style="border: 1px solid;">&nbsp; </td>
+                        </tr>
+                        <tr <?=$tamanho_linha;?>>
+                            <td style="border: 1px solid;"> &nbsp;</td>
+                        </tr>
+                        <tr <?=$tamanho_linha;?>>
+                            <td style="border: 1px solid;"> &nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+                <td colspan="5" style="border: 1px solid;" width="50%">
+                    <table width="50%">
+                        <tr <?=$tamanho_linha;?>>
+                            <td style="border: 1px solid;"><font size="1"><b>Medicamentos prescritos</b></font> </td>
+                        </tr>
+                        <tr <?=$tamanho_linha;?>>
+                            <td style="border: 1px solid;">&nbsp; </td>
+                        </tr>
+                        <tr <?=$tamanho_linha;?>>
+                            <td style="border: 1px solid;"> &nbsp;</td>
+                        </tr>
+                        <tr <?=$tamanho_linha;?>>
+                            <td style="border: 1px solid;"> &nbsp;</td>
+                        </tr>
+                    </table>
+                </td> 
+            </tr>
+        </table>
+        
+	</div>
+	<div class="clear"></div>
+        <div class="space"></div>
+        <table>
+            <tr>
+                <td colspan="5" style="border: 1px solid;" width="50%" align="center">
+                    <br/>--------------------------------------<br/>
+                    <?= $this->med_nome; ?>
+                </td>
+                <td colspan="5" style="border: 1px solid;" width="50%" align="center">
+                    <br/>---------------------------------------<br/>
+                    <?=$this->dados->usu->usu_nome?>
+                </td>
+            </tr>
+        </table>
+        
+</div>

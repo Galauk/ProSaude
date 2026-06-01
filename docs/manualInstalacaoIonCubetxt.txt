@@ -1,0 +1,33 @@
+Como Compilar o código php.
+
+1 - Primeiramente pegar o programa ionCube no diretório "\\192.168.1.201\InstaladoresDesenvolvimento\PHP Encoder ionCube" e instale o programa.
+No final da instalação ocorrerá um erro pois proxy vai bloquear a validação do serial do ioncube que é feita via internet.
+entrar em contato com o Mussi para liberar o acesso.
+para validar o compilador entre em 'HELP->acquire license'.
+
+2 - Compilando os arquivos.
+	para compilar os .php entre em "file->new project..."
+	informar o projeto que quer compilar e certificar que está selecionado a linguagem php5.
+	clicar na aba "target", informar o nome do projeto compilado e qual o seu destino, dar OK.
+	clicar em "start building".
+
+Como interpretar o código compilado	
+	
+1 - baixar loader-wizard em: http://www.ioncube.com/loader-wizard/loader-wizard.zip
+	extrair na pasta C:\Desenvolvimento\Elotech\WebSocialSaude, e executa - lo pelo navegador.
+	ele irá mostrar as instruções de como fazer o restante da instalação:
+	
+	Instruções de instalação
+     Baixe um dos seguintes arquivos de Loaders do Windows x86 VC6:
+         zip
+         MS Windows instalador
+     Por favor, note que o MS versão de instalação do Windows é adequado tanto para instalação direta em uma 		máquina Windows ou para fazer upload de um PC local para o servidor.
+     Um arquivo Loaders também pode ser baixado a partir de http://loaders.ioncube.com/.
+     Coloque os arquivos do Carregador em C: \ xampp \ apache \ bin \ IonCube
+     Edite o arquivo C: \ xampp \ apache \ bin \ php.ini e antes de quaisquer outras linhas zend_extension_ts garantir que o seguinte está incluído:
+     zend_extension_ts = "C: \ xampp \ apache \ bin \ IonCube \ ioncube_loader_win_5.2.dll"
+     Em alternativa, substituir o seu atual C: \ xampp \ apache \ bin \ php.ini com este arquivo php.ini.
+     Reinicie o software de servidor Apache.
+     Quando o software de servidor for reiniciado, clique aqui para testar o Loader.
+
+

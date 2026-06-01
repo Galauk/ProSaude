@@ -1,0 +1,49 @@
+<?php if(isset($this->receitas) && $this->receitas && count($this->receitas)): ?>
+<? foreach ($this->receitas as $receita): ?>
+<table width="100%">
+  <tr>
+    <td width="15%"><strong>Código: </strong><?= $receita['rec_codigo'] ?></td>
+    <td width="15%"><strong>Data: </strong><?=$this->data($receita['rec_data']);?></td>
+    <td width="25%"><strong>Validade: </strong><?=$this->data($receita['rec_validade']);?></td>
+    <td width="25%"><strong>Profissional: </strong><?= $receita['usr_nome']?></td>
+    <td width="20%"><a href="<?= $this->url(array('module' => 'prontuario', 'controller'=>'receita-medica','action'=>'aprazar', 'rec_codigo'=>$receita['rec_codigo'], 'usu_codigo'=>$this->usu_codigo), null, FALSE); ?>" class="ui-button js-aprazar-receita" style="float:right" title="Aprazar receita">Aprazar</a></td>
+  </tr>
+  <tr>
+    <td colspan="5">
+      <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+        <tr class="ui-widget-header">
+          <th width="50%">Produto</th>
+          <th width="15%">Quant.</th>
+          <th width="35%">Recomendação</th>
+        </tr>
+<?php foreach($receita['itens'] as $item): ?>
+        <tr>
+          <?php
+          if($item['pro_nome']){
+            $produto = $item['pro_nome'];
+          }else{
+            $produto = $item['irec_produto'];
+          }
+          ?>
+          <td class="ui-widget ui-widget-content"><?=$this->escape($produto);?></td>
+          <td class="ui-widget ui-widget-content d"><?php
+          echo number_format($item['irec_quantidade'],0,",",".");
+          ?></td>
+          <td class="ui-widget ui-widget-content escape"><?=str_replace("<p> </p>","",$item['irec_recomendacao']);?></td>
+        </tr>
+<?php endforeach; ?>
+      </table>
+    </td>
+  </tr>
+</table>
+<br>
+<?php
+endforeach;
+if(isset($this->mais) && isset($this->inicio)){
+  echo '<a href="#" data-id="'.$this->usu_codigo.'" data-inicio="'.$this->inicio.'" class="js-carregar-mais ui-button">Carregar mais '.$this->mais.'</a>';
+}
+?>
+<?php else: ?>
+<br /><em>Paciente não possui histórico de dispensação de medicamentos.</em>
+<?php endif; ?>
+<iframe src="" id="js-imprimir" width="0" height="0" style="visibility:hidden;"></iframe>

@@ -1,0 +1,47 @@
+<style>
+	#page{width: auto;padding: 0}
+</style>
+
+<form method="post" action="<?=$this->url($this->action);?>" target="_blank">
+	<label>Paciente:</label>
+	<input name="usu_nome" id="usu_nome" />
+	<input name="usu_codigo" id="usu_codigo" type="hidden" /><br />
+	
+	<label>Data inicial:</label>
+	<input name="data_inicial" class="data" style="width: 80px"/><br />
+	
+	<label>Data final:</label>
+	<input name="data_final" class="data" style="width: 80px" /><br />
+	
+	<label>Especialidade:</label>
+	<select name="especia" id="especia">
+		<option value="">Sem especialidade</option>
+		<option value="225125">Medico Clinico</option>
+		<option value="251510">Psicologo Clinico</option>
+		<option value="225142">Medico de Saude da Familia</option>
+		<option value="223208">Cirurgiao Dentista</option>
+		<option value="223293">Cirurgiao Dentista SF</option>
+		<option value="225270">Ortopedista Traumatologista</option>
+		<option value="225120">Cardiologista</option>
+		<option value="225133">Medico Psiquiatra</option>
+		<option value="223565">Enfermeira ESF</option>
+	</select>
+	<br/>
+	<label>Opções:</label>
+	<input value="alertas" name="op[]" checked="checked" id="op_alertas" type="checkbox" /> <label class="not" for="op_alertas">Alertas</label><br>
+	<input class="m" value="atendimentos" name="op[]" checked="checked" id="op_atendimentos" type="checkbox" /> <label class="not" for="op_atendimentos">Atendimentos</label><br>
+	<input class="m" value="pre-consulta" name="op[]" checked="checked" id="op_pre-consulta" type="checkbox" /> <label class="not" for="op_pre-consulta">Pré-Consulta</label><br>
+	<input class="m" value="exames" name="op[]" checked="checked" id="op_exames" type="checkbox" /> <label class="not" for="op_exames">Exames</label><br>
+	<input class="m" value="procedimentos" name="op[]" checked="checked" id="op_procedimentos" type="checkbox" /> <label class="not" for="op_procedimentos">Procedimentos</label><br>
+	<input class="m" value="medicamentos" name="op[]" checked="checked" id="op_medicamentos" type="checkbox" /> <label class="not" for="op_medicamentos">Medicamentos</label><br>
+	<input class="m" value="observacoes" name="op[]" checked="checked" id="op_observacaoes" type="checkbox" /> <label class="not" for="op_observacaoes">Observações</label><br>
+	<input class="m" value="vacinas" name="op[]" checked="checked" id="op_vacinas" type="checkbox" /> <label class="not" for="op_vacinas">Vacinas</label><br>
+        <input class="m" value="internacoes" name="op[]" checked="checked" id="op_importacoes" type="checkbox" /> <label class="not" for="op_internacao">Internações</label><br>
+        <input class="m" value="importacoes" name="op[]" checked="checked" id="op_importacoes" type="checkbox" /> <label class="not" for="op_importacoes">Importacoes</label><br>
+        <input class="m" value="compra_produtos" name="op[]" checked="checked" id="op_compra_produtos" type="checkbox" /> <label class="not" for="op_compra_produtos">Compra de produtos por usuário</label><br>
+        <input class="m" value="agendamento_externo" name="op[]" checked="checked" id="op_agendamento_externo" type="checkbox" /> <label class="not" for="op_agendamento_externo">Agendamento Externo</label><br>
+        <input class="m" value="atividade_coletiva" name="op[]" checked="checked" id="op_atividade_coletiva" type="checkbox" /> <label class="not" for="op_atividade_coletiva">Atividade Coletiva</label><br>
+	
+	<div class="clear"></div>
+	<a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+</form>

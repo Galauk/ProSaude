@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1448468713">
+  <project timestamp="1448468713">
+    <file name="C:\xampp\htdocs\WebSocialSaude\zf\tests\application\models/UsuariosTest.php">
+      <class name="UserTest" namespace="global">
+        <metrics methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="2" elements="7" coveredelements="4"/>
+      </class>
+      <line num="7" type="method" name="setUp" crap="1.12" count="1"/>
+      <line num="8" type="stmt" count="1"/>
+      <line num="9" type="stmt" count="0"/>
+      <line num="11" type="method" name="tearDown" crap="1" count="1"/>
+      <line num="12" type="stmt" count="1"/>
+      <line num="14" type="method" name="testPodeCriarUsuario" crap="2" count="0"/>
+      <line num="16" type="stmt" count="0"/>
+      <metrics loc="16" ncloc="14" classes="1" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="2" elements="7" coveredelements="3"/>
+    </file>
+    <metrics files="1" loc="16" ncloc="14" classes="1" methods="3" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="2" elements="7" coveredelements="3"/>
+  </project>
+</coverage>

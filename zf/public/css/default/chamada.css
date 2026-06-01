@@ -1,0 +1,35 @@
+#div_superior{
+    /*border: 1px solid;*/
+    font-size: 80px;
+    text-align: center;
+}
+
+#div_setor{
+   /* border: 1px solid;*/
+    font-size: 50px;
+    text-align: center;
+    color: red;
+}
+
+.anterior_1{
+    width: 31% !important;
+    margin: 4px !important;
+/*    border: 1px solid;*/
+    font-size: 30px;
+    text-align: center;
+    float: left;
+    background-color: #87CEEB;
+  
+}
+
+#id_chamada{
+    width:100%;
+    height:550px;
+    border:  0px solid;
+}
+#inv{
+    width:100%;
+    height: 100%;
+    border: 1px solid;
+}
+

@@ -1,0 +1,18 @@
+.titulos{
+	border-bottom: 1px solid black;
+}
+
+.dadosDaAgenda{
+	padding: 14px;
+}
+
+#tableResultado{
+	text-align: center;
+    margin: auto;
+    padding: 8px;
+}
+
+.labelMigrate{
+
+}
+

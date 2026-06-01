@@ -1,0 +1,20 @@
+// desabilitar layout:
+$this->_helper->layout->disableLayout();
+
+// desablitar view:
+$this->_helper->viewRenderer->setNoRender(true);
+
+// Mudar o layout:
+//No controller: $this->_helper->layout->setLayout("print");
+//Fora do controller: Zend_Layout::getMvcInstance()->setLayout("print");
+
+// Tirar o zoom do tablet:
+// No controller: $this->view->headMeta()->setName('viewport','width=device-width, user-scalable=no');
+
+// adicionar css ou js específico para uma pagina
+$this->view->headScript()->appendFile($this->view->baseUrl() . '/public/js/jquery.contextMenu.js');
+$this->view->headLink()->appendStylesheet($this->view->baseUrl().'/public/css/jquery.contextMenu.css','all');
+
+
+// liberar acesso total ao Controller:
+$this->_helper->acl->allow(NULL);

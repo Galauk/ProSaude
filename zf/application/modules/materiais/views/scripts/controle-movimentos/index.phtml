@@ -1,0 +1,83 @@
+<div class="menu_small" id="entrada" data-tipo="E" data-acao="entrada/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-add-icon-small.png");?>" alt="Entrada" title="Entrada" />
+</div>
+<div class="menu_small" id="saida" data-tipo="S" data-acao="saida/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-delete-icon-small.png");?>" alt="Saída" title="Saída" />
+</div>
+<div class="menu_small" id="transferencia" data-tipo="T" data-acao="transferencia/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-go-icon-small.png");?>" alt="Transferência" title="Transferência" />
+</div>
+<div class="menu_small" id="controle-movimentos" data-tipo="C" data-acao="controle-movimentos/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/counter-count-up-icon-small.png");?>" alt="Controle Movimentos" title="Controle Movimentos" />
+</div>
+<div class="menu_small" data-tipo="R" data-acao="requisicao-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/requisicao_small.png");?>" alt="Requisiçao Materiais" title="Requisicao Materiais" />
+</div>
+<div class="menu_small" data-tipo="EV" data-acao="envio-de-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/envio_small.png");?>" alt="Envio de Materiais" title="Envio de Materiais" />
+</div>
+<div class="menu_small" data-tipo="M" data-acao="movimentacao/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/Menu-icon.png");?>" alt="Movimentações" title="Movimentações" />
+</div>
+
+<div class="clear"></div><br/><br/>
+<?php $this->errorMsg(); 
+//echo "<pre>".  print_r($this->itens,1);
+?>
+<form name="busca" method="POST" action="<?= $this->url(array("action" => "buscar")); ?>" id="busca-comum">
+    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>
+    <input size="50" class="focus ui-state-default" name="busca" value="" type="text">
+    <label class="ui-corner-bl ui-corner-tr">Tipo de Movimento:</label>
+    <select name="mov_tipo">
+        <option value="A">Todos</option>
+        <option value="E">Entrada</option>
+        <option value="S">Saída</option>
+        <option value="T">Transferência</option>
+    </select>
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    
+<?php
+$i=0;
+if($this->itens && $this->itens->count()):?>
+    <tr class='ui-widget-header'>
+           <th>Código</th>
+           <th>Data</th>
+           <th>Nr. Nota</th>
+           <th>Fornecedor/Paciente</th>
+           <th>Movimento</th> 
+           <th>Tipo de Movimento</th>
+           <th>Observação</th>
+           <th>Ações</th>
+       </tr>
+    <?php
+    foreach($this->itens as $item):?>
+            <tr>
+                <td class='ui-state-default c' width='80'><?=$item->mov_codigo?></td>  
+                <td class='ui-state-default c' width='150'><?=$this->data($item->mov_data)?></td>
+                <td class='ui-state-default c' width='150'><?=($item->mov_nr_nota == "" ? "" : "$item->mov_nr_nota")?></td>
+                <td class='ui-state-default c' width='150'><?=($item->for_nome == "" ? "" : "$item->for_nome")?><?=($item->usu_nome == "" ? "" : "$item->usu_nome")?></td>
+                <td class='ui-state-default c' width='150'><?=$item->mov_tipo?></td>
+                <td class='ui-state-default c' width='80'><?=($item->tipo == "E" ? $item->mov_entrada : $item->mov_saida)?></td>
+                <td class='ui-state-default c' width='80'><?=$item->mov_observacao?></td>
+                <td class='ui-state-default c' width='80'>
+                    <?if($item->tipo != "T"):?>
+                        <a href='<?=$this->url(array("module"=>"materiais", 'controller'=>'controle-movimentos','action'=>'editar','id'=>$item->mov_codigo,"tipo"=>$item->tipo), NULL, TRUE);?>' class='editar'><img src='<?=$this->baseUrl('/public/images/icons/editar.png');?>' alt='Editar Itens' title='Editar Itens' /></a>
+                    <? endif;?>
+                    <?php 
+                    if ($item->tipo == "E") { $action = "imprime-entradas"; }
+                    if ($item->tipo == "T") { $action = "imprime-transferencias"; }
+                    if ($item->tipo == "S") { $action = "imprime-saidas"; }
+                    ?>
+                    <a href='<?=$this->url(array("module"=>"materiais", 'controller'=>'movimentacao','action'=>$action,'mov_codigo'=>$item->mov_codigo,"mov_tipo"=>$item->tipo), NULL, TRUE);?>' class="popup" rel="690x540">
+                        <img src='<?=$this->baseUrl('/public/images/icons/printer.png');?>' alt='Imprimir Requisição' title='Imprimir Requisição' />
+                    </a>
+                </td>
+            </tr>
+    <?php endforeach; ?>
+    </table>
+<?php else:?>
+        <em>Nenhum item encontrado</em>
+<?php endif;?>

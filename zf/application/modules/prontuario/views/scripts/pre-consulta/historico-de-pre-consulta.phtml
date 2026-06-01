@@ -1,0 +1,30 @@
+<form method="post" action="#tabs2-3">
+	<label>Buscar:</label>
+	<input name="term" value="<?=$this->term;?>" />
+	<a href="#" class="ui-button submit buscar">Buscar</a>
+</form>
+
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Unidade</th>
+		<th>Profissional</th>
+		<th>Especialidade</th>
+		<th>Data</th>
+		<th>Opções</th>
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<tr>
+		<td class="ui-state-default"><?=$this->escape($item->uni_desc);?></td>
+		<td class="ui-state-default"><?=$this->escape($item->usr_nome);?></td>
+		<td class="ui-state-default"><?=$this->escape($item->esp_nome);?></td>
+		<td class="ui-state-default c" width="80"><?=$this->data($item->pc_data);?></td>
+		<td class="ui-state-default c" width="60">
+                    <a href="<?=$this->url(array("controller"=>"pre-consulta", "action"=>"ver","id"=>$item->pc_codigo,"age"=>$item->pc_codigo));?>"><img src="<?=$this->baseUrl('/public/images/icons/historico.png');?>" alt="Ver detalhes" title="Ver detalhes" /></a>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php else: ?>
+<br /><em>Nenhuma consulta encontrada.</em>
+<?php endif; ?>

@@ -1,0 +1,214 @@
+<script language="JavaScript" type="text/javascript" src="funcoes.js"></script>
+<script src=script.js></script>
+<script>
+
+var gdtInicial
+var gdtFinal
+var gCE
+var gSetor
+var gGrupo
+var gProduto
+var gHoje
+var gTipo
+
+function CompData(data1 , data2) {
+
+//   Se ( data1 )  MAIOR QUE   ( data2 )    FALSE    //
+
+   var d1 = data1;
+   var d2 = data2;
+
+   for (var i = 0; i < d1.length; i++) {
+        if (d1.charAt(i) == "-") {
+           if ( parseInt( d1.split( "-" )[2].toString() + d1.split( "-" )[1].toString() + d1.split( "-" )[0].toString() ) 
+                > 
+                parseInt( d2.split( "-" )[2].toString() + d2.split( "-" )[1].toString() + d2.split( "-" )[0].toString() ) )
+              { return false }   else    { return true  }
+        } else 
+        if (d1.charAt(i) == "/") {
+           if ( parseInt( d1.split( "/" )[2].toString() + d1.split( "/" )[1].toString() + d1.split( "/" )[0].toString() ) 
+                > 
+                parseInt( d2.split( "/" )[2].toString() + d2.split( "/" )[1].toString() + d2.split( "/" )[0].toString() ) )
+              { return false }   else   { return true  }
+        }
+   }
+}
+
+function VerData() {
+
+   gdtInicial = document.frm_EstConsumo.dt_inicial.value;
+   gdtFinal   = document.frm_EstConsumo.dt_final.value;
+   gCE        = document.frm_EstConsumo.CE_codigo.value;
+   gSetor     = document.frm_EstConsumo.set_codigo.value;
+   gGrupo     = document.frm_EstConsumo.gru_codigo.value;
+   gProduto   = document.frm_EstConsumo.pro_codigo.value;
+   gTipo      = document.frm_EstConsumo.tipomovim.value;
+   gSet_junto = document.frm_EstConsumo.set_junto.value;
+
+   if (gdtFinal == '') {
+	   alert("Data Final não preenchida");
+       document.frm_EstConsumo.dt_final.focus();
+       return false;
+   }
+   if (gdtInicial == '') {
+       alert("Data Inicial não preenchida");
+       document.frm_EstConsumo.dt_inicial.focus();
+       return false;
+   }
+   if ((gdtInicial == '') || (gdtInicial > gdtFinal)) {
+       alert ("Periodo INVALIDO");
+       document.frm_EstConsumo.dt_inicial.focus();
+       return false;
+   }
+   
+   window.open('EstoqueConsumo.php?dt_inicial='+gdtInicial+'&dt_final='+gdtFinal+'&CE_codigo='+
+		gCE+'&set_codigo='+gSetor+'&gru_codigo='+gGrupo+'&pro_codigo='+gProduto+'&tipomovim='+gTipo+'&set_junto='+gSet_junto,
+		null,"height=400,width=750,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes,resizable=yes");
+
+   return true
+}
+
+function AtualizProduto(p){
+   
+    url = 'ComboAtualizaProduto.php?valor='+p;
+    IdentBrowser(url,2);
+}
+
+</script>
+
+<?php
+
+//$number = 1234.56;
+//setlocale(LC_ALL, 'pt_BR');
+//echo money_format("%=*(#10.2n", $number); 
+//exit();
+
+//------------------------------------------------------------------>
+// -> Inclusao principal para montagem do sistema
+//------------------------------------------------------------------>
+	session_start();
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+	cabecario();
+
+echo "<link href=\"../estilo.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+echo " <form name='frm_EstConsumo' method='post' action='$PHP_SELF'>\n";
+echo "  <fieldset>";
+echo "   <legend>Relat&oacute;rio de Consumo</legend> \n";
+echo "    <table whidht=100% border=0 cellspacing=2 cellpadding=1>\n";
+echo "     <tr>\n";
+echo "      <td valign='bottom'>Data Inicial</td>\n";
+echo "      <td><input class='box' type='text' name='dt_inicial' maxlength='10' size='12' value='$dt_inicial'onKeypress=\"return Ajusta_Data(this, event);\"/></td>\n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+echo "      <td valign='bottom'>Data Final</td>\n";
+echo "      <td><input class='box' type='text' name='dt_final'  maxlength='10'  size='12' value='$dt_final'onKeypress=\"return Ajusta_Data(this, event);\" /></td>\n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+echo "      <td valign='bottom'>Centro Estocador</td>\n";
+echo "      <td><select name='CE_codigo' value='$CE_codigo' class=box >\n";
+					/*$query=pg_query("SELECT set_codigo, set_nome FROM setor WHERE set_estoque='S' ORDER BY set_nome");*/
+					$select = "select uni_codigo from usuarios where usr_codigo = $id_login";
+					$uni = db_get($select);
+					if($uni != "")
+					{
+					  $and_sql = " AND uni_codigo = $uni ";
+					}
+					$sql = "SELECT set_codigo, set_nome FROM Setor
+							WHERE set_estoque = 'S'
+							$and_sql
+							ORDER BY set_nome";
+					$query = db_query($sql);
+					while($CentroEstoq=pg_fetch_array($query)) {
+						  echo ($CentroEstoq==$CentroEstoq[set_codigo])?
+						        "<option value='$CentroEstoq[set_codigo]' selected> $CentroEstoq[set_nome]</option>" :
+								"<option value='$CentroEstoq[set_codigo]'         > $CentroEstoq[set_nome]</option>\n";
+					}
+echo "          </select>\n";
+echo "      </td>\n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+echo "      <td valign='bottom'>Setor</td>\n";
+echo "      <td><select name='set_codigo' value='$set_codigo' class=box >\n";
+echo "           <option value=''> --- Todos Setores ---</option>\n";
+				    $query=pg_query("SELECT set_codigo, set_nome FROM setor ORDER BY set_nome");
+					while($Setor=pg_fetch_array($query)) {
+					      echo ($set_codigo==$Setor[set_codigo])?
+		                        "<option value='$Setor[set_codigo]' selected> $Setor[set_nome]</option>" :
+                                "<option value='$Setor[set_codigo]'         > $Setor[set_nome]</option>\n";
+					}
+echo "          </select>\n";
+echo "      </td> \n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+echo "      <td valign='bottom'>Unir Setores</td>\n";
+echo "      <td><input type='radio' checked value='2' name='juntar'
+                    onclick='document.frm_EstConsumo.set_junto.value = this.value'> Não\n";
+echo "           <input type='radio' value='1' name='juntar'
+                    onclick='document.frm_EstConsumo.set_junto.value = this.value'> Sim\n";
+echo "           <input type='hidden' value='2' name='set_junto'>\n";
+echo "      </td> \n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+echo "      <td valign='bottom'>Grupo Produto</td>\n";
+echo "      <td><select name='gru_codigo' value='$gru_codigo' class=box onChange='javascript:AtualizProduto(this.value);'>\n";
+echo "           <option value=''> --- Todos Grupos --- </option>\n";
+		            $query=pg_query("SELECT gru_codigo, gru_nome FROM grupo ORDER BY gru_nome");
+		            while($Grupo=pg_fetch_array($query)) {
+		                  echo ($gru_codigo==$Grupo[gru_codigo])?
+                                "<option value='$Grupo[gru_codigo]' selected> $Grupo[gru_nome]</option>" :
+                                "<option value='$Grupo[gru_codigo]'         > $Grupo[gru_nome]</option>\n";
+		            }
+echo "          </select>\n";
+echo "      </td>\n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+echo "      <td valign='bottom'>Produto</td>\n";
+echo "      <td><div id='select_prod'><select name='pro_codigo' value='$pro_codigo' class=box>\n";
+echo "           <option value=''> --- Todos Produtos --- </option>\n";
+		            $query=pg_query("SELECT pro_codigo, pro_nome FROM produto ORDER BY pro_nome");
+                    while($Produto=pg_fetch_array($query)) {
+	                     echo ($pro_codigo==$Produto[pro_codigo])?
+                              "<option value='$Produto[pro_codigo]' selected>".substr($Produto[pro_nome],0,60)."</option>" :
+                              "<option value='$Produto[pro_codigo]'         >".substr($Produto[pro_nome],0,60)."</option>\n";
+		            }
+echo "          </select>\n";
+echo "      </td> </div> \n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+echo "      <td valign='bottom'>Tipo de Consumo</td>\n";
+echo "      <td><select name='tipomovim' class='box'>\n";
+echo "           <option value=''> --- Todos Tipos de Consumo --- </option>\n";
+echo "           <option value='A'> Ajuste</option>\n";
+echo "           <option value='V'> Devol. Setor</option>\n";
+echo "           <option value='D'> Dispensação</option>\n";
+echo "           <option value='M'> Emprestimo</option>\n";
+echo "           <option value='I'> Inventario</option>\n";
+echo "           <option value='E'> Nota Fiscal de Compra</option>\n";
+echo "           <option value='O'> Outras Saidas</option>\n";
+echo "           <option value='R'> Perdas</option>\n";
+echo "           <option value='P'> Permuta</option>\n";
+echo "           <option value='S'> Saida de Consumo</option>\n";
+echo "           <option value='T'> Transferência</option>\n";
+echo "           <option value='X'> Saida de Consumo + Transferência</option>\n";
+echo "          </select>\n";
+echo "      </td>\n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+echo "      <td>&nbsp;&nbsp;&nbsp;</td>\n";
+echo "      <td><input type=\"image\"  src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/gerar_relatorio_on.jpg\" OnClick=\"VerData()\"  name='enviar' value='ENVIAR'> </td>\n";
+echo "      <td align='right'><a href='../rel_index.php?opcao=7#tabs-3'><img src='".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif' border=0></a>
+			</td>\n";
+echo "     </tr>\n";
+
+echo "   </table>\n";
+echo "  </fieldset>\n";
+echo " </form>\n";
+

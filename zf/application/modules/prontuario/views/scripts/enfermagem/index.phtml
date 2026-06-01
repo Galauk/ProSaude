@@ -1,0 +1,15 @@
+<?php $this->dialog(); ?>
+
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>">
+	<?php $this->errorMsg(); ?>
+	<label>Descrição: </label>
+	<input type="hidden" name="pe_codigo" value="<?=$this->dados->pe_codigo;?>">
+	<div class="textarea">
+		<textarea name="pe_descricao" class="tinymce"><?=$this->dados->pe_descricao;?></textarea>
+		
+	</div>
+	<div class="space"></div>
+
+	<a href="#" class="ui-button salvar">Salvar</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+</form>

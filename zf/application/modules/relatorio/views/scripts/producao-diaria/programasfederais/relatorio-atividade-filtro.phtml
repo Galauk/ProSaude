@@ -1,0 +1,50 @@
+<form method="post" action="<?= $this->url(array("action" => "relatorio-atividade")); ?>" target="_blank" id="form">
+    
+    <label>Atividade</label>
+    <select name="atividade" style="width:300px;" class="ui-state-default">
+        <option value="0" selected="selected" id="ocultadadosenviotodos">Todas</option>
+        <?php
+        //lista todas as atividade no select
+        foreach ($this->atividades as $atividade): ?>
+            <option value="<?=$atividade->co_cds_tipo_ativ_col?>" id="itemListaAtividades"><?=$atividade->no_cds_tipo_ativ_col?></option>
+        <?php 
+        endforeach;?>
+    </select>
+    <br />
+    
+    <label>Unidade</label>
+    <select name="uni_codigo" style="width:300px;" class="ui-state-default">
+        <option value="0">Todos</option>
+        <optgroup label="Unidade Ativa">
+        <?php
+        //Lista todas as unidades no select
+        //variavel controle para imprimir a divisao entre as unidades
+        $controleDivisao = true;
+        foreach ($this->unidade as $unidade):
+            if($unidade[cnes_ativo] !=  'A' and $controleDivisao == true){ ?>
+                <optgroup label="Unidade Inativa">
+            <?php
+                $controleDivisao = false;
+            }?>
+            <option value="<?=$unidade->uni_codigo?>"><?=$unidade->uni_desc?></option>
+        <?php endforeach ?>
+    </select>
+    <br/>
+    
+    <label>Profissional Responsável</label>
+    <input type='text' name='profs_part_nome' id="profs_part_nome" value="" onkeypress="buscaProfissionais()" />
+    <input type='hidden' name='usr_codigo' id="usr_codigo" class="field" value="0"/>
+    <br/>
+    
+    <label>Data Inicial:</label>
+    <input name="dataInicial" class="mask data-futura focus" rel="99/99/9999" tabindex="1" style="width: 120px" />
+    <br />
+    
+    <label>Data Final:</label>
+    <input name="dataFinal" class="mask data-futura focus" rel="99/99/9999" tabindex="1" style="width: 120px" />
+    <br />
+    
+    <div class="clear"></div>
+    <a href="#" class="ui-button submit historico" data-atalho="CTRL+R" style="margin-left: 185px;">Gerar Relatório</a>
+
+</form>

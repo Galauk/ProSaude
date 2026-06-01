@@ -1,0 +1,38 @@
+<?php $this->dialog();?>
+<form method="post" name="form" id="form">
+    <input type="hidden" name="popup" id="popup" value="<?php echo $this->popup;?>">
+    <input type="hidden" name="bai_codigo" value="<?=$this->dados->bai_codigo;?>">
+    <label>Possui distrito?</label>
+    <input type="radio" name="possui_distrito" class="possui_distrito" value="S" <?php echo ($this->dados->dis_codigo ? "checked=checked" : "")?>>Sim
+    <input type="radio" name="possui_distrito" class="possui_distrito" value="N" <?php echo ($this->dados->cid_codigo ? "checked=checked" : "")?>>Não<br/>
+    <div id="div_distrito" <?php echo ($this->dados->dis_codigo ? "" : "style='display: none;'")?> >
+        <label>Distrito</label>
+        <select name="dis_codigo" id="dis_codigo">
+            <option value="">--SELECIONE--</option>
+            <?php foreach($this->distritos as $distrito):?>
+            <option value="<?=$distrito->dis_codigo?>" <?php echo ($distrito->dis_codigo == $this->dados->dis_codigo ? "selected=selected" : "")?>><?=$distrito->dis_nome?></option>
+            <?php endforeach;?>
+        </select>
+    </div>
+    <?php
+        if($this->dados->cid_nome){
+            $cidade = $this->dados->cid_nome;
+            $cid_codigo = $this->dados->cid_codigo;
+        }else if($this->dados->cid_distrito){
+            $cidade = $this->dados->cid_distrito;
+            $cid_codigo = $this->dados->cid_codigo_distrito;
+        }else if($this->cidade->cid_nome){
+            $cidade = $this->cidade->cid_nome;
+            $cid_codigo = $this->cidade->cid_codigo;
+        }
+    ?>
+    <label>Cidade:</label>
+    <input type="text" name="cid_nome" id="cid_nome" value="<?php echo $cidade;?>"/>
+    <input type="hidden" name="cid_codigo" id="cid_codigo" value="<?php echo $cid_codigo;?>" />
+    <br/>
+    <label>Descrição:</label>
+    <input type="text" name="bai_nome" style="text-transform: uppercase" id="bai_nome" value="<?=$this->dados->bai_nome?>"/>
+    <br/>
+    <a href="<?=$this->url(array("action"=>"index", "module"=>"domicilio","controller" => "bairro"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+    <a href="#" class="ui-button salvar">Salvar</a>
+</form>

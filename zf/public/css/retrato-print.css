@@ -1,0 +1,126 @@
+#titulo_impressao{
+    width: 620px;
+    height: 20px;
+    margin-left: 15px;
+    margin-bottom: 4px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 14px;
+    border:2px solid #000 !important;
+}
+
+.cabecalho{
+    width: 650px;
+    height: 100px;
+}
+
+.brasao{
+    float: left;
+    height: 100px;
+    width: 100px;
+}
+
+.dados_cabecalho{
+    margin-top: 25px;
+    float: left;
+    height: 80px;
+    width: 515px;
+    text-align: center;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+
+
+
+
+#endereco{
+    border: 2px solid;
+    border-width:2px 0px 0px 0px !important;
+    font-size: 10px;
+    font-family: sans-serif;
+    width: 655px;
+    text-align: center;
+}
+
+.dados_complementares{
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+    width: 620px;
+    height: 90px;
+    font-family: sans-serif;
+    font-size: 11px;
+    margin: 0px 15px 0px 15px;
+}
+
+.dados_titulo{
+    margin: 0px 15px 0px 15px;
+    border:solid #000 !important;
+    border-width:2px 2px 0px 2px !important;
+    height: 13px;
+    font-family: sans-serif;
+    font-size: 11px;
+    text-align: center;
+    width: 440px;
+}
+
+.dados_esq{
+    float: left;
+    height: 90px;
+    width: 365px;
+}
+
+.dados_dir{
+    width: 100px;
+    float:right;
+}
+
+.label_info{
+    width: 70px; 
+    text-align: right;
+}
+
+#assinatura{
+    width: 620px;
+    text-align: center;
+    font-family: Courier, "Courier New", monospace ;
+    font-size: 10px;
+    margin: 0px 15px 10px 15px;
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+
+}
+
+#conteudo{
+    height: auto;
+    width: 620px;
+    margin: 5px 15px 0px 15px;
+    border:solid #000 !important;
+    border-width:2px 2px 2px 2px !important;
+}
+
+.item{
+    text-align: left;
+    font-family: sans-serif;
+    font-size: 12px;
+    width: 620px;
+    margin-top: 5px;
+}
+
+.obs_item{
+    font-size: 10px;
+}
+
+#page{
+    float: left;
+    border: 2px solid;
+}
+
+#cid{
+  float: left;
+  padding: 5px;
+  background-color: #EFEFEF;
+  border: 2px solid;
+  font-size: 10px;
+  width: 162px;
+  margin-left: 10px;
+}

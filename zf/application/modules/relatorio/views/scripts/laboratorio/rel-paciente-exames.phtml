@@ -1,0 +1,89 @@
+<head>
+    <script>
+        window.print();
+    </script>
+</head>
+<body>
+<table width="100%">
+    <tfoot>
+        <tr>
+            <td>
+                <div class="footer rodape">
+                    <div id="endereco">
+                        <?=$this->usr->uni_endereco?>, CNPJ:<?=$this->usr->uni_cnpj?>, FONE:<?=$this->usr->cnes_telefone?>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+    <thead>
+        <tr>
+            <td>
+                <div >
+                    <div class="cabecalho">
+                        <div class="brasao">
+                            <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" height="80" width="80"/>
+                        </div>
+                        <div class="dados_cabecalho">
+                            <font size="2">PREFEITURA DO MUNICIPIO DE <?=$this->nome_cidade?></font><br/>
+                            <b><?=$this->secretaria->nome_secretaria?></b><br/>
+                            <b><?=$this->convenio->med_nome?></b><br/>
+                        </div>
+                    </div>
+                    
+                </div>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <table border="0">
+                    <tr>
+                        <td  style="width: 10%;" class="titulos">
+                            <b>Cod</b>
+                        </td>
+                        <td style="width: 80%;" class="titulos">
+                            <b>Procedimento</b>
+                        </td>
+                        <td style="width: 10%;" class="titulos">
+                            <b>Quantidade</b>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    <?php foreach ($this->rel as $dados):?>
+        <tr>
+            <td>
+                <table border="0">
+                    <tr class="zebrado">
+                        <td  style="width: 10%;" class="registros">
+                            <?=$dados[proc_codigo_sus]?></font>
+                        </td>
+                        <td style="width: 80%;" colspan="2" class="registros">
+                            <?=$dados[proc_nome]?>
+                        </td>
+                        <td style="width: 10%; text-align: center;" class="registros">
+                            <?=$dados[qtde]?>
+                        </td>
+                    </tr>
+                   
+                    <?php
+                    foreach($dados[pacientes] as $pac){
+                        echo "<tr>";
+                         $i++;
+                         echo "<td style=\"width: 35%;\" class='sub-registros'><b>".$pac[usu_nome]."</b></td>";
+                         echo "<td style=\"width: 35%;\" class='sub-registros'><b>".$pac[usu_mae]."</b></td>";
+                         echo "<td style=\"width: 15%;\" class='sub-registros'><b>".$this->data($pac[usu_datanasc])."</b></td>";
+                         echo "<td style=\"width: 15%; text-align:center;\" class='sub-registros'><b>Coleta:".$this->data($pac[col_data_coleta])."</b></td>";
+                        echo "</tr>";
+                     }
+                    ?>
+                </table>
+            </td>
+        </tr>
+    <?php endforeach;?>
+    </tbody>
+</table>
+</body>

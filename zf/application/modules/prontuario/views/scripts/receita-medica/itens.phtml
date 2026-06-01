@@ -1,0 +1,81 @@
+<?php if (isset($this->itens) && $this->itens && $this->itens->count() ){ ?>
+    <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+            <th width="10"><img src="<?=$this->baseUrl('/public/images/icons/imprimir.png');?>" alt="I"/></th>
+            <th>Produto<?=$this->tipo=="externo"?"/Descrição":"";?></th>
+            <th>Quant.</th>
+            <?php if ($this->obs != 'S') {?>
+                <th>Recomendação</th>
+            <?php } ?>
+            <?php if (!$this->imprimi){?>
+                <th>Opções</th>
+            <?php } ?>
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+            <tr>
+                <td class="ui-state-default">
+                    <input type="checkbox" id="<?=$item->irec_codigo?>"  class="produto <?=$this->tipo?>" value="<?=$item->irec_codigo?>" name="imprimir">
+                </td>
+                <?php 
+                    $this->obs == 'S' ? $produto = substr($item->pro_nome,0,20)."..." : $produto = $item->pro_nome;
+                ?>
+                <td class="ui-state-default">
+                    <?php 
+                        if ($this->tipo == "externo") {
+                            echo $item->irec_produto . " / " . $item->desc_produto;
+                        } else {
+                            if ($produto == "...") {
+                                echo $item->irec_produto . " / " . $item->desc_produto;
+                            } else {
+                                echo $produto;
+                            }
+                        }
+                    ?>
+                </td>
+                <td class="ui-state-default c">
+                    <?=$this->escape($item->irec_quantidade);?>
+                </td>
+                <?php if ($this->obs != 'S'){ ?>                        
+                    <td class="ui-state-default escape">
+                        <?=str_replace("<p>&nbsp;</p>","",$item->irec_recomendacao);?>
+                    </td>
+                <?php } ?>
+                <?php if (!$this->imprimi){ ?>
+                    <td class="ui-state-default c" width="30">
+                        <a href="<?=$this->url(array("module" => "prontuario","controller" => "receita-medica","action"=>"excluir","id"=>$item->irec_codigo,"obs"=>"S","io_codigo"=>$this->io_codigo,"ate_codigo"=>$this->ate_codigo));?>" class="excluir"><img src="<?=$this->baseUrl('/public/images/icons/excluir.png');?>" alt="Excluir" title="Excluir" /></a>
+                    </td>
+                <?php } ?>
+            </tr>
+	<?php endforeach; ?>
+    </table>
+    <div class="space"></div>
+    <?php 
+    if ($this->obs == 'S') {
+	$action = $this->url(array("modulo" => "prontuario", "module" => "prontuario","controller" => "receita-medica", "action" => "imprimir","io_codigo" => $this->io_codigo,"usu_codigo" => $this->usu_codigo));?>
+        <?php if (!$this->imprimi){?>
+            <a href="<?=$action?>" class="ui-button imprimir popup" rel="1400x600">Imprimir</a>
+        <? }?>
+<?php       
+}else{
+        if($this->tipo == "controlados"){
+           $link = "imprimir-anvisa";
+        }else{
+           $link = "imprimir";
+        }
+        ?>
+        
+        <a href="#" class="ui-button imprimir" onclick="imprimir('0', '<?=$this->tipo?>','<?=$link?>')">Imprimir</a>
+        
+        <?php if($this->tipo != "controlados"){
+            //$action2 = $this->url(array("action"=>"$link","tipo" => $this->tipo,"seg"=>"1"));?>
+            <a href="#" class="ui-button imprimir" onclick="imprimir('1', '<?=$this->tipo?>','<?=$link?>')">Imprimir<small>(Duas vias)</small></a>
+        <?php }//novo botão impressão padrão anvisa , linha alterada ?>
+        <?php if($this->tipo == "externo"){?>
+            <a href="#" class="ui-button imprimir" onclick="imprimir('1', '<?=$this->tipo?>','imprimir-anvisa')">Imprimir<small>(Padrão Anvisa)</small></a>
+        <?php }?>
+<?php }
+?>
+
+<?php } else { ?>
+    <br /><em>Nenhum produto adicionado ainda.</em>
+<?php } ?>

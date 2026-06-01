@@ -1,0 +1,35 @@
+
+/* CATEGORIAS */
+#categorias ul,
+#modelos ul{
+	list-style: none;
+	padding: 0;
+}
+
+#categorias ul li,
+#modelos ul li{
+	margin: 2px;
+	text-align: center;
+	float: left;
+}
+
+#categorias ul li a,
+#modelos ul li a{
+	width: 100px;
+	display: inline-block;
+	height: 20px;
+	padding: 80px 0 0 0;
+}
+
+#modelos ul li{
+	width: 300px;
+	padding: 5px 0 0 0;
+}
+
+.CaptionTD{
+  padding: 3px 0 0 0 !important;
+}
+
+.FormElement{
+  width: 230px;
+}

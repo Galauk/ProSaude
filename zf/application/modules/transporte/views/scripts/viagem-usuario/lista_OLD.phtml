@@ -1,0 +1,61 @@
+<table>
+    <style type="text/css">
+    .bb td, .bb th {
+        border-bottom: 1px solid black !important;
+    }
+    </style>    
+    <tr>
+        <th align="left" colspan="10">Paciente:</th>
+    </tr>
+    
+    <?php
+    $contador = 0;
+    ?>
+    
+    <?php foreach ($this->dadosP as $item){ $contador++;?>
+        <tr>
+            <th align="left" colspan="2">Nome:</th>
+            <th align="left" colspan="2">Telefone:</th>
+            <th align="left" colspan="2">Celular:</th>
+            <th align="left" colspan="2">Observação:</th>
+            <th align="left" colspan="1">RG:</th>
+            <th align="left" colspan="1">CPF:</th>
+        </tr>
+        
+        <tr>
+          <td align="left" colspan="2"><font size='3'><?=$item['usu_nome']?></td>
+          <td align="left" colspan="2"><?=$item['dom_telefone']?></td>
+          <td align="left" colspan="2"><?=$item['usu_celular']?></td>
+          <td align="left" colspan="2"><?=$item['viausu_observacao']?></td>
+          <td align="left" colspan="1"><?=$item['usu_rg'] ? $item['usu_rg'] : '---' ?></td>
+          <td align="left" colspan="1"><?=$item['usu_cpf'] ? $item['usu_cpf'] : '---' ?></td>
+        </tr>
+        <tr>
+            <th align="left" colspan="8">Acompanhante:</th>
+            <th align="left" colspan="1"></th>
+            <th align="left" colspan="1"></th>
+        </tr>
+            
+            <?php foreach ($item["usu_acomp"] as $itemA) { $contador++;?>
+            <tr>
+              <td align="left" colspan="8">
+                        <?=$itemA['usu_nome'] == "" ? "Nenhum acompanhante" : $itemA['usu_nome']?>
+              </td>
+              <td align="left" colspan="1">
+                        <?=$itemA['usu_rg'] ? $itemA['usu_rg'] : '---' ?>
+              </td>
+              <td align="left" colspan="1">
+                        <?=$itemA['usu_cpf'] ? $itemA['usu_cpf'] : '---' ?>
+              </td>
+            </tr>
+            <?php } ?>
+        <tr class="bb">
+            <td colspan="10">
+            </td>
+        </tr>
+    <?php } ?>
+    <tr>
+      <th align="left" colspan="1">Total : <?=$contador?></th>
+    </tr>
+</table>
+

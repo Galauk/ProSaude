@@ -1,0 +1,36 @@
+<link href="/WebSocialSaude/zf/public/css/relatorio.css" media="all" rel="stylesheet" type="text/css" >
+<script type="text/javascript">
+    //window.print();
+</script>
+<table width="600" border=1 style="border-collapse: collapse">
+    <? if ($this->dados_pac) { ?>  
+        <tr>
+            <td><strong>Seq.</strong></td>
+            <td><strong>Pront.</strong></td>
+            <td><strong>Nome</strong></td>
+            <td><strong>Idade</strong></td>
+            <td><strong>Telefone Domicílio</strong></td>
+            <td><strong>Telefone Celular</strong></td>
+            <td><strong>Telefone Recado</strong></td>
+        </tr>
+    <? 
+    $i = 1;
+    foreach($this->dados_pac as $dado){ ?>
+        <tr>
+            <td><font size="1"><?= $i; ?><font></td>
+            <td><font size="1"><?= $dado["usu_prontuario"]; ?><font></td>
+            <td width="300" style="height: 20px;"><font size="1"><?= $dado["usu_nome"]; ?><font></td>
+            <td width="30" align="center"><font size="1"><?= $this->idade($dado["usu_datanasc"], 1); ?><font></td>
+            <td width="200"><?=$dado["dom_telefone"]?></td>
+            <td width="200"><?=$dado["usu_celular"]?></td>
+            <td width="200"><?=$dado["usu_fone_recado"]?></td>
+        </tr>
+    <? 
+    $i++;
+    } ?>
+    <? } else { ?>
+        <tr>
+            <td colspan="8">Nenhum paciente disponível no momento</td>
+        </tr> 
+    <? } ?>
+</table>

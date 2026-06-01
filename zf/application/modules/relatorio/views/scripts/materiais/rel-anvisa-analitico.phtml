@@ -1,0 +1,96 @@
+<br />
+<table>
+    <tr>
+        <th>Data</th>
+        <th>Fornecedor/Paciente</th>
+        <th>Cod. Receita</th>
+        <th>Nº da NF</th>
+        <th>Lote</th>
+        <th>Profissional/Motivo</th>
+        <th>Entrada</th>
+        <th>Saída</th>
+        <th>Perda</th>
+        <th>Saldo</th>
+    </tr>
+    <?php //echo "<pre>".print_r($this->dados,1)."aaaaaa";die();?>
+    <?php if (count($this->dados) > 0) {  ?>
+        <?php $saldo_final = 0; ?>
+        <?php foreach ($this->dados as $prod) { ?>
+            <?php
+            ($item["mov_tipo"] == "S" ? $saldo_final = $prod["saldo_inicial"] - $saldo_final : $saldo_final = $prod["saldo_inicial"] + $saldo_final)
+            ?>
+            <tr style="height: 30px;">
+                <td colspan="9">
+                    <span style="font-size: 14px; font-weight: bold;"><?=$prod["pro_nome"]?> - <?=$prod["psico_nome"]?></span>
+                    <span style="float:right; font-size: 14px; font-weight: bold;">Saldo Anterior: <?=str_replace(",", ".", number_format($prod["saldo_inicial"]))?></span>
+                </td>
+            </tr>
+
+            <?php foreach ($prod["dispensacoes"] as $item) { ?>
+                <?php 
+                ($item["mov_tipo"] == "S" ? 
+                    $saldo_final = $saldo_final - $item["ite_quantidade"]  
+                : 
+                    $saldo_final = $saldo_final + $item["ite_quantidade"])
+                ?>
+                <tr>
+                    <td><?=$this->data($item["mov_data"],Zend_Date::DATE_MEDIUM)?></td>
+                    <td>
+                        <?php 
+                        if(trim($item["mov_tipo_imp"]) == "T") { 
+                            echo "TRANSFERÊNCIA"; 
+                        } else {
+                            if(trim($item["usu_nome"]) == "" && trim($item["for_nome"]) == "") { 
+                                echo "-"; 
+                            } else {
+                                echo ($item["usu_nome"] == "" ? $item["for_nome"] : $item["usu_nome"]);
+                            } 
+                        } 
+                        ?>
+                    </td>
+                    <td><?=($item["ite_cod_receita"] != "" ? $item["ite_cod_receita"] : "-")?></td>
+                    <td><?=($item["mov_nr_nota"] != "" ? $item["mov_nr_nota"] : "-")?></td>
+                    <td><?=($prod["ite_lote"] != "" ? $prod["ite_lote"] : "-")?></td>
+                    <td><?=($item["usr_nome"] != "" ? $item["usr_nome"] : "-")."/".($item["mov_observacao"] != "" ? $item["mov_observacao"] : "-")?></td>
+                    <td><?=($item["mov_tipo"] == "E" ? str_replace(",", ".", number_format($item["ite_quantidade"])) : "0")?></td>
+                    <td><?=(trim($item["mov_tipo"]) == "S" && trim($item["mov_saida"]) != "R" && trim($item["mov_saida"]) != "S-PE" ? str_replace(",", ".", number_format($item["ite_quantidade"])) : "0")?></td>
+                    <td><?=(trim($item["mov_tipo"]) == "S" && (trim($item["mov_saida"]) == "R" || trim($item["mov_saida"]) == "S-PE") ? str_replace(",", ".", number_format($item["ite_quantidade"])) : "0")?></td>
+                    <td><?=str_replace(",", ".", number_format($saldo_final))?></td>
+                </tr>
+                <?php $i++; ?>
+            <?php } ?>
+            <tr>
+                <td colspan="5"></td>
+                <td><?=str_replace(",", ".", number_format($prod["saldo_entrada"]))?></td>
+                <td><?=str_replace(",", ".", number_format($prod["saldo_saida"]))?></td>
+                <td><?=str_replace(",", ".", number_format($prod["saldo_perda"]))?></td>
+                <td><?=str_replace(",", ".", number_format($saldo_final))?></td>
+            </tr>
+            <?php $saldo_final = 0;?>
+        <?php } ?>
+    <?php } else { ?>
+           <tr>
+                <td colspan='8'>Nenhum registro encontrado até o momento!</td>
+           </tr> 
+    <?php } ?>
+</table>
+<br />
+<table width="250">
+  <tr>
+    <td>Obs: _____________________________________________________________________________</td>
+  </tr>
+  <tr>
+    <td>__________________________________________________________________________________</td>
+  </tr>
+  <tr>
+    <td>__________________________________________________________________________________   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Responsável Tecnico: ________________________________________________________</td>
+  </tr>
+  <tr>
+    <td>__________________________________________________________________________________</td>
+  </tr>
+  <tr>
+    <td>__________________________________________________________________________________</td>
+  </tr>
+</table>
+
+

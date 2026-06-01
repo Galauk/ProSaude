@@ -1,0 +1,32 @@
+
+
+
+
+
+<?php if ($this->ultimaPreConsulta): 
+	
+/*	echo "<pre>".print_r($this->historicoSinais,1);
+echo "TESTE";
+exit;*/
+	?>
+
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Data</th>					
+		<th>Opções</th>
+
+	</tr>
+				
+		<?php foreach($this->historicoSinais as $item):?>
+			<tr>
+				<td class="ui-state-default"><?=$this->data($item[si_data],Zend_Date::DATE_MEDIUM);?></td>
+				<td class="ui-state-default">
+					<a href="#" class="ui-button detalhes sinais" data-pc="<?=($item[ate_codigo] == "" ? FALSE : $item[ate_codigo])?>">
+					ver
+					</a>
+				</td>
+			</tr>
+		<?php endforeach;?>			
+		
+</table>
+<?php endif; ?>

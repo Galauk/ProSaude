@@ -1,0 +1,22 @@
+<?=$this->errorMsg();?>
+<form method="post" name="form-cadastro" id="form-cadastro" action="<?= $this->url(array("action" => "cadastro-salvar")); ?>">
+    <input type="hidden" name="hor_cad_codigo" id="hor_cad_codigo"   value="<?= $this->dados->hor_cad_codigo?>" />
+    <label>Login:</label>
+    <input type="text" name="hor_cad_login" id="hor_cad_login" style="width:200px;" value="<?=(!$this->dados->hor_cad_login ? "" : $this->dados->hor_cad_login);?>"  /><br />
+    <label>Senha:</label>
+    <input type="password" name="hor_cad_senha" id="hor_cad_senha" style="width:200px;" maxlength="14"  value="<?=(!$this->dados->hor_cad_senha ? "" : $this->dados->hor_cad_senha);?>" />
+    <div style="width: 520px;">
+    <label>Ambiente:</label>	
+    <input name="hor_cad_ambiente" type="radio" value="H" <?=($this->dados->hor_cad_ambiente == "H" ? 'checked=checked' : "")?> />Homologação
+    <input name="hor_cad_ambiente" type="radio" value="P" <?=($this->dados->hor_cad_ambiente == "P" ? 'checked=checked' : "")?> />Produção
+    </div>
+    <div style="width: 520px;">
+    <label>Ativo:</label>
+    <input name="hor_cad_ativo" type="radio" value="1" <?=($this->dados->hor_cad_ativo == "1" ? 'checked=checked' : "")?> />Sim
+    <input name="hor_cad_ativo" type="radio" class="required" value="0" <?=($this->dados->hor_cad_ativo == "0" ? 'checked=checked' : "")?> />Não
+    </div>
+    <br />
+    <a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>
+    <a href="<?=$this->url(array("action"=>"usuarios", "module"=>"programasfederais","controller" => "horus"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+</form>
+<div class="space"></div>

@@ -1,0 +1,244 @@
+thead {display: table-header-group;}
+//tbody { display: table-row-group }
+tfoot {display: table-footer-group;}
+
+.header {
+    display: table-header-group;
+    margin-top: 15px;
+    height: 160px;
+}
+
+.footer {
+    display: table-footer-group;
+    //position: relative;
+    //clear: both;
+    
+}
+
+.rodape{
+    height: 90px;
+    font-family: sans-serif;
+    font-size: 11px;
+    text-align: center;
+}
+
+.conteudo {
+    //display: table-cell;
+    //display: table-row-group;
+    vertical-align: top;
+    height: 668px;
+}
+
+.cabecalho{
+    width: auto;
+    height: 80px;
+}
+
+.brasao{
+    float: left;
+    height: 100px;
+    width: 130px;
+}
+
+.dados_cabecalho{
+    //margin-top: 10px;
+    height: 80px;
+    width: 540px;
+    text-align: center;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+.nome_lab{
+    font-size: 16px;
+}
+
+.logo{
+    float: left;
+    height: 100px;
+    width: 100px;
+    margin-left: 5px;
+}
+
+.pac{
+    float: left;
+    height: 80px;
+    width: 650px;
+    font-size: 15px;
+    font-family: sans-serif;
+    border:solid #000 !important;
+    border-width:2px 0px 2px 0px !important;
+}
+
+.titulos{
+    float: left;
+    border:solid #000 !important;
+    border-width:0px 0px 0px 0px !important;
+    width: 100px;
+    height: 100%;
+    text-align: right;
+    font-family: sans-serif;
+    font-size: 11px;
+}
+
+.dados_pac{
+    float: left;
+    font-family: sans-serif;
+    font-size: 11px;
+    width: 540px;
+    height: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+.cinza{
+    color: #808080;
+}
+
+#endereco{
+    border: 2px solid;
+    font-family: sans-serif;
+    font-size: 12px; 
+    width: 650px;
+}
+
+.proc_nome{
+    width: 50%;
+    font-size: 15px;
+    float: left;
+    margin-top: 10px;
+
+}
+
+.vlr_titulo{
+    width: 49%;
+    font-size: 11px;
+    float: left;
+    text-align: right;
+    margin-top: 14px;
+}
+
+.metodo_material{
+    width: 100%;
+    font-size: 10px;
+    font-family: sans-serif;
+    margin-left: 10px;
+    
+}
+
+.subexames{
+    width: 100%;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.itens_exames_resultado{
+    width: 650px;
+    height: auto;
+    margin-top: 5px;
+}
+
+.item_analise{
+    width: auto;
+    height: auto;
+    float: left;
+    font-family: Courier, "Courier New", monospace ;
+    font-weight: bold;
+    font-size: 12px;
+    
+}
+.resultado_exame{
+    width: 180px;
+    height: auto;
+    float: left;
+    font-family: Courier, "Courier New", monospace ;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: left;
+}
+
+.resultado_exame_dois{
+    width: auto;
+    height: auto;
+    float: left;
+    font-family: Courier, "Courier New", monospace ;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: left;
+    //background-color: blue;
+}
+
+.vlr_referencia{
+    width: 200px;
+    height: auto;
+    float: right;
+    font-family: Courier, "Courier New", monospace ;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: right;
+}
+
+.historico_all {
+    width: 650px;
+
+    //height:205px;
+    height: auto;
+
+}
+
+.historico{
+
+    width: 220px;
+
+    float: left;
+    height: auto;
+    font-family: Courier, "Courier New", monospace ;
+    font-size: 8px;
+    margin-left: 14px;
+    margin-bottom: 6px;
+    margin-top: 4px;
+}
+
+.observacoes{
+    width: 380px;
+    float: left;
+    //height: 200px;
+    height: auto;
+    font-family: Courier, "Courier New", monospace ;
+    font-size: 14px;
+    margin-left: 14px;
+    margin-bottom: 6px;
+    margin-top: 10px;
+}
+
+.bioquimicosgeral{
+    width: 650px;
+    height: 90px;
+}
+
+
+.assinatura{
+    width: 120px;
+    height: 40px;
+    float: left;
+    margin-top: 20px;
+    font-size: 12px;
+    
+}
+
+.bioquimicos{
+
+    width: 420px;
+    height: 80px;
+
+    float: left;
+    font-family: Courier, "Courier New", monospace ;
+    font-size: 12px;
+}
+
+.col_bioquimicos{
+    width: 49%;
+    float: left;
+    text-align: right;
+    height: auto;
+    margin-top: 5px;
+}

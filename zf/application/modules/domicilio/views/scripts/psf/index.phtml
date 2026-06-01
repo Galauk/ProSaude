@@ -1,0 +1,105 @@
+<?php //die(count($this->dados)."a");?>
+<form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar")); ?>">
+    <input type="hidden" name="dom_codigo" id="dom_codigo" value="<?php echo $this->dom_codigo?>" />
+    <fieldset>
+        <legend>Responsável</legend>
+        <table width='100%' cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td>
+                    Profissional Responsável<br>
+                    <input type='text' name='prof_resp' id="prof_resp" 
+                           class="field" onkeypress="buscaProfResp()"
+                           value="<?=$this->dadosUser->usr_nome?>" />
+                    <input type='hidden' name='prof_resp_codigo' 
+                           id="prof_resp_codigo" class="field"  
+                           value="<?=$this->dadosUser->usr_codigo?>" />
+                </td>
+               <td>
+                    Cód. CNES Unidade<br>
+                    <input type="hidden" name="cod_cnes_edit" id="cod_cnes_edit" 
+                           value="<?=$this->dadosUser->uni_codigo?>" />
+                    <select name='cod_cnes_uni' id="cod_cnes_uni" style="width:230px;" class="ui-state-default" disabled>
+                        <option>Selecione Profissional Responsável</option>
+                    </select>
+                </td>
+                <td>
+                    Cód. equipe(INE)<br>
+                    <input type="hidden" name="cod_equipe_ine" id="cod_equipe_ine" 
+                           value="<?=$this->dados_header->cod_equipe?>" />
+                    <select name='cod_equipe' id="cod_equipe" style="width:230px;" class="ui-state-default" disabled>
+                        <option>Selecione Cód. CNES Unidade</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <?php foreach($this->perguntas as $ind=>$pergunta):?>
+    <fieldset>
+        <legend>
+            <b><?=$pergunta[ds_pergunta];?></b> 
+            <?php
+            if($ind == 57 || $ind == 58 || $ind == 66) { ?>
+                <font color="red" id="color_<?=$ind?>">*</font> 
+                <input type="hidden" id="valid_<?=$ind?>" name="valid_<?=$ind?>" 
+                       value="<?=$this->dados[$ind][co_pergunta_detalhe]?>" />
+            <?php
+            } ?>
+        </legend>
+        <?php if($pergunta[tp_pergunta] == 1){ ?>
+            <input type="radio" <?php echo ($this->dados[$ind][co_resposta] == 1 ? "checked=checked" : "")?> value="1" class="<?php echo $ind;?>" name="<?php echo $ind;?>" id="<?php echo $ind;?>">Sim 
+            <input type="radio" <?php echo ($this->dados[$ind][co_resposta] == "0" ? "checked=checked" : "")?> class="<?php echo $ind;?>" value="0" id="<?php echo $ind;?>" name="<?php echo $ind;?>">Não
+            <?php if(count($pergunta[pergunta_filho])){?>
+                <?php foreach($pergunta[pergunta_filho] as $ind_filho=>$pergunta_filho):?>
+                <fieldset><legend><?php echo $pergunta_filho[ds_pergunta]?></legend>
+                <?php if(count($pergunta_filho[detalhes])):?>
+                    <?php foreach($pergunta_filho[detalhes] as $pergunta_filho_detalhes):?>
+                        <input type="checkbox" <?php echo ($this->dados[$ind_filho][$pergunta_filho_detalhes[co_pergunta_detalhe]][co_pergunta_detalhe] == $pergunta_filho_detalhes[co_pergunta_detalhe] ? "checked=checked" : "")?> 
+                               class="filhos" name="<?php echo $ind_filho?>[]" id="<?php echo $ind_filho?>[]" 
+                               value="<?php echo $pergunta_filho_detalhes[co_pergunta_detalhe]?>">
+                        <?php echo $pergunta_filho_detalhes[ds_pergunta_detalhe];?> 
+                    <?php endforeach;?>
+                <?php else:?>
+                        <input type="text" onkeypress="return SomenteNumero(event)" name="<?php echo $ind_filho;?>" class="filhos" 
+                               id="<?php echo $ind_filho;?>" value="<?php echo $this->dados[$ind_filho][ds_resposta] ?>">
+                <?php endif;?>
+                </fieldset>
+                <?php endforeach;?>
+            <?php } ?>
+        <?php }else if($pergunta[tp_pergunta] == 2){?>
+            <?php $i = 0;?>
+            <?php foreach($pergunta[detalhes] as $detalhe):?>
+                <?php $i++;
+                if($i == 6){
+                    echo "<br/>";
+                    $i = 0;
+                }
+                if ($ind==58) { ?>
+                    <input type="radio" <?php echo ($this->dados[$ind][co_pergunta_detalhe] == $detalhe[co_pergunta_detalhe]  ? "checked=checked" : "")?> 
+                       class="<?php echo $ind;?>" id="<?php echo $ind;?>" name="<?php echo $ind;?>" 
+                       value="<?=$detalhe[co_pergunta_detalhe]?>" <?=($detalhe[ds_pergunta_detalhe]=="Urbana" ? "onclick='desabilitaAreaRural()'" : "onclick='habilitaAreaRural()'")?> />
+                       <?=$detalhe[ds_pergunta_detalhe]?>
+                <?php
+                } else {?>
+                    <input type="radio" <?php echo ($this->dados[$ind][co_pergunta_detalhe] == $detalhe[co_pergunta_detalhe]  ? "checked=checked" : "")?> class="<?php echo $ind;?>" id="<?php echo $ind;?>" name="<?php echo $ind;?>" value="<?=$detalhe[co_pergunta_detalhe]?>" /><?=$detalhe[ds_pergunta_detalhe]?>
+                <?php
+                } ?>
+            <?php endforeach;?>
+        <?php }else if($pergunta[tp_pergunta] == 3){?>
+            <?php foreach($pergunta[detalhes] as $detalhe):?>
+
+            <?php endforeach;?>
+        <?php }else if($pergunta[tp_pergunta] == 4){ ?>
+            <?php if ($ind == 60){ ?>
+                    <input type="text" onkeypress="return SomenteNumero(event)" name="<?php echo $ind;?>" 
+                           id="<?php echo $ind;?>" readonly 
+                           value="<?=$this->qtdMorador?>" />
+            <?php }else{ ?>
+                    <input type="text" onkeypress="return SomenteNumero(event)" name="<?php echo $ind;?>" 
+                           id="<?php echo $ind;?>" 
+                           value="<?=$this->dados[$ind][ds_resposta]?>" />
+            <?php } ?>
+        <?php }?>
+    </fieldset><br/>
+    <?php endforeach;?>
+    <a href="#" class="ui-button salvar"  >Salvar</a>
+</form>

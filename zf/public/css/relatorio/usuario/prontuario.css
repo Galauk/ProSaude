@@ -1,0 +1,104 @@
+#page{
+  width: 780px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #FFF;
+}
+
+#header{
+}
+
+#header #logo{
+  float: left;
+  width: 140px;
+  margin-left: 10px;
+}
+
+#header #titulo{
+  float: left;
+  width: 480px;
+  text-align: center;
+}
+
+#header #titulo h2{
+  margin: 3px 0 0 0;
+}
+
+#header #titulo h3{
+  margin: 3px 0 10px 0;
+}
+
+#header #barcode{
+  float: left;
+  width: 150px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#info{
+  background-color: #EEE;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  margin-top: 20px;
+  padding: 0 10px;
+}
+
+#info h2{
+  font: 18px Verdana;
+  margin: 10px 0 5px 0;
+  width: 650px;
+  display: inline-block;
+  float:left;
+}
+#info .f {
+  font-size: 12px;
+}
+
+#info .f label{
+float: left;
+  display: inline-block;
+  width: 50px;
+  text-align: right;
+  font-weight: bold;
+}
+
+#info .f.l2 label{width: 100px;}
+
+
+#info .f span{
+float: left;
+margin: 0 0 0 7px;
+}
+
+#info #foto{
+  float:right;
+  border: 1px solid;
+  width: 80px;
+  height: 80px;
+  padding: 5px;
+  margin: 0;
+  background-color: #FFF;
+}
+
+#info #foto img{
+  width: 80px;
+  height: 80px;
+}
+
+#relatorio h2{
+  background-color: #EEE;
+  border-bottom: 1px dotted #000;
+  font: 14px Verdana;
+  padding: 1px 10px;
+  margin: 10px 0 5px 0;
+}
+
+#footer{
+  background-color: #EEE;
+  border-top: 1px solid #000;
+  margin: 10px 0 0 0;
+  padding: 5px 0 10px;
+  text-align: center;
+  
+}
+

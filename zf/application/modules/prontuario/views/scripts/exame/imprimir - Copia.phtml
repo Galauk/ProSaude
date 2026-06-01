@@ -1,0 +1,23 @@
+<head>
+    <script>
+        window.print();
+    </script>
+</head>
+<div id="conteudo">
+    <div class="dados_resp_receb">
+        <b>Exames</b>
+    </div>
+    <?php if ($this->dados->itens): ?>
+        <?php foreach ($this->dados->itens as $item): ?>
+            <div class="medItem">
+                <div class="item_exame" ><b><?=$this->escape($item['proc_nome']); ?></b></div>
+                <div class="item_exame" >
+                    <?=($item['proc_solicitado'] == "S" ? "SOLICITADO" : "")?>
+                    <?=($item['proc_avaliado'] == "A"   ? "- AVALIADO" : "")?>
+                </div>
+<!--            <div class="obs_item" ><?//=($item[req_observacao] != "" ? "Obs:" : "")?><b><?//=substr($this->escape(str_replace("<p>","",$item[req_observacao])),0,-10)?></b></div>-->
+                <div class="obs_item" ><?=$item[req_observacao]?></div>
+            </div>
+        <?php endforeach; ?>	 		
+    <?php endif; ?>
+</div>

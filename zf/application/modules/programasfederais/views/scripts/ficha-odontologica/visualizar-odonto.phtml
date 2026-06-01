@@ -1,0 +1,376 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<?php
+    // echo "<pre>";print_r($this->procedimenosRealizados);die();
+    // echo "<pre>";print_r($this->atendimentoVigilanciaEncaminhamento);die();
+    // echo "<pre>";print_r($this->demandaEspontanea);die();
+    // echo "<pre>";print_r($this->tipoAtendFicha);die();
+    // echo "<pre>";print_r($this->atendimentoConsulta);die();
+    // echo "<pre>";print_r($this->atendimentoConsulta[0][tat_codigo]);die();
+    // echo "<pre>";print_r($this->dadosAtendOdonto);die();
+    // echo "<pre>";print_r($this->selectLocais);die();
+    // echo "<pre>";print_r($this->dadosAtendOdonto);die();
+    // echo "<pre>";print_r($this->dadosAtendOdonto[0][usu_nome]);die();
+?>
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?><?= ($this->valida ? "/valida/N" : "") ?>"
+      id="fichaOdontologica">
+    <div id="floatLeft">
+        <input type="hidden" name="dt_atend_inicial" value="<?php echo date("d-m-Y"); ?>"/>
+        <input type="hidden" name="dt_hora_inicial" value="<?php echo date("h:i"); ?>"/>
+        <input type="hidden" id="tipoDoAtendimento" name="tipoDoAtendimento" class="tipoDoAtendimento" value = "FO">
+        <input type="hidden" id="tipo_atendimento" value="<?= $this->atendimento->ate_tipo ?>">
+        <div style="width: auto;" class="f">
+            <label >Local:</label>
+            <?= $this->selectLocais ?>
+            <br/>
+            <label >Unidade:</label>
+            <input readonly type="text" name="uni_desc" id="uni_desc" tabindex="1"
+                   value="<?=$this->dadosAtendOdonto[0][uni_desc]?>"
+                   onkeypress="buscaUnidade()"/>
+            <input type="hidden" name="uni_codigo" id="uni_codigo"
+                   value="<?=$this->dadosAtendOdonto[0][uni_codigo]?>">
+            <br/>
+            <label >Data:</label>
+            <?
+            $date = new DateTime($this->dados->ate_data);
+
+            ?>
+            <input readonly type="text" name="data_atendimento" id="data_atendimento" class="mask data-esus focus" rel="99/99/9999"
+                   tabindex="2" autocomplete="off"
+                   value="<?= $this->dadosAtendOdonto[0][ate_data] ? $date->format('d/m/Y') : '' ?>"/>
+            <input type="hidden" name="data_valida" id="data_valida"/>
+            <input type="hidden" name="data_atual" id="data_atual" value="<?= date("d/m/Y") ?>"/>
+            <br/>
+            <label>Turno:</label> <!-- OBRIGATÓRIO -->
+            <select disabled class="ui-state-default" id="turno" name="turno">
+
+                <option value="1"<?= $this->dadosAtendOdonto->turno == '1' ? 'selected' : '' ?>>Manhã</option>
+                <option value="2"<?= $this->dadosAtendOdonto->turno == '2' ? 'selected' : '' ?>>Tarde</option>
+                <option value="3"<?= $this->dadosAtendOdonto->turno == '3' ? 'selected' : '' ?>>Noite</option>
+            </select>
+            <br/>
+            <label >Paciente:</label>
+            <input readonly type="text" name="usu_nome" id="usu_nome" onkeypress="buscaParticipante()"
+                   value="<?=$this->dadosAtendOdonto[0][usu_nome]?>" tabindex="3"/>
+            <input type="hidden" name="usu_codigo" id="usu_codigo" value="<?= $this->dadosAtendOdonto[0][usu_codigo] ?>">
+            <!-- Informações ocultas para atualização dos dados do cidadão -->
+            <input type="hidden" name="id_nome" id="id_nome" value="usu_nome"/>
+            <input type="hidden" name="id_codigo" id="id_codigo" value="usu_codigo"/>
+            <input type="hidden" name="id_data" id="id_data" value="<?=$this->dadosAtendOdonto[0][usu_datanasc]?>"/>
+            <input type="hidden" name="id_button" id="id_button" value=""/>
+            <input type="hidden" name="id_tipo" id="id_tipo" value="O"/>
+            <input type="hidden" name="usu_sexo" id="usu_sexo" value="" class="ui-state-default">
+            <?
+            if ($this->ate_codigo) {
+                echo "<input type='hidden' name='ate_codigo' value='$this->ate_codigo' />";
+                echo "<input type='hidden' name='age_codigo' value='" . $this->dados->age_codigo . "' />";
+                echo "<input type='hidden' name='co_rl_cds_atend_odonto_tipo_encam' value='" . $this->dados->co_rl_cds_atend_odonto_tipo_encam . "' />";
+                echo "<input type='hidden' name='co_rl_cds_atend_odont_tip_vig_buc' value='" . $this->dados->co_rl_cds_atend_odont_tip_vig_buc . "' />";
+                echo "<input type='hidden' name='odo_trat_codigo' value='" . $this->dados->odo_trat_codigo . "' />";
+                echo "<input type='hidden' name='odo_pcon_codigo' value='" . $this->dados->odo_pcon_codigo . "' />";
+                echo "<input type='hidden' name='odo_preal_codigo' value='" . $this->dados->odo_preal_codigo . "' />";
+            }
+            ?>
+            <!--end-->
+            <?php
+                if ($this->dadosAtendOdonto[0][usu_esta_gestante] != '') { ?>
+                <div id="perguntaGestante" class="alinhamento" style="margin-bottom: 4px">
+                    <label>Está Gestante?</label>
+                    <input readonly class="usu_esta_gestante" name="usu_esta_gestante" 
+                            id="usu_esta_gestante_true" type="radio" value="T"
+                            <?=$this->dadosAtendOdonto[0][usu_esta_gestante] == 1 ? 'checked' : ''?>
+                            />
+                        Sim
+                    <input readonly class="usu_esta_gestante" name="usu_esta_gestante" 
+                            id="usu_esta_gestante_false" type="radio" value="F"
+                            <?=$this->dadosAtendOdonto[0][usu_esta_gestante] == 0 ? 'checked' : ''?>
+                            >
+                        Não
+                </div>
+
+                <?}
+            ?>
+        </div>
+    </div>
+    <div id="floatRight">
+        <div>
+            <label style="width: 170px;">Necessidade especial ?</label>
+            <input readonly class="usu_possui_necessidade_especial" name="usu_possui_necessidade_especial" id="usu_possui_necessidade_especial" type="radio" value="T" <?=$this->dadosAtendOdonto[0][usu_possui_necessidade_especial] ==  't'? 'selected' : ''?>/>
+                Sim
+            <input readonly checked class="usu_possui_necessidade_especial" name="usu_possui_necessidade_especial" id="usu_possui_necessidade_especial" type="radio" value="F" <?=$this->dadosAtendOdonto[0][usu_possui_necessidade_especial] ==  'f'? 'selected' : ''?>/>
+                Não
+        </div>
+
+        <label >Profissional:</label>
+        <input readonly type="text" id="usr_nome" name="usr_nome" onkeyup="buscaProfissional()" tabindex="4"
+               value="<?=$this->dadosAtendOdonto[0][usr_nome]?>"/>
+        <input type="hidden" id="usr_codigo" name="usr_codigo"
+               value="<?= $this->dadosAtendOdonto[0][usr_codigo]?>"/><br/>
+        <input type="hidden" id="tipo_atendimento" name="tipo_atendimento" value="O"/><br/>
+
+        <div>
+            <label for="">Fornecimento Odonto</label>
+            <select disabled name="fornecimentoOdonto" id="fornecimentoOdonto">
+                <option value="0"<?=$this->dadosAtendOdonto[0][dadosAtendOdonto] == 0?'selected': ''?>>Nenhum</option>
+                <option value="1"<?=$this->dadosAtendOdonto[0][dadosAtendOdonto] == 1?'selected': ''?>>Escova dental</option>
+                <option value="2"<?=$this->dadosAtendOdonto[0][dadosAtendOdonto] == 2?'selected': ''?>>Creme dental</option>
+                <option value="3"<?=$this->dadosAtendOdonto[0][dadosAtendOdonto] == 3?'selected': ''?>>Fio dental</option>
+            </select>
+        </div>
+
+        <div style="" id="especialidade">
+            <label >Especialidade:</label>
+            <input type="hidden" name="esp_codigo" id="esp_codigo" value="<?=$this->dadosAtendOdonto[0][esp_codigo]; ?>">
+            <input readonly type="" name="esp_codigo_nome" id="esp_codigo_nome" value="<?=$this->dadosAtendOdonto[0][esp_nome]; ?>">
+                
+            </input>
+
+        </div>
+        <label >Procedimentos:</label>
+        <input readonly type="text" id="proc_nome" name="proc_nome" value=""
+               tabindex="4" onkeypress="buscaProcedimentos()"/>
+        <input type="hidden" id="proc_codigo" name="proc_codigo" value="<?=$this->procedimenosRealizados[0][proc_nome]?>"/>
+        <input type="hidden" id="proc_codigo_sus" name="proc_codigo_sus" value=""/><br/>
+        <div id="dadosProcAtendSimp">
+
+            <!-- Aqui o conteúdo é alimentado pelo jQuery -->
+            <?php
+
+            $count = 0;
+
+            if ($this->procedimenosRealizados) {
+                echo "<input id='procedimenosRealizadoss' type='hidden' value = '1'/>";
+            } else {
+                echo "<input id='procedimenosRealizadoss' type='hidden'/>";
+            }
+
+            foreach ($this->procedimenosRealizados as $procedimenosRealizados):
+                $result = true;
+                $visible = 'style="display: none;"';
+
+                for ($i = 1; $i <= 32; $i++) {
+                    $retorno = $retorno . "<option " . ($procedimenosRealizados['quant'] == $i ? 'selected' : '') . " value='" . $i . "'>" . $i . "</option>";
+                }
+
+
+                echo
+                    '<div class="procAtendSimp" style="width:60%; display: inline-block;" id="procAtendSimp' . $procedimenosRealizados['proc_codigo'] . '-' . ($count) . '">
+            <span class="titProcAtendSimp">
+                ' . $procedimenosRealizados['proc_codigo_sus'] . ' - ' . substr($procedimenosRealizados['proc_nome'], 0, 80) . ' ...
+            </span>
+            <!--div class="excProcAtendSimp">
+                <img src="' . $this->baseUrl() . '/public/images/icons/excluir.png" onclick="excluiprocedimenosRealizados(" ' . $procedimenosRealizados['proc_codigo'] . ')" title="Excluir procedimenosRealizados" style="cursor: pointer" />
+                <input type="hidden" name="procedimenosRealizados[]" value="' . $procedimenosRealizados['proc_codigo'] . '" />
+            </div-->
+        </div>
+        <div id="divprocAtendSimp' . $procedimenosRealizados['proc_codigo'] . '-' . ($count) . '" style="width:20px; display: inline-block; vertical-align: middle; padding:0; margin:0;">
+            <input type="hidden" name="procedimenosRealizados[]" value="' . $procedimenosRealizados['proc_codigo'] . '" />
+        </div><img id="imgprocAtendSimp' . $procedimenosRealizados['proc_codigo'] . '-' . ($count) . '" style="vertical-align: middle;margin-left:10px;" src="' . $this->baseUrl() . '/public/images/icons/excluir.png" onclick="excluiprocedimenosRealizados(\'' . $procedimenosRealizados['proc_codigo'] . '-' . ($count++) . '\')" title="Excluir Procedimento" style="cursor: pointer" />';
+            endforeach;
+
+            ?>
+
+        </div>
+
+        <div>
+            <label >Procedimentos SIA:</label>
+            <select disabled style="width:227px!important"  name="procedimento_odonto_ab_sia" id="procedimento_odonto_ab_sia">
+                <option value="0">Procedimento SIA</option>
+                <?php
+                    $recebeProcedimentoOdonto = $this->procedimento_odonto_ab_sia;
+                    // echo "<pre>";print_r($recebeProcedimentoOdonto);die();
+
+                    for ($count = 0; $count < count($recebeProcedimentoOdonto) ; $count++) { ?>
+                        <option <?=$this->dadosAtendOdonto[0][procedimento_odonto_ab_sia] == $recebeProcedimentoOdonto ?'selected': ''?>
+                        value="<?=$recebeProcedimentoOdonto[$count][proc_codigo]?>">
+                            <?=$recebeProcedimentoOdonto[$count][proc_nome]?>
+                        </option>
+                    <?}
+                ?>
+            </select>
+        </div>
+    </div>
+
+    <div id="divAtendimentoConsulta">
+        <fieldset id="fieldsetAtendimento">
+            <legend>
+                Tipo de atendimento:
+                <input type="hidden" name="conf_ta" id="conf_ta"/>
+            </legend>
+
+            <input disabled type="radio" name="tipo_atend" id="tipo_atend"
+                   class="ate_tipo_atendimento" 
+                   <?=$this->atendimentoConsulta[0][tat_codigo] == $this->tipoAtendFicha->tat_codigo ? 'checked' : '' ?>
+                   onclick="consultaObrigatoria(this.value);"
+                   value="<?=$this->tipoAtendFicha->tat_codigo?>"/><?=$this->tipoAtendFicha->tat_tipo?>
+            <br/>
+
+            <fieldset style="border-radius: 9px;">
+                <legend>Demanda espontânea:</legend>
+                <input type="hidden" id="consultaObrigatoriaHidden" value="">
+                <?php
+                foreach ($this->demandaEspontanea as $val) { ?>
+
+                    <input disabled type="radio" name="tipo_atend" id="tipo_atend"
+                           class="ate_tipo_atendimento"
+                           onclick="consultaObrigatoria(this.value);desabilitaTipoConsulta(this.value);"
+                           value="<?=$val->tat_codigo ?>" 
+                            <?=$this->atendimentoConsulta[0][tat_codigo] == $val->tat_codigo ? 'checked' : ''?>
+                           />
+                           <?= $val->tat_tipo ?>
+                           <br/>
+                    <?php
+                } ?>
+            </fieldset>
+        </fieldset>
+
+        <fieldset id="fieldsetConsulta">
+            <legend>
+                Tipo de consulta:
+                <input type="hidden" name="conf_tc" id="conf_tc"/>
+            </legend>
+            <div id="tipo_consulta">
+                <?php
+                foreach ($this->tipoCons as $val) { ?>
+                    <input disabled type="radio" name="tipo_cons" id="tipo_cons<?=$val->tp_cod?>"
+                           class="ate_tipo_atendimento"
+                            <?=$this->atendimentoConsulta[0][tp_cod] == $val->tp_cod ? 'checked' : ''?>
+                           onclick="validaTipoConsulta(this.value);liberarBotao(this.value)"
+                           value="<?=$val->tp_cod?>" />
+                           <p class="nomeProcedimento" id="tipo_cons<?=$val->tp_cod?>Nome"><?=$val->tp_nome?></p>
+                           <br/>
+                    <?php
+                } ?>
+            </div>
+        </fieldset>
+    </div>
+    
+    <div id="divVigilanciaConduta">
+        <fieldset id="fieldsetVigilancia">
+            <legend>
+                Vigilância em saúde bucal:
+                <input type="hidden" name="conf_vig"
+                       id="conf_vig" <?= $this->dados->co_cds_tipo_vig_saude_bucal ? 'value=1' : '' ?> />
+            </legend>
+            <div id="vigilancia">
+                <?php
+
+                if ($this->codigoFicha == '') { 
+                    
+                    foreach ($this->vigilancia as $val) { ?>
+                        <?php $igual = false ?>
+                        <?php
+                            foreach ($this->atendimentoVigilanciaEncaminhamento as $vigilancia) {
+                                if ($val->co_cds_tipo_vig_saude_bucal == $vigilancia[tp_cds_vig_saude_bucal]) {
+                                    $igual = true;
+                                }
+                            }
+                        ?>
+                        <input disabled
+                        type="checkbox" <?=$igual == true ? 'checked' : ''?>
+                        name="vigilancia[]"   class="ate_tipo_atendimento" onclick="validaTipoVigilancia()"
+                        value="<?= $val->co_cds_tipo_vig_saude_bucal ?>" /><?=$val->no_cds_tipo_vig_saude_bucal ?><br/>
+                    <?php }
+
+                } else {
+                    foreach ($this->vigilancia as $val) {?>
+                        <?php $igual = false ?>
+                        <?php
+                            foreach ($this->atendimentoVigilanciaEncaminhamento as $vigilancia) {
+                                if ($val->co_cds_tipo_vig_saude_bucal == $vigilancia[tp_cds_vig_saude_bucal]) {
+                                    $igual = true;
+                                }
+                            }
+                        ?>
+                        <input disabled
+                        type="checkbox" <?=$igual == true ? 'checked' : ''?>
+                        name="vigilancia[]"   class="ate_tipo_atendimento" onclick="validaTipoVigilancia()"
+                        value="<?= $val->co_cds_tipo_vig_saude_bucal ?>" /><?= $val->no_cds_tipo_vig_saude_bucal ?><br/>
+                <?php }
+                } ?>
+            </div>
+        </fieldset>
+
+        <fieldset id="fieldsetConduta">
+            <legend>
+                Conduta:
+                <input disabled type="hidden" name="conf_cond"
+                       id="conf_cond" <?= $this->dados->co_cds_tipo_encam_odonto ? 'value=1' : '' ?>/>
+            </legend>
+            <div id="conduta">
+                <?php
+                if ($this->codigoFicha == '') {
+                    foreach ($this->conduta as $val) {?>
+                        <?php $igual = false ?>
+                        <?php
+                            foreach ($this->atendimentoVigilanciaEncaminhamento as $vigilancia) {
+                                if ($val->co_cds_tipo_encam_odonto == $vigilancia[tp_cds_encam_odonto]) {
+                                    $igual = true;
+                                }
+                            }
+                        ?>
+                        <input disabled type="checkbox" name="conduta[]"<?=$igual == true ? 'checked' : ''?>
+                               id="<?= "conduta" . $val->co_cds_tipo_encam_odonto ?>" 
+                               class="ate_tipo_atendimento" 
+                               value="<?= $val->co_cds_tipo_encam_odonto ?>" /><?= $val->no_cds_tipo_encam_odonto ?><br/>
+                    <?php }
+                } else {
+                    foreach ($this->conduta as $val) {?>
+                        <?php $igual = false ?>
+                        <?php
+                            foreach ($this->atendimentoVigilanciaEncaminhamento as $vigilancia) {
+                                if ($val->co_cds_tipo_encam_odonto == $vigilancia[tp_cds_encam_odonto]) {
+                                    $igual = true;
+                                }
+                            }
+                        ?>
+                        <input disabled type="checkbox" name="conduta[]"<?=$igual == true ? 'checked' : ''?>
+                               id="<?= "conduta".$val->co_cds_tipo_encam_odonto ?>" 
+                               class="ate_tipo_atendimento" 
+                               value="<?=$val->co_cds_tipo_encam_odonto?>" /><?=$val->no_cds_tipo_encam_odonto?><br/>
+                    <?php }
+                } ?>
+                <fieldset style="border-radius: 9px;">
+                    <legend>Encaminhamento</legend>
+                    <?php
+                    if ($this->codigoFicha == '') {
+                        foreach ($this->encaminhamentos as $val) { ?>
+                        <?php $igual = false ?>
+                        <?php
+                            foreach ($this->atendimentoVigilanciaEncaminhamento as $vigilancia) {
+                                if ($val->co_cds_tipo_encam_odonto == $vigilancia[tp_cds_encam_odonto]) {
+                                    $igual = true;
+                                }
+                            }
+                        ?>
+                            <input disabled type="checkbox" name="conduta[]"<?=$igual == true ? 'checked' : ''?>
+                                   id="<?= "conduta" . $val->co_cds_tipo_encam_odonto ?>" 
+                                   class="ate_tipo_atendimento" 
+                                   value="<?= $val->co_cds_tipo_encam_odonto ?>" /><?= $val->no_cds_tipo_encam_odonto ?><br/>
+                        <?php }
+                    } else {
+                        foreach ($this->encaminhamentos as $val) { ?>
+                            <?php $igual = false ?>
+                            <?php
+                                foreach ($this->atendimentoVigilanciaEncaminhamento as $vigilancia) {
+                                    if ($val->co_cds_tipo_encam_odonto == $vigilancia[tp_cds_encam_odonto]) {
+                                        $igual = true;
+                                    }
+                                }
+                            ?>
+                            <input disabled type="checkbox" name="conduta[]"<?=$igual == true ? 'checked' : ''?>
+                                   id="<?= "conduta".$val->co_cds_tipo_encam_odonto ?>" 
+                                   class="ate_tipo_atendimento" 
+                                   value="<?=$val->co_cds_tipo_encam_odonto?>" /><?=$val->no_cds_tipo_encam_odonto?><br/>
+                        <?php }
+                    } ?>
+                </fieldset>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="clear"></div>
+    <div class="space"></div>
+    <div class="space"></div>
+    <div id="itens"></div>
+</form>

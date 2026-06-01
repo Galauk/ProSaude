@@ -1,0 +1,154 @@
+<?php
+    // echo "<pre>";var_dump($this->agendamentosExternos);die();
+    // echo "<pre>";print_r($this->encaminhamentos);die();
+    // echo "<pre>";var_dump($this->usrAtual->usr_tipo_medico);die();
+    // echo "<pre>";print_r($this->url);die();
+    // echo "<pre>";print_r($this->url);die();
+    $contador = 0;
+?>
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/table.css?<?=time()?>">
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/grid.css?<?=time()?>">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+<?
+if($_GET['alert']){
+    if($_GET['alert'] == "success"){ ?>
+    <script>
+        Swal.fire({
+            title: 'Sucesso!',
+            text: 'Arquivo anexados com Sucesso',
+            type: 'success',
+            confirmButtonText: 'Ok'
+        })
+    </script>
+    <? }
+}
+?>
+<form action='<?=$this->url(array("action"=>"salvar"))?>' id = "formRegistro" enctype="multipart/form-data" method="POST">
+    <table class="table" style="font-size: 12px!important">
+        <caption>Agendamento Externo</caption> 
+        <thead>
+            <tr>
+                <th>Registro</th>
+                <th>Paciente</th>
+                <th>Especialidade</th>
+                <th>Emergência</th>
+                <th>CNS</th>
+                <th>Telefone</th>
+                <th>Nome da Mãe</th>
+                <th>Data de Nascimento</th>
+                <th>Unidade de Origem</th>
+                <th>Pedido</th>
+                <th>Entregue</th>
+                <th style="text-align: center;"><?=$this->usrAtual->usr_tipo_medico != "R" ? '': 'Arquivo' ?> </th>
+                <th>Imprimir</th>
+            </tr> 
+        </thead>
+        <tbody>
+            <?php
+                $count = null;
+                for ($count = 0; $count < count($this->agendamentosExternos); $count++) { ?>
+                    <tr>
+                        <td>
+                            <?=$this->agendamentosExternos[$count][agee_codigo]?>        
+                        </td>
+
+                        <td>
+                            <?=$this->agendamentosExternos[$count][usu_nome]?>
+                        </td>
+
+                        <td>
+                            <?=$this->agendamentosExternos[$count][esp_nome]?>
+                        </td>
+
+                        <td>
+                            <?php
+
+                                switch ($this->agendamentosExternos[$count][nivel]) {
+                                    case 1:
+                                        echo "Baixo";
+                                        break;
+
+                                    case 2:
+                                        echo "Médio";
+                                        break;
+
+                                    case 3:
+                                        echo "Alto";
+                                        break;
+                                    
+                                    default:
+                                        echo "----";
+                                        break;
+                                }
+
+                            ?>
+                        </td>
+
+                        <td>
+                            <?=$this->agendamentosExternos[$count][usu_cartao_sus]?>
+                        </td>
+
+                        <td>
+                            <?=($this->agendamentosExternos[$count][usu_fone] == "" ? "Não Informado" : $this->agendamentosExternos[$count][usu_fone])?>
+                        </td>
+
+                        <td>
+                            <?=$this->agendamentosExternos[$count][usu_mae]?>
+                        </td>
+
+                        <td>
+                            <?=$this->data($this->agendamentosExternos[$count][usu_datanasc])?>
+                        </td>
+
+                        <td>
+                            <?=$this->agendamentosExternos[$count][uni_desc]?>
+                        </td>
+
+                        <td>
+                            <?=$this->agendamentosExternos[$count][proc_nome]?>
+                        </td>
+
+                        <td style = "text-align: center">
+                            
+                            <?php
+                                if ($this->usrAtual->usr_tipo_medico != "R") {  ?>
+                                    <input <?=$this->agendamentosExternos[$count][cr_entregue] == true ? 'checked disabled' : '' ?> type="checkbox" name="entregue<?=$count?>" id="entregue<?=$count?>" value="t">
+
+                                <?} else{ ?>
+                                    <input <?=$this->agendamentosExternos[$count][cr_entregue] == true ? 'checked' : '' ?> type="checkbox" name="entregue<?=$count?>" id="entregue<?=$count?>" value="t">
+                                <?}
+
+                            ?>
+
+                        </td>
+                        
+                        <td>
+                            <?=$this->usrAtual->usr_tipo_medico != "R" ? '' :'<input style = "height: 27px;width: 105px;border:none!important;background:none!important" type="file" name="arquivoSolicitacao'.$count.'" id="arquivoSolicitacao'.$count.'">' ?>
+
+                            <input type="hidden" id="codigoAgendamentoExterno<?=$count?>" name="codigoAgendamentoExterno<?=$count?>" value="<?=$this->agendamentosExternos[$count][agee_codigo]?>">
+                        </td>
+                        
+                        <td>
+                            <button type="button" onclick="imprimirAgendamento(<?=$this->agendamentosExternos[$count][agee_codigo]?>)">
+                                <img src="/WebSocialSaude/zf/public/images/icons/imprimir.png" alt="">
+                            </button>
+                        </td>
+
+                    </tr>
+                <?}
+            ?>
+            
+
+
+        </tbody>
+    </table>
+    
+                                    
+    <div class="col-md-12"><br></div>
+    <div class="col-md-12"><br></div>
+    <div class="col-md-12">
+        <a style="float: right;" class="ui-button salvar" type = "submit">Salvar</a>
+    </div>
+    
+</form>

@@ -1,0 +1,56 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<div class="space"></div>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+                <th width="10"><img src="<?=$this->baseUrl('/public/images/icons/imprimir.png');?>" alt="I"/></th>
+		<th>Especialidade</th>
+	<?php if($this->obs != 'S'){ ?>
+		<th>Observações</th>	
+		<th>Internação?</th>
+		<th>Urgência?</th>
+		
+	<?php } ?>
+        <?php if(!$this->imprimi){ ?>
+            <th>Opções</th>
+        <?php } ?>    
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<tr>
+            <td class="ui-state-default">
+                <input type="checkbox" id="<?=$item->enc_codigo?>"  class="produto" value="<?=$item->enc_codigo?>" name="imprimir">
+            </td>
+		<td class="ui-state-default"><?=$this->escape($item->esp_nome);?></td>
+		<?php if($this->obs != 'S'){ ?>
+			<td class="ui-state-default escape"><?=str_replace("<p>&nbsp;</p>","",$item->enc_descricao);?></td>
+			<td class="ui-state-default c" width="100"><?=$this->mask($item->enc_internacao,'bool');?></td>
+			<td class="ui-state-default c" width="80"><?=$this->mask($item->enc_urgencia,'bool');?></td>
+			
+		<?php } ?>
+                <?php if(!$this->imprimi){ ?>
+                        <td class="ui-state-default c" width="60">					
+                            <a href="<?=$this->url(array("module"=>"prontuario","controller"=>"encaminhamento","action"=>"excluir","id"=>$item->enc_codigo));?>" class="excluir"><img src="<?=$this->baseUrl('/public/images/icons/excluir.png');?>" alt="Excluir" title="Excluir" /></a>
+                        </td>
+                <?php } ?>
+		
+	</tr>
+	<?php endforeach; ?>
+</table>
+<div class="space"></div>
+<?if($this->obs == 'S'){
+    $action = $this->url(array("module"=>"prontuario","controller"=>"encaminhamento","action"=>"imprimir","id"=>$item->enc_codigo,"io_codigo" => $this->io_codigo,"usu_codigo" => $this->usu_codigo));?>	
+
+    <?php if(!$this->imprimi){?>
+        <a href="#" class="ui-button imprimir " onclick="imprimir()" rel="630x540">Imprimir</a>
+    <? }?>
+<?        
+}else{
+    if($this->tipo_impresso_simples){
+        $action = $this->url(array("module"=>"prontuario","controller"=>"encaminhamento","action"=>"imprimir","id"=>$item->enc_codigo));
+    }else{
+        $action = $this->url(array("module"=>"prontuario","controller"=>"encaminhamento","action"=>"contra-referencia","id"=>$item->enc_codigo));
+    }?>
+    <a href="#" class="ui-button imprimir " onclick="imprimir()" rel="630x540">Imprimir</a>
+<?php }?>
+<?php else: ?>
+<br /><em>Nenhum encaminhamento adicionado ainda.</em>
+<?php endif; ?>

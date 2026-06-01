@@ -1,0 +1,116 @@
+<script type="text/javascript" src="../funcoes.js"></script> 
+<script>
+var gUnidade
+var gMes_ini
+var gAno_ini
+
+function CheckCall() {
+   gUnidade    =document.frm_AgPorAgente.uni_codigo.value
+   gMes_ini    =document.frm_AgPorAgente.mes_ini.value
+   gAno_ini    =document.frm_AgPorAgente.ano_ini.value
+
+   if ( (gMes_ini == '') || (gAno_ini == '') ) {
+      alert ("Entre com a competencia");
+      //document.frm_AgPorAgente.dt_inicial.focus();
+      return false;
+  }
+
+  window.open('apac_prest_comp_pac_list.php?uni_codigo='+gUnidade+'&mes_ini='+gMes_ini+'&ano_ini='+gAno_ini,null,"height=400,width=750,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes");
+}
+</script>
+
+
+<? 
+//------------------------------------------------------------------>
+// -> Inclusao principal para montagem do sistema
+//------------------------------------------------------------------>
+	session_start();
+	require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
+	cabecario();
+
+echo "<link href=\"../estilo.css\" rel=\"stylesheet\" type=\"text/css\">\n";
+
+echo " <form name=\"frm_AgPorAgente\" method=\"post\" action=\"$PHP_SELF?id_login=$id_login\">\n";
+echo "  <fieldset>";
+echo "   <legend>Números de APACs e origem do paciente por Prestador e Competência</legend> \n";
+echo "    <table width=80% border='0'  cellspacing='2' cellpadding='1'>\n";
+
+echo "     <tr>\n";
+echo "      <td valign='bottom' width='100px'>Prestador: </td>\n";
+echo "      <td colspan='2'><select name='uni_codigo' class=box>\n";
+echo "           <option value='' selected> ---- TODOS ---- </option>\n";
+                         //$query=pg_query("SELECT * FROM medico ORDER BY med_nome ASC");
+                         /*$stmt = "(SELECT med_codigo, med_nome, 'medico'
+                                        FROM medico
+                                        WHERE prestador_servico = 'S' ORDER BY 2)
+                                   UNION ALL
+                                   (SELECT uni_codigo AS med_codigo, uni_desc AS med_nome, 'apac_medico'
+                                        FROM apac_unidade ORDER BY 2)
+                                   ORDER BY 2";*/
+                         
+                         $stmt = "(SELECT uni_codigo as med_codigo, uni_desc as med_nome, 'medico'
+                                        FROM unidade
+                                        ORDER BY 2)
+                                   UNION ALL
+                                   (SELECT uni_codigo AS med_codigo, uni_desc AS med_nome, 'apac_medico'
+                                        FROM apac_unidade ORDER BY 2)
+                                   ORDER BY 2";
+                         
+                         $query = db_query( $stmt );
+                         while($gUnidade=pg_fetch_array($query))
+                         {
+                              echo "<option value='$gUnidade[med_codigo]' > ".$gUnidade[med_nome]."</option>\n";
+                         }
+echo "          </select>\n";
+echo "      </td>\n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+echo "      <td valign='bottom'>Competência: </td>\n";
+echo "      <td><select id='mes_ini' name='mes_ini' class='box' onchange=\"document.getElementById('ano_comp').select();\">	
+		<option value='' selected> -- Selecione o Mês -- </option>
+		<option value=\"1\">Janeiro</option>
+		<option value=\"2\">Fevereiro</option>
+		<option value=\"3\">Março</option>
+		<option value=\"4\">Abril</option>
+		<option value=\"5\">Maio</option>
+		<option value=\"6\">Junho</option>
+		<option value=\"7\">Julho</option>
+		<option value=\"8\">Agosto</option>
+		<option value=\"9\">Setembro</option>
+		<option value=\"10\">Outubro</option>
+		<option value=\"11\">Novembro</option>
+		<option value=\"12\">Dezembro</option>		</select>		/";
+		//<input type='text' name='ano_ini' id='ano_ini' class='box' size='4' maxlength='4' value='".date("Y")."' />\n";
+
+echo "          <select id='ano_ini' name='ano_ini' class='box'>	
+		<option value='".date("Y")."' selected>".date("Y")."</option>
+                <option value='".date("Y", mktime(0,0,0,0,0,date("Y")-4))."'>
+                ".date("Y", mktime(0,0,0,0,0,date("Y")-4))."</option>
+                <option value='".date("Y", mktime(0,0,0,0,0,date("Y")-3))."'>
+                ".date("Y", mktime(0,0,0,0,0,date("Y")-3))."</option>
+                <option value='".date("Y", mktime(0,0,0,0,0,date("Y")-2))."'>
+                ".date("Y", mktime(0,0,0,0,0,date("Y")-2))."</option>
+                <option value='".date("Y", mktime(0,0,0,0,0,date("Y")-1))."'>
+                ".date("Y", mktime(0,0,0,0,0,date("Y")-1))."</option>
+                <option value='".date("Y", mktime(0,0,0,0,0,date("Y")+2))."'>
+                ".date("Y", mktime(0,0,0,0,0,date("Y")+2))."</option>
+                <option value='".date("Y", mktime(0,0,0,0,0,date("Y")+3))."'>
+                ".date("Y", mktime(0,0,0,0,0,date("Y")+3))."</option>
+                <option value='".date("Y", mktime(0,0,0,0,0,date("Y")+4))."'>
+                ".date("Y", mktime(0,0,0,0,0,date("Y")+4))."</option>
+                <option value='".date("Y", mktime(0,0,0,0,0,date("Y")+5))."'>
+                ".date("Y", mktime(0,0,0,0,0,date("Y")+5))."</option>
+                </select>";
+
+echo "      </td>\n";
+echo "     </tr>\n";
+
+echo "     <tr>\n";
+//echo "      <td>&nbsp;</td>";
+echo "      <td> <input type=\"image\" src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/gerar_relatorio_on.jpg OnClick='CheckCall()'  name='enviar' value='ENVIAR'> </td>\n";
+echo "      <td><a href=\"../rel_index.php?id_login=$id_login&opcao=6#tabs-6\"><img src=\"".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif\" border=0></a></td>";
+echo "     </tr>\n";
+echo "    </table>\n";
+echo "  </fieldset>\n";
+echo " </form>\n";

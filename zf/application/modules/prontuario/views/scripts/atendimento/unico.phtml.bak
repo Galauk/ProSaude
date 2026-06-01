@@ -1,0 +1,206 @@
+<?php $this->dialog(); 
+if($this->obs == 'S'){
+	$action = $this->url(array("module" => "prontuario","modulo" => "prontuario", "controller" => "atendimento", "action" => "salvar-internacao", "obs" => "S")); 
+}else{
+	$action = $this->url(array("action" => "salvar"));
+}
+?>
+<form method="post" action="<?=$action?>" style="float:left;" id="form-atendimento" 
+      <? if($this->cid_obrigatorio == "1") { ?> id="form-unico" <? } ?> >
+	<input type="hidden" name="usr_tipo_medico" id="usr_tipo_medico" value="<?=$this->usr_tipo_medico?>" />
+        <input type="hidden" name="ate_codigo" id="ate_codigo" value="<?= $this->dados->ate_codigo; ?>" />
+        <input type="hidden" name="ate_encaminhamento" value="<?= $this->dados->ate_encaminhamento; ?>" />
+        <input type="hidden" id="cid_obrigatorio" name="cid_obrigatorio" value="<?= $this->cid_obrigatorio; ?>" />
+	<?php if($this->obs == 'S'){?>	
+		<input type="hidden" name="io_codigo" value="<?= $this->io_codigo; ?>" />
+	<?php } ?>
+	<?php $this->errorMsg();
+	?>
+	<?php if($this->obs != 'S'){?>
+		<?php echo $this->action("historico","pre-consulta","prontuario"); ?>
+	<?php } ?>
+        <?php 
+        if ($this->dados->usu_codigo!="") { 
+            $usu_codigo = $this->dados->usu_codigo ;
+        } ?>
+        <?php 
+        if ($this->dados->usu_codigo=="" && $this->usu_codigo_leito != "") { 
+            $usu_codigo = $this->usu_codigo_leito;
+        } ?>
+        <a href='<?= $this->url(array("module" => "relatorio", "controller" => "usuario", "action" => "prontuario","usu_codigo" => $usu_codigo)); ?>' class="ui-button detalhes popup" rel="900x540">
+            Histórico
+        </a>
+        <input type="hidden" name="ate_somente_procedimento" id="ate_somente_procedimento" value="<?php if($this->dados->ate_somente_procedimento == "1"  || $this->dados->ate_somente_procedimento == "t") {echo "t";}else{echo "f";}?>">
+        <?php if ($this->usr_tipo_medico=="E" || $this->usr_tipo_medico== "A" && $this->cnes_tp_unid_id != "05"): ?>
+        <div style="float: left;" id="botao-proced">
+            <a href='#' class="ui-button detalhes" rel="900x540" onclick="somenteProcedimento()" id="somente">Somente Procedimento</a>
+            <a href='#' class="ui-button detalhes" style="display: none;" id="ate_individual" rel="900x540" onclick="atendimentoIndividual()">Atendimento Individual</a>
+        </div>
+        <?php endif;?>        
+        <div class="tipo-ate-esus">
+            <label>Tipo Atendimento:</label>
+            <?=$this->selectLocais?>
+        </div>
+        <div class="proc-ate-esus" id="proc_codigo">
+            <label>Procedimento:</label>
+            <?=$this->selectProcedimento?>
+        </div>
+        <br/>
+	<label>Início:</label>
+	<input value="<?= $this->data($this->dados->ate_data); ?>" style="width:80px" readonly="readonly" />
+	<input name="ate_hora" value="<?=($this->escape($this->dados->ate_hora) == "" ? $this->ate_hora : $this->escape($this->dados->ate_hora)); ?>" style="width:50px" readonly="readonly" /><br />
+	<?php if($this->obs != 'S'){?>
+		<label>Nome:</label>
+		<input value="<?= $this->escape($this->dados->usu_nome); ?>" readonly="readonly" /><br />
+	<?php } ?>
+        <div id="local_esus">
+            <label>Local:</label>
+            <?=$this->selectLocais?>
+        </div>
+	
+        <label>Evolução:</label>
+        <?php //echo "<pre>".print_r($_COOKIE,1);die($_COOKIE["ate_reclamacao"]."aaaa");?>
+	<div class="textarea">
+            
+            <textarea name="ate_reclamacao" id="ate_reclamacao" class="tinymce_atendimento focus" style="width: 500px;height: 250px;">
+                    <?php if($this->escape($this->dados->ate_reclamacao)) {?>
+                            <?= $this->escape($this->dados->ate_reclamacao); ?>
+                            
+                    <?php } else { ?>
+                            <?php echo $this->escape($_COOKIE["ate_reclamacao"]); ?> 
+                    <?php } ?>
+                    <?php /* if($_COOKIE[ate_reclamacao]){
+                        echo $this->escape($_COOKIE[ate_reclamacao]);
+                    }else{?>
+                        <?= $this->escape($this->dados->ate_reclamacao); ?>
+                        <?= $this->escape($this->dados->ate_exame_fisico); ?>
+                        <?= $this->escape($this->dados->ate_diagnostico); ?>
+                        <?= $this->escape($this->dados->ate_tratamento); ?>
+                        <?= $this->escape($this->dados->ate_curativo); ?>
+                    <?}*/?>
+            </textarea>
+	</div>
+	
+	<br />
+	<?php if($this->obs != 'S'){ ?>
+		<label>Acidente de trabalho?:</label>
+		<?= $this->arrayToRadio("ate_acidentetrab", array('S' => "Sim", 'N' => "Não"), is_null($this->dados->ate_acidentetrab) ? 'N' : $this->dados->ate_acidentetrab); ?><br />
+	<?php } ?>
+        <label><abbr title="Código Internacional de Doença">CID</abbr>:</label>
+        <input type="hidden" style="width:50px;" name="cd10_codigo" id="cd10_codigo" value="<?= $this->dados->cd10_codigo; ?>" readonly="readonly" />
+        <input type="hidden" name="cd10_codigo_cid" id="cd10_codigo_cid" value="">
+        <input type="text" name="buscar" id="buscar" onkeyup="buscafCid()" value="<? ?>" />
+        <input type="hidden" name="uni_tipo" id="uni_tipo" value="<?=$this->uni_tipo?>"
+        <br />
+        <table class="tb_cids" style="margin-bottom: 2px; width: 487px; border: 1px solid; border-color: #CDDEF2;" border="0">
+            <div id="erro">
+            </div>
+        </table> 
+        <div id="info-sus">
+            <?php if ($this->grupo_doencas) { ?>
+                <label>Grupo de Doenças CID:</label>
+                <select name="grupo_doencas">
+                    <option value="">Selecione ...</option>
+                    <? foreach($this->grupo_doencas as $item) { ?>
+                        <option value="<?=$item->gd_codigo?>" <? if ($item->gd_codigo == $this->dados->gd_codigo) { echo "selected='selected'"; } ?>><?=$item->gd_descricao?></option>
+                    <? } ?>
+                </select>
+                <br />
+            <? }?>
+            <?php
+            if ($this->usr_tipo_medico!="D" && $this->cnes_tp_unid_id != "05") { ?>
+                <div style="margin-left: 2px;" class="f">
+                    <label>Busca Ciap:</label>
+                    <input type="text" id="ds_ciap" value="" />
+                    <input type="hidden" id="co_seq_ciap" name="co_seq_ciap" value="" style="width: 20px" />
+                    <input type="hidden" name="conf_ciap" id="conf_ciap" value="<?php echo ((count($this->ciap) > 0 && $this->dados->ate_codigo != "") ? "1" : "")?>" /><br />
+                    <label class="f"> CIAP:</label>&nbsp;
+                    <div style="width:300px; overflow-x:auto; overflow-y:auto; margin-left:4px; float:left">
+                        <select size="10" style="margin-left: -4px;" id="ciap">
+                            <?php foreach ($this->ciap as $ciap):?>
+                                <option value="<?php echo $ciap->co_seq_ciap?>"><?php echo $ciap->ds_ciap?></option>
+                            <?php endforeach;?>
+                        </select>
+                    </div>
+                    <select size="10" style="width: 300px;" id="ciap-selecionados" name="ciap-selecionados[]" multiple="">
+                        <?php if(count($this->ciap_selecionados) > 0){
+                            foreach($this->ciap_selecionados as $ciap_sel){
+                                echo "<option value='$ciap_sel->co_seq_ciap'>$ciap_sel->ds_ciap</option>";
+                            }
+                        }else{
+                            echo "<option value='0' disabled='disabled'>Nenhum Ciap</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <br/>
+                <label class="f"> Conduta:</label>&nbsp;
+                <fieldset style="width: 583px; float: left; margin-left: 6px; margin-top: 04px;">
+                    <legend>Conduta <input type="hidden" name="conf_cond_ate" id="conf_cond_ate" value="<?php echo ((count($this->tipCondInd) > 0 && $this->dados->ate_codigo != "") ? "1" : "")?>"/></legend>
+                    <div id="conduta_ate">
+                        <?php 
+                        foreach ($this->conduta_ind as $val) { 
+                            //echo "<pre>".print_r($this->tipCondInd,1)."aokako";die();?>
+                        <input type="checkbox" name="conduta_ind[]" value="<?=$val->co_cds_tipo_conduta?>"
+                               onclick="validaTipoCondutaAte()"
+                               <?=($this->validaArray($val->co_cds_tipo_conduta,$this->tipCondInd) >= 1 ? "checked" : "")?>/>
+                               <?=$val->no_cds_tipo_conduta?><br/> 
+                        <?php
+                        } ?>
+                        <fieldset>
+                            <legend>Encaminhamento</legend>
+                            <?php 
+                            foreach ($this->encaminhamentos as $val) { ?>
+                            <input type="checkbox" name="conduta_ind[]" value="<?=$val->co_cds_tipo_conduta?>"
+                                   onclick="validaTipoCondutaAte()"
+                                   <?=($this->validaArray($val->co_cds_tipo_conduta,$this->tipCondInd) >= 1 ? "checked" : "")?> />
+                                   <?=$val->no_cds_tipo_conduta?><br/> 
+                            <?php
+                            } ?>
+                        </fieldset>
+                    </div>
+                </fieldset>
+            <?php
+            } ?>
+            <br />
+            <?php
+            if ($this->usr_tipo_medico=="D") { ?>
+                <label style="float:left; margin-top: -16px;">Vigilância em saúde bucal:</label>
+                <fieldset style="float: left; margin-top: -16px; margin-left: 6px; width: 475px;">
+                    <legend><input type="hidden" name="conf_vig" id="conf_vig" /></legend>
+                    <div id="vigilancia">
+                        <?php 
+                        foreach ($this->vigilancia as $val) { ?>
+                            <input type="checkbox" name="vigilancia[]" class="ate_tipo_atendimento" 
+                                   value="<?=$val->co_cds_tipo_vig_saude_bucal?>" onclick="validaTipoVigilancia()" 
+                                   <?=($this->validaArray($val->co_cds_tipo_vig_saude_bucal,$this->tipVig) >= 1 ? "checked" : "")?> />
+                                   <?=$val->no_cds_tipo_vig_saude_bucal?><br/>
+                        <?php
+                        } ?>
+                    </div>
+                </fieldset>
+                <br/>
+                <label style="float:left; margin-top: 04px;">Conduta Odontologia:</label>
+                <fieldset style="float: left; margin-top: 04px; margin-left: 6px; width: 475px;">
+                    <legend><input type="hidden" name="conf_cond" id="conf_cond" /></legend>
+                    <div id="conduta">
+                        <?php 
+                        foreach ($this->conduta as $val) { ?>
+                        <input type="checkbox" name="conduta[]" class="ate_tipo_atendimento" 
+                                   value="<?=$val->co_cds_tipo_encam_odonto?>" onclick="validaTipoConduta()"
+                                   <?=($this->validaArray($val->co_cds_tipo_encam_odonto,$this->tipCond) >= 1 ? "checked" : "")?> />
+                                   <?=$val->no_cds_tipo_encam_odonto?><br/> 
+                        <?php
+                        } ?>
+                    </div>
+                </fieldset>
+            <?php
+            } ?>
+        </div>    
+	<div class="clear"></div>	
+	<div class="space"></div>	
+        <a href="#" class="ui-button salvar" onclick="selecionarTodos()" >Salvar</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+
+</form>
+<div class="clear"></div>

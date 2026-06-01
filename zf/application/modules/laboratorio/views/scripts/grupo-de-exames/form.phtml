@@ -1,0 +1,76 @@
+<form id="form-grupo">
+
+    <input type="hidden" name="gruex_codigo" value="<?=$this->grupo_exame->gruex_codigo?>" />
+    <label style="width: 140px;">Nome do Grupo: <span class="obrigatorio">*</span> </label>
+    <input style="text-transform: uppercase" type="text" name="gruex_descricao" id="gruex_descricao" value="<?=$this->grupo_exame->gruex_descricao ? $this->grupo_exame->gruex_descricao : ""?>" />
+    <input type="hidden" name="gruex_descricao_controle" value="<?=$this->grupo_exame->gruex_descricao?>" />
+    <br>
+    <label style="width: 140px;">Utilizado em Pré-Natal: <span class="obrigatorio">*</span></label>
+    <input type="radio" id="pre_natal" name="pre_natal" value="S" <? if ($this->grupo_exame->pre_natal == 'S') echo ("checked")?>> Sim
+    <input type="radio" id="pre_natal" name="pre_natal" value="N" <? if ($this->grupo_exame->pre_natal == 'N') echo ("checked")?>> Não
+</form>
+<form id="busca-procedimento">
+
+    <label style="width: 140px;">Procedimento:</label>
+    <input type="hidden" id="proc_codigo" name="proc_codigo" value=""/>
+    <input type="hidden" id="proc_codigo_sus" name="proc_codigo_sus" value="">
+    <input type="text" name="proc_nome" id="proc_nome" onkeypress="buscaProcedimentosSus();"/>
+
+    <a onclick="adicionaProcedimento()" class="ui-button  ui-corner-bl ui-corner-tr"> <div><img src="<?= $this->baseUrl(); ?>/public/images/icons/add.png"/></div>  Adicionar</a>
+</form>
+
+<br>
+<!--<form id="categoria-de-exames" method="post" action="--><?//=$this->url(array("action"=>"busca-configuracoes"))?><!--" >-->
+<!--    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>-->
+<!--    <input size="50" class="focus ui-state-default" name="busca" value="" type="text">-->
+<!---->
+<!---->
+<!--    <a class="ui-button buscar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>-->
+<!--</form>-->
+<form id="procedimentos-form">
+<table width="100%" id="procedimentos"
+       style="display: table; overflow-y: auto; overflow-x: hidden">
+    <tr>
+        <th>Ordem</th>
+        <th>Código SUS - Procedimento</th>
+        <th colspan="2">Ações</th>
+    </tr>
+    <?php $y = 0; ?>
+    <?php if (count($this->procedimentos) > 0) { ?>
+        <?php foreach ($this->procedimentos as $proc) { ?>
+            <?php $y++; ?>
+            <tr id='proc_qtd<?=$y?>'>
+                <td>
+                    <?= $proc->tcg_ordem ?>
+                    <input type='hidden' name='proc[<?= $y ?>][txg_codigo]'
+                           value="<?= $proc->txg_codigo?>"/>
+                    <input type='hidden' name='proc[<?= $y ?>][tcg_ordem]'
+                           value="<?= $proc->tcg_ordem?>"/>
+                </td>
+                <td>
+                    <?=($proc->proc_codigo_sus != "" ? $proc->proc_codigo_sus : "SEM CÓDIGO")." - ".$proc->proc_nome?>
+                    <input type='hidden' name='proc[<?= $y ?>][proc_codigo]'
+                           value="<?= $proc->proc_codigo?>"/>
+                </td>
+                <td>
+                    <a onclick="excluirConfirmacao(<?= $y ?>,<?= $proc->txg_codigo?>)">
+                        <img src="<?= $this->baseUrl() ?>/public/images/icons/excluir.png"
+                             alt="Excluir" title="Excluir"/>
+                    </a>
+                </td>
+            </tr>
+        <?php } ?>
+    <?php } else { ?>
+        <tr id="proc_qtde_0">
+            <td colspan="7">Nenhum procedimento vinculado até o momento.</td>
+        </tr>
+    <?php } ?>
+    <input type="hidden" id="proc_qtd_total" name="proc_qtd_total" value="<?= $y ?>"/>
+</table>
+</form>
+<div class="space"></div>
+<div style="text-align: center">
+    <a href="<?php echo $this->url(array('controller' => 'grupo-de-exames',
+        'action' => 'index')); ?>" class="ui-button voltar">Voltar</a>
+    <a onclick="validaForm()" class="ui-button salvar-icon ui-corner-bl ui-corner-tr" data-atalho="CTRL+S">Salvar</a>
+</div>

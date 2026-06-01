@@ -1,0 +1,62 @@
+<?php $this->errorMsg(); ?>
+<?php echo $this->action('form', 'buscar'); ?>
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+    <?php
+    $i = 0;
+    if ($this->itens && $this->itens->count()):
+        foreach ($this->itens as $item):
+            ?>
+            <?php if ($i < 1) : ?>
+                <tr class='ui-widget-header'>
+                    <th>Convênio</th>
+                    <th>Tipo de Convênio</th>
+                    <th>Tipo de Prestador</th>
+                    <th>Sábado</th>
+                    <th>Domingo</th>
+                    <th>Status</th>
+                    <th>Opções</th>
+                </tr>
+                <?php $i++;
+            endif;
+            ?>
+            <tr>
+                <td class='ui-state-default'><?= $this->escape($item->convenio); ?></td>
+                <td class='ui-state-default c' width='120'><?= ($item->tipo_convenio == 'C' ? "Completo" : "Simples" ); ?> </td>
+                <td class='ui-state-default c' width='120'>
+                    <?php
+                    switch ($item->tipo_prestador) {
+                        case 'L':
+                            echo("Laboratório");
+                            break;
+                        case 'H':
+                            echo("Hospital");
+                            break;
+                        case 'O':
+                            echo("Outros");
+                            break;
+                        default:
+                            echo("Não informado");
+                            break;
+                    };
+                    ?>
+                </td>
+                <td class='ui-state-default c' width='80'><?= ($item->conv_sabado == FALSE ? "<img src='" . $this->baseUrl("/public/images/icons/excluir2.png") . "' alt='Desativado' title='Desativado' id='sabado" . $item->conv_codigo . "' />" : "<img src='" . $this->baseUrl("/public/images/icons/accept.png") . "' alt='Ativo' title='Ativo' id='sabado" . $item->conv_codigo . "' />" ); ?> </td>
+                <td class='ui-state-default c' width='80'><?= ($item->conv_domingo == FALSE ? "<img src='" . $this->baseUrl("/public/images/icons/excluir2.png") . "' alt='Desativado' title='Desativado' id='domingo" . $item->conv_codigo . "' />" : "<img src='" . $this->baseUrl("/public/images/icons/accept.png") . "' alt='Ativo' title='Ativo' id='domingo" . $item->conv_codigo . "' />" ); ?> </td>
+                <td class='ui-state-default c' width='80'><?= ($item->conv_status == FALSE ? "<img src='" . $this->baseUrl("/public/images/icons/excluir2.png") . "' alt='Desativado' title='Desativado' id='sabado" . $item->conv_codigo . "' />" : "<img src='" . $this->baseUrl("/public/images/icons/accept.png") . "' alt='Ativo' title='Ativo' id='sabado" . $item->conv_codigo . "' />" ); ?> </td>
+                <td class='ui-state-default c' width='80'>
+                    <a href='<?= $this->url(array("module" => "agenda", 'controller' => 'convenio', 'action' => 'novo', 'conv_codigo' => $item->conv_codigo), NULL, TRUE); ?>' class='editar'>
+                        <img src='<?= $this->baseUrl('/public/images/icons/editar.png'); ?>' alt='Editar Convênio' title='Editar Convênio' />
+                    </a>
+                    <a href='<?= $this->url(array("module" => "agenda", 'controller' => 'convenio-itens', 'conv' => $item->conv_codigo), NULL, TRUE); ?>' class='editar'>
+                        <img src='<?= $this->baseUrl('/public/images/icons/detalhes.png'); ?>' alt='Configurar Itens' title='Configurar Itens' />
+                    </a>
+                                    <a href='#' class=''>
+                                        <img src='<?=$this->baseUrl('/public/images/icons/tempo_periodo.png');?>' alt='Liberar as cotas dos exames não realizados no período informado' title='Liberar as cotas dos exames não realizados no período informado' onclick="marcarFalta(<?=$item->conv_codigo?>,<?=$item->med_codigo?>)"/>
+                                    </a>
+                </td>
+            </tr>
+    <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <em>Nenhum item encontrado</em>
+<?php endif; ?>

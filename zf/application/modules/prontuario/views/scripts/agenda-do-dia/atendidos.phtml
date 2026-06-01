@@ -1,0 +1,74 @@
+<form method="post" action="<?= $this->url(array("action" => "buscar")); ?>">
+    <label>Profissional:</label>
+    <input type="hidden" name="usr_codigo" id="usr_codigo" value="">
+    <input type="text" name="buscar_medico" id="buscar_medico" value="">
+    <br />
+    <label>Paciente:</label>
+    <input type="hidden" name="usu_codigo" id="usu_codigo" value="">
+    <input type="text" name="buscar_paciente" id="buscar_paciente" value="">
+    <br />
+    <label>Data de Atendimento:</label>
+    <input type="text" name="ate_data" id="ate_data" value="">
+    <br />
+    <label>Tipo de Atendimentos:</label>
+    <input type="checkbox" name="pre" id="pre" value="P" checked="checked">Pré-Consulta
+    <input type="checkbox" name="ate" id="ate" value="A" checked="checked">Atendimento
+    <br />
+    <a href="#" class="ui-button buscar submit">Buscar</a>
+</form>
+<?php if ($this->itens): ?>
+	<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+		<tr class="ui-widget-header">
+                        <th width="10%">Data</th>
+                        <th width="7%">Hora</th>
+                        <th width="10%">Tipo</th>
+			<th width="100">Prontuário</th>
+			<th>Paciente</th>
+			<th width="5%">Idade</th>
+			<th>Mãe</th>
+			<?php if(isset($this->itens->esp_nome)):?>
+			<th>Médico</th>
+			<th>Especialidade</th>
+			<?php endif;?>
+		</tr>
+	<?php foreach ($this->itens as $itens): ?>
+                <?php foreach ($itens as $item):?>
+                    <?php if(isset($item->pc_clas_risco)){ 
+                    if($this->escape($item->pc_clas_risco) == 1){
+                        $cor = "red";
+                    }else if($this->escape($item->pc_clas_risco) == 2){
+                        $cor = "orange";
+                    }else if($this->escape($item->pc_clas_risco) == 3){
+                        $cor = "GoldenRod";
+                    }else if($this->escape($item->pc_clas_risco) == 4){
+                        $cor = "green";
+                    }else if($this->escape($item->pc_clas_risco) == 5){
+                        $cor = "blue";
+                    }else if($this->escape($item->age_estratificacao_risco) == 1){
+                        $cor = "#e600ff";
+                    }else{
+                        $cor = "";
+
+                    }
+                }
+                
+                ?>
+                   <tr onclick="verAte('<?=$item[age_codigo];?>');" class="a">
+                           <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->data($item[age_data]); ?></td>
+                           <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->escape($item[ate_hora]); ?></td>
+                           <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->escape($item[usu_tipoAtendimento]); ?></td>
+                           <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->escape($item[usu_prontuario]); ?></td>
+                           <td class="ui-widget ui-state-default" style="color: <?=$cor?>"><?= $this->escape($item[usu_nome]); ?></td>
+                           <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->escape($item[usu_datanasc]); ?></td>
+                           <td class="ui-widget ui-state-default" style="color: <?=$cor?>"><?= $this->escape($item[usu_mae]); ?></td>
+                           <?php if(isset($item->esp_nome)):?>
+                           <td class="ui-widget ui-state-default" style="color: <?=$cor?>"><?= $this->escape($item[usr_nome]); ?></td>
+                           <td class="ui-widget ui-state-default" style="color: <?=$cor?>"><?= $this->escape($item[esp_nome]); ?></td>
+                           <?php endif;?>
+                   </tr>
+            <?php endforeach; ?>
+	<?php endforeach; ?>
+	</table>
+<?php else: ?>
+	<em>Nenhum paciente atendido hoje.</em>
+<?php endif; ?>

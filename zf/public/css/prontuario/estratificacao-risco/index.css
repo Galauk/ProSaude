@@ -1,0 +1,42 @@
+form input {
+    width: 50px!important;
+    height: 15px;
+}
+
+
+.linhaVerde{
+
+    padding: 5px;
+    
+
+}
+
+.linhadescricao{
+
+    border: 1px solid;
+
+}
+
+.nomeDoGrupo{
+    text-align: left;
+    font-size: 14px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.titulo{
+    padding: 8px;
+    font-size: 15px;
+}
+
+.estiloBaixoNivel{
+    background-color : #d4ecff;
+}
+
+.estiloMedioNivel{
+    background-color : #ffffd4;
+}
+
+.estiloAltoNivel{
+    background-color : #ffd4dd;
+}

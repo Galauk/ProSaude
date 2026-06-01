@@ -1,0 +1,56 @@
+<?php
+
+    // echo '<pre>';print_r($this->score[0]);die();
+
+?>
+<table>
+    <tr>
+    
+        <th>Nome Ficha</th>
+        <th>Usuario Nome</th>
+        <th>Data Cadastro</th>
+        <th>Score</th>
+        <th>Risco</th>
+
+    </tr>
+
+    <?php
+    
+        for ($contador=0; $contador < count($this->score); $contador++) { ?>
+
+            <tr>
+            
+                <th> <?=strtoupper($this->score[$contador][est_nomeficha]) ?></th>
+                <th> <?=$this->score[$contador][usu_nome] ?></th>
+                <th> <?=$this->score[$contador][to_char] ?></th>
+                <th> <?=$this->score[$contador][est_score] ?></th>
+                <th>
+
+                    <?
+
+                        if ($this->score[$contador][est_score] <= $this->score[$contador][nivelbaixo]) {?>
+                            <span>BAIXO</span>
+                        <?}
+
+                        if ($this->score[$contador][est_score] > $this->score[$contador][nivelbaixo] && $this->score[$contador][est_score] <= $this->score[$contador][nivelmedio]) {?>
+                            <span>MEDIO</span>
+                        <?}
+
+                        if ($this->score[$contador][est_score] >= $this->score[$contador][nivelalto]) {?>
+                            <span>ALTO</span>
+                        <?}
+
+                    ?>
+
+                </th>
+            </tr>
+
+
+        <?}
+
+    ?>
+
+    
+
+
+</table>

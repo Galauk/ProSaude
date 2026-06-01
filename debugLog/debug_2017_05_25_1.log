@@ -1,0 +1,21 @@
+25/05/2017 - 11:00:46   <pre>Array
+(
+    [id_login] => 649
+    [acao] => add
+    [usu_codigo] => 13000006
+)
+</pre>      649
+25/05/2017 - 11:01:19   <pre>Array
+(
+    [id_login] => 649
+    [acao] => add
+    [usu_codigo] => 13000006
+    [ctp_codigo] => 
+    [usu_nome] => ANDRE FREIREE
+    [ctp_quantidade] => 60
+    [ctp_periodo] => MENSAL
+    [prg_codigo] => 18
+    [prgp_codigo] => 7
+    [envia] => e
+)
+</pre>      649

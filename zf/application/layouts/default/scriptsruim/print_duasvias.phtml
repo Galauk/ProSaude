@@ -1,0 +1,89 @@
+<?= $this->doctype() . "\n"; ?>
+<?php
+$_SESSION[modulo] = "WebSocialSaude/";
+$_SESSION[root] = $_SERVER[DOCUMENT_ROOT] . "/";
+$_SESSION[linkroot] = "http://" . $_SERVER[HTTP_HOST] . "/";
+$_SESSION[comum] = "WebSocialComum/";
+$_SESSION[modulo] = "WebSocialSaude/";
+$_SESSION[modulo] = "WebSocialSaude/"; $_SESSION[root] = $_SERVER[DOCUMENT_ROOT] . "/"; $_SESSION[linkroot] = "http://" . $_SERVER[HTTP_HOST] . "/"; $_SESSION[comum] = "WebSocialComum/"; $_SESSION[modulo] = "WebSocialSaude/"; require_once $_SESSION[root].$_SESSION[modulo]."sessao_controller.php";
+$sessao = new TempoSessao();
+$sessao->primeiraPagina();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+        <?= $this->headMeta() . "\n"; ?>
+        <?= $this->headTitle() . "\n"; ?>
+        <?= $this->headLink() . "\n"; ?>
+		<link href='<?=$this->baseUrl('/public/css/print.css')?>' rel='stylesheet' type='text/css'></link>
+		<script type="text/javascript">
+			var baseUrl = '<?=$this->baseUrl();?>';
+		</script>
+        <?= $this->headScript() . "\n"; ?>
+		<?php if(APPLICATION_ENV != "development"):?>
+		<script type="text/javascript">
+			$(function(){
+				window.print();
+			});
+		</script>
+		<?php endif;?>
+		<?= $this->analytics(); ?>
+    </head>
+	<body>
+            <?php for($i=1;$i<=2;$i++): ?>
+            <div class="div_cabecalho">
+	 		<div id="header" >
+	 			<div id="header_logo">
+	 				<img src="<?=$this->baseUrl('/public/images/brasao.jpg')?>" title="Logo Prefeitura" />
+	 			</div>
+                                
+	 			<div id="header_dados">
+	 				<div id="pref_nome"><?=$this->dados->secretaria." DE ".$this->dados->nome_cidade?></div>
+                    <?if($this->dados->telefone_secretaria):?>
+                        <div id="pref_nome"><?="Telefone: ".$this->dados->telefone_secretaria;?></div>
+                    <?endif;?>
+	 			</div>
+                                <?if($this->dados->codigo):?>
+                                    <div id="header_barcode">
+                                            <img src="<?=$this->baseUrl()?>/public/images/codigo_barras.php?codigo=<?=$this->dados->codigo;?>&lw=1&hi=18" alt="Código de Barras: <?=$this->dados->codigo;?>" title="Código de Barras: <?=$this->dados->codigo;?>" />
+                                    </div>
+                                    <div class="clear"></div>
+                                <?endif;?>
+	 		</div>
+	 		<br/>
+	 		<div id="dados_pac">
+	 			<div id="pac_nome"><?=$this->dados->usu_prontuario." - ".$this->dados->usu_nome;?></div>
+                                <br/>
+                                <?if($this->dados->dom_codigo):?>
+                                    <div id="pac_end">
+                                        <b>Endereço: </b><?="Rua: ".$this->dados->rua_nome.", N° ".$this->dados->rua_numero.", Bairro: ".$this->dados->rua_bairro;?>
+                                    </div>
+                                <?endif;?>
+                                <div>
+                                    <b>Cartão SUS: </b><?=$this->dados->usu_cartao_sus;?>
+                                </div>
+                                <div>
+                                    <b>Data de Nascimento: </b><?=$this->data($this->dados->usu_datanasc)." (".$this->idade($this->dados->usu_datanasc).")";?>
+                                </div>
+                                <div>
+                                    <b>RG: </b><?=$this->dados->usu_rg;?>
+                                </div>
+                                <div>
+                                    <b>CPF: </b><?=$this->dados->usu_cpf;?>
+                                </div>
+	 		</div>
+	 		
+			<?= $this->layout()->content; ?>
+	 		
+	 		<div id="footer">
+	 			<?=$this->dados->uni_desc;?> - <?=$this->dados->uni_endereco;?>
+                <?if($this->dados->cnes_telefone):?>
+                    <div><?="Telefone: ".$this->dados->cnes_telefone?></div>
+                <?endif;?>
+                <?if($this->dados->cnes_fax):?>
+                    <div><?="Fax: ".$this->dados->cnes_fax?></div>
+                <?endif;?>
+	 		</div>
+	 	</div>
+            <?php endfor; ?>
+	 </body>
+</html>

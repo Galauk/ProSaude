@@ -1,0 +1,57 @@
+<?= $this->doctype() . "\n"; ?>
+<?php
+$_SESSION['modulo'] = "WebSocialSaude/";
+$_SESSION['root'] = $_SERVER['DOCUMENT_ROOT'] . "/";
+$_SESSION['linkroot'] = "http://" . $_SERVER['HTTP_HOST'] . "/";
+$_SESSION['comum'] = "WebSocialComum/";
+$_SESSION['modulo'] = "WebSocialSaude/";
+$_SESSION['modulo'] = "WebSocialSaude/"; $_SESSION['root'] = $_SERVER['DOCUMENT_ROOT'] . "/"; $_SESSION['linkroot'] = "http://" . $_SERVER['HTTP_HOST'] . "/"; $_SESSION['comum'] = "WebSocialComum/"; $_SESSION['modulo'] = "WebSocialSaude/"; require_once $_SESSION['root'].$_SESSION['modulo']."sessao_controller.php";
+$sessao = new TempoSessao();
+pg_set_client_encoding( UNICODE);
+$sessao->primeiraPagina();
+?>
+<?php $sec = $this->dadosSecretaria(); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+    <head>
+        <?= $this->headMeta() . "\n"; ?>
+        <?= $this->headTitle() . "\n"; ?>
+        <?= $this->headLink() . "\n"; ?>
+        <link href='<?= $this->baseUrl('/public/css/print.css') ?>' rel='stylesheet' type='text/css'></link>
+        <script type="text/javascript">
+            var baseUrl = '<?= $this->baseUrl(); ?>';
+        </script>
+        <?= $this->headScript() . "\n"; ?>
+        <?= $this->analytics(); ?>
+    </head>
+    <body>
+        <div id="page">
+            <div id="header" style="padding-bottom: 5px;">
+                <div id="header_logo">
+                    <img src="<?= $this->baseUrl('/public/images/brasao.jpg') ?>" title="Logo Prefeitura" />
+                </div>
+                <div id="header_dados">
+                    <div id="sec_nome">Secretaria Municipal de Sa&uacute;de</div>
+                    <div id="pref_nome">Prefeitura Municipal de <?= ($sec->cidade); ?></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div id="dados_pac" style="padding-left: 5px; padding-top: 5px;">
+                <?php if($this->title):?>
+                    <div id="pac_nome"><?= ($this->title); ?></div>
+                <?php endif;?>
+                <div id="pac_end" style="margin-bottom: 10px">
+                    <?= $this->cabecalhoRelatorio($this->params); ?>
+                </div>
+
+                <?php if($this->dados->via_data){?>
+                    Data da Viagem: <?= $this->data($this->dados->via_data, Zend_Date::DATE_MEDIUM) ?> <br>
+                    Carro: <?= ($this->dados->vei_descricao); ?>
+                <?php }?>                                
+            </div>
+            <? // Chama a página com os dados ?>
+            <?= $this->layout()->content; ?>
+
+        </div>
+    </body>
+</html>

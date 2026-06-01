@@ -1,0 +1,41 @@
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	border-width: 1px;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+}
+
+.hoverTable{
+        width:100%; 
+        border-collapse:collapse; 
+}
+.hoverTable td{ 
+        padding:7px; border:#4e95f4 1px solid;
+}
+/* Define the default color for all the table rows */
+
+/* Define the hover highlight color for the table row */
+.hoverTable tr.hover_class:hover {
+  background-color: #ffff99;
+}
+
+.selecionada{
+    background-color: #C0DAEF; 
+}
+
+.divRolagem{
+    /*height: 200px; /*valor fixo*/
+    overflow: auto;
+    width:100%;
+}

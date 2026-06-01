@@ -1,0 +1,3 @@
+Arquivo: /WebSocialSaude/zf/.htaccess
+Comentar a primeira linha com #
+#SetEnv APPLICATION_ENV development

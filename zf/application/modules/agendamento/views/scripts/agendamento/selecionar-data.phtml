@@ -1,0 +1,16 @@
+<div class="space"></div>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%" id="grade">
+	<?php echo $this->thTabelaData($this->data_inicial, $this->data_final); ?>
+	<tr>
+            <th class="ui-widget-header" style="font-size: 10px; max-width: 200px">
+                <?=$this->nomeProf->usr_nome?>
+            </th>
+            <th style="width: 20px">
+                <input readonly="readonly" type="text" style="width:60px;font-size: 10px;" name="coni[<?=$this->nomeProf->coni_codigo;?>]" value="1" id="coni_<?=$this->nomeProf->coni_codigo;?>" class="hidden-coni" data-coni="<?=$this->nomeProf->coni_codigo;;?>" />
+            </th>
+            <?php $index = 0; 
+            foreach($this->vagas as  $dia => $vagas): // para cada dia ?>
+                <td class="c <?=($vagas==0?"sem-vaga":"com-vaga");?>" data-dia="<?=$dia;?>" data-coni="<?=$this->nomeProf->coni_codigo;?>" data-vagas="<?=$vagas;?>" data-index="<?=(++$index);?>">&nbsp;</td>
+            <?php endforeach; ?>
+	</tr>
+</table>

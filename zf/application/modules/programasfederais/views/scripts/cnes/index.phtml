@@ -1,0 +1,29 @@
+<?php $this->dialog(); ?>
+<style>
+.spinner {
+    position: relative;
+    height: 15px;
+    width: 15px;
+    top: 9px;
+    left: 10px;
+    border-radius: 50%;
+    border: 2px solid #5c9ccc;
+    border-top-color: transparent;
+    animation: lai-spinnair 1s linear infinite;
+    box-sizing: border-box;
+}
+
+@keyframes lai-spinnair {
+    0% { transform: rotateZ(0); }
+    100% { transform: rotateZ(360deg); }
+}
+</style>
+<form name='upload' action='<?=$this->url(array("action"=>"ler-xml"))?>' method='post' enctype='multipart/form-data' id="cnes">
+    <label>Importação CNES: &nbsp;</label>
+    <span style="display: inline-flex;">
+        <input type='file' name='arquivo' id="arquivo" class="field" style="height: 26px; width: 380px; padding-top: 5px; padding-left: 5px;">
+        <div class="spinner" style="display: none; "></div>
+    </span>
+    <br />
+    <a href="#" type="button" class="ui-button salvar" id="enviar" style="margin-left: 240px; margin-top: 06px;">Importar Dados</a>
+</form>

@@ -1,0 +1,119 @@
+<?php
+	// echo "<pre>";var_dump($this->recuperaDadosCentroDeRegulacao[0][cr_entregue]);die();
+    // echo "<pre>";print_r($this->encaminhamentos);die();
+    // echo "<pre>";var_dump($this->usrAtual->usr_tipo_medico);die();
+    // echo "<pre>";print_r($this->url);die();
+    // echo "<pre>";print_r($this->url);die();
+    $contador = 0;
+?>
+
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/table.css?<?=time()?>">
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/grid.css?<?=time()?>">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+<?
+if($_GET['alert']){
+    if($_GET['alert'] == "success"){ ?>
+    <script>
+        Swal.fire({
+            title: 'Sucesso!',
+            text: 'Arquivo anexados com Sucesso',
+            type: 'success',
+            confirmButtonText: 'Ok'
+        })
+    </script>
+    <? }
+}
+?>
+<form action='<?=$this->url(array("action"=>"salvar"))?>' id = "formRegistro" enctype="multipart/form-data" method="POST">
+    <table class="table" style="font-size: 12px!important;">
+        <caption>Registro de Encaminhamentos</caption> 
+        <thead>
+            <tr>
+                <th>Registro</th>
+                <th>Paciente</th>
+                <th>CNS</th>
+                <th>Telefone</th>
+                <th>Nome da Mãe</th>
+                <th>Data de Nascimento</th>
+                <th>Unidade de Origem</th>
+                <th>Pedido</th>
+                <th>Entregue</th>
+                <th style="text-align: center;"><?=$this->usrAtual->usr_tipo_medico != "R" ? '': 'Arquivo' ?> </th>
+                <th>Imprimir</th>
+            </tr> 
+        </thead>
+        <tbody>
+            <?php
+                $count = null;
+                for ($count = 0; $count < count($this->encaminhamentos); $count++) { ?>
+                    <tr> 
+                        <th scope="row">
+                            <?=$this->encaminhamentos[$count][enc_ext_codigo]?>    
+                        </th>
+                        <td>
+                            <?=$this->encaminhamentos[$count][usu_nome]?>
+                        </td>
+
+                        <td>
+                            <?=($this->encaminhamentos[$count][usu_cartao_sus] == "" ? "Não Informado" : $this->encaminhamentos[$count][usu_cartao_sus])?>
+                        </td>
+
+                        <td>
+                            <?=($this->encaminhamentos[$count][dom_telefone] == "" ? "Não Informado" : $this->encaminhamentos[$count][dom_telefone])?>
+                        </td>
+
+                        <td>
+                            <?=$this->encaminhamentos[$count][usu_mae]?>
+                        </td>
+
+                        <td>
+                            <?=$this->data($this->encaminhamentos[$count][usu_datanasc])?>
+                        </td>
+
+                        <td>
+                            <?=$this->encaminhamentos[$count][uni_desc]?>
+                        </td>
+
+                        <td>
+                            <?=$this->encaminhamentos[$count][enc_ext_agendado_para]?>
+                        </td>
+
+                        <td style = "text-align: center">
+                            <?php
+                                if ($this->usrAtual->usr_tipo_medico != "R") {  ?>
+                                    <input <?=$this->encaminhamentos[$count][cr_entregue] == true ? 'checked disabled' : '' ?> type="checkbox" name="entregue<?=$count?>" id="entregue<?=$count?>" value="t">
+
+                                <?} else{ ?>
+                                    <input <?=$this->encaminhamentos[$count][cr_entregue] == true ? 'checked' : '' ?> type="checkbox" name="entregue<?=$count?>" id="entregue<?=$count?>" value="t">
+                                <?}
+
+                            ?>
+
+                        </td>
+                        
+                        <td>
+                            <?=$this->usrAtual->usr_tipo_medico != "R" ? '' :'<input style = "height: 27px;width: 105px;border:none!important;background:none!important" type="file" name="arquivoSolicitacao'.$count.'" id="arquivoSolicitacao'.$count.'">' ?>
+
+                            <input type="hidden" id="codigoEncaminhamentoExterno<?=$count?>" name="codigoEncaminhamentoExterno<?=$count?>" value="<?=$this->encaminhamentos[$count][enc_ext_codigo]?>">
+                        </td>
+                        
+                        <td>
+                            <button type="button" onclick="imprimirEncaminhamento(<?=$this->encaminhamentos[$count][enc_ext_codigo]?>)">
+                                <img src="/WebSocialSaude/zf/public/images/icons/imprimir.png" alt="">
+                            </button>
+                        </td>
+                    </tr>
+                <?}
+            ?>
+        </tbody>
+    </table>
+    
+
+    <div class="col-md-12"><br></div>
+    <div class="col-md-12"><br></div>
+    <div class="col-md-12">
+        <a style="float: right;" class="ui-button salvar" type = "submit">Salvar</a>
+    </div>
+    
+</form>

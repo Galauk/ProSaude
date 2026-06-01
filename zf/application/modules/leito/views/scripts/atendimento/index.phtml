@@ -1,0 +1,195 @@
+<?php //echo "<pre>".print_r($this->historico,1);exit; ?>
+<div id="topo" style="border: 0px solid;">
+	<div id="foto">
+		<img src="<?= $this->baseUrl('/public/images/sem_foto_M.png') ?>" alt="Foto do Paciente" title="<?= $this->age->usu_nome; ?>" />
+	</div>	
+	<div id="dados_pac">
+		<?= $this->action("dados", "paciente", "index", array("cod" => $this->age->usu_codigo,"obs" => "S")); ?>
+	</div>
+	
+	<div id="historico">
+	<?php if ($this->temAtendimento){ ?>
+<!--		$this->action("time-line","atendimento","leito",array("obs" => "S","io_codigo" => $this->age->io_codigo)); -->
+		<div class="demo">
+			<div class="scroll-pane ui-widget ui-widget-header ui-corner-all">
+				<div class="scroll-content">
+					<?php foreach ($this->historico as $item){ ?>					
+					<a href='<?= $this->url(array("module" => "leito", "controller" => "atendimento", "action" => "index","cod" => $this->age->io_codigo,"ate_codigo"=>$item->ate_codigo)); ?>'>
+						<div class="scroll-content-item ui-widget-header">
+							<?= $this->data($item->ate_data,Zend_Date::DATE_MEDIUM) ?> ás <?=$item->ate_hora?><br>						
+							<?=$item->usr_nome?>						
+						</div>
+					</a>
+			
+					<?php }?>
+				</div>
+				<div class="scroll-bar-wrap ui-widget-content ui-corner-bottom">
+					<div class="scroll-bar"></div>
+				</div>
+			</div>
+		</div>
+	<?php }?>
+        </div>
+        <?php if ($this->temAtendimento){ ?>
+                <div id="alta">
+                    <a href='<?= $this->url(array("module" => "leito", "controller" => "atendimento", "action" => "alta","cod" => $this->age->io_codigo,"ate_codigo"=>$this->ate_codigo,"usu_codigo" => $this->age->usu_codigo)); ?>' title="Alta" class="ui-button alta popup"  rel="900x540">
+                        Alta
+                    </a>		
+                </div>
+        <? } ?>
+        <div id="ficha"  <?=(!$this->temAtendimento ? "style=\"clear:both;\"" : "")?>>
+            <a href='<?= $this->url(array("module" => "relatorio", "controller" => "usuario", "action" => "prontuario","usu_codigo" => $this->age->usu_codigo)); ?>' class="ui-button detalhes popup" rel="900x540">
+                Prontuário
+            </a>		
+        </div>
+        <?php if ($this->temAtendimento){ ?>
+                <div id="finalizar">
+                                <a href='#'class="ui-button finalizar">
+                                Finalizar Atendimento
+                        </a>
+                </div>
+        <?php }else{?>
+        <div id="cancelar">					
+                                <a href='<?= $this->url(array("module" => "leito", "controller" => "atendimento", "action" => "cancelar")); ?>'   class="ui-button voltar">
+                                Cancelar
+                        </a>
+                </div>
+        <?php }?>
+    
+    
+    
+   
+</div>
+
+<div style="" id="pai">
+    <br/>
+    <?php if ($this->temAtendimento){ ?>
+        <div style=" float: left;margin-right: 3px;">
+            <div id="em">
+                    <div class='abas'> 
+                        <ul>
+                                <li><a href="#tabs3-1">Encaminhamento</a></li>
+                        </ul>
+                        <div id='tabs3-1'>
+                                <a href='#' class="ui-button add encaminhamento">
+                                                Novo
+                                </a>
+                                <?= $this->action("itens-internacao","encaminhamento","prontuario",array("obs" => "S","io_codigo" => $this->age->io_codigo,"ate_codigo"=>$this->ate_codigo,"usu_codigo"=>$this->age->usu_codigo)); ?>
+                                <?//= $this->url(array("module" => "prontuario", "controller" => "encaminhamento", "action" => "itens","obs" =>"S")); ?>
+                        </div>
+                    </div>
+            </div>
+            <div id="sinais">
+                <div class='abas'> 
+                        <ul>
+                            <li><a href="#tabs3-1">Sinais Vitais</a></li>
+                        </ul>
+                        <div id='tabs3-1'>						
+                            <a href='#' class="ui-button add sinais">
+                                Novo
+                            </a>
+                            <br/>
+                            <?= $this->action("historico","sinais-vitais","leito",array("obs" => "S","cod" => $this->age->io_codigo,"ate_codigo"=>$this->ate_codigo)); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?}?>
+    
+    <div style="float: left">
+    <div id="atendimento" style="float: left;">
+        <div class='abas' style="width:630px; "> 
+                <ul>
+                    <li><a href="#tabs3-1">Atendimento</a></li>
+                    <li><a href="#tabs3-2">Grade de medicamentos</a></li>
+                </ul>
+                <div id='tabs3-1'>
+                        <?= $this->action("index", "atendimento", "prontuario", array("obs" => "S","io_codigo" => $this->age->io_codigo,"ate_codigo"=>$this->ate_codigo,"usu_codigo"=>$this->usu_codigo)); ?>
+                </div>
+                <div id='tabs3-2'>
+                         <table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+                            <tr class="ui-widget-header">
+                                <th>Obervação Médica</th>
+                            </tr>
+                            <tr>
+                                <td class="e"> <?=$this->observacao?> </td>
+                            </tr>
+                        </table>
+
+
+                        <?= $this->action("ver", "medicamentos", "leito",  array("obs" => "S","io_codigo" => $this->age->io_codigo,"ate_codigo"=>$this->ate_codigo)); ?>
+                </div>
+
+        </div>
+    </div>
+    
+    <?php if ($this->temAtendimento){ ?>
+        <div style="border: 0px solid; float: left">
+        <div id="obs" >
+            <div class='abas'> 
+                    <ul>
+                        <li><a href="#tabs3-1">Receitas</a></li>
+                    </ul>
+                    <div id='tabs3-1'>						
+                        <a href='<?= $this->url(array("module" => "prontuario", "controller" => "receita-medica", "action" => "index","io_codigo" => $this->age->io_codigo,"ate_codigo"=>$this->ate_codigo,"obs"=>"S","usu_codigo"=>$this->age->usu_codigo,"usu_nome"=>$this->age->usu_nome)); ?>' title="Receita" class="ui-button add popup"  rel="800x440">
+                            Novo
+                        </a>
+
+                        <?= $this->action("itens-internacao","receita-medica","prontuario",array("obs" => "S","io_codigo" => $this->age->io_codigo,"usu_codigo"=>$this->age->usu_codigo,"ate_codigo"=>$this->ate_codigo)); ?>
+                    </div>
+            </div>
+        </div>
+        <div id="pre" >
+            <div class='abas'> 
+                <ul>
+                        <li><a href="#tabs3-1">Procedimento</a></li>
+                </ul>
+                <div id='tabs3-1'>
+
+                        <a href='<?= $this->url(array("module" => "prontuario", "controller" => "procedimento", "action" => "index","io_codigo" => $this->age->io_codigo,"ate_codigo"=>$this->ate_codigo,"imprimi"=>"S","obs"=>"S","usu_codigo"=>$this->age->usu_codigo,"usu_nome"=>$this->age->usu_nome)); ?>' title="Procedimento" class="ui-button add popup"  rel="800x440">
+                            Novo
+                        </a>
+                        <br>
+                        <?= $this->action("itens-internacao","procedimento","prontuario",array("obs" => "S","io_codigo" => $this->age->io_codigo,"limit" => "5")); ?>
+
+
+                </div>
+    <!--					<div id="mais">
+                        <a href="#">Mais procedimentos</a>
+                </div>-->
+                <div id="menos" style="display: none">
+                        <a href="#">Menos</a>
+                </div>
+            </div>
+        </div>
+        <div id="exame" >
+            <div class='abas'>				
+                    <ul>		
+                            <li>
+                                    <a href="#tabs3-1">
+                                            Exames
+                                    </a>
+
+                            </li>	
+                    </ul>
+
+                    <div id='tabs3-1'>                                            
+                            <a href='<?= $this->url(array("module" => "prontuario", "controller" => "exame", "action" => "index","io_codigo" => $this->age->io_codigo,"ate_codigo"=>$this->ate_codigo,"usu_codigo"=>$this->age->usu_codigo,"obs"=>"S","imprimi"=>"S")); ?>' title="Exame" class="ui-button add popup"  rel="800x440">
+                                    Novo
+                            </a>
+                            <?= $this->action("itens-internacao","exame","prontuario",array("obs" => "S","io_codigo" => $this->age->io_codigo,"usu_codigo"=>$this->age->usu_codigo,"ate_codigo"=>$this->ate_codigo)); ?>
+                    </div>
+            </div>
+        </div>	</div>	
+        <?}?>
+    
+    
+    
+    <input type="hidden" name="io_codigo" id="io_codigo" value="<?=$this->age->io_codigo?>"/>
+    <input type="hidden" name="ate_codigo" id="ate_codigo" value="<?=$this->ate_codigo?>"/>
+    <input type="hidden" name="age_codigo" id="age_codigo" value="<?=$this->age->age_codigo?>"/>
+    
+    
+</div>
+
+</div>

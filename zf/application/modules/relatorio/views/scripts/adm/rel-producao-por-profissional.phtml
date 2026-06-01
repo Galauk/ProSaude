@@ -1,0 +1,55 @@
+<style>
+.titulo {
+    align: center;
+    font-weight: bold;
+}
+</style>
+<div style='font-weight:bold; margin-bottom: 5px;'>
+
+</div>
+<link href='../../../estilo.css' rel='stylesheet' type='text/css'></style>
+<table class="lista"> 
+     <?php 
+    //die(var_dump($this->profs));
+    $total = 0;
+    foreach($this->profs as $prof){
+        //die(var_dump($prof->usr_nome));
+    ?>
+    <tr>
+        <th colspan="5" style="font-size: 16px; background-color: #CDC9C9;" ><?= $prof->usr_nome?>(<?= $prof->usr_codigo?>)</th>
+     </tr>
+    <tr>
+        <th width="50%">Procedimento</th>
+        <th width="30%">Data</th>
+        <th width="20%">Quantidade</th>
+    </tr>
+<?
+$totalParcial = 0;
+foreach ($this->dados as $dado){
+    foreach ($dado as $d) {
+        //die(var_dump($d));
+        if($d["usr_codigo"] == $prof->usr_codigo){
+        $totalParcial = $totalParcial + $d->total;
+      $total = $total + $d->total;
+?>
+    <tr>
+        <td><?=$d->proc_nome?> (<?=$d->proc_codigo?>)</td>  
+        <td><?=$this->data($d->ate_data)?></td>
+        <td><?=$d->total?></td>
+    </tr>
+
+<?   } 
+    } 
+}
+?>
+    <tr>
+        <td></td>  
+        <td>TOTAL:</td>
+        <td><?=$totalParcial?></td>
+    </tr>
+<?php
+} ?>
+<tr>
+        <th colspan="5" style="font-size: 10px; background-color: #CDC9C9;" >TOTAL: <?= $total?></th>
+     </tr>
+</table>

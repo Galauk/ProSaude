@@ -1,0 +1,15 @@
+<form enctype="multipart/form-data" action="<?= $this->url(array("controller"=>"uploadVideo","action" => "salvar")); ?>" method="POST">
+    <label>Titulo</label>
+    <input type="text" name="upv_titulo"> <br>
+    
+    <input type="hidden" name="MAX_FILE_SIZE" value="100000000000000000" />
+    <label>Upload video</label>
+    <input name="uploadedfile" type="file" /><br />    
+    <label>Observações</label>
+   <div class="textarea">
+        <textarea name="upv_descricao" class="tinymce focus" style="width: 500px;height: 250px;">
+   </textarea>
+   </div><br />
+    <a href="#" class="ui-button salvar" data-atalho="CTRL+S">Salvar</a>  
+<!--    <input type="submit" value="Enviar Video" />-->
+</form>

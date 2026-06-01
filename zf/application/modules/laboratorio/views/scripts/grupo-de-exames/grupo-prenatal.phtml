@@ -1,0 +1,28 @@
+<table width="100%" id="procedimentos"
+       style="display: table; overflow-y: auto; overflow-x: hidden">
+    <tr>
+        <th>Ordem</th>
+        <th>Código SUS - Procedimento</th>
+
+    </tr>
+    <?php $y = 0; ?>
+        <?php foreach ($this->procedimentos as $proc) {
+        //var_dump($proc); 
+        ?>
+            <?php $y++; ?>
+            <tr id='proc_qtd<?=$y?>'>
+                <td>
+                    <?= $proc['tcg_ordem'] ?>
+                    <input type='hidden' name='proc[<?= $y ?>][txg_codigo]'
+                           value="<?= $proc->txg_codigo?>"/>
+                    <input type='hidden' name='proc[<?= $y ?>][tcg_ordem]'
+                           value="<?= $proc['tcg_ordem']?>"/>
+                </td>
+                <td>
+                    <?=($proc['proc_codigo_sus'] != "" ? $proc['proc_codigo_sus'] : "SEM CÓDIGO")." - ".$proc['proc_nome']?>
+                    <input type='hidden' name='proc[<?= $y ?>][proc_codigo]'
+                           value="<?= $proc['proc_codigo']?>"/>
+                </td>
+
+            </tr>
+        <?php } ?>

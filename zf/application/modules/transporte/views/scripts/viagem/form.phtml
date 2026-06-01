@@ -1,0 +1,65 @@
+<?php $this->errorMsg(); ?>
+<?php $this->dialog();
+//echo"<pre>".print_r($this->dados,1); 
+
+// echo "<pre>";
+// print_r($this->dados->toArray());
+// die;
+?>
+<form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar")); ?>">
+    <input type="hidden" name="via_codigo" id="via_codigo"  value="<?= $this->dados->via_codigo?>" />
+    
+    <label>Data de ida:</label>
+    <input type="text" name="via_data_ida" id="via_data_ida" style="width:68px;" maxlength="14" value="<?=(!$this->dados->via_data_ida ? "" : $this->dados->via_data_ida);?>" class="mask data" rel="99/99/9999" placeholder ="__/__/____" />
+    <input type="text" name="via_hora_ida" id="via_hora_ida" style="width: 43px;" maxlength="14" value="<?=(!$this->dados->via_hora_ida ? "" : $this->dados->via_hora_ida);?>" class="mask " rel="99:99" placeholder ="__:__" />
+    Hora de ida
+    <br />
+    
+    <label>Data do retorno:</label>
+    <input type="text" name="via_data_retorno" id="via_data_retorno" style="width:68px;" maxlength="14"  value="<?=(!$this->dados->via_data_retorno ? "" : $this->data($this->dados->via_data_retorno, Zend_Date::DATE_MEDIUM));?>" class="mask data" rel="99/99/9999" placeholder="__/__/____" />
+    <input type="text" name="via_hora_retorno" id="via_hora_retorno" style="width: 43px;" maxlength="14"  value="<?=(!$this->dados->via_hora_retorno ? "" : $this->dados->via_hora_retorno);?>" class="mask " rel="99:99" placeholder ="__:__" />
+    Hora de retorno
+    <br>
+    <label>Veículo:</label>
+    <select name="vei_codigo" id="vei_codigo">     
+        <?foreach ($this->veiculo as $veiculo){ ?>
+        <option value="<?=$veiculo->vei_codigo?>" <? if ($this->dados->vei_codigo == $veiculo->vei_codigo) { echo("selected=\"selected\""); } ?>><?=$veiculo->vei_descricao?></option>         
+        <? } ?>           
+    </select>
+    <br />
+
+    <label>Rota:</label>
+    
+    <select name="rotcodigo" id="rotcodigo">     
+    <?
+    if(count($this->rotas) > 0){
+        foreach($this->rotas as $rota){ ?>
+    
+        <option value="<?=$rota['rotcodigo']?>" <?=$this->dados['vei_codigo'] == $rota['veicodigo'] ? "selected" : ""; ?>><?=$rota['rotdescri']?></option>
+    
+    <?  }
+    } else {?>
+    <option value="">Sem rota cadastrada</option>
+    <? } ?>          
+    </select><br />
+    
+    <label>Motorista:</label>
+    <input type="text" name="usr_nome" id="usr_nome" placeholder="Motorista Padrão"  value="<?= $this->dados->usr_nome ; ?>" /><br />
+    <input type="hidden" name="usr_codigo" id="usr_codigo" value="<?= $this->dados->usr_codigo?>">
+    
+    <label>Local de Embarque:</label>
+    <input type="text" name="via_local" id="via_local" placeholder="CENTRO DE SAUDE MARIA LUIZA SOARES" value="<?= $this->dados->via_local ; ?>" /><br />
+    
+    <label>Hora de Embarque:</label>
+    <input type="text" name="via_hora" placeholder="6:15" id="via_hora" style="width:40px;" class="mask" rel="99:99" value="<?= $this->dados->via_hora ; ?>" /><br />
+    
+    <label class="">Motivo da Viagem:</label>
+    <div class="textarea">
+        <textarea name="via_motivo" id="via_motivo"  class="tinymce" ></textarea>		
+    </div>
+    <br />
+   <a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>
+	<a href="<?=$this->url(array("action"=>"index", "module"=>"transporte","controller" => "viagem"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+
+</form>
+<div class="space"></div>

@@ -1,0 +1,66 @@
+<?php 
+	// echo "<pre>";print_r($this->recebeAtendimentoTipoBeneficio);die();
+?>
+
+<style>
+	p{
+		display: inline-flex;
+	}
+</style>
+
+<div>
+	<p>Nome : </p><p><?=$this->recebeAtendimentoTipoBeneficio[0][usu_nome]?></p>
+</div>
+
+<div>
+	<p>CNS : </p><p><?=$this->recebeAtendimentoTipoBeneficio[0][usu_cartao_sus]?></p>
+</div>
+
+<div>
+	<p>Celular : </p><p><?=$this->recebeAtendimentoTipoBeneficio[0][usu_celular]?></p>
+</div>
+
+<div>
+	<p>Mãe : </p><p><?=$this->recebeAtendimentoTipoBeneficio[0][usu_mae]?></p>
+</div>
+
+
+<div>
+	<p>Local : </p>
+	<p>
+		<?=$this->recebeAtendimentoTipoBeneficio[0][med_nome_fantasia]." Endereço : ".($this->recebeAtendimentoTipoBeneficio[0][med_endereco] == '' ? ' Não informado, ' : $this->recebeAtendimentoTipoBeneficio[0][med_endereco])." ".($this->recebeAtendimentoTipoBeneficio[0][med_end_bairro] == '' ? ' Não informado, ' : $this->recebeAtendimentoTipoBeneficio[0][med_end_bairro])." Telefone : ".($this->recebeAtendimentoTipoBeneficio[0][med_end_telefone] == '' ? ' Não Informado, ' : $this->recebeAtendimentoTipoBeneficio[0][med_end_telefone])?>
+	</p>
+</div>
+
+<?php 	
+	
+	for ($count = 0; $count < count($this->recebeAtendimentoTipoBeneficio); $count++) { ?>
+		<div>
+			<p>Nome Procedimento : </p>
+				<p>
+					<?=$this->recebeAtendimentoTipoBeneficio[$count][proc_nome]?>
+				</p>
+
+				<p>
+					Quantidade : <?=$this->recebeAtendimentoTipoBeneficio[$count][quantidade_total_do_procedimento]?>
+				</p>
+
+				<p>
+					Valor : <?=$this->recebeAtendimentoTipoBeneficio[$count][valor_do_procedimento]?>
+				</p>
+
+		</div>	
+	<?}
+
+?>
+
+<div style="text-align: center;">
+	<p>
+		<hr style="width: 350px;">
+		<br>
+		<p>Assinatura e Carimbo do Profissional</p>
+		<br>
+		Emissão : <?php echo date('d-m-Y'); ?>
+	</p>
+</div>
+

@@ -1,0 +1,47 @@
+<div style='font-weight:bold; margin-bottom: 5px;'>
+
+</div>
+<table>
+    <tr>
+        <th>Paciente</th>
+        <th>Data Visita</th>
+        <th>Profissional</th>
+        <th>Unidade</th>
+        <th>Motivos</th>
+        <th>Desfecho</th>
+    </tr>
+<?
+$i = 0;
+
+foreach ($this->dados as $item){
+    $i++;
+?>
+    <tr>
+        <td><?=$item->usu_nome?></td>
+        <td><?
+        $source = $item->ate_data;
+        $date = new DateTime($source);
+        echo $date->format('d/m/Y');
+        ?></td>
+        <td><?=$item->usr_nome?></td>
+        <td><?=$item->uni_desc?></td>
+        <td>
+        <?
+        //die(var_dump($this->motivo));
+        foreach($this->motivo[$item->ate_codigo] as $m){
+            //die(var_dump($m));
+            echo strtoupper($m->no_cds_visita_dom_motivo).", ";
+        }
+        ?>
+        </td>
+        <td><?=$item->no_cds_visita_dom_desfecho?></td>
+    </tr>
+
+<?
+$total += 50;
+} ?>
+    <tr style='font-weight:bold;'>
+        <td colspan="4" align="right" >Total</td>
+        <td><?=$i?></td>
+    </tr>
+</table>

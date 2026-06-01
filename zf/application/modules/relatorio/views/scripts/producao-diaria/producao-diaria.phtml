@@ -1,0 +1,65 @@
+<style>
+.titulo {
+    align: center;
+    font-weight: bold;
+}
+</style>
+<div style='font-weight:bold; margin-bottom: 5px;'>
+
+</div>
+<table> 
+    <tr>
+        <th>Atendimentos</th>
+    </tr>
+    <tr>
+        <th>Médico</th>
+        <th>Data</th>
+        <th>Paciente</th>
+        <th>Diagnóstico</th>
+    </tr>
+<?
+$i = 0;
+
+foreach ($this->dados1 as $item){
+    $i++;
+?>
+    <tr>
+        <td><?=$item->usr_nome?></td>  
+        <td><?=$this->data($item->data)?></td>
+        <td><?=$item->usu_nome?></td>
+        <td><?=($item->desc == "" ? "---------" : "$item->desc")?></td>
+    </tr>
+
+<?
+}
+
+?>
+    <tr>
+        <th>Pré Consulta</th>
+    </tr>
+    <tr>
+        <th>Médico</th>
+        <th>Data</th>
+        <th>Paciente</th>
+        <th>Diagnóstico</th>
+    </tr>
+<?
+
+foreach ($this->dados2 as $item){
+    $i++;
+?>
+    <tr>
+        <td><?=$item->usr_nome?></td>  
+        <td><?=$this->data($item->data)?></td>
+        <td><?=$item->usu_nome?></td>
+        <td><?=($item->desc == "" ? "---------" : "$item->desc")?></td>
+    </tr>
+
+<?
+$total += 50;
+} ?>
+    <tr style='font-weight:bold;'>
+        <td colspan="4" align="right" >Total</td>
+        <td><?=$i?></td>
+    </tr>
+</table>

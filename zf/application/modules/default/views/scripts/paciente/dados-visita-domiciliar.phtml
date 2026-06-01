@@ -1,0 +1,42 @@
+<?php if(isset($this->dados) && $this->dados && $this->dados->count()): ?>
+	<?php foreach($this->dados as $dado): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th width="15%">Data</th>
+		<th width="30%">Profissional</th>
+		<th width="40%">Unidade</th>
+		<th width="15%">Desfecho</th>
+	</tr>
+	<tr>
+		<td class="ui-widget ui-widget-content c"><?=$this->data($dado->ate_data);?></td>
+		<td class="ui-widget ui-widget-content"><?=$this->escape($dado->usr_nome);?></td>
+		<td class="ui-widget ui-widget-content"><?=$this->escape($dado->uni_desc);?></td>
+		<td class="ui-widget ui-widget-content"><?=$this->escape($dado->no_cds_visita_dom_desfecho);?></td>
+	</tr>
+</table>
+<?php if(isset($this->motivo[$dado->ate_codigo]) && $this->motivo[$dado->ate_codigo] && $this->motivo[$dado->ate_codigo]->count()): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th width="100%">Motivos</th>
+	</tr>
+		<?php
+		foreach($this->motivo[$dado->ate_codigo] as $mot):
+			//var_dump($mot);
+		?>
+		<tr>
+			<td class="ui-widget ui-widget-content c"><?=$this->escape($mot->no_cds_visita_dom_motivo);?></td>
+		</tr>
+		<?php
+		endforeach;
+		?>
+	
+</table>
+<?php else: ?>
+<br /><em>Não encontrado motivos cadastrados para esta visita.</em>
+<?php endif; ?>
+<br/><br/>	
+	<?php endforeach; ?>
+
+<?php else: ?>
+<br /><em>Paciente não possui histórico de dispensação de medicamentos.</em>
+<?php endif; ?>

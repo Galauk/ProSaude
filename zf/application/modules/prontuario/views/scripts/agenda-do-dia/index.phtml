@@ -1,0 +1,101 @@
+<?php $this->dialog();?>
+<?php $this->errorMsg();?>
+
+    <style>
+  label {
+    display: inline-block;
+    width: 5em;
+  }
+  </style>
+  <meta http-equiv="refresh" content="30">
+<?php if ($this->itens->count() || $this->retornos): ?>
+	<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+		<tr class="ui-widget-header"  style="height:33px !important">
+            <th width="100">Espera</th>
+			<th width="100">Prontuário</th>
+			<th>Paciente</th>
+			<th width="5%">Idade</th>
+			<th>Mãe</th>
+            <th>Estratificação</th>
+			<th width="10%">Retorno</th>
+			<?php if(isset($this->itens->current()->esp_nome)):?>
+			<th>Profissional</th>
+			<th>Especialidade</th>
+			<th>Cidade Origem</th>
+			<?php endif;?>
+		</tr>
+        <?php if($this->retornos){ ?>
+            <?php foreach ($this->retornos as $retorno){ ?>
+                <tr onclick="verificaSeEstaEmAtendimento('<?=$retorno[age_codigo];?>','<?=$retorno[ate_codigo];?>');" class="a" title="That&apos;s what this widget is">
+                    <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->escape($retorno[ate_hora]); ?></td>
+                    <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->escape($retorno[usu_prontuario]); ?></td>
+                    <td class="ui-widget ui-state-default"   style="color: <?=$cor?>"><?= $this->escape($retorno[usu_nome]); ?></td>
+                    <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->idade($retorno[usu_datanasc]); ?></td>
+                    <td class="ui-widget ui-state-default"   style="color: <?=$cor?>"><?= $this->escape($retorno[usu_mae]); ?></td>
+                    <td class="ui-widget ui-state-default c" style="color: <?=$cor?>">
+                        <img src="<?= $this->baseUrl('/public/images/icons/voltar.png'); ?>" alt="" title="" />
+                        <? if($this->verificaAnexoArquivos(null,$retorno[ate_codigo])){
+                            echo "  <img src=".$this->baseUrl('/public/images/icons/clips.png')." alt='UPLOAD' title='UPLOAD' />";
+                        }?>
+                    </td>
+                    <?php if(isset($this->itens->current()->esp_nome)){ ?>
+                    <td class="ui-widget ui-state-default c"></td>
+                    <td class="ui-widget ui-state-default c"></td>
+                    <?php } ?>
+                </tr>
+            <?php } ?>
+        <? } ?>
+	<?php foreach ($this->itens as $item){ ?>
+                
+        <?php if(isset($item->pc_clas_risco)){ 
+            if($this->escape($item->pc_clas_risco) == 1){
+                $cor = "red";
+            }else if($this->escape($item->pc_clas_risco) == 2){
+                $cor = "orange";
+            }else if($this->escape($item->pc_clas_risco) == 3){
+                $cor = "GoldenRod";
+            }else if($this->escape($item->pc_clas_risco) == 4){
+                $cor = "green";
+            }else if($this->escape($item->pc_clas_risco) == 5){
+                $cor = "blue";
+            }else if($this->escape($item->age_estratificacao_risco) == true){
+                $cor = "#e600ff";
+            }else{
+                $cor = "";
+            }
+        }
+                
+    if($this->escape($item->horas)>=1) {
+        if(strlen($this->escape($item->minutos))==1) {
+              $hora = $this->escape($item->horas).":0".$this->escape($item->minutos);
+        } else {
+              $hora = $this->escape($item->horas).":".$this->escape($item->minutos);
+        }
+    } else {
+      $hora = $this->escape($item->minutos)."&nbsp;Minutos";
+    }
+?>                   
+    <tr onclick="verificaSeEstaEmAtendimento('<?=$item->age_codigo;?>');" class="a" >
+        <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?=$hora?></td>
+        <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->escape($item->usu_prontuario); ?></td>
+        <td class="ui-widget ui-state-default" style="color: <?=$cor?>"><?= $this->escape($item->usu_nome); ?></td>
+        <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->idade($item->usu_datanasc); ?></td>
+        <td class="ui-widget ui-state-default" style="color: <?=$cor?>"><?= $this->escape($item->usu_mae); ?></td>
+        <td class="ui-widget ui-state-default" style="color: <?=$cor?>"><?= $this->escape($item->est_nome); ?></td>
+        <td class="ui-widget ui-state-default c" style="color: <?=$cor?>"><?= $this->escape($item->usu_end_cidade); ?></td>
+
+        <? if(isset($item->esp_nome)){ ?>
+        <td class="ui-widget ui-state-default" style="color: <?=$cor?>"><?= $this->escape($item->usr_nome); ?></td>
+        <td class="ui-widget ui-state-default" style="color: <?=$cor?>"><?= $this->escape($item->esp_nome); ?></td>                        
+        <td class="ui-widget ui-state-default" style="color: <?=$cor?>" align="center">&nbsp;<!--MARILUZ TINHA AQUI--></td>                        
+        <? } ?>
+    </tr>
+              
+    <?php } ?>
+	</table>
+<?php else: ?>
+	<em>Nenhum paciente na fila de atendimento.</em>
+<?php endif; ?>
+<?php if(!$this->isMedico){ ?>
+	<?php echo $this->action("quantidade","enfermagem","prontuario") ?>
+<?php } ?>

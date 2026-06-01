@@ -1,0 +1,188 @@
+<link href='<?=$this->baseUrl('/public/css/prontuario/encaminhamento/contra-referencia.css')?>' rel='stylesheet' type='text/css'> </link>
+<link href='<?=$this->baseUrl('/public/css/print.css')?>' rel='stylesheet' type='text/css'> </link>
+<head>
+    <script>
+        window.print();
+    </script>
+</head>
+<body>
+<div style="clear:both;"></div>
+    <div class="div_cabecalho">
+        <div class="identificacao_estabelecimento">
+            <div class="brasao">
+                <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" width="80" height="70"/>
+            </div>
+            <div class="dados_sec">
+                <br/>
+                <b><?=$this->sec[nome_secretaria]?></b><br/>
+                C.N.P.J.:<?=$this->sec[cnpj_secretaria]?><br/>
+                <b><?=$this->usr->uni_desc;?></b>
+            </div>
+            <div class="cod_bar">
+                <div id="img_bar">
+                    <img src="<?=$this->baseUrl()?>/public/images/codigo_barras.php?codigo=<?=$this->dados->codigo;?>&lw=1&hi=18" alt="Código de Barras: <?=$this->dados->codigo;?>" title="Código de Barras: <?=$this->dados->codigo;?>" width="110" />
+                </div>
+            </div>
+        </div>
+        <div id="titulo_impressao"><b>ENCAMINHAMENTO</b></div>
+        <div class="dados_titulo">
+            IDENTIFICAÇÃO DO EMITENTE
+        </div>
+        <div class="identificacao_formulario">
+            <div class="dados_form_dir">
+                Nome Completo:<br/> 
+                CRM:<br/>
+ 
+            </div>
+            <div class="dados_form_esq_anvisa">
+                <b> <?=$this->dados->usr_nome?><br/></b> 
+                <b> <?=$this->dados->usr_num_conselho?></b><br/>
+            </div>
+            <div class="dados_form_dir2">
+                Dt.Emissão: <b><?=date("d/m/Y");?></b>
+            </div>
+        </div>
+
+        <div class="identificacao_responsavel_anvisa">
+           <div class="dados_form_dir">
+                Pront / Paciente:<br/> 
+                Idade / Sexo:<br/> 
+                Dt.Nascimento:<br/>
+                CNS:<br/>
+                Endereco:<br/>
+            </div>
+            <div class="dados_form_esq">
+                <b><?=$this->dados->usu_prontuario?> / <?=$this->dados->usu_nome?><br/></b>
+                <b><?=$this->idade($this->dados->idade)?> / <?=($this->dados->usu_sexo == "F" ? "Feminino" : "Masculino")?></b><br/>
+                <b><?=$this->data($this->dados->usu_datanasc)?> &nbsp;&nbsp;&nbsp;<br/></b>
+                <b><?=($this->dados->usu_cartao_sus == "" ? "-" : $this->dados->usu_cartao_sus)?></b><br/>
+                <b><?=($this->dados->rua_nome == "" ? "SEM ENDEREÇO" : $this->dados->rua_nome.",")?> <?=$this->dados->dom_numero?> - <?=$this->dados->cid_nome?></b><br/>
+            </div>
+        </div>
+        <div class="identificacao_responsavel_receb">
+            <div class="dados_resp_receb">
+                <b>Encaminhamento</b>
+            </div>
+            <div class="medicamentos_prescricao">
+                <div class="medItem">
+                        <div class="medTitulo">
+                                <?php
+                                echo $this->escape($this->dados->esp_nome);
+                                ?>
+                        </div>
+                        <div class="medQtd"></div>	
+                        <div class="clear"></div>
+                        <div class="medUso"><?=$this->dados->enc_descricao?></div>
+                </div>
+
+           
+            </div>
+            <div class="assinatura_resp">
+               --------------------------------------------------------------<br/>
+                    <?=$this->dados->usr_nome?><br/>
+                    <?=$this->dados->usr_num_conselho?>
+            </div>
+        </div>
+        <div id="endereco">
+            <?=$this->sec[endereco_secretaria]?>, CNPJ:<?=$this->sec[cnpj_secretaria]?>, FONE:<?=$this->sec[telefone_secretaria]?>
+        </div>
+       
+        
+    </div>
+
+    <!-- CONTRA REFERENCIA -->
+    
+    <div class="div_cabecalho">
+        <div class="identificacao_estabelecimento">
+            <div class="brasao">
+                <img src="<?=$this->baseUrl("/public/images/brasao.gif");?>" width="80" height="70"/>
+            </div>
+            <div class="dados_sec">
+                <br/>
+                <b><?=$this->sec[nome_secretaria]?></b><br/>
+                C.N.P.J.:<?=$this->sec[cnpj_secretaria]?><br/>
+                <b><?=$this->usr->uni_desc;?></b>
+            </div>
+            <div class="cod_bar">
+                <div id="img_bar">
+                    <img src="<?=$this->baseUrl()?>/public/images/codigo_barras.php?codigo=<?=$this->dados->codigo;?>&lw=1&hi=18" alt="Código de Barras: <?=$this->dados->codigo;?>" title="Código de Barras: <?=$this->dados->codigo;?>" width="110" />
+                </div>
+            </div>
+        </div>
+        <div id="titulo_impressao"><b>CONTRA REFERÊNCIA</b></div>
+        <div class="dados_titulo">
+            IDENTIFICAÇÃO DO EMITENTE
+        </div>
+        <div class="identificacao_formulario">
+            <div class="dados_form_dir">
+                Profissional:<br/> 
+                Endereço:<br/>
+ 
+            </div>
+            <div class="dados_form_esq_anvisa">
+                <b> .............................................................................................<br/></b> 
+                <b> ..........................................................</b><br/>
+            </div>
+            <div class="dados_form_dir2">
+                Dt.Emissão: <b><?=date("d/m/Y");?></b>
+            </div>
+        </div>
+        
+        <div class="identificacao_responsavel_anvisa">
+           <div class="dados_form_dir">
+                Pront / Paciente:<br/> 
+                Idade / Sexo:<br/> 
+                Dt.Nascimento:<br/>
+                CNS:<br/>
+                Endereco:<br/>
+                
+            </div>
+            <div class="dados_form_esq">
+                <b><?=$this->dados->usu_prontuario?> / <?=$this->dados->usu_nome?><br/></b>
+                <b><?=$this->idade($this->dados->idade)?> / <?=($this->dados->usu_sexo == "F" ? "Feminino" : "Masculino")?></b><br/>
+                <b><?=$this->data($this->dados->usu_datanasc)?> &nbsp;&nbsp;&nbsp;<br/></b>
+                <b><?=($this->dados->usu_cartao_sus == "" ? "-" : $this->dados->usu_cartao_sus)?></b><br/>
+                <b><?=($this->dados->rua_nome == "" ? "SEM ENDEREÇO" : $this->dados->rua_nome.",")?> <?=$this->dados->dom_numero?> - <?=$this->dados->cid_nome?></b><br/>
+            </div>
+        </div>
+
+        <div class="identificacao_responsavel_receb">
+            <div class="dados_resp_receb">
+                <b>Condutas e Orientações</b>
+            </div>
+            <div class="medicamentos_prescricao">
+                <div class="medItem">
+                       &nbsp;&nbsp;&nbsp;&nbsp<b>Parecer:</b><br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       
+                       &nbsp;&nbsp;&nbsp;&nbsp<b>Orientação a Unidade:</b><br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       
+                       &nbsp;&nbsp;&nbsp;&nbsp<b>Orientação ao Paciente:</b><br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________________________<br/>
+                </div>
+
+           
+            </div>
+            <div class="assinatura_resp">
+               --------------------------------------------------------------<br/>
+                   
+            </div>
+        </div>
+        <div id="endereco">
+            <?=$this->sec[endereco_secretaria]?>, CNPJ:<?=$this->sec[cnpj_secretaria]?>, FONE:<?=$this->sec[telefone_secretaria]?>
+        </div>
+       
+        
+    </div>
+</body>
+

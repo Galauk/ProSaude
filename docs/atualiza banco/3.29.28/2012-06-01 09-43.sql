@@ -1,0 +1,2 @@
+ALTER TABLE domicilio ADD COLUMN usu_codigo_responsavel bigint;
+INSERT INTO config (conf_codigo, conf_chave, conf_label, conf_readonly, conf_tipo, conf_valor_string, conf_valor_bool, conf_valor_int, conf_valor_data) VALUES (19, 'USU_CODIGO_RESPONSAVEL', 'Habilitar Responsável do domicílio?', false, 2, NULL, true, NULL, NULL);

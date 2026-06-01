@@ -1,0 +1,55 @@
+<?php $this->dialog(); ?>
+<script src="/WebSocialSociallib/ui/jquery.ui.autocomplete.js"></script>
+<form method="post" action="">
+	<div class="f">
+		<label>Buscar paciente correto:</label>
+		<input id="buscar1" />
+		<input name="usu_codigo" id="usu_codigo" type="hidden" /><br />
+		
+		<label>Nome:</label>
+		<input id="usu_nome" /><br />
+		
+		<label>Data de nascimento:</label>
+		<input id="usu_datanasc" /><br />
+		
+		<label>Nome da Mãe:</label>
+		<input id="usu_mae" /><br />
+		
+		<label>Prontuário:</label>
+		<input id="usu_prontuario" /><br />
+	</div>
+
+	<div class="f2" id="errados" style="margin-left: 10px;">
+
+		<label>Buscar paciente duplicado:</label>
+		<input id="buscar2" />
+		<input id="usu_codigo_2" type="hidden" /><br />
+		
+		<label>Nome:</label>
+		<input id="usu_nome_2" /><br />
+		
+		<label>Data de nascimento:</label>
+		<input id="usu_datanasc_2" /><br />
+		
+		<label>Nome da Mãe:</label>
+		<input id="usu_mae_2" /><br />
+		
+		<label>Prontuário:</label>
+		<input id="usu_prontuario_2" /><br />
+		
+		<a href="#" class="ui-button add" id="selecionar">Selecionar</a>
+
+	</div>
+	
+	<div class="clear space"></div>
+	<div class="f">
+		<label>Selecionados:</label>		
+	</div>
+	<div class="f2" style="margin-left: 5px;">
+		<select name="usu_codigo_duplicado[]" id="duplicados" style="width: 350px; height: 120px" multiple="multiple"></select>		
+	</div>
+	<div class="clear space"></div>
+
+	<a href="#" class="ui-button salvar-icon" data-atalho="CTRL+S">Salvar</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+</form>

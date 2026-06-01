@@ -1,0 +1,383 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" onsubmit="validaExames(event)" id="form_complementar">
+
+    <div style="width: auto;" class="f">
+        <input type="hidden" name="efc_codigo" id="efc_codigo"
+               value="<?= $this->dados->efc_codigo?>">
+        <label style="width: 110px;">Unidade:</label>
+        <input type="text" name="uni_desc" id="uni_desc" tabindex="1"
+               value="<?= $this->dados->uni_desc?>"
+               onkeypress="buscaUnidade()"/>
+        <input type="hidden" name="uni_codigo" id="uni_codigo"
+               value="<?= $this->dados->uni_codigo?>">
+        <br/>
+        <label style="width: 110px;">Data:</label>
+        <input type="text" name="efc_data" id="efc_data" class="mask data-esus" rel="99/99/9999"
+                tabindex="2" autocomplete="off"
+               value="<?= $this->dados->efc_data ? $this->Data($this->dados->efc_data): ""?>"/>
+        <input type="hidden" name="data_atual" id="data_atual" value="<?= date("d/m/Y") ?>"/>
+        <br/>
+        <label style="width: 110px;">Turno:</label>
+        <select class="ui-state-default" id="efc_turno" name="efc_turno" style="width:100px;" tabindex="3">
+            <option value="1"<?= $this->dados->efc_turno == '1' ? 'selected' : '' ?>>Manhã</option>
+            <option value="2"<?= $this->dados->efc_turno == '2' ? 'selected' : '' ?>>Tarde</option>
+            <option value="3"<?= $this->dados->efc_turno == '3' ? 'selected' : '' ?>>Noite</option>
+        </select>
+        <br/>
+        <label style="width: 110px;">Paciente:</label>
+        <input type="text" name="usu_nome" id="usu_nome" onkeypress="buscaParticipante()"
+               value="<?= $this->dados->usu_nome ?>" tabindex="4"/>
+        <input type="hidden" name="usu_codigo" id="usu_codigo" value="<?= $this->dados->usu_codigo ?>">
+        <!-- Informações ocultas para atualização dos dados do cidadão -->
+        <input type="hidden" name="id_nome" id="id_nome" value="usu_nome"/>
+        <input type="hidden" name="id_codigo" id="id_codigo" value="usu_codigo"/>
+        <input type="hidden" name="id_data" id="id_data" value=""/>
+        <input type="hidden" name="id_button" id="id_button" value=""/>
+        <input type="hidden" name="id_tipo" id="id_tipo" value="O"/>
+        <!--end-->
+        <select class="ui-state-default" id="tipo_busca" tabindex="5">
+            <option value="">Tipo de Busca</option>
+            <option value="N">Nome</option>
+            <option value="D">Dt.Nasc</option>
+            <option value="M">Mãe</option>
+            <option value="C">CNS</option>
+            <option value="P">Prontuário</option>
+        </select>
+        <a href="#" class="ui-button paciente" style="margin-left: 5px;" tabindex="6">Novo / Editar</a><br/>
+	    <?php
+	    $desabilitaCampos = "";
+	    $desabilitaEstratificacao = "";
+	    $tipoMedicoBloqueio = array('P', 'A', 'F', 'B', 'D');
+
+	    //Regras de alteração/leitura dos campos de gestante, hipertenso e diabético
+	    if ($_SESSION['logon']['usr']->usr_digitador == "S" || !in_array($_SESSION['logon']['usr']->usr_tipo_medico, $tipoMedicoBloqueio)) {
+		    $desabilitaCampos = "";
+	    } else {
+		    $desabilitaCampos = "disabled";
+	    }
+
+	    //Regras de alteração/leitura dos campos de estratificação
+
+	    //Estrat de gestante, hipertenso, diabético e idoso
+	    if ($this->usr_digitador == "S" || (($this->usr_tipo_medico == "M" || $this->usr_tipo_medico == "E"))) {
+		    $desabilitaEstratificacao = "";
+	    } else {
+		    $desabilitaEstratificacao = "disabled";
+	    }
+
+	    ?>
+
+		<?php if ($_SESSION['logon']['usr']->usr_tipo_medico == 'D' || $_SESSION['logon']['usr']->usr_digitador == "S") { ?>
+            <input name="datanascimento" id="datanascimento" type="hidden"
+                   value="<?= $this->dadosUsu->usu_datanasc == NULL ? "" : $this->data($this->dadosUsu->usu_datanasc) ?>"/>
+            <input type="hidden" value="<?= date("d/m/Y") ?>" id="dataatual"/>
+            <input type="hidden" name="usu_sexo" id="usu_sexo" value=""/>
+            <fieldset style="width: 540px;" id="dados_paciente">
+                <legend>Estratificação de Risco do Paciente</legend>
+                <div id="estrat_familiar">
+                    <label>Risco familiar:</label>
+                    <input type="text" id="estrat_risco_familiar" name="estrat_risco_familiar" readonly="readonly" style="font-weight: bolder; font-size: 13px !important;"
+                     value=""/>
+                    <br/>
+                </div>
+
+                <div id="estrat_idoso">
+                    <label>Risco / Grau de fragilidade (Idoso):</label>
+                    <select name="risco_idoso" id="risco_idoso" class="ui-state-default" style="width: 305px;">
+                        <option value="" <?php if ($this->dadosUsu->risco_idoso == "") {
+				            echo "selected=selected";
+			            } ?>>Não estratificado
+                        </option>
+                        <option value="B" <?php if ($this->dadosUsu->risco_idoso == "B") {
+				            echo "selected=selected";
+			            } ?>>Robusto
+                        </option>
+                        <option value="M" <?php if ($this->dadosUsu->risco_idoso == "M") {
+				            echo "selected=selected";
+			            } ?>>Risco de fragilização
+                        </option>
+                        <option value="A" <?php if ($this->dadosUsu->risco_idoso == "A") {
+				            echo "selected=selected";
+			            } ?>>Frágil
+                        </option>
+                    </select>
+                </div>
+                <div id="estrat_crianca">
+                    <label>Risco / Grau de fragilidade (Criança):</label>
+                    <select name="risco_crianca" id="risco_crianca" class="ui-state-default" style="width: 305px;" <?= $desabilitaEstratificacao ?>>
+                        <option value="" <?php if ($this->dadosUsu->risco_crianca == "") {
+				            echo "selected=selected";
+			            } ?>>Não estratificado
+                        </option>
+                        <option value="B" <?php if ($this->dadosUsu->risco_crianca == "B") {
+				            echo "selected=selected";
+			            } ?>>Habitual
+                        </option>
+                        <option value="M" <?php if ($this->dadosUsu->risco_crianca == "M") {
+				            echo "selected=selected";
+			            } ?>>Intermediário
+                        </option>
+                        <option value="A" <?php if ($this->dadosUsu->risco_crianca == "A") {
+				            echo "selected=selected";
+			            } ?>>Alto
+                        </option>
+                    </select>
+                    <br/>
+                </div>
+
+                <label>Tem Diabetes?</label>
+                <input name="diabetico" id="diabetico" type="radio" <?= $desabilitaCampos ?>
+                       onclick="exibeEstratificacaoRadio('diabetico', 'estrat_diabetes', 'risco_diabetes');"
+                       value="t" <?= $this->dadosUsu->usu_tem_diabete == "1" ? "checked='true'" : "" ?>/>Sim
+                <input name="diabetico" id="diabetico" type="radio" <?= $desabilitaCampos ?>
+                       onclick="exibeEstratificacaoRadio('diabetico', 'estrat_diabetes', 'risco_diabetes');"
+                       value="f" <?= $this->dadosUsu->usu_tem_diabete != "1" ? "checked='true'" : "" ?>/>Não
+                <div id="estrat_diabetes">
+                    <label>Risco da Diabetes:</label>
+                    <select name="risco_diabetes" id="risco_diabetes" class="ui-state-default" style="width: 305px;" <?= $desabilitaEstratificacao ?>>
+                        <option value="" <?php if ($this->dadosUsu->risco_diabetes == "") {
+				            echo "selected=selected";
+			            } ?>>Não estratificado
+                        </option>
+                        <option value="B" <?php if ($this->dadosUsu->risco_diabetes == "B") {
+				            echo "selected=selected";
+			            } ?>>Bom
+                        </option>
+                        <option value="M" <?php if ($this->dadosUsu->risco_diabetes == "M") {
+				            echo "selected=selected";
+			            } ?>>Regular
+                        </option>
+                        <option value="A" <?php if ($this->dadosUsu->risco_diabetes == "A") {
+				            echo "selected=selected";
+			            } ?>>Ruim
+                        </option>
+                    </select>
+                </div>
+                <br/>
+                <div>
+                    <label>Está Gestante?</label>
+                    <input class="usu_esta_gestante" name="gestante" id="gestante" type="radio" <?= $desabilitaGestante ?>
+                           onclick="exibeEstratificacaoRadio('gestante', 'estrat_gestante', 'risco_gestacao');"
+                           value="t" <?= $this->dadosUsu->usu_esta_gestante == "1" ? "checked='checked'" : "" ?>/>Sim
+                    <input class="usu_esta_gestante" name="gestante" id="gestante" type="radio" <?= $desabilitaGestante ?>
+                           onclick="exibeEstratificacaoRadio('gestante', 'estrat_gestante', 'risco_gestacao');"
+                           value="f" <?= $this->dadosUsu->usu_esta_gestante != "1" ? "checked='checked'" : "" ?>/>Não
+                    <small style="color:orangered;">(A idade deve ser entre 9 e 60 anos)</small>
+                </div>
+                <div id="estrat_gestante" style="padding-bottom: 16px;">
+                    <label>Risco da Gestação:</label>
+                    <select name="risco_gestacao" id="risco_gestacao" class="ui-state-default" style="width: 305px;" <?= $desabilitaEstratificacao ?>>
+                        <option value="" <?php if ($this->dadosUsu->risco_gestacao == "") {
+				            echo "selected=selected";
+			            } ?>>Não estratificado
+                        </option>
+                        <option value="B" <?php if ($this->dadosUsu->risco_gestacao == "B") {
+				            echo "selected=selected";
+			            } ?>>Habitual
+                        </option>
+                        <option value="M" <?php if ($this->dadosUsu->risco_gestacao == "M") {
+				            echo "selected=selected";
+			            } ?>>Intermediário
+                        </option>
+                        <option value="A" <?php if ($this->dadosUsu->risco_gestacao == "A") {
+				            echo "selected=selected";
+			            } ?>>Alto
+                        </option>
+                    </select>
+                </div>
+                <label>Tem Hipertensão Arterial?</label>
+                <input name="hipertensao" id="hipertensao" type="radio" <?= $desabilitaCampos ?>
+                       onclick="exibeEstratificacaoRadio('hipertensao', 'estrat_hipertensao', 'risco_hipertensao');"
+                       value="t" <?= $this->dadosUsu->usu_tem_hipertensao == "1" ? "checked='checked'" : "" ?>/>Sim
+                <input name="hipertensao" id="hipertensao" type="radio" <?= $desabilitaCampos ?>
+                       onclick="exibeEstratificacaoRadio('hipertensao', 'estrat_hipertensao', 'risco_hipertensao');"
+                       value="f" <?= $this->dadosUsu->usu_tem_hipertensao != "1" ? "checked='checked'" : "" ?>/>Não
+                <div id="estrat_hipertensao">
+                    <label>Risco da Hipertensão:</label>
+                    <select name="risco_hipertensao" id="risco_hipertensao" class="ui-state-default" <?= $desabilitaEstratificacao ?>
+                            style="width: 305px;">
+                        <option value="" <?php if ($this->dadosUsu->risco_hipertensao == "") {
+				            echo "selected=selected";
+			            } ?>>Não estratificado
+                        </option>
+                        <option value="B" <?php if ($this->dadosUsu->risco_hipertensao == "B") {
+				            echo "selected=selected";
+			            } ?>>Baixo
+                        </option>
+                        <option value="M" <?php if ($this->dadosUsu->risco_hipertensao == "M") {
+				            echo "selected=selected";
+			            } ?>>Moderado
+                        </option>
+                        <option value="A" <?php if ($this->dadosUsu->risco_hipertensao == "A") {
+				            echo "selected=selected";
+			            } ?>>Alto
+                        </option>
+                    </select>
+                </div>
+                <br/>
+
+            </fieldset>
+		<?php } ?>
+        <label style="width: 110px;">Responsável Familiar:</label>
+        <input type="text" name="usu_responsavel_nome" id="usu_responsavel_nome" onkeypress="buscaResponsavel()"
+               value="<?= $this->dados->usu_responsavel_nome ?>" tabindex="4"/>
+        <input type="hidden" name="efc_usu_responsavel" id="efc_usu_responsavel" value="<?= $this->dados->efc_usu_responsavel ?>">
+
+        <select class="ui-state-default" id="tipo_busca_responsavel" tabindex="5">
+            <option value="">Tipo de Busca</option>
+            <option value="N">Nome</option>
+            <option value="D">Dt.Nasc</option>
+            <option value="M">Mãe</option>
+            <option value="C">CNS</option>
+            <option value="P">Prontuário</option>
+        </select>
+        <span class="obrigatorio"> *preferencialmente pai ou mãe</span>
+        <br/>
+        <label style="width: 110px;">Profissional:</label>
+        <input type="text" id="usr_nome" name="usr_nome" onkeyup="buscaProfissional()" tabindex="7"
+               value="<?= $this->dados->usr_nome?>"/>
+        <input type="hidden" id="usr_codigo" name="usr_codigo" value="<?=$this->dados->usr_codigo?>">
+        <div style="display:none;" id="especialidade">
+            <label style="width: 110px;">Especialidade:</label>
+            <select class='ui-state-default' name="esp_codigo" id="esp_codigo" tabindex="8">
+				<?
+				if ($this->dados->esp_codigo) {
+					foreach ($this->especialidades as $row) {
+						echo "<option value='" . $row['esp_codigo'] . "' " . (($this->dados->esp_codigo == $row['esp_codigo']) ? 'selected' : '') . " >" . $row['esp_nome'] . "</option>";
+					}
+				}
+				?>
+            </select>
+			<? if ($this->dados->esp_codigo) { ?>
+                <script> $("#especialidade").show(); </script>
+			<? } ?>
+
+        </div>
+        <div style="display:none;" id="equipe">
+            <label style="width: 110px;">Cód. equipe(INE):</label>
+            <select name='cod_equipe' id="cod_equipe" class="ui-state-default" tabindex="9">
+                <option value="">Informe um Profissional</option>
+            </select>
+            <input type="hidden" name="cod_equipe_ine" id="cod_equipe_ine"
+                   value="<?=$this->dados->usr_equipe_codigo ? $this->dados->usr_equipe_codigo : ""?>" />
+        </div>
+
+        <fieldset class="ui-tabs ui-widget ui-widget-content ui-corner-all" style="margin-top: 06px;">
+            <legend class="ui-corner-bl ui-corner-tr" style="color: #2e6e9e; background-color: transparent; width: auto;">
+                RESULTADOS DE EXAMES: <span class="obrigatorio">*</span>
+            </legend>
+            <fieldset class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend class="ui-corner-bl ui-corner-tr" style="color: #2e6e9e; background-color: transparent; width: auto;">
+                    TESTE DO OLHINHO (TRV)
+                </legend>
+                <label style="width: 110px;">Data de Realização:</label>
+                <input type="text" style="width: 110px;" name="efc_data_olhinho" id="efc_data_olhinho" class="mask data-esus" rel="99/99/9999"
+                       tabindex="" autocomplete="off" tabindex="10"
+                       value="<?=$this->dados->efc_data_olhinho !="" ? $this->Data($this->dados->efc_data_olhinho): ""?>"/>
+                <br/>
+                <label style="width: 110px;">Resultado:</label>
+                <input type="radio" name="efc_res_olhinho" id="efc_res_olhinho" tabindex="11" autocomplete="off" class="ui-state-default"
+                       value="1" <?=$this->dados->efc_res_olhinho == 1 ? "checked=checked" : ""?>/> Presente bilateral
+                <input type="radio" name="efc_res_olhinho" id="efc_res_olhinho" tabindex="12" autocomplete="off" class="ui-state-default"
+                       value="2" <?=$this->dados->efc_res_olhinho == 2 ? "checked=checked" : ""?>/> Duvidoso ou ausente
+            </fieldset>
+            <fieldset class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend class="ui-corner-bl ui-corner-tr" style="color: #2e6e9e; background-color: transparent; width: auto;">
+                    EXAME DE FUNDO DE OLHO (FUNDOSCOPIA)
+                </legend>
+                <label style="width: 110px;">Data de Realização:</label>
+                <input type="text" style="width: 110px;" name="efc_data_fundo" id="efc_data_fundo" class="mask data-esus" rel="99/99/9999"
+                       tabindex="13" autocomplete="off"
+                       value="<?=$this->dados->efc_data_fundo !="" ? $this->Data($this->dados->efc_data_fundo): ""?>"/>
+                <br/>
+                <label style="width: 110px;">Resultado:</label>
+                <input type="radio" name="efc_res_fundo" id="efc_res_fundo" tabindex="14" autocomplete="off" class="ui-state-default"
+                       value="3" <?=$this->dados->efc_res_fundo == 3 ? "checked=checked" : ""?>/> Normal
+                <input type="radio" name="efc_res_fundo" id="efc_res_fundo" tabindex=15" autocomplete="off" class="ui-state-default"
+                       value="4" <?=$this->dados->efc_res_fundo == 4 ? "checked=checked" : ""?>/> Alterado
+            </fieldset>
+            <fieldset class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend class="ui-corner-bl ui-corner-tr" style="color: #2e6e9e; background-color: transparent; width: auto;">
+                    TESTE DA ORELHINHA - PEATE (POTENCIAL EVOCADO AUDITIVO PARA TRIAGEM AUDITIVA)
+                </legend>
+                <label style="width: 110px;">Data de Realização:</label>
+                <input type="text" style="width: 110px;" name="efc_data_orelhinha" id="efc_data_orelhinha" class="mask data-esus" rel="99/99/9999"
+                       tabindex="16" autocomplete="off"
+                       value="<?=$this->dados->efc_data_orelhinha !="" ? $this->Data($this->dados->efc_data_orelhinha): ""?>"/>
+                <br/>
+                <label style="width: 110px;">Resultado:</label>
+                <input type="radio" name="efc_res_orelhinha" id="efc_res_orelhinha" tabindex="17" autocomplete="off" class="ui-state-default"
+                       value="5" <?=$this->dados->efc_res_orelhinha == 5 ? "checked=checked" : ""?>/> Passou
+                <input type="radio" name="efc_res_orelhinha" id="efc_res_orelhinha" tabindex="18" autocomplete="off" class="ui-state-default"
+                       value="6" <?=$this->dados->efc_res_orelhinha == 6 ? "checked=checked" : ""?>/> Falhou
+            </fieldset>
+            <fieldset class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend class="ui-corner-bl ui-corner-tr" style="color: #2e6e9e; background-color: transparent; width: auto;">
+                    US TRANSFONTANELA (ULTRASSONOGRAFIA TRANSFONTANELA)
+                </legend>
+                <label style="width: 110px;">Data de Realização:</label>
+                <input type="text" style="width: 110px;" name="efc_data_transfontanela" id="efc_data_transfontanela" class="mask data-esus" rel="99/99/9999"
+                       tabindex="19" autocomplete="off"
+                       value="<?=$this->dados->efc_data_transfontanela !="" ? $this->Data($this->dados->efc_data_transfontanela): ""?>"/>
+                <br/>
+                <label style="width: 110px;">Resultado:</label>
+                <input type="radio" name="efc_res_transfontanela" id="efc_res_transfontanela" tabindex="20" autocomplete="off" class="ui-state-default"
+                       value="7" <?=$this->dados->efc_res_transfontanela == 7 ? "checked=checked" : ""?>/> Normal
+                <input type="radio" name="efc_res_transfontanela" id="efc_res_transfontanela" tabindex="21" autocomplete="off" class="ui-state-default"
+                       value="8" <?=$this->dados->efc_res_transfontanela == 8 ? "checked=checked" : ""?>/> Sugestivo de infecção congênita
+                <input type="radio" name="efc_res_transfontanela" id="efc_res_transfontanela" tabindex="22" autocomplete="off" class="ui-state-default"
+                       value="9" <?=$this->dados->efc_res_transfontanela == 9 ? "checked=checked" : ""?>/> Outras alterações
+                <input type="radio" name="efc_res_transfontanela" id="efc_res_transfontanela" tabindex="23" autocomplete="off" class="ui-state-default"
+                       value="10" <?=$this->dados->efc_res_transfontanela == 10 ? "checked=checked" : ""?>/> Indeterminado
+            </fieldset>
+            <fieldset class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend class="ui-corner-bl ui-corner-tr" style="color: #2e6e9e; background-color: transparent; width: auto;">
+                    TOMOGRAFIA COMPUTADORIZADA (TOMOGRAFIA COMPUTADORIZADA DO CRÂNIO)
+                </legend>
+                <label style="width: 110px;">Data de Realização:</label>
+                <input type="text" style="width: 110px;" name="efc_data_tomografia" id="efc_data_tomografia" class="mask data-esus" rel="99/99/9999"
+                       tabindex="24" autocomplete="off"
+                       value="<?=$this->dados->efc_data_tomografia !="" ? $this->Data($this->dados->efc_data_tomografia): ""?>"/>
+                <br/>
+                <label style="width: 110px;">Resultado:</label>
+                <input type="radio" name="efc_res_tomografia" id="efc_res_tomografia" tabindex="25" autocomplete="off" class="ui-state-default"
+                       value="11" <?=$this->dados->efc_res_tomografia == 11 ? "checked=checked" : ""?>/> Normal
+                <input type="radio" name="efc_res_tomografia" id="efc_res_tomografia" tabindex="26" autocomplete="off" class="ui-state-default"
+                       value="12" <?=$this->dados->efc_res_tomografia == 12 ? "checked=checked" : ""?>/> Sugestivo de infecção congênita
+                <input type="radio" name="efc_res_tomografia" id="efc_res_tomografia" tabindex="27" autocomplete="off" class="ui-state-default"
+                       value="13" <?=$this->dados->efc_res_tomografia == 13 ? "checked=checked" : ""?>/> Outras alterações
+                <input type="radio" name="efc_res_tomografia" id="efc_res_tomografia" tabindex="28" autocomplete="off" class="ui-state-default"
+                       value="14" <?=$this->dados->efc_res_tomografia == 14 ? "checked=checked" : ""?>/> Indeterminado
+            </fieldset>
+            <fieldset class="ui-tabs ui-widget ui-widget-content ui-corner-all">
+                <legend class="ui-corner-bl ui-corner-tr" style="color: #2e6e9e; background-color: transparent; width: auto;">
+                    RESSONÂNCIA MAGNÉTICA (RESSONÂNCIA MAGNÉTICA DE CRÂNIO)
+                </legend>
+                <label style="width: 110px;">Data de Realização:</label>
+                <input type="text" style="width: 110px;" name="efc_data_ressonancia" id="efc_data_ressonancia" class="mask data-esus" rel="99/99/9999"
+                       tabindex="29" autocomplete="off"
+                       value="<?=$this->dados->efc_data_ressonancia !="" ? $this->Data($this->dados->efc_data_ressonancia): ""?>"/>
+                <br/>
+                <label style="width: 110px;">Resultado:</label>
+                <input type="radio" name="efc_res_ressonancia" id="efc_res_ressonancia" tabindex="30" autocomplete="off" class="ui-state-default"
+                       value="15" <?=$this->dados->efc_res_ressonancia == 15 ? "checked=checked" : ""?>/> Normal
+                <input type="radio" name="efc_res_ressonancia" id="efc_res_ressonancia" tabindex="31" autocomplete="off" class="ui-state-default"
+                       value="16" <?=$this->dados->efc_res_ressonancia == 16 ? "checked=checked" : ""?>/> Sugestivo de infecção congênita
+                <input type="radio" name="efc_res_ressonancia" id="efc_res_ressonancia" tabindex="32" autocomplete="off" class="ui-state-default"
+                       value="17" <?=$this->dados->efc_res_ressonancia == 17 ? "checked=checked" : ""?>/> Outras alterações
+                <input type="radio" name="efc_res_ressonancia" id="efc_res_ressonancia" tabindex="33" autocomplete="off" class="ui-state-default"
+                       value="18" <?=$this->dados->efc_res_ressonancia == 18 ? "checked=checked" : ""?>/> Indeterminado
+            </fieldset>
+        <span class="obrigatorio">  *obrigatório incluir ao menos um resultado de exame</span>
+        </fieldset>
+    </div>
+    <div class="clear"></div>
+    <div class="space"></div>
+    <div class="space"></div>
+    <a class="ui-button salvar" onclick="">Salvar</a>
+    <a class="ui-button voltar" onclick="history.back();">Voltar</a>
+    <div class="space"></div>
+
+</form>

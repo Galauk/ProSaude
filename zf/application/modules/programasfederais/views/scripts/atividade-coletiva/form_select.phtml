@@ -1,0 +1,534 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<form name='upload' action='<?=$this->url(array("action"=>"salvar"))?>' method='post' enctype='multipart/form-data' id="ativ-coletiva">
+    <a href="<?=$this->url(array("controller"=>"atividade-coletiva","action"=>"index"));?>"  class="ui-button voltar" data-atalho="ESC">Voltar</a>
+    <input type="hidden" name="codFicha" id="codFicha" value="<?=$this->dados->co_cds_ficha_ativ_col?>" />
+    <input type="hidden" name="ativCol" id="ativCol" value="1" />
+    <table width="100%" cellspacing="5" cellpadding="0" border="0" class='bordertotal'>
+        <tr>
+            <td width='345' valign="top">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td colspan="3">
+                            Unidade<br />
+                            <select name="uni_codigo" style="width:300px;" class="ui-state-default">
+                                <option value="">Selecione</option>
+                                 <?php foreach ($this->unidade as $unidade):?>
+                                       <option <?php if (trim($unidade->uni_codigo) == trim($this->dados->uni_codigo)) { echo "selected"; }  ?> value="<?=$unidade->uni_codigo?>"><?=$unidade->uni_desc?></option>
+                                <?php endforeach ?>
+                            </select><br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width='125'>
+                            Data de Atividade<br>
+                            <input type='text' name='dt_atividade' id="dt_atividade" class="field mask data-futura"
+                                   style="width: 125px;" rel="99/99/9999" onchange="validaData(this)"
+                                   value="<?=$this->data($this->dados->dt_ativ_col,Zend_Date::DATE_MEDIUM)?>" />
+                        </td>
+                        <td width='125'>
+                            Horário de Início<br>
+                            <input type='text' name='hr_inicio' id="hr_inicio" class="field mask" style="width: 120px;" rel="99:99" onblur="validaHoraInicial()" value="<?=$this->data($this->dados->hr_inicio,Zend_Date::TIME_SHORT)?>" />
+                        </td>
+                        <td width='125'>
+                            Horário de Fim<br>
+                            <input type='text' name='hr_fim' id="hr_fim" class="field mask" style="width: 120px;" rel="99:99" onblur="validaHoraFinal()" value="<?=$this->data($this->dados->hr_fim,Zend_Date::TIME_SHORT)?>" />
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td width='170'>
+                            Nº INEP (escola/creche)<br>
+                            <input type='text' name='num_inep' class="field"
+                                   style="width: 150px;"
+                                   value="<?=$this->dados->co_inep_escola?>"
+                                   onkeypress="return SomenteNumero(event)" />
+                        </td>
+                        <td>
+                            Programa&ccedil;&atilde;o de nºde Participantes<br>
+                            <input type='text' name='num_participantes' class="field" style="width: 220px;" onkeypress="return SomenteNumero(event)" value="<?=$this->dados->qt_participante_programado?>" />
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td>
+                            Local das Atividades<br>
+                            <div class="textarea">
+                                <textarea name="ds_local" class="tinymce"
+                                          style="width: 375px;height: 100px;"><?=trim($this->dados->ds_local_ativ)?></textarea>
+                            </div>
+                            <div id="nasf-div">
+                            <label style="width: 110px; float: left;">NASF / Polo: </label>
+                                <div>
+                                    <br>
+                                    <input type="checkbox" 
+                                        <?php if($this->dados->ate_nasf_aval){echo 'checked="checked"';}?>name="ate_nasf_aval" style="margin-left: -3.8%;" /> Avaliação / Diagnóstico 
+                                    <br />
+                                    <input type="checkbox" 
+                                        <?php if($this->dados->ate_nasf_proc){echo 'checked="checked"';}?>name="ate_nasf_proc" style="margin-left: 26%;" /> Procedimentos clínicos / Terapêutico 
+                                    <br />
+                                    <input type="checkbox" 
+                                        <?php if($this->dados->ate_nasf_presc){echo 'checked="checked"';}?>name="ate_nasf_presc" style="margin-left: 26%;" /> Prescrição terapêutica 
+                                    <br />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td valign="top">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td>
+                            <fieldset>
+                                <legend>Profissionais <input type="hidden" name="conf_prof" id="conf_prof" value="<?=(count($this->profsEdit) == 0 ? "" : count($this->profsEdit))?>" /></legend>
+                                <table width="100%"  cellspacing="0" cellpadding="0" border="0">
+                                    <tr>
+                                        <td style="float: left;">
+                                            Nome do Profissional<br>
+                                            <input type='text' name='profs_part_nome' id="profs_part_nome"
+                                                    onkeypress="buscaProfissionais()" />
+                                            <input type='hidden' name='usr_codigo' id="usr_codigo"
+                                                   class="field" />
+                                        </td>
+                                        <td>
+                                            <label style="width: 110px;">Turno:</label> <!-- OBRIGATÓRIO -->
+                                                <select class="ui-state-default" id="turno" name="turno" style="width:100px;">
+                                                    <option value="1"<?= $this->dados->turno == '1' ? 'selected' : '' ?>>Manhã</option>
+                                                    <option value="2"<?= $this->dados->turno == '2' ? 'selected' : '' ?>>Tarde</option>
+                                                    <option value="3"<?= $this->dados->turno == '3' ? 'selected' : '' ?>>Noite</option>
+                                                </select>
+                                            <br/>
+                                        </td>
+                                        <td id="td_profs_part_esp" style="display: none; float: left; margin-left: 4px;">
+                                            Especialidade<br>
+                                            <select name="profs_part_esp" id="profs_part_esp" class="ui-state-default">
+
+                                            </select>
+                                        </td>
+                                        <td id="td_profs_part_conf" style="display: none; float: left; margin-left: 4px;">
+                                            <br/><a href="#" class="ui-button" id="enviar" onclick="confirmarProfsPart()">
+                                                Confirmar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table width="100%" id="profs_part" style="border: 1px solid #cef; margin-top: 20px; display: show;">
+                                    <tr>
+                                        <th width='125'>Profissional</td>
+                                        <th width='125'>CBO</td>
+                                        <th width='10'>Ações</td>
+                                    </tr>
+                                    <?php if (count($this->profsEdit)>0) { ?>
+                                            <?php $i = 0; ?>
+                                            <?php foreach($this->profsEdit as $val) { ?>
+                                                    <?php $i++; ?>
+                                                    <tr id='profs_part_qtd<?=$i?>'>
+                                                        <td width='125'>
+                                                            <?=$val["usr_nome"]?>
+                                                            <input type='hidden' name='profs_part[<?=$i;?>][usr_codigo]' value="<?=$val["usr_codigo"]?>" />
+                                                        </td>
+                                                        <td width='125'>
+                                                            <?=$val["cbo"]?>
+                                                            <input type='hidden' name='profs_part[<?=$i?>][cbo]' value="<?=$val["cbo"]?>" />
+                                                        </td>
+                                                        <td width='10'>
+                                                            <a href='#'>
+                                                                <img src="<?=$this->baseUrl()?>/public/images/icons/excluir.png" alt="Excluir" title="Excluir" onclick="excluirConfirmacaoResp(<?=$i?>)" />
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                            <?php } ?>
+                                    <?php } else { ?>
+                                            <tr id="profs_part_qtd0">
+                                                <td colspan="3">
+                                                    Nenhum profissional registrado até o momento.
+                                                </td>
+                                            </tr>
+                                    <?php } ?>
+                                    <input type="hidden" id="profs_part_qtd" value="<?=$i?>" />
+                                </table>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <!-- ATIVIDADE E TEMAS PARA REUNIÃO -->
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <!-- ATIVIDADE obrigatoria-->
+            <td width="50%" valign="top">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td>
+                            <fieldset>
+                                <legend>
+                                    Atividade
+                                    <input type="hidden" name="conf_ativ" id="conf_ativ" value="<?=(count($this->dados) > 0 ? $this->dados->tp_cds_ativ_col : "")?>" />
+                                </legend>
+                                <table width="100%" id="tab_ativ" cellspacing="0" cellpadding="0" border="0" style="font-size: 11px;">
+                                    <?php foreach($this->atividades as $valAtiv) { ?>
+                                            <tr>
+                                                <td width="02%">
+                                                    <?php
+                                                    // Desabilita Publico Alvo e Temas
+                                                    if ($valAtiv->co_cds_tipo_ativ_col <= 3) { ?>
+                                                            <input type="radio" style="margin-top: 4px;" name="atividade" id="atividade"
+                                                               value="<?=$valAtiv->co_cds_tipo_ativ_col?>"
+                                                               <?=($this->dados->tp_cds_ativ_col==$valAtiv->co_cds_tipo_ativ_col ? "checked" : "")?>
+                                                               onclick="desabilitaPubPrat()" />
+                                                    <?php
+                                                    } else { ?>
+                                                        <input type="radio" style="margin-top: 4px;" name="atividade" id="atividade" class="atividade"
+                                                           value="<?=$valAtiv->co_cds_tipo_ativ_col?>"
+                                                           <?=($this->dados->tp_cds_ativ_col==$valAtiv->co_cds_tipo_ativ_col ? "checked" : "")?>
+                                                           onclick="desabilitaTemas()" />
+                                                    <?php } ?>
+                                                </td>
+                                                <td width="98%"><?=$valAtiv->co_cds_tipo_ativ_col?> - <?=$valAtiv->no_cds_tipo_ativ_col?></td>
+                                            </tr>
+                                    <?php } ?>
+                                </table>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <!-- FIM ATIVIDADE -->
+            <!-- TEMAS PARA REUNIÃO -->
+            <td width="50%" valign="top">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td>
+                            <fieldset>
+
+                                <legend>
+                                    Temas para reunião
+                                    <input type="hidden" name="conf_temas" id="conf_temas" value="<?=(count($this->temasEdit) > 0 || $this->dados->tp_cds_ativ_col > 3 ? "1" : "")?>" />
+                                </legend>
+
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0" id="tab-temas" style="font-size: 11px;">
+                                    <?php foreach($this->temas as $valTemas) { ?>
+                                            <tr>
+                                                <td width="02%">
+                                                    <input type="checkbox" class="temas_ativ" style="margin-top: 4px;" id="temas<?=$valTemas->co_cds_ativ_col_tema?>" name="temas[]" onclick="validaTemas()" value="<?=$valTemas->co_cds_ativ_col_tema?>" <?=($this->validaArray($valTemas->co_cds_ativ_col_tema, $this->temasEdit) >= 1 ? "checked" : "")?> />
+                                                </td>
+                                                <td width="98%"><?=$valTemas->co_cds_ativ_col_tema?> - <?=$valTemas->no_cds_ativ_col_tema?></td>
+                                            </tr>
+                                    <?php } ?>
+                                </table>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <!-- FIM TEMAS PARA REUNIÃO -->
+        </tr>
+    </table>
+    <!-- FIM ATIVIDADE E TEMAS PARA REUNIÃO -->
+    <br />
+    <!-- PÚBLICO ALVO E PRÁTICAS/TEMAS PARA SAÚDE -->
+    <table width="100%" heigth="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <!-- PÚBLICO ALVO -->
+            <td width="34%" valign="top">
+                <table width="100%" heigth="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td>
+                            <fieldset>
+
+                                <legend>
+                                    Publico alvo
+                                    <input type="hidden" name="conf_pub" id="conf_pub"
+                                           value="<?=(count($this->pubAlvoEdit) > 0 ? count($this->pubAlvoEdit) : "")?>" />
+                                </legend>
+
+                                <table width="100%" id="tab-pub-alvo" cellspacing="0" cellpadding="0"
+                                       border="0" style="font-size: 11px;">
+                                    <?php foreach($this->pubAlvo as $pubAlvo) { ?>
+                                            <tr>
+                                                <td width="02%"><input type="checkbox" style="margin-top: 4px;" name="pubAlvo[]" id="pubAlvo<?=$pubAlvo->co_cds_ativ_col_publico_alvo?>"
+                                                    value="<?=$pubAlvo->co_cds_ativ_col_publico_alvo?>" onclick="validaPublicoAlvo()"
+                       <?=($this->validaArray($pubAlvo->co_cds_ativ_col_publico_alvo, $this->pubAlvoEdit) >= 1 ?"checked" : "")?> />
+                                            </td>
+                            <td width="98%"><?=$pubAlvo->co_cds_ativ_col_publico_alvo?> - <?=$pubAlvo->no_cds_ativ_col_publico_alvo?></td>
+                                            </tr>
+                                    <?php } ?>
+                                </table>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <!-- FIM PÚBLICO ALVO -->
+            <!-- Práticas / temas para saúde -->
+            <td width="66%" valign="top">
+                <table width="100%" heigth="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td>
+                            <fieldset>
+
+                                <legend>
+                                    Práticas / temas para saúde
+                                    <input type="hidden" name="conf_prat" id="conf_prat"
+                                           value="<?=(count($this->praticasEdit) > 0 ? count($this->praticasEdit) : "")?>" />
+                                </legend>
+
+                                <table width="50%" cellspacing="0" cellpadding="0" border="0" id="tab-prat" style="float: left; font-size: 11px;">
+                                    <?php foreach($this->praticas as $valPrat) { ?>
+                                            <?php if ($valPrat->co_cds_ativ_col_pratica <= 18) { ?>
+                                                    <tr>
+                                                        <td width="02%"><input type="checkbox" style="margin-top: 4px;" name="praticas[]" id="praticas<?=$valPrat->co_cds_ativ_col_pratica?>"
+                                                                               value="<?=$valPrat->co_cds_ativ_col_pratica?>" onclick="validaPraticas()"
+                                                                               <?=($this->validaArray($valPrat->co_cds_ativ_col_pratica, $this->praticasEdit) >= 1 ?
+                                                                               "checked" : "")?> /></td>
+                                                        <td width="98%"><?=$valPrat->co_cds_ativ_col_pratica?> - <?=$valPrat->no_cds_ativ_col_pratica?></td>
+                                                    </tr>
+                                            <?php } ?>
+                                    <?php } ?>
+                                </table>
+                                <table width="50%" cellspacing="0" cellpadding="0" border="0" id="tab-prat2" style="float: left; font-size: 11px;">
+                                    <?php foreach($this->praticas as $valPrat) { ?>
+                                            <?php if ($valPrat->co_cds_ativ_col_pratica > 18) { ?>
+                                                <?php if ($valPrat->co_cds_ativ_col_pratica >= 25) { ?>
+                                                        <tr id="pcnt">
+                                                            <td width="02%"><input type="checkbox" style="margin-top: 4px;"
+                                                                                   name="praticas[]" id="praticas2<?=$valPrat->co_cds_ativ_col_pratica?>"
+                                                                                   value="<?=$valPrat->co_cds_ativ_col_pratica?>"
+                                                                                   onclick="desabilitaPnct()"
+                                                                                   <?=($this->validaArray($valPrat->co_cds_ativ_col_pratica, $this->praticasEdit) >= 1 ?
+                                                                               "checked" : "")?>/></td>
+                                                            <td width="98%">
+                                                                <?=$valPrat->co_cds_ativ_col_pratica?> - <?=$valPrat->no_cds_ativ_col_pratica?>
+                                                            </td>
+                                                        </tr>
+                                                <?php } else { ?>
+                                                        <tr>
+                                                            <td width="02%"><input type="checkbox" style="margin-top: 4px;"
+                                                                                   name="praticas[]" id="praticas2<?=$valPrat->co_cds_ativ_col_pratica?>"
+                                                                                   value="<?=$valPrat->co_cds_ativ_col_pratica?>"
+                                                                                   onclick="desabilitaTemas()"
+                                                                                   <?=($this->validaArray($valPrat->co_cds_ativ_col_pratica, $this->praticasEdit) >= 1 ?
+                                                                               "checked" : "")?>/></td>
+                                                            <td width="98%">
+                                                                <?=$valPrat->co_cds_ativ_col_pratica?> - <?=$valPrat->no_cds_ativ_col_pratica?>
+                                                            </td>
+                                                        </tr>
+                                                <?php } ?>
+                                            <?php } ?>
+                                    <?php } ?>
+                                </table>
+                                <br />
+                                <p style="font-size: 11px;">*PNCT - Programa Nacional de Controle do Tabagismo</p>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <!-- Fim Práticas / temas para saúde -->
+        </tr>
+    </table>
+    <!-- FIM PÚBLICO ALVO E PRÁTICAS/TEMAS PARA SAÚDE -->
+    <br />
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td>
+                <fieldset>
+                    <legend>Responsável</legend>
+                    <table width='100%' cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                            <td width='30%'>
+                                Profissional Responsável<br>
+                                <select id="prof_resp_codigo" name="prof_resp_codigo" class="field" style="width: 292px;">
+                                    <option value="">--Selecione--</option>
+                                    <?php if (count($this->profsEdit)>0) { ?>
+                                            <?php $i = 0; ?>
+                                            <?php foreach($this->profsEdit as $val) { ?>
+                                                    <option value="<?=$val["usr_codigo"]?>" onclick="carregaCnes(<?=$val["usr_codigo"]?>)"
+                                                        <?=($this->dados->usr_codigo == $val["usr_codigo"] ? "selected=selected" : "")?>>
+                                                        <?=$val["usr_nome"]?>
+                                                    </option>
+                                            <?php } ?>
+                                    <?php }?>
+                                </select>
+                            </td>
+                           <td width='14%'>
+                                Cód. CNES Unidade<br>
+                                <input type="hidden" name="cod_cnes_edit" id="cod_cnes_edit"
+                                       value="<?=$this->dados->cod_cnes_unidade?>" />
+                                <select name='cod_cnes_uni' id="cod_cnes_uni" style="width:230px;"  class="field">
+                                    <option value = "" >Selecione Profissional Responsável</option>
+                                </select>
+                            </td>
+                            <td width='14%'>
+                                Cód. equipe(INE)<br>
+                                <input type="hidden" name="cod_equipe_ine" id="cod_equipe_ine"
+                                       value="<?=$this->dados->cod_equipe_ine?>" />
+                                <select name='cod_equipe' id="cod_equipe" style="width:230px;"
+                                        class="field" onchange="validaIne()">
+                                    <option value="">Selecione Cód. CNES Unidade</option>
+                                </select>
+                            </td>
+                            <td width='14%'>
+                                Nº de participantes<br>
+                                <input type='text' name='num_particip' id="num_particip"
+                                       class="field" style="width: 94%;"
+                                       onkeypress="return SomenteNumero(event)"
+                                       value="<?=($this->dados->qt_participante_ativ == "" ? "0" : $this->dados->qt_participante_ativ)?>"  />
+                            </td>
+                            <td width='18%'>
+                                Nº de avaliações alteradas<br>
+                                <input type='text' name='num_aval' id="num_aval"
+                                       class="field" style="width: 94%;" onkeypress="return SomenteNumero(event)"
+                                       value="<?=$this->dados->qt_avaliacao_alterada?>" readonly="readonly" />
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td>
+                <fieldset>
+                    <legend>Participantes
+                        <input type="hidden" name="conf_part" id="conf_part" value="<?=(count($this->partsEdit) == 0 ? "" : count($this->partsEdit))?>" />
+                    </legend>
+                    <table width='100%' cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                            <td width='24%'>
+                                Participante<br>
+                                <input type='text' name='part_nome' id="part_nome" class="field" style="width: 96%;"
+                                       onkeypress="buscaParticipante()" >
+                                <input type="hidden" name="part_codigo" id="part_codigo" />
+                                <!-- Informações ocultas para atualização dos dados do cidadão -->
+                                <input type="hidden" name="id_nome" id="id_nome" value="part_nome" />
+                                <input type="hidden" name="id_codigo" id="id_codigo" value="part_codigo" />
+                                <input type="hidden" name="id_data" id="id_data" value="part_dtnasc" />
+                                <input type="hidden" name="id_button" id="id_button" value="confirm_paciente" />
+                                <input type="hidden" name="id_tipo" id="id_tipo" value="" />
+                            </td>
+                            <td width='10%'> <!-- obrigatório -->
+                                Data de Nasc.<br>
+                                <input type='text' name='part_dtnasc' id="part_dtnasc"
+                                       class="field" style="width: 90%;">
+                            </td>
+                            <td width='8%'>
+                                Peso(kg)<br>
+                                <input type='text' name='part_peso' id="part_peso" maxlength="7"
+                                       class="field" style="width: 90%;" onblur="formataPeso()" >
+                            </td>
+                            <td width='8%'>
+                                Altura(cm)<br>
+                                <input type='text' name='part_altura' id="part_altura"
+                                       onkeypress="return SomenteNumero(event)" onblur="validaAltura()"
+                                       class="field" maxlength="3" style="width: 90%;">
+                            </td>
+                            <td width='10%'>
+                                Avaliação alterada?<br>
+                                <input type='checkbox' name='part_aval' id="part_aval"
+                                       class="field" value="1"  />
+                            </td>
+                            <td colspan="2">
+                                <fieldset>
+                                    <legend>Programa nacional de controle do tabagismo</legend>
+                                    <table>
+                                        <td width='8%'>
+                                            Parou de fumar?<br>
+                                            <input type='checkbox' name='part_fuma' id="part_fuma"
+                                                   class="field" value="1" />
+                                        </td>
+                                        <td width='10%'>
+                                            Abandonou o grupo?<br>
+                                            <input type='checkbox' name='part_grupo' id="part_grupo"
+                                                   class="field" value="1" />
+                                        </td>
+                                    </table>
+                                </fieldset>
+                            </td>
+                            <td width="4%">
+                                <a href="#"  id="confirm_paciente" style="margin-left: 9px; display: none;"
+                                   class="ui-button" onclick="confirmaParticipante()">Confirmar
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                    <table width="100%" id="usus_part" style="border: 1px solid #cef; margin-top: 20px; display: show;">
+                        <tr>
+                            <th width="24%">Participante</th>
+                            <th>Data de Nascimento</th>
+                            <th>Av. alt</th>
+                            <th>Peso(Kg)</th>
+                            <th>Altura(cm)</th>
+                            <th>Cessou háb.</th>
+                            <th>Abandonou o grupo</th>
+                            <th>Ações</th>
+                        </tr>
+                        <?php if (count($this->partsEdit)>0) { ?>
+                                <?php $y = 0; ?>
+                                <?php foreach($this->partsEdit as $val) { ?>
+                                        <?php $y++; ?>
+                                        <tr id='usu_part_qtd<?=$y?>' class="participantes <?=($val->st_avaliacao_alterada == "1" ? "aval" : "")?>">
+                                            <td>
+                                                <?=$val->usu_nome?>
+                                                <input type='hidden' name='usus_part[<?=$y?>][usu_codigo]' value="<?=$val->usu_codigo?>" />
+                                            </td>
+                                            <td>
+                                                <?=$this->data($val->dt_nascimento,Zend_Date::DATE_MEDIUM)?>
+                                                <input type='hidden' name='usus_part[<?=$y?>][dt_nascimento]' value="<?=$val->dt_nascimento?>" />
+                                            </td>
+                                            <td>
+                                                <?=($val->st_avaliacao_alterada == "1" ? "SIM" : "NÃO")?>
+                                                <input type='hidden' name='usus_part[<?=$y?>][st_avaliacao_alterada]' value="<?=$val->st_avaliacao_alterada?>" />
+                                            </td>
+                                            <td>
+                                               <?=$val->nu_peso?>
+                                               <input type='hidden' name='usus_part[<?=$y?>][nu_peso]' value="<?=$val->nu_peso?>" />
+                                            </td>
+                                            <td>
+                                                <?=$val->nu_altura?>
+                                                <input type='hidden' name='usus_part[<?=$y?>][nu_altura]' value="<?=$val->nu_altura?>" />
+                                            </td>
+                                            <td>
+                                                <?=($val->st_cessou_habito_fumar == 1 ? "SIM" : "NÃO")?>
+                                                <input type='hidden' name='usus_part[<?=$y?>][st_cessou_habito_fumar]' value="<?=$val->st_cessou_habito_fumar?>" />
+                                            </td>
+                                            <td>
+                                                <?=($val->st_abandonou_grupo == 1 ? "SIM" : "NÃO")?>
+                                                <input type='hidden' name='usus_part[<?=$y?>][st_abandonou_grupo]' value="<?=$val->st_abandonou_grupo?>" />
+                                            </td>
+                                            <td>
+                                                <a href='#'>
+                                                    <img src="<?=$this->baseUrl()?>/public/images/icons/excluir.png" alt="Excluir" title="Excluir" onclick="excluirConfirmacaoPart(<?=$y?>)" />
+                                                </a>
+                                            </td>
+                                        </tr>
+                                <?php } ?>
+                        <?php } else { ?>
+                                <tr id="usus_part_qtd0">
+                                    <td colspan="7">Nenhum participante registrado até o momento.</td>
+                                </tr>
+                        <?php } ?>
+                        <input type="hidden" id="usus_part_qtd" value="<?=$y?>" />
+                    </table>
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td align='right'>
+                <a href="<?=$this->url(array("controller"=>"atividade-coletiva","action"=>"index"));?>"  class="ui-button voltar" data-atalho="ESC">Voltar</a>
+                <a href="#" class="ui-button salvar" id="enviar">Salvar Dados</a>
+            </td>
+        </tr>
+    </table>
+</form>

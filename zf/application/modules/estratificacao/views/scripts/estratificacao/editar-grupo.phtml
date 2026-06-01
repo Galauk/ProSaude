@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="/WebSocialSaude/zf/public/css/estratificacao/editar-grupo.css">
+    
+    <title>Document</title>
+</head>
+<body>
+    
+    <form>
+
+        <div>
+
+            <label id = "labelNome" for=""> Nome do Grupo </label>
+
+            <input class = "inputsGrupos" id = "nomeDoGrupo" type="text" value = "<?=$this->recebeGrupoPerguntas[0][est_gruponome]?>">
+
+            <button class = "botoesAcoes" title="Alterar nome do Grupo" type = "button" onclick = "alterarNomeDoGrupo(<?=$this->recebeGrupoPerguntas[0][id_grupoperg]?>)"> 
+                                        
+                <img src="/WebSocialSaude/zf/public/images/icons/atualizar.png" alt="">
+                
+            </button>
+
+
+        </div>
+
+        <div>
+
+            <fieldset>
+
+                
+                <legend>Perguntas / Peso</legend>
+
+                    <?php
+                
+                    for ($contador=0; $contador < count($this->recebeGrupoPerguntas); $contador++) { 
+                        
+                        if ($contador == 0) {?>
+                            
+                            <div class = "divInputs" id = "divPerguntas<?=$this->recebeGrupoPerguntas[$contador][id_perg]?>">
+                                
+                                <input type="text" class = "inputsGrupos" id = "tituloPergunta<?=$this->recebeGrupoPerguntas[$contador][id_perg]?>" name = "tituloPergunta" style = "display: inline;" value = "<?=$this->recebeGrupoPerguntas[$contador][est_pergunta]?>">
+                                
+                                <input type="text" class = "inputsGrupos" id = "valorPergunta<?=$this->recebeGrupoPerguntas[$contador][id_perg]?>" name = "valorPergunta" style = "display: inline;" value = "<?=$this->recebeGrupoPerguntas[$contador][est_pergvalue]?>">
+                                
+                                <button class = "botoesAcoes" title="Atualizar Pergunta" type = "button" onclick = "alteraTituloPergunta(<?=$this->recebeGrupoPerguntas[$contador][id_perg]?>)"> 
+                                        
+                                    <img src="/WebSocialSaude/zf/public/images/icons/atualizar.png" alt="">
+                                        
+                                </button>
+
+                                <button class = "botoesAcoes" title="Excluir Pergunta" type = "button" onclick = "removerPergunta(<?=$this->recebeGrupoPerguntas[$contador][id_perg]?>)"> 
+                                        
+                                    <img src="/WebSocialSaude/zf/public/images/icons/remove.png" alt="">
+                                        
+                                </button>
+                                    
+                                </div>
+                                
+                        <?}else{?>
+                            
+                            <div class = "divInputs" id = "divPerguntas<?=$this->recebeGrupoPerguntas[$contador][id_perg]?>">
+
+                                <input type="text" class = "inputsGrupos" id = "tituloPergunta<?=$this->recebeGrupoPerguntas[$contador][id_perg]?>" name = "tituloPergunta" style = "display: inline-block;" value = "<?=$this->recebeGrupoPerguntas[$contador][est_pergunta]?>">
+                                
+                                <input type="text" class = "inputsGrupos" id = "valorPergunta<?=$this->recebeGrupoPerguntas[$contador][est_pergvalue]?>" name = "valorPergunta" style = "display: inline;" value = "<?=$this->recebeGrupoPerguntas[$contador][est_pergvalue]?>">
+                                
+                                <button class = "botoesAcoes" title="Atualizar Pergunta" type = "button" onclick = "alteraTituloPergunta(<?=$this->recebeGrupoPerguntas[$contador][id_perg]?>)"> 
+                                        
+                                    <img src="/WebSocialSaude/zf/public/images/icons/atualizar.png" alt="">
+                                        
+                                </button>
+
+                                <button class = "botoesAcoes" title="Excluir Pergunta" type = "button" onclick = "removerPergunta(<?=$this->recebeGrupoPerguntas[$contador][id_perg]?>)"> 
+                                        
+                                    <img src="/WebSocialSaude/zf/public/images/icons/remove.png" alt="">
+                                        
+                                </button>
+                                    
+                            </div>
+                                
+                        <?}
+                        
+                    }
+                    
+                ?>
+            </fieldset>
+
+        </div>
+        
+        <div hidden id = "alteracaoPergunta">
+
+            <p>Deseja realmente alterar os dados da pergunta ?</p>
+
+        </div>
+
+        <div hidden id = "excluirPergunta">
+
+            <p>Deseja realmente EXCLUIR a pergunta ?</p>
+
+        </div>
+
+        
+        <div hidden id = "alterarNomeDoGrupo">
+
+            <p>Deseja realmente alterar o nome do grupo ?</p>
+
+        </div>
+        
+        
+    </form>
+    
+</body>
+</html>

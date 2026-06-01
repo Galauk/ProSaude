@@ -1,0 +1,26 @@
+<table>
+    <tr>
+        <th>Carro</th>
+        <th width="50">Quantidade</th>          
+    </tr>
+<? if ($this->dados->count()){ 
+    foreach ($this->dados as $item){ ?>
+        <tr>
+            <td><?=$item->vei_descricao?></td>
+            <td><?=$item->total?></td>    
+        </tr>
+
+    <? 
+    $total += $item->total;
+    }
+?>
+    <tr style='font-weight:bold;'>
+        <td align="right" >Total</td>
+        <td><?=$total?></td>
+    </tr>
+ <?}else{?>
+         <tr>
+             <td colspan="2"> Nenhum dado Encontrado </td>             
+        </tr>
+  <?} ?>
+</table>

@@ -1,0 +1,103 @@
+<?php $this->errorMsg(); ?>
+<?php $this->dialog();
+//echo"<pre>".print_r($this->dados,1); 
+?>
+<form method="post" name="form" id="form" action="<?= $this->url(array("action" => "salvar")); ?>">
+<div class='abas'> 
+    <ul class="tabs">
+            <li><a href="#tabs2-1">Identificação</a></li>
+            <li><a href="#tabs2-2">Informação</a></li>
+    </ul>
+    <div id='tabs2-1'>
+        <input type="hidden" name="vei_codigo" id="vei_codigo"   value="<?= $this->dados->vei_codigo?>" />
+        <label>Data Aquisição:</label>
+        <input type="text" name="vei_data_aquisicao" id="vei_data_aquisicao" style="width:80px;" maxlength="14"  value="<?=(!$this->dados->vei_data_aquisicao ? "" : $this->data($this->dados->vei_data_aquisicao,Zend_Date::DATE_MEDIUM));?>" class="mask data-futura" rel="99/99/9999" /><br />
+        
+        <label>Descrição:</label>
+        <input type="text" name="vei_descricao" id="vei_descricao"   value="<?= $this->dados->vei_descricao?>" /><br />
+
+        <label>Placa:</label>	
+        <input type="text" name="vei_placa" id="vei_placa" style="width:70px; text-transform:uppercase; "  value="<?=$this->dados->vei_placa?>" class="mask" rel="aaa-9999" /><br />
+       
+
+        <label>Chassi:</label>	
+        <input type="text" name="vei_chassi" id="vei_chassi" style="width:180px;"  value="<?= $this->dados->vei_chassi ; ?>" /><br />
+
+        <label>Renavan:</label>
+        <input type="text" name="vei_renavan" id="vei_renavan" style="width:150px;"  value="<?= $this->dados->vei_renavan ; ?>" /><br />
+        
+        <label>Situação</label>
+        <select name="veis_situacao" id="vei_situacao">     
+            <?foreach ($this->situacao as $situacao){?>
+            <option value="<?=$situacao->veis_codigo?>" <? if ($this->dados->veis_codigo == $situacao->veis_codigo) { echo("selected=\"selected\""); } ?>><?=$situacao->veis_descricao?></option>         
+            <?}?>           
+        </select><br />
+        
+         <label>Capacidade:</label>
+        <input type="text" name="vei_capacidade" id="vei_capacidade" style="width:50px;"  value="<?= $this->dados->vei_capacidade ; ?>" /><br />
+        
+        <label>Placa Patrimonial:</label>
+        <input type="text" name="vei_placa_patrimonial" id="vei_placa_patrimonial" style="width:150px;"  value="<?= $this->dados->vei_placa_patrimonial ; ?>" /><br />
+        
+        
+        <label>Fornecedor:</label>
+        <input type="text" name="for_nome" id="for_nome" value="<?= $this->dados->for_nome ; ?>" /><br />
+        <input type="hidden" name="for_codigo" id="for_codigo" value="<?= $this->dados->for_codigo?>">
+        
+        <label>Espécie do Veículo:</label>
+        <select name="veie_especie" id="vei_especie">
+           <?foreach ($this->especie as $especie){?>
+            <option value="<?=$especie->veie_codigo?>" <? if ($this->dados->veie_codigo == $especie->veie_codigo) { echo("selected=\"selected\""); } ?>><?=$especie->veie_descricao?></option>         
+            <?}?> 
+        </select><br />
+    </div>
+    <div id='tabs2-2'>
+        <label>Nota Fiscal:</label>
+        <input type="text" name="vei_nota_fiscal" id="vei_nota_fiscal"   value="<?= $this->dados->vei_nota_fiscal?>" /><br />
+
+        <label>Ano Fabricação:</label>	
+        <input type="text" name="vei_ano" id="vei_ano" style="width:70px;"  maxlength="4" value="<?=$this->dados->vei_ano?>" /><br />
+       
+
+        <label>Ano/Modelo:</label>	
+        <input type="text" name="vei_ano_modelo" id="vei_ano_modelo" style="width:100px;"  maxlength="4"  value="<?= $this->dados->vei_ano_modelo ; ?>" /><br />
+
+        <label>Cor:</label>
+        <input type="text" name="vei_cor" id="vei_cor" style="width:100px;"  value="<?= $this->dados->vei_cor ; ?>" /><br />
+        
+        <label>Tipo de Carga:</label>
+        <select name="vei_tipo_transporte" id="vei_tipo_transporte">
+             <?foreach ($this->tipo_transporte as $tipo_transporte){?>
+            <option value="<?=$tipo_transporte->veit_codigo?>" <? if ($this->dados->veit_codigo == $combustivel->veit_codigo) { echo("selected=\"selected\""); } ?>><?=$tipo_transporte->veit_descricao?></option>         
+            <?}?> 
+        </select><br />
+        
+        <label>CNH Mínima:</label>
+        <input type="text" name="vei_cnh_minima" id="vei_cnh_minima" style="width:50px; text-transform:uppercase;" value="<?= $this->dados->vei_cnh_minima ; ?>" /><br />
+        
+        <label>Qtde Tanque:</label>
+        <input type="text" name="vei_qtde_tanque" id="vei_qtde_tanque" style="width:50px;" maxlength="3" value="<?= $this->dados->vei_qtde_tanque ; ?>" /><br />
+        
+        <label>Média:</label>
+        <input type="text" name="vei_media" id="vei_media" style="width:50px;"  value="<?= $this->dados->vei_media ; ?>" /><br />
+        
+        <label>Tipo Combustível:</label>
+        <select name="vei_combustivel" id="vei_combustivel">
+            <?foreach ($this->combustivel as $combustivel){?>
+            <option value="<?=$combustivel->veic_codigo?>" <? if ($this->dados->veic_codigo == $combustivel->veic_codigo) { echo("selected=\"selected\""); } ?>><?=$combustivel->veic_descricao?></option>         
+            <?}?>
+        </select><br />
+        
+        <label>Tipo de Transporte:</label>
+        <input type="radio" name="tipo_veiculo" value="T" checked="checked">Terrestre
+        <input type="radio" name="tipo_veiculo" value="A">Aéreo
+        <input type="radio" name="tipo_veiculo" value="F">Fluvial
+        
+        
+    </div>	
+   <a href="#" class="ui-button salvar"  style="margin-left: 185px;">Salvar</a>
+	<a href="<?=$this->url(array("action"=>"index", "module"=>"transporte","controller" => "veiculo"),NULL,TRUE)?>" class="ui-button voltar" data-atalho="ESC">Voltar</a>	
+</div>
+	
+</form>
+<div class="space"></div>

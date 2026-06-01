@@ -1,0 +1,47 @@
+<?php $this->dialog(); ?>
+<form id="frm" method="post" action="">
+    <input type="hidden" name="horus" value="t">
+	<div class="f">
+		<label>Buscar produto horus:</label>
+		<input id="buscar3" />
+		<input name="pro_codigo" id="pro_codigo" type="hidden" /><br />
+		
+		<label>Nome:</label>
+		<input id="pro_nome" /><br />		
+	</div>
+
+	<div class="f2" id="errados" style="margin-left: 10px;">
+                <!-- caso queira usar a busca genérica utilize isso-->
+		<!--<label>Buscar produtos duplicados:</label>
+		<input id="buscar2" />
+		<input id="pro_codigo_2" type="hidden" /><br />
+		
+		<label>Nome:</label>
+		<input id="pro_nome_2" /><br />
+			
+		<a href="#" class="ui-button add" id="selecionar">Selecionar</a>-->
+                
+                <select name="pro_codigo_duplicado[]" id="com_movimentacao" style="width: 350px; height: 220px" multiple="multiple">
+                    <? foreach($this->produtos as $produto):?>
+                    <option value="<?=$produto->pro_codigo?>"><?=$produto->pro_nome?></option>
+                    <? endforeach;?>
+                    
+                </select>
+
+	</div>
+	
+	<div class="clear space"></div>
+	<!--<div class="f">
+		<label>Selecionados:</label>		
+	</div>
+	<div class="f2" style="margin-left: 5px;">
+		<select name="pro_codigo_duplicado[]" id="duplicados" style="width: 350px; height: 120px" multiple="multiple"></select>		
+	</div>
+         -->
+	<div class="clear space"></div>
+
+	<a href="#" class="ui-button salvar-icon" data-atalho="CTRL+S">Salvar</a>
+	<a href="#" class="ui-button limpar">Limpar</a>
+        <? $action = $this->url(array("action"=>"imprimir-horus"));?>
+	<a href="<?=$action?>" class="ui-button imprimir popup" rel="830x840">Imprimir</a>
+</form>

@@ -1,0 +1,26 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+
+<link rel="stylesheet" href="/WebSocialSaude/zf/public/css/atendimento/atendimento-simplificado/form-procedimento.css">
+<!-- <script src="/WebSocialSaude/zf/public/js/atendimento/atendimento-simplificado/form-ficha-raas.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+
+
+<form name="busca" method="post" action="">
+
+    <div align="center">
+
+        <a href="<?=$this->url(array("action"=>"index-grupo", "module"=>"estratificacao","controller" => "estratificacao",NULL,TRUE));?>" style="" class="ui-button add ui-corner-bl ui-corner-tr">Adicionar Grupo de Perguntas</a>
+ 
+        <a href="<?=$this->url(array("action"=>"pergunta", "module"=>"estratificacao","controller" => "estratificacao"),NULL,TRUE);?>" style="" class="ui-button add ui-corner-bl ui-corner-tr">Adicionar Pergunta</a>
+
+
+        <a href="<?=$this->url(array("action"=>"ficha", "module"=>"estratificacao","controller" => "estratificacao",NULL,TRUE));?>"   style="" class="ui-button add ui-corner-bl ui-corner-tr">Adicionar Ficha</a>
+
+
+    </div>
+
+
+
+</form>

@@ -1,0 +1,1 @@
+﻿DROP TABLE pma2_visitas_domiciliares, pma2_solicitacao_exames, pma2_procedimentos, pma2_marcadores, pma2_encaminhamento, pma2_atividades, pma2_atendimento, pma2

@@ -1,0 +1,88 @@
+<html>
+<head>
+    <link href='<?=$this->baseUrl('/public/css/print.css')?>' rel='stylesheet' type='text/css'></link>
+    <script type="text/javascript">
+            var baseUrl = '<?=$this->baseUrl();?>';
+    </script>
+</head>
+<body>
+    <div id="page">
+            <div id="header">
+                    <div id="header_logo">
+                            <img src="<?=$this->baseUrl('/public/images/brasao.gif')?>" title="Logo Prefeitura" />
+                    </div>
+                    <div id="header_dados">
+                            <div id="sec_nome">Prefeitura Municipal de <?=$this->dadosSecretaria()->cidade;?></div>
+                            <div id="pref_nome">Secretaria Municipal de Saúde</div>
+                    </div>
+                    <div class="clear"></div>
+            </div>
+            <br/><br/><br/>
+            <div id="dados_pac">
+                    <div id="pac_nome"><?=$this->movimento->usu_codigo." - ".$this->movimento->usu_nome?></div>
+                    <div>Dt.Nascimento: <b><?=$this->data($this->movimento->usu_datanasc)?> </b>CNS: <b><?=$this->movimento->usu_cartao_sus?></b></div>
+                    <div>Profissional: <b> <?=($this->movimento->usr_nome == "" ? $this->movimento->med_nome : $this->movimento->usr_nome)?></b></div>
+                    <div>Setor: <b> <?=$this->set_nome?></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Data:<b><?=$this->movimento->mov_data?></b></div>
+                    
+            </div>
+            <br/>
+            <table class="lista">
+                <tr>
+                    <th>
+                        Produto
+                    </th>
+                    <th>
+                        Quantidade
+                    </th>
+                    <th>
+                        Lote
+                    </th>
+                    <th>
+                        Validade
+                    </th>
+                    
+                </tr>
+            <?foreach($this->itens_mov as $im):?>
+                <tr>
+                    <td>
+                        <?=$im->pro_nome?>
+                    </td>
+                    <td>
+                        <?=round($im->ite_quantidade)?>
+                    </td>
+                    <td>
+                        <?=$im->ite_lote?>
+                    </td>
+                    <td>
+                        <?=$this->data($im->ite_validade)?>
+                    </td>
+                </tr>
+                
+                <div class="clear"></div>
+            <?endforeach;?>
+            </table>
+            <?echo "
+                <br /><br /><br /><br /><br />";
+                echo "
+                <div>
+                        <div style='float:left;width:49%'>
+                                ______________________________
+                                <br/>".
+                                $this->movimento->usu_nome."
+                        </div>
+                        <div style='float:left;width:50%'>
+                                ______________________________
+                                <br/>
+                                ".
+                                $this->usr."
+                        </div>
+                </div>";?>
+            <div class="clear"></div>
+            <div id="footer">
+                    Secretaria Municipal de Saúde - <?=$this->dadosSecretaria()->endereco;?>
+            </div>
+    </div>
+</body>
+</html>

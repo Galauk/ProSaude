@@ -1,0 +1,69 @@
+<br />
+<link href='../../../estilo.css' rel='stylesheet' type='text/css'></style>
+<table class="lista">
+		
+       <?php foreach ($this->listUniCodigo as $uniCodigo){?>
+            <?php if ($unidade != $uniCodigo->uni_codigo){
+                $unidade= $uniCodigo->uni_codigo; ?>
+                    <tr>
+			 		 <th colspan="5" style="font-size: 16px; background-color: #CDC9C9;" ><?=$uniCodigo->uni_desc?></th>
+					</tr>
+					<?php foreach ($this->totalAtendIndividual as $atendInd){?>
+           				 <?php if ($unidade == $atendInd->uni_codigo){?>
+                    		<tr style="font-size: 16px">
+            					<td>&nbsp Total Atendimento Individual</td>
+            					<td><?=$atendInd->total?></td>
+            				</tr>
+            			 <?php }?>
+      				<?php }?>
+      				<?php foreach ($this->totalAtivColetiva as $ativCol){?>
+           				 <?php if ($unidade == $ativCol->uni_codigo){?>
+                    		<tr style="font-size: 16px">
+            					<td>&nbsp Total Atividade coletiva</td>
+            					<td><?=$ativCol->total?></td>
+            				</tr>
+            			 <?php }?>
+      				<?php }?>
+      				<?php foreach ($this->totalCadastroIndividual as $cadInd){?>
+           				 <?php if ($unidade == $cadInd->uni_codigo){?>
+                    		<tr style="font-size: 16px">
+            					<td>&nbsp Total Cadastro Individual</td>
+            					<td><?=$cadInd->total?></td>
+            				</tr>
+            			 <?php }?>
+      				<?php }?>
+      				<?php foreach ($this->totalFichaProcedimento as $fichaProc){?>
+           				 <?php if ($unidade == $fichaProc->uni_codigo){?>
+                    		<tr style="font-size: 16px">
+            					<td>&nbsp Total Ficha Procedimento</td>
+            					<td><?=$fichaProc->total?></td>
+            				</tr>
+            			 <?php }?>
+      				<?php }?>
+      				<?php foreach ($this->totalOdonto as $odonto){?>
+           				 <?php if ($unidade == $odonto->uni_codigo){?>
+                    		<tr style="font-size: 16px">
+            					<td>&nbsp Total Odontologia</td>
+            					<td><?=$odonto->total?></td>
+            				</tr>
+            			 <?php }?>
+      				<?php }?>
+      				<?php foreach ($this->totalVisitaDomiciliar as $visitDom){?>
+           				 <?php if ($unidade == $visitDom->uni_codigo){?>
+                    		<tr style="font-size: 16px">
+            					<td>&nbsp Total Visita Domiciliar</td>
+            					<td><?=$visitDom->total?></td>
+            				</tr>
+            			 <?php }?>
+      				<?php }?>
+            	
+            <?php }?>
+            		
+       <?php }?>
+       
+  
+        
+  	
+    
+
+</table>

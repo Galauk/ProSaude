@@ -1,0 +1,148 @@
+<?php
+
+    
+
+?>
+
+<input type="hidden" id="edit" value="">
+<body>
+<div class="menu_small" id="entrada" data-tipo="E" data-acao="entrada/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-add-icon-small.png");?>" alt="Entrada" title="Entrada" />
+</div>
+<div class="menu_small" id="saida" data-tipo="S" data-acao="saida/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-delete-icon-small.png");?>" alt="Saída" title="Saída" />
+</div>
+<div class="menu_small" id="transferencia" data-tipo="T" data-acao="transferencia/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/cart-go-icon-small.png");?>" alt="Transferência" title="Transferência" />
+</div>
+<div class="menu_small" id="controle-movimentos" data-tipo="C" data-acao="controle-movimentos/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/counter-count-up-icon-small.png");?>" alt="Controle Movimentos" title="Controle Movimentos" />
+</div>
+<div class="menu_small" data-tipo="R" data-acao="requisicao-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/requisicao_small.png");?>" alt="Requisiçao Materiais" title="Requisicao Materiais" />
+</div>
+<div class="menu_small" data-tipo="EV" data-acao="envio-de-materiais/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/envio_small.png");?>" alt="Envio de Materiais" title="Envio de Materiais" />
+</div>
+<div class="menu_small" data-tipo="M" data-acao="movimentacao/index">
+    <img src="<?=$this->baseUrl("/public/images/icons/Menu-icon.png");?>" alt="Movimentações" title="Movimentações" />
+</div>
+<div class="clear"></div><br/><br/>
+
+<div id="area_entrada" style="height: 400px;">
+    <div class="form_movimento">
+        <form id="form">
+            <input type="hidden" name="config_imp" id="config_imp" value="<?=$this->config_imp?>">
+            <input type="hidden" name="mov_tipo" id="mov_tipo" value="T">
+            <input type="hidden" name="mov_entrada" id="mov_entrada" value="T">
+            <input type="hidden" name="mov_saida" id="mov_saida" value="T">
+
+            <label>Centro Estocador Origem:</label>
+            <?=$this->setor_origem?><br/>
+            <?if($this->itens[mov_codigo]): // o select tag eh muito complicado pra passar parametros?>
+                <script>$("#set_codigo").prop('disabled', 'disabled');</script>
+            <?endif;?>
+            
+            <label>Centro Estocador Destino:</label>
+            <?=$this->setores?><br/>
+            <?if($this->itens[mov_codigo]): // o select tag eh muito complicado pra passar parametros?>
+                <script>$("#set_codigo_destino").prop('disabled', 'disabled');</script>
+            <?endif;?>
+            <label style="">Observações:</label>
+            <div class="textarea">
+                <textarea name="mov_observacao" id="mov_observacao" class="tinymce"  style="width: 300px;height: 100px;">
+
+                </textarea>
+            </div>
+            <br/>
+            <?if(!$this->itens[mov_codigo]):?>
+                <a href="#" class="ui-button salvar-icon salvar-saida" style="margin-left:80px" onclick="validaCadastro();">
+                    Salvar</a>
+                <?$display = "style=\"display:none;\"";?>
+            <?endif;?>
+
+        </form>
+    </div>
+     <div class="form-entrada-esq" <?=$display?>>
+        <form class="itens_entrada" style="margin:10px">
+            <input type="hidden" id="ite_codigo" name="ite_codigo" value="" >
+            <input type="hidden" id="mov_codigo" name="mov_codigo" value="<?=$this->itens[mov_codigo]?>">
+            <input type="hidden" id="pro_fracionado" name="pro_fracionado" value=""><!-- Vem a busca generica
+            <!--<input type="hidden" id="pro_validade" name="pro_validade" value=""><!-- Vem a busca generica-
+            <!-- Vem a busca generica e armazena condição se o produto possui vinculo com setor
+            <input type="hidden" id="produto_vinculo_setor" name="produto_vinculo_setor" value="">-->
+            <input type="hidden" id="data_atual" name="data_atual" value="<?=date("Ymd")?>"><br/>
+            <label>Produto:</label>
+            <input type="hidden" name="pro_codigo" id="pro_codigo" value="">
+            <input type="hidden" name="recebeCodigoItensMovimento" id="recebeCodigoItensMovimento" value="">
+            <input type="text" name="pro_nome" class="upper" id="pro_nome" value="" onkeypress="buscaProdutoTransf()">
+            <div id="div_lotes" style="display:none">
+
+            </div>
+            <label>Quantidade:</label>
+            <input type="text" name="ite_quantidade" maxlength="20"  id="ite_quantidade" onkeypress="return SomenteNumero(event)" value="">
+            <div id="doses" style="display:none">
+                <label>Doses:</label>
+                <input type="text" name="ite_doses" id="ite_doses" onkeypress="return SomenteNumero(event)" value="">
+            </div>
+
+            <div id="doses">
+                <label>Quantidade Total Setor Destino:</label>
+                <input type="text" name="qtdeSetorDestino" id="qtdeSetorDestino" onkeypress="return SomenteNumero(event)" value="<?=$this->retornaEstoqueCentroDestino?>">
+            </div>
+
+            <div id="doses" style="display:none">
+                <label>Doses:</label>
+                <input type="text" name="ite_doses" id="ite_doses" onkeypress="return SomenteNumero(event)" value="">
+            </div>
+            <div id="botao-add" >
+                <a href="#" class="ui-button add salvar-itens-entrada" style="margin-left:55px" onclick="addItens();">Adicionar</a>
+            </div>
+
+        </form>
+    </div>
+    <div style="clear:both;"></div><br/>
+    <div id="itens_movimento" <?=$display?>>
+        <div id="itens_entrada"> <!--style="display: none"-->
+
+            <div class="itens-entrada-dir" <?=$display?>>
+                <table width="100%" id="table-itens" border="0">
+                    <tr>
+                        <th width="300">
+                            Produto
+                        </th>
+                        <th width="90">
+                            Qtde / Frac.
+                        </th>
+                        <th width="150">
+                            Lote
+                        </th>
+                        <th width="30">
+                        </th>
+                    </tr>
+                    <?if(count($this->itens_movimento)):?>
+                        <input type="hidden" id="finalizar_all" value="1">
+                        <?foreach($this->itens_movimento as $item_movimento):?>
+                            <tr class="<?=$item_movimento[pro_codigo].$this->validaCaracteres($item_movimento[ite_lote])?> item_entrada" data-nome="<?=$item_movimento[pro_nome]?>" data-doses="<?=$item_movimento[ite_doses]?>" data-valor="<?=$item_movimento[ite_vlrunid]?>"  data-val="<?=$this->data($item_movimento[ite_validade])?>" data-lote="'<?=$item_movimento[ite_lote]?>" data-qtde="<?=$item_movimento[ite_quantidade]?>"  data-pro="<?=$item_movimento[pro_codigo]?>" data-ite="<?=$item_movimento[ite_codigo]?>">
+                                <td><?=$item_movimento[pro_nome]?></td>
+                                <td align=center> <?=round($item_movimento[ite_quantidade])?></td>
+                                <td><?=$item_movimento[ite_lote]?></td>
+                                <td align=center width="80">
+                                    <?//<img src="<?=$this->baseUrl("/public/images/icons/editar.png");? >" alt="Editar" title="Editar" onclick="editar('<?=$item_movimento[pro_codigo]."|".$this->validaCaracteres($item_movimento[ite_lote])? >','<?=$item_movimento[ite_codigo]? >')"/>?>
+                                    <img src="<?=$this->baseUrl("/public/images/icons/excluir2.png");?>" alt="Excluir" title="Excluir" onclick="excluirItem('<?=$item_movimento[pro_codigo]."|".$item_movimento[ite_lote]?>','<?=$item_movimento[ite_codigo]?>')"/>
+                                </td>
+                            </tr>
+                        <?endforeach;?>
+                    <?endif;?>
+                </table>
+                
+            </div>
+        </div>
+
+    </div>
+    <br/><br/><br/>
+    <div id="div_finalizar" <?=$display?>>
+        <a href="#" class="ui-button finalizar" style="margin-left:55px; margin-top: 10px" onclick="finalizaMovimentacao();">Finalizar</a>
+    </div>
+</div>
+</body>

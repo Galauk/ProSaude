@@ -1,0 +1,64 @@
+<?php $this->dialog(); ?>
+<?php $this->errorMsg(); ?>
+<form name="busca" method="POST" action="<?=$this->baseUrl();?>/programasfederais/ficha-odontologica/buscar" id="form-busca">
+    <a href="<?=$this->baseUrl();?>/programasfederais/ficha-odontologica/form" class="ui-button novo ui-corner-bl ui-corner-tr" data-atalho="CTRL+N">Novo</a>
+    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>
+
+    <input size="50" class="focus ui-state-default" name="busca" value="" type="text" >
+     <select name="tipo_busca" class="ui-state-default">
+        <option value="">Tipo de busca</option>
+        <option value="1">Profissional</option>
+        <option value="2">Data</option>
+        <option value="3">CBO</option>
+        <option value="4">Unidade</option>
+    </select>
+
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+        <tr class='ui-widget-header'>
+            <th>Data</th>
+            <th>Profissional</th>
+            <th>CBO</th>
+            <th>Unidade</th>
+            <th>Ações</th>
+        </tr>
+    <?php 
+    if(count($this->dados)>0) {
+    foreach($this->dados as $item) { ?>
+        <tr>
+            <td class='ui-state-default'><?=$this->data($item->ate_data)?></td>
+            <td class='ui-state-default'><?=$item->usr_nome?></td>
+            <td class='ui-state-default'><?=$item->cod_cbo?></td>
+            <td class='ui-state-default'><?=$item->uni_desc?></td>
+            <td class='ui-state-default'>
+                <?php
+                if ($this->data($item->ate_data_insert) == date("d/m/Y")) {?> 
+                    
+                    <a href="<?=$this->baseUrl();?>/programasfederais/ficha-odontologica/excluir/id/<?=$item->ate_codigo?>" 
+                       class="excluir"/>
+                        <img src="<?=$this->baseUrl();?>/public/images/icons/excluir.png" alt="Editar Item" title="Excluir Item">
+                    </a>
+
+                    <a href="<?=$this->baseUrl();?>/programasfederais/ficha-odontologica/editar-ficha-odonto/id/<?=$item->ate_codigo?>" 
+                       class=""/>
+                        <img src="<?=$this->baseUrl();?>/public/images/icons/editar.png" alt="Editar Item" title="Editar Item">
+                    </a>
+
+                <?php
+                } ?>
+                <a href="<?=$this->baseUrl();?>/programasfederais/ficha-odontologica/visualizar-odonto/id/<?=$item->ate_codigo?>" 
+                       class=""/>
+                        <img src="<?=$this->baseUrl();?>/public/images/icons/ver.png" alt="Editar Item" title="Vizualizar">
+                </a>
+
+            </td>
+        </tr>
+    <?php 
+    } ?>
+    <?php  
+    } else {?>
+        <td colspan="6">Nenhum item encontrado</td>
+    <?php 
+    } ?>
+</table>

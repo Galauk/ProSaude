@@ -1,0 +1,21 @@
+<!--<?php $this->dialog(); ?>
+<p>Escolha os Bioquímicos responsáveis pelos laudos dos exames.</p>
+<form method="post" action="#" id="form-configuracao">
+    <input type="hidden" name="age_codigo" id="age_codigo" value="<?=$this->age_codigo?>" />
+    <label style="width: 80px;">Bioquímicos:</label>
+    <?php foreach($this->bioquimicos as $value) { ?> 
+            <br />
+            <input name="bioquimicos[]" class="bioquimicos_resp" type="checkbox" <?=$value["agebr_codigo"] != "" ? "checked='checked'" : ""?>  value="<?=$value["usr_codigo"]?>" /><?=$value["usr_nome"]?>
+    <?php } ?>
+            <br /><br />
+            <a href="#" class="ui-button" onclick="salvar()">
+                <div><img src="<?=$this->baseUrl()?>/public/images/icons/salvar.png"></div>Salvar <span class="hotkey">(CTRL+S)</span>
+            </a>
+</form>-->
+
+<!--<?php $this->dialog(); ?>-->
+<form method="post" action="#" id="form-configuracao">
+    <input type="hidden" name="id_login" id="id_login" value="<?=$this->id_login?>" />
+    <input type="hidden" name="age_codigo" id="age_codigo" value="<?=$this->age_codigo?>" />
+    <input type="hidden" name="validacao" id="validacao" value="<?=$this->validacao?>" />
+</form>

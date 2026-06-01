@@ -1,0 +1,42 @@
+<?php $this->errorMsg(); ?>
+<form name="busca" method="POST" action="/WebSocialSaude/zf/agenda/convenio/pesquisa-agendamento-estabelecimentos-de-saude">
+    <a href="/WebSocialSaude/zf/agenda/convenio/agendamento-novo-vinculo-estabelecimento-de-saude" class="ui-button novo ui-corner-bl ui-corner-tr" data-atalho="CTRL+N">Novo</a>
+    <label class="ui-corner-bl ui-corner-tr">Buscar:</label>
+    <input size="50" class="focus ui-state-default" name="busca" value="" type="text">
+    <a href="#" class="ui-button salvar ui-corner-bl ui-corner-tr" data-atalho="CTRL+F">Buscar</a>
+</form>
+<table class='grid ui-widget ui-widget-content ui-corner-all' width='100%'>
+<?php 
+$i=0;
+if($this->itens && $this->itens->count()):
+foreach($this->itens as $item):?>
+        <?php if($i < 1) :?>
+            <tr class='ui-widget-header'>
+		<th>Convênio</th>
+		<th>Sábado</th>
+		<th>Domingo</th>
+		<th>Opções</th>
+            </tr>
+        <?php $i++; endif;?>
+        <tr>
+            <td class='ui-state-default'><?=$this->escape($item->convenio);?></td>
+            <td class='ui-state-default c' width='80'>
+                <?= ($item->conv_sabado == FALSE ? "<img src='".$this->baseUrl("/public/images/icons/excluir2.png")."' alt='Desativado' title='Desativado' />" :"<img src='".$this->baseUrl("/public/images/icons/accept.png")."' alt='Ativo' title='Ativo' />"); ?> 
+            </td>
+            <td class='ui-state-default c' width='80'>
+                <?= ($item->conv_domingo == FALSE ? "<img src='".$this->baseUrl("/public/images/icons/excluir2.png")."' alt='Desativado' title='Desativado' />" :"<img src='".$this->baseUrl("/public/images/icons/accept.png")."' alt='Ativo' title='Ativo' />" ); ?> </td>
+            <td class='ui-state-default c' width='80'>
+                <a href='<?=$this->url(array("action"=>"agendamento-estabelecimentos-de-saude-profissionais", "module"=>"agenda", "controller"=>"convenio-itens","conv"=>$item->conv_codigo), NULL, TRUE);?>' class='editar'>
+                    <img src='<?=$this->baseUrl('/public/images/icons/editar.png');?>' alt='Editar Itens' title='Editar Itens' />
+                </a>
+                <?//=$this->url(array('controller'=>'convenio','action'=>'excluir','id'=>$item->conv_codigo));?>
+                <a href='#' class='excsluir'>
+                    <img src='<?=$this->baseUrl('/public/images/icons/excluir.png');?>' alt='Excluir' title='Excluir' onclick="excluirVinculoAgendamentoEstabelecimentoDeSaude(<?=$item->conv_codigo?>,<?=$item->uni_codigo?>)" />
+                </a>
+            </td>
+        </tr>
+<?php endforeach; ?>
+</table>
+<?php else:?>
+        <em>Nenhum item encontrado</em>
+<?php endif;?>

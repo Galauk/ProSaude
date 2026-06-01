@@ -1,0 +1,16 @@
+<?php if(isset($this->itens) && $this->itens && $this->itens->count()): ?>
+<table class="grid ui-widget ui-widget-content ui-corner-all" width="100%">
+	<tr class="ui-widget-header">
+		<th>Especialidade</th>
+		<th>Observações</th>
+	</tr>
+	<?php foreach($this->itens as $item): ?>
+	<tr>
+		<td class="ui-state-default"><?=$this->escape($item->esp_nome);?></td>
+		<td class="ui-state-default escape"><?=str_replace("<p>&nbsp;</p>","",$item->enc_descricao);?></td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<?php else: ?>
+<em>Nenhum encaminhamento encontrado.</em>
+<?php endif; ?>

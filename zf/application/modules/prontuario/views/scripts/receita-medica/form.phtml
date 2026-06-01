@@ -1,0 +1,261 @@
+<?php
+$_SESSION[modulo] = "WebSocialSaude/";
+$_SESSION[root] = $_SERVER[DOCUMENT_ROOT] . "/";
+$_SESSION[linkroot] = "http://" . $_SERVER[HTTP_HOST] . "/";
+$_SESSION[comum] = "WebSocialComum/";
+$_SESSION[modulo] = "WebSocialSaude/";
+$_SESSION[modulo] = "WebSocialSaude/"; $_SESSION[root] = $_SERVER[DOCUMENT_ROOT] . "/"; $_SESSION[linkroot] = "http://" . $_SERVER[HTTP_HOST] . "/"; $_SESSION[comum] = "WebSocialComum/"; $_SESSION[modulo] = "WebSocialSaude/"; require_once $_SESSION[root].$_SESSION[modulo]."sessao_controller.php";
+$sessao = new TempoSessao();
+$sessao->primeiraPagina();
+?>
+<script type="text/javascript">
+    $(function () {
+        <?php if ($this->tipo == "externo") { ?>
+        $("#irec_produto").focus();
+        <?php } else { ?>
+        $("#pro_nome").focus();
+        <?php } ?>
+    });
+
+</script>
+<form method="post" action="<?= $this->url(array("action" => "salvar")); ?>" id="form_rec_<?= $this->tipo ?>"
+      class="formulario">
+    <div style="width:60%; display: inline-block; margin-right: -4px; vertical-align: top;">
+        <table>
+            <tr>
+                <td>
+                    <label style="font-size: 14px">Paciente:</label>
+                    <input style="height: 20px; font-size: 14px" value="<?= $this->usu_nome; ?>" readonly="readonly"/>
+                    <img id='usu_nome' src='<?= $this->baseUrl('/public/images/icons/enfermeira.png'); ?>'
+                         title="<? if ($this->pre) {
+                             echo 'Temperatura (°C): ' . $this->pre->pc_temperatura .
+                                 '   -   Peso (Kg): ' . $this->pre->pc_peso;
+                         }
+                         ?>"/>
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label style="font-size: 14px">Validade:</label>
+                    <input name="rec_validade" id="rec_validade"
+                           value="<?= ($this->dados->rec_validade ? date("d/m/Y", strtotime($this->dados->rec_validade)) : ""); ?>"
+                           style="height: 20px; font-size: 14px; width: 90px" class="mask" rel="99/99/9999"/><br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label style="font-size: 14px">Produto:</label>
+                    <?php if ($this->tipo == "externo"): ?>
+                        <input style="height: 20px; font-size: 14px" name="irec_produto" id="irec_produto"
+                               value="<?= $this->escape($this->externo->irec_produto); ?>"/><br/>
+                        <label style="font-size: 14px">Descrição:</label>
+                        <input style="height: 20px; font-size: 14px" name="desc_produto"
+                               value="<?= $this->escape($this->externo->desc_produto); ?>"/>
+                    <?php else: ?>
+                        <input style="height: 20px; font-size: 14px" class="buscar" id="pro_nome"
+                               rel="medicamento-<?= $this->tipo; ?>"/>
+                    <?php endif; ?>
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label style="font-size: 14px">Quantidade:</label>
+                    <input style="height: 20px; font-size: 14px; width: 40px" name="irec_quantidade"
+                           id="quantidade-medicamento-<?= $this->tipo; ?>"
+                           value="<?= $this->escape($this->posto->irec_quantidade); ?>"/>
+                    <span id="umed-medicamento-<?= $this->tipo; ?>" rel="medicamento-<?= $this->tipo; ?>">
+                    &nbsp;&nbsp;
+                    <span id="saldo-medicamento-<?= $this->tipo; ?>" rel="medicamento-<?= $this->tipo; ?>"></span>
+                    <br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label style="font-size: 14px">Recomendação Médica:</label>
+                    <div class="textarea">
+                        <textarea name="irec_recomendacao"
+                                  class="tinymce"><?= $this->posto->irec_recomendacao; ?></textarea>
+                    </div>
+                    <br/>
+                    <div class="space"></div>
+                    <a id="<?= $this->tipo ?>" href="#" class="ui-button salvar"
+                       >Salvar</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="width:20%; display: inline-block; margin-left: -4px; vertical-align: top;">
+        <?php if ($this->historico) { ?>
+            <a href="#" class="ui-button historico ui-corner-bl ui-corner-tr" id="onHistorico<?= $this->tipo ?>">Hist&oacute;rico</a>
+            <div id="dialog-historico<?= $this->tipo ?>" title="Hist&oacute;rico" style="width:80%;height:80%;">
+                <div style="width:100%; vertical-align: top;">
+                    <div>
+                        <div style="display: inline-block; vertical-align: top; width: 100%;">
+                            <label class="ui-corner-bl ui-corner-tr" style="font-size: 14px">Validade: </label><input
+                                    id="data_validade<?= $this->tipo ?>"
+                                    style="height: 20px; font-size: 14px; width: 90px" class="mask"
+                                    rel="99/99/9999"/>
+                            <label class="ui-corner-bl ui-corner-tr" style="font-size: 14px;margin-left:130px;">Apresentar </label><input
+                                    type="number" onchange="alteraRegistro<?= $this->tipo ?>()"
+                                    onblur="alteraRegistro<?= $this->tipo ?>()"
+                                    onkeypress="alteraregistro<?= $this->tipo ?>()" style="width:60px;" min="1"
+                                    id="qtd_registros<?= $this->tipo ?>" value="10"/> preescri&ccedil;&otilde;es
+                        </div>
+                    </div>
+                    <div style="height: 300px; overflow-y: auto;width:100%;margin:0;padding:0; display: block;left: 0;">
+                        <div id="itens_tabela<?= $this->tipo ?>"></div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+    <input type="hidden" name="rec_tipo" value="<?= $this->tipo; ?>" id="rec_tipo_<?= $this->tipo ?>"/>
+    <input type="hidden" id="ate_codigo" name="ate_codigo" value="<?= $this->ate_codigo ?>"/>
+    <input type="hidden" id="io_codigo" name="io_codigo" value="<?= $this->io_codigo ?>"/>
+    <input type="hidden" id="usu_codigo" name="usu_codigo" value="<?= $this->usu_codigo ?>"/>
+    <input type="hidden" id="rec_codigo" name="rec_codigo" value="<?= $this->dados->rec_codigo ?>"/>
+    <input type="hidden" id="obs" name="obs" value="<?= $this->obs ?>"/>
+    <input type="hidden" name="pro_codigo" id="pro_codigo-medicamento-<?= $this->tipo; ?>"/>
+</form>
+<form name="dialog" id="dialog" method="post">
+    <div id="inserir_complemento" style="display:none" align="center">
+        <div>
+            <div>
+                Quantidade:
+            </div>
+            <div>
+                <input name="irec_quantidade2" size="13" id="irec_quantidade2" class="inputForm" type="text"
+                       maxlength="8" onblur="addValorQtde(this.value)" required="true">
+            </div>
+        </div>
+    </div>
+</form>
+<div class="space"></div>
+<?php
+if (!$this->obs) {
+    echo $this->action("itens", "receita-medica", "prontuario", array("tipo" => $this->tipo));
+} else {
+    echo $this->action("itens-internacao", "receita-medica", "prontuario", array("io_codigo" => $this->io_codigo, "obs" => "S", "imprimi" => "S", "ate_codigo" => $this->ate_codigo, "usu_codigo" => $this->usu_codigo));
+}
+if ($this->historico) { ?>
+    <script>
+        $(function () {
+            dialog<?= $this->tipo ?> = $("#dialog-historico<?= $this->tipo ?>").dialog({
+                modal: true,
+                resizable: false,
+                height: "auto",
+                width: "90%",
+                autoOpen: false,
+                buttons: {
+                    Preescrever: function () {
+                        submeterHistorico<?=$this->tipo ?>($(this));
+
+                    },
+                    Fechar: function () {
+                        $(this).dialog('close');
+                    }
+                }
+            });
+            $("#onHistorico<?= $this->tipo ?>").click(function () {
+                alteraRegistro<?= $this->tipo ?>();
+                dialog<?= $this->tipo ?>.dialog("open");
+                dialog<?= $this->tipo ?>.show();
+            });
+            $("#data_validade<?= $this->tipo ?>").val($("#rec_validade").val());
+        });
+
+        function alteraRegistro<?= $this->tipo ?>() {
+            $.ajax({
+                url: '/WebSocialSaude/zf/prontuario/receita-medica/itens-historico-form/tipo/<?= $this->tipo ?>',
+                type: 'POST',
+                data: jQuery.param({limite: $('#qtd_registros<?= $this->tipo ?>').val()}),
+                success: function (data) {
+                    $("#itens_tabela<?= $this->tipo ?>").html(data);
+                },
+                error: function () {
+                    alert("Erro ao consultar histórico!");
+                }
+            });
+        }
+
+        function submeterHistorico<?= $this->tipo ?>(janela) {
+            var erro = false;
+            var length = $(".item").length;
+            $(".item").each(function (index) {
+                if (this.checked) {
+                    if ($("#" + this.getAttribute("data-qtd-id")).val().length<=0){
+                        alert("Preencha a Quantidade!");
+                    } else {
+                        if ($("#data_validade<?= $this->tipo ?>").val().length>0) {
+                            $.ajax({
+                                url: '/WebSocialSaude/zf/prontuario/receita-medica/itens-historico-salvar',
+                                type: 'POST',
+                                data: {
+                                    'pro_codigo': this.getAttribute("data-produto"),
+                                    'irec_quantidade': $("#" + this.getAttribute("data-qtd-id")).val(),
+                                    'irec_quantidade_pendente': $("#" + this.getAttribute("data-qtd-id")).val(),
+                                    'irec_recomendacao': $("#" + this.getAttribute("data-rec-id")).html(),
+                                    'rec_tipo':'<?= $this->tipo ?>',
+                                    'ate_codigo':$("#ate_codigo").val(),
+                                    'io_codigo':$("#io_codigo").val(),
+                                    'usu_codigo':$("#usu_codigo").val(),
+                                    'rec_codigo':$("#rec_codigo").val(),
+                                    'obs':$("#obs").val(),
+                                    'irec_validade': $("#data_validade<?= $this->tipo ?>").val(),
+                                },
+                                success: function (data) {
+                                    if (data==='1') {
+                                        //recarregar
+                                        console.log("não deu erro");
+                                    } else {
+                                        erro = true;
+                                        console.log("deu erro 1");
+                                    }
+                                },
+                                error: function () {
+                                    erro = true;
+                                    console.log("deu erro 2");
+                                }
+                            });
+                        } else {
+                            erro = true;
+                            console.log("deu erro 3");
+                            alert('Data de validade obrigatório!')
+
+                        }
+                    }
+
+                }
+
+                if (index === (length - 1)) {
+                    console.log('Last field, submit form here'+erro);
+                    if (erro) {
+                        console.log("deu erro");
+                        alert("Ocorreu um erro ao gravar os dados na base de dados! Verifique itens ja salvos e campos obrigatorios!");
+                        erro = false;
+                    }else{
+                        console.log("redireciona setinterval");
+                        sleep(2000);
+                        window.location.href = "receita-medica?tipo=<?= $this->tipo ?>";
+
+
+                    }
+                }
+
+            });
+
+        }
+
+        function sleep(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                    break;
+                }
+            }
+        }
+
+    </script>
+<?php } ?>

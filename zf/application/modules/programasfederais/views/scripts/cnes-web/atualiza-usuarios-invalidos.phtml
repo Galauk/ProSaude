@@ -1,0 +1,25 @@
+<div id="geral" style="width: 100%">
+    <div id="usuarios">
+        <form method="post" action="<?= $this->url(array("controller"=>"cnes-web","action" => "salvar")); ?>">
+            <table class="table">
+                <?php foreach($this->usuarios_invalidos as $invalido):?>
+                    <tr class="linha_<?=$invalido->usr_codigo?>">
+                        <td>
+                            <?=$invalido->usr_nome?>
+                        </td>
+                        <td>
+                            <input type="text" class="cpf" onkeypress="return SomenteNumero(event)"  maxlength="11" onchange="testaCpf(this.value,'<?=$invalido->usr_codigo?>')" name='<?=$invalido->usr_codigo?>' id="<?=$invalido->usr_codigo?>" value="" placeholder="Digite um CPF">
+                            <a href="#" class="ui-button excluir3" onclick="inativa(<?=$invalido->usr_codigo?>)">Inativar usuário</a>
+                        </td>
+                    </tr>
+                <?php endforeach;?>
+                    <tr>
+                        <td colspan="2">
+                            <a href="#" class="ui-button salvar ui-state-disabled" >Iniciar Atualização</a>
+                        </td>
+                    </tr>
+            </table>
+            
+        </form>
+    </div>
+</div>
