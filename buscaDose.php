@@ -4,7 +4,7 @@
 	if ($_GET) {
 		$cod = trim($_GET["codProduto"]);
 	} else {
-		echo "RequisiÁ„o inv·lida";
+		echo "Requisi√ß√£o inv√°lida";
 		exit;
 	}
 	$sql = "SELECT a.pro_fracionado,

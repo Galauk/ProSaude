@@ -2,12 +2,12 @@
   function verifica_campos_inserir() {
  
 	   if(document.form_adicao.cli_cod.value == '') {
-		alert("Por favor Preencha o Código do Clínica");
+		alert("Por favor Preencha o CÃ³digo do ClÃ­nica");
 		document.form_adicao.cli_cod.focus();
 		return false;
 	   }
 	   if(document.form_adicao.cli_descricao.value == '') {
-		alert("Por favor Preencha a Descrição do Clínica");
+		alert("Por favor Preencha a DescriÃ§Ã£o do ClÃ­nica");
 		document.form_adicao.cli_descricao.focus();
 		return false;
 	   }	   
@@ -19,11 +19,11 @@
 <?
 
 /**
-@Modulo: Clínica
-@Responsavel: André Filipe
+@Modulo: ClÃ­nica
+@Responsavel: AndrÃ© Filipe
 @Tabelas: clinica
 @Criacao: 2007-02-24
-@Acao: Adiciona os típos de Clínica
+@Acao: Adiciona os tipos de ClÃ­nica
 */ 
 
 //------------------------------------------------------------------>
@@ -47,7 +47,7 @@
 //
 //-> Botoes
   echo "<fieldset>
-	    <legend>Opções</legend>
+	    <legend>OpÃ§Ãµes</legend>
 		  
 			<a href=aih.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a>
 			".ChmodBtn($id_login,'adicionar',"clinica.php?acao=form_add&id_login=$id_login")."
@@ -76,11 +76,11 @@ echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
 	 <tr>
 	  <td>
 	   <fieldset>
-	    <legend>Listando Clínicas Cadastradas</legend>
+	    <legend>Listando Clï¿½nicas Cadastradas</legend>
 	     <table width='100%' align='center' cellspacing='2' cellpadding='4' border='0' class='lista'>
 	      <tr bgcolor=FFFFFF>
-		   <th width='50'>Código</th>
-		   <th width='*'>Descrição</th>
+		   <th width='50'>CÃ³digo</th>
+		   <th width='*'>DescriÃ§Ã£o</th>
 		   <th width='65' align='center'>&nbsp;</th>
 		  </tr>";
 	if(chmodbtn($id_login, "listar_if", "clinica.php"))
@@ -128,7 +128,7 @@ echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
 
 //-> Botoes
   echo "<fieldset>
-	    <legend>Opções</legend>
+	    <legend>OpÃ§Ãµes</legend>
 		  
 			<a href=aih.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a>
 			".ChmodBtn($id_login,'adicionar',"clinica.php?acao=form_add&id_login=$id_login")."
@@ -171,8 +171,8 @@ echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
 	    <legend>".$resp."</legend>
 	     <table width='100%' align='center' cellspacing='2' cellpadding='4' border='0' class='lista'>
 	      <tr bgcolor=FFFFFF>
-		   <th width='50'>Código</th>
-		   <th width='*'>Descrição</th>
+		   <th width='50'>CÃ³digo</th>
+		   <th width='*'>DescriÃ§Ã£o</th>
 		   <th width='65' align='center'>&nbsp;</th>
 		  </tr>";
 
@@ -204,7 +204,7 @@ echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
 //-> Abaixo sao os botoes de voltar / cadastro simples / cadastro completo
 
   echo "<fieldset>
-	    <legend>Opções de Cadastro</legend>
+	    <legend>OpÃ§Ãµes de Cadastro</legend>
 	       <a href=clinica.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a>
 	    </fieldset>
 	  <br>";
@@ -214,14 +214,14 @@ echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
 		<input type=hidden name=acao value=add>
 
 	   <fieldset>
-	    <legend>Cadastro de Clínica </legend>
+	    <legend>Cadastro de ClÃ­nica </legend>
 	     <table width='100%' align='center' cellspacing='3' cellpadding='0' border='0'>
 	      <tr>
-			<td>C&oacute;digo:</td>
+			<td>CÃ³digo:</td>
 			<td><input type='text' name='cli_cod' class='box' size='69' maxlength='5'></td>
 	      </tr>
 	      <tr>
-		<td width=70>Descri&ccedil;&atilde;o: </td>
+		<td width=70>DescriÃ§Ã£o: </td>
 		<td><textarea name='cli_descricao' class='box' cols='66' rows='3'></textarea></td>
 	      </tr>
 	      <tr>
@@ -245,7 +245,7 @@ echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
 //
 //-> Botoes
   echo "<fieldset>
-	    <legend>Opções</legend>
+	    <legend>OpÃ§Ãµes</legend>
 	        
 			<a href=clinica.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a>
 			<a href=$PHP_SELF?acao=form_add&id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/adicionar_on.jpg border=0></a>
@@ -264,14 +264,14 @@ echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>
 		<input type=hidden name=cli_codigo value=$cli_codigo>
 
 	   <fieldset>
-	    <legend>Alteração de Clinica </legend>
+	    <legend>AlteraÃ§Ã£o de Clinica </legend>
 	     <table width='100%' align='center' cellspacing='3' cellpadding='0' border='0'>
 	      <tr>
-			<td>Código:</td>
+			<td>CÃ³digo:</td>
 			<td><input type='text' name='cli_cod' class='box' size='69' maxlength='5' value='$row[cli_cod]' /></td>
 	      </tr>
 	      <tr>
-		<td width=70>Descri&ccedil;&atilde;o: </td>
+		<td width=70>DescriÃ§Ã£o: </td>
 		<td><textarea name='cli_descricao' class='box' cols='66' rows='3'>$row[cli_descricao]</textarea></td>
 	      </tr>
 	      <tr>

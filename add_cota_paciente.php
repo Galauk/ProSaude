@@ -1,9 +1,9 @@
 <?php
 /** 
- * alteração dia 21/05: colocado o numero do prontuario para funcionar e colocado restricao pela tabela usuarios_acessos
- * alteração: atualizar a grid quando edita o item dispensado e acrescentado a acao pam que é responsavel por
+ * alteraÃ§Ã£o dia 21/05: colocado o numero do prontuario para funcionar e colocado restricao pela tabela usuarios_acessos
+ * alteraÃ§Ã£o: atualizar a grid quando edita o item dispensado e acrescentado a acao pam que Ã© responsavel por
  * dispensar o produto para o paciente atendido no pam
- * alteração dia 14/05/2007: colocado a linha $acao = (empty($acao) ? "listar" : $acao);
+ * alteraÃ§Ã£o dia 14/05/2007: colocado a linha $acao = (empty($acao) ? "listar" : $acao);
  */
 
 //------------------------------------------------------------------>
@@ -17,7 +17,7 @@
 	cabecario();
 
 echo monta_janela("produto","BUSCA DE PRODUTOS");
-echo monta_janela("editar","EDITAR DISPENSAÇÃO");
+echo monta_janela("editar","EDITAR DISPENSAï¿½ï¿½O");
 							
 $stmt = "SELECT uni_codigo FROM usuarios WHERE usr_codigo = $id_login";
 $stmt = db_query($stmt);
@@ -95,7 +95,7 @@ function buscarProdutos( txt )
 	}
 }
 		
-// Gambiarra pra atualizar o grid apos a ediçao
+// Gambiarra pra atualizar o grid apos a ediÃ§Ã£o
 var timeoutinterval = "";
 function atualizarGrid2(n) {
 	mov_codigo = document.getElementById("mov_codigo").value;
@@ -247,8 +247,8 @@ function verificarEstoque( texto )
 	{
 		alert("Este produto nao contem estoque! Nao sera possivel fazer a dispensacao");
 		// as linhas abaixo foram adicionadas por Marcos C. Ramos em 25/07/2007
-		// para atender a solicitação da OS 339
-		// não podera ser dispensado medicamento sem saldo em estoque (conforme reunião realizada entre Geise, Plinio e Roberto)
+		// para atender a solicitacao da OS 339
+		// nao podera ser dispensado medicamento sem saldo em estoque (conforme reuniao realizada entre Geise, Plinio e Roberto)
 		document.getElementById('quantidade').value='';
 		document.getElementById('pro_codigo').value='';
 		document.getElementById('pro_nome').value='';
@@ -641,7 +641,7 @@ function verificar_medicamento_resp ( respTxt )
 
 </script>
 
-<fieldset><legend>DISPENSAÇÃO DE MEDICAMENTOS</legend>
+<fieldset><legend>DISPENSAÃ‡ÃƒO DE MEDICAMENTOS</legend>
 
 <?php
 
@@ -694,7 +694,7 @@ function verificar_medicamento_resp ( respTxt )
 	echo "<br />";
         
 	//-> Listando
-            if (chmodbtn($id_login,"listar_if","dispensa_medicamentos.php")) // faz funcionar a permissão "listagem" da dispensação de medicamento
+            if (chmodbtn($id_login,"listar_if","dispensa_medicamentos.php")) // faz funcionar a permissï¿½o "listagem" da dispensaï¿½ï¿½o de medicamento
             {        
                 echo "<table width=98% align=center cellspacing=0 cellpadding=0 border=0>";
                       echo "<tr>";
@@ -799,7 +799,7 @@ function verificar_medicamento_resp ( respTxt )
 			echo "<tr>";
 				echo "<td>";
 					echo "<fieldset>";
-						echo "<legend>Opï¿½ï¿½es</legend>";
+						echo "<legend>OpÃ§Ãµes</legend>";
 							echo "<table width=100% align=center cellspacing=3 cellpadding=0 border=0>";
 								echo "<tr>";
 									echo "<td width=79><a href=farmacia.php?id_login=$id_login><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/voltar_on.gif border=0></a></td>";
@@ -908,7 +908,7 @@ function verificar_medicamento_resp ( respTxt )
 		$linha = pg_fetch_array($exec_select);
 		echo "<body onKeyPress=\"verificarCota(event)\">";
 			echo "<fieldset>";
-				echo "<legend>Dispensa&ccedil;&atilde;o de Medicamentos</legend>";
+				echo "<legend>DispensaÃ§Ã£o de Medicamentos</legend>";
 				echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
 					echo "<tr>";
 						echo "<td width=\"150px\">";
@@ -974,10 +974,8 @@ function verificar_medicamento_resp ( respTxt )
 							echo "<input type=text name=pac_nascimento id=pac_nascimento class=boxl size=15 readonly value=$data_nasc>";
 						echo "</td>";
 					echo "</tr>";
-				//echo "</table>";
-				//echo "<table width=100% cellspacing=0 cellpadding=4 border=0>";
 					echo "<tr>";
-						echo "<td width=70 >M&atilde;e</td>";
+						echo "<td width=70 >MÃ£e</td>";
 						echo "<td width=100 colspan=3>";
 							echo "<input type=text name=pac_mae id=pac_mae class=boxl size=50 readonly value=\"$row[usu_mae]\">";
 						echo "</td>";
@@ -993,13 +991,13 @@ function verificar_medicamento_resp ( respTxt )
 				echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
 					echo "<tr>";
 						echo "<td width=\"120px\">";
-							echo "N&uacute;mero da receita:";
+							echo "NÃºmero da receita:";
 						echo "</td>";
 						echo "<td width=\"100px\">";
 							echo "<input type=\"text\" name=\"receita\" id=\"receita\" class=\"boxl\" value=$linha[mov_num_receita]>";
 						echo "</td>";
 						echo "<td width=\"40px\">";
-							echo "M&eacute;dico";
+							echo "MÃ©dico";
 						echo "</td>";
 						echo "<td width=\"220px\">";
 							echo "<input type=hidden name=ate_codigo id=ate_codigo readonly>";
@@ -1175,7 +1173,7 @@ function verificar_medicamento_resp ( respTxt )
         $row = pg_fetch_array($exec_sel);
         echo "<body onKeyPress=\"verificarCota(event)\">";
 			echo "<fieldset>";
-				echo "<legend>Dispensa&ccedil;&atilde;o de Medicamentos</legend>";
+				echo "<legend>DispensaÃ§Ã£o de Medicamentos</legend>";
 				echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
 					echo "<tr>";
 						echo "<td width=\"150px\">";
@@ -1268,7 +1266,7 @@ function verificar_medicamento_resp ( respTxt )
                                 //echo "</table>";
                                 //echo "<table width=100% cellspacing=0 cellpadding=4 border=0>";
                                 echo "<tr>";
-                                    echo "<td width=70 >Mãe</td>";
+                                    echo "<td width=70 >MÃ£e</td>";
                                     echo "<td width=100 colspan=3>";
                                         echo "<input type=text name=pac_mae id=pac_mae class=boxl size=50 value=\"$row[usu_mae]\" readonly>";
                                     echo "</td>";
@@ -1363,7 +1361,7 @@ function verificar_medicamento_resp ( respTxt )
                                                     echo "<textarea name=detalhes id=detalhes class=box cols=35 rows=2></textarea>";
                                             echo "</td>";
                                             echo "<td width=60 valign=top>";
-                                                    echo "Observa&ccedil;&otilde;es:";
+                                                    echo "ObservaÃ§Ãµes:";
                                             echo "</td>";
                                             echo "<td>";
                                                     echo "<textarea name=observacoes id=observacoes class=box cols=35 rows=2></textarea>";
@@ -1413,7 +1411,7 @@ function verificar_medicamento_resp ( respTxt )
 	{
 		echo "<body onKeyPress=\"verificarCota(event)\">";
 			echo "<fieldset>";
-				echo "<legend>Dispensa&ccedil;&atilde;o de Medicamentos</legend>";
+				echo "<legend>DispensaÃ§Ã£o de Medicamentos</legend>";
 				echo "<table width=98% cellspacing=0 cellpadding=0 border=0>";
 					echo "<tr>";
 						echo "<td width=\"150px\">";
@@ -1481,17 +1479,14 @@ function verificar_medicamento_resp ( respTxt )
 				echo "<legend>Dados do Paciente</legend>";
 				echo "<table width=100% cellspacing=0 cellpadding=1 border=0>";
 					echo "<tr>";
-						echo "<td width=110>Prontu&aacute;rio</td>";
+						echo "<td width=110>ProntuÃ¡rio</td>";
 						echo "<td width=40>";
-							//*echo "<input type=text name='pac_codigo' id='pac_codigo' class=boxl size=10 readonly>";
                             echo "<input type=hidden name='pac_codigo' id='pac_codigo' class=boxl size=10 onchange='buscar_dados_paciente();' readonly>";
                             echo "<input type=text name='pac_prontuario' id='pac_prontuario' class=boxl size=10 onchange='buscar_dados_paciente(this.value);'>";
 							echo "</td>";
 						echo "<td width=40>Paciente</td>";
 						echo "<td>";
 							echo "<input type=text name=pac_nome id=pac_nome class=boxl size=60 readonly><a href='#' OnClick='window.open(\"list_pacientes.php?id_login=$id_login&from=list\",null,\"height=460,width=600,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg align=absmiddle border=0 id='localizar'></a>";
-							/*echo "<input type=text name=pac_nome id=pac_nome class=boxl size=60 readonly><a href='#' OnClick='window.open(\"paciente.php?id_login=$id_login&controle=1\",null,\"height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/localizar.jpg align=absmiddle border=0></a>";*/
-							/*echo "<a href='#' OnClick='window.open(\"paciente.php?acao=form_add&id_login=$id_login&controle=1\",null,\" height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/ficha_on.jpg align=absmiddle border=0></a>";*/
 							echo "<a href='#' OnClick='window.open(\"paciente_ficha.php?acao=form_add&type=c&id_login=$id_login&controle=1&from=list\",null,\" height=460,width=800,status=yes,toolbar=no,menubar=no,location=no,scrollbars=yes\");'><img src=".$_SESSION[linkroot].$_SESSION[comum]."imgs/ficha_on.jpg align=absmiddle border=0 id='ficha'></a>";
 						echo "</td>";
 						echo "<td>Nascimento</td>";
@@ -1499,10 +1494,8 @@ function verificar_medicamento_resp ( respTxt )
 							echo "<input type=text name=pac_nascimento id=pac_nascimento class=boxl size=15 readonly onfocus='buscar_prontuario();'>";
 						echo "</td>";
 					echo "</tr>";
-				//echo "</table>";
-				//echo "<table width=100% cellspacing=0 cellpadding=4 border=0>";
 					echo "<tr>";
-						echo "<td width=70 >Mãe</td>";
+						echo "<td width=70 >MÃ£e</td>";
 						echo "<td width=100 colspan=3>";
 							echo "<input type=text name=pac_mae id=pac_mae class=boxl size=50 readonly>";
 						echo "</td>";
