@@ -1,5 +1,5 @@
 {
-  "name": "socialsaude/prosaude",
+  "name": "Prosaude",
   "description": "Sistema de gestão de saúde pública em PHP, migrando para PHP 8 com PSR-4.",
   "type": "project",
   "require": {
