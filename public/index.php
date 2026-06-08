@@ -1,10 +1,15 @@
 <?php
-// public/index.php
+
+session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// 1. O Config lê o .env da raiz do projeto
-\App\Core\Config::load(__DIR__ . '/../.env');
 
-// 2. Daqui para frente, qualquer Controller que instanciar um Repository 
-// poderá passar o PDO chamando: \App\Core\Database::getConnection();
+$rota = $_GET['rota'] ?? 'login';
+
+switch($rota){
+    case 'login': (new AuthController())->login(); break;
+    case 'autenticar': (new AuthController())->autenticar(); break;
+    case 'dashboard': (new DashboardController())->index(); break;
+    case 'logout': (new AuthController())->logout(); break;
+}
