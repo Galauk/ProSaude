@@ -6,21 +6,27 @@ class Router
     private array $routes = [];
 
     public function get(
-        string $path,
-        array $handler
+        string $uri,
+        array $action,
+        array $middlewares = []
     ): void {
 
-        $this->routes['GET'][$path] =
-            $handler;
+        $this->routes['GET'][$uri] = [
+            'action' => $action,
+            'middlewares' => $middlewares
+        ];
     }
 
     public function post(
-        string $path,
-        array $handler
+        string $uri,
+        array $action,
+        array $middlewares = []
     ): void {
 
-        $this->routes['POST'][$path] =
-            $handler;
+        $this->routes['POST'][$uri] = [
+            'action' => $action,
+            'middlewares' => $middlewares
+        ];
     }
 
     public function dispatch(): void
@@ -32,22 +38,28 @@ class Router
             PHP_URL_PATH
         );
 
-        if (
-            isset(
-                $this->routes[$method][$uri]
-            )
-        ) {
+        if (!isset($this->routes[$method][$uri])) {
 
-            [$class, $action] =
-                $this->routes[$method][$uri];
+            http_response_code(404);
 
-            (new $class())->$action();
+            echo "Página não encontrada";
 
             return;
         }
 
-        http_response_code(404);
+        $route = $this->routes[$method][$uri];
 
-        echo 'Página não encontrada';
+        foreach (
+            $route['middlewares']
+            as $middleware
+        ) {
+
+            (new $middleware())->handle();
+        }
+
+        [$controller, $action] =
+            $route['action'];
+
+        (new $controller())->$action();
     }
 }
