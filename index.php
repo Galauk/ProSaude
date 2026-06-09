@@ -92,7 +92,6 @@ $NomeMes = array(
 	</style>
     <link type="text/css" href="css/menu.css" rel="stylesheet" />
     <script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="lib/ui/jquery.ui.all.js"></script>
     <script type="text/javascript" src="js/menu.js"></script>
     <script type="text/javascript" src="ajax_motor.js"></script>
 <script language="javascript">
