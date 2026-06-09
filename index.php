@@ -1,4 +1,5 @@
 <?php
+
 	session_start();
 	$_SESSION['modulo'] = "WebSocialSaude/";
 	$_SESSION['root'] = $_SERVER['DOCUMENT_ROOT']."/";
@@ -14,10 +15,59 @@
 	include_once $_SESSION['root'].$_SESSION['modulo']."authlib.inc.php";
 	require_once $_SESSION['root'] . $_SESSION['modulo'] . "sessao_controller.php";
 */
+
+$unidades = array(
+	['id' => 1, 'desc' => 'Unidade 1'],
+	['id' => 2, 'desc' => 'Unidade 2'],
+	['id' => 3, 'desc' => 'Unidade 3']
+);
+$setores = array(
+	['id' => 1, 'desc' => 'Setor 1'],
+	['id' => 2, 'desc' => 'Setor 2'],
+	['id' => 3, 'desc' => 'Setor 3']
+);
+$user = ['usr_nome' => 'Usuário Exemplo'];
+$versao = "1.0.0";
+
+	$dia = date('d');
+	$dias = intval(date('w'));
+	$mes = date('m');
+	$ano = date('Y');
+	if ($dia < 10){
+		$dia = "0" . $dia;
+	}
+
+$NomeDia = array(
+	0 => "Domingo",
+	1 => "Segunda-feira",
+	2 => "Terça-feira",
+	3 => "Quarta-feira",
+	4 => "Quinta-feira",
+	5 => "Sexta-feira",
+	6 => "Sábado"
+);
+
+$NomeMes = array(
+	"0" => "Janeiro",
+	"1" => "Fevereiro",
+	"2" => "Março",
+	"3" => "Abril",
+	"4" => "Maio",
+	"5" => "Junho",
+	"6" => "Julho",
+	"7" => "Agosto",
+	"8" => "Setembro",
+	"9" => "Outubro",
+	"10" => "Novembro",
+	"11" => "Dezembro",
+);
 ?>
+<script>
+	document.write ("<?php echo $NomeDia[$dias]; ?>" + ", " + <?php echo $dia; ?> + " de " + "<?php echo $NomeMes[$mes]; ?>" + " de " + <?php echo $ano; ?>);
+</script>
 <html>
 <head>
-	<title>Software de Gest&atilde;o P&uacute;blica || SAUDE <?= $versao?></title>
+	<title>ProSaude <?php echo $versao; ?> | Software de Gestão Pública</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
@@ -59,7 +109,7 @@ function atualizaSetor(){
 	var set_codigo = $("#setor").val();
 	var linkroot = "<?=$_SESSION["linkroot"]?>";
 	var modulo = "<?=$_SESSION["modulo"]?>";
-	var id_login = "<?=$id_login?>";
+	var id_login = "";
 	$.ajax({
 		url: linkroot+modulo+"trocaDeSetor.php",
 		type: "POST",
@@ -74,7 +124,7 @@ function atualizaUnidade(){
 	var uni_codigo = $("#unidade").val();
 	var linkroot = "<?=$_SESSION["linkroot"]?>";
 	var modulo = "<?=$_SESSION["modulo"]?>";
-	var id_login = "<?=$id_login?>";
+	var id_login = "";
 	$('#setor option[value!=""]').remove();
 	$("#setor").append("<option value='c' readonly>Carregando ...</option>");
 	$.ajax({
@@ -108,10 +158,9 @@ function atualizaUnidade(){
 	<tr>
 		<td style="height: 30px;">
 			<?php
-			session_start();
-			
-			$_SESSION['id_login'] = $id_login;
-			$query = pg_query("select * from logon where id_login = $id_login");
+			/*
+			$_SESSION['id_login'] = '';
+			$query = pg_query("select * from logon where id_login = ''");
 			$regLogon = pg_fetch_array($query);
 			$_SESSION['uni_codigo'] = $regLogon['uni_codigo'];
 			//die($regLogon[uni_codigo]."a");
@@ -121,7 +170,8 @@ function atualizaUnidade(){
 				}
 				// -> Menu Superior
 				include_once $_SESSION['root'].$_SESSION['modulo']."novoMenu.php";
-				
+			
+			*/
 			?>
 		</td>
 	</tr>
@@ -136,13 +186,14 @@ function atualizaUnidade(){
 ?>
 	<tr>
 		<td>
-			<iframe name="frameprincipal" src="<?=$link?>?id_login=<?=$id_login?>" id="frameprincipal" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto" width="100%" height="100%"></iframe>
+			iframe aqui
 		</td>
 	</tr>
 <?php
 	//	FINAL IFRAME MEIO---------------------------------------------------------------->
 	//	COME&ccedil;O RODAP�---------------------------------------------------------------->
 
+/*
 $selectSetor = "SELECT set_nome,uni_desc,u.uni_codigo,s.set_codigo
  				  FROM logon l
  				  LEFT JOIN setor s
@@ -168,9 +219,7 @@ $sql = "SELECT
 	  where usr_codigo = $id_login
 	    AND cnes_ativo = 'A'
 		ORDER BY uni_desc";
-//die($sql);
 $queryUni = pg_query($sql);
-
 
 // Setor
 
@@ -195,65 +244,49 @@ $sqlSetor = "SELECT * FROM setor s
                AND s.uni_codigo = {$res['uni_codigo']}
 		 ORDER BY set_nome";
 $querySet = pg_query($sqlSetor);
-//die(var_dump());
+*/
 ?>
 	<tr>
 		<td height="24">
-		
-					<table class="footer-bar" width="100%" height="30" border="0" cellspacing="0" cellpadding="0" align=center>
+			<table class="footer-bar" width="100%" height="30" border="0" cellspacing="0" cellpadding="0" align=center>
 				<tr>
 					<td width="450" >
                          Unidade:
 						<select onchange=atualizaUnidade() id="unidade" class="formul" >                                              
-						<?php while($resUni= pg_fetch_array($queryUni)){  
-//							echo "<option>{$resUni[uni_codigo]} - {$res[uni_codigo]}</option>";
-									if($resUni[uni_codigo] == $res['uni_codigo']){
-                                        echo "<option selected id='uni_codigo' value='{$resUni[uni_codigo]}'>{$resUni[uni_desc]}</option>"; 
-                                    }else{
-                                    echo "<option id='uni_codigo' value='{$resUni[uni_codigo]}'>{$resUni[uni_desc]}</option>"; 
-                                    }
-                                }
+						<?php foreach($unidades as $unidade){  
+								echo "<option>{$unidade['id']} - {$unidade['desc']}</option>";
+							}
                         ?>
                         </select>
-                                                
-                        
-                                            
-                                            </td>
-                                        <td>
-                                            <?php // if($resSet[set_codigo]){?>
-                                                <label for="setor">Setor:</label> <?php //  var_dump($sqlSetor,$_SESSION['logon']['usr']->uni_codigo); ?>
-                                                <select id="setor" onChange="atualizaSetor()" class="formul">                                                
-                                                    <?php while($resSet= pg_fetch_array($querySet)){  
-//                                                    echo "<option>{$resSet[set_codigo]} - {$res[set_codigo]}</option>";
-                                                    if($resSet[set_codigo] == $res['set_codigo']){
-                                                         echo "<option selected id=set_codigo  value='{$resSet[set_codigo]}'>{$resSet[set_nome]}</option>"; 
-                                                    }else{
-                                                         echo "<option id=set_codigo  value='{$resSet[set_codigo]}'>{$resSet[set_nome]}</option>"; 
-                                                    }
-
-                                                    }
-                                                    ?>
-                                                </select>
-                                            <?php // } ?>
-                                            <?php //  echo "Setor: ".($set_nome == "" ? "Nenhum setor escolhido" : utf8_decode($set_nome)) ?></td>
+					</td>
+					<td>
+						<label for="setor">Setor:</label> <?php //  var_dump($sqlSetor,$_SESSION['logon']['usr']->uni_codigo); ?>
+						<select id="setor" onChange="atualizaSetor()" class="formul">                                                
+							<?php foreach($setores as $setor){  
+								echo "<option>{$setor['id']} - {$setor['desc']}</option>";
+							}
+							?>
+						</select>
 											
-					<?php $user = pg_fetch_array(pg_query("select * from usuarios where usr_codigo='$id_login'")); ?>
-					<td  width=8% align="left" valign="middle" >
-						<?if($dias <= 5){
-						  	$color = "RED";
-						  	$blink = "<blink>";
-						  	$fechaBlink = "</blink>";
-						  }else{
-						  	$color = "BLUE";
-						  }
-						  ?>
-						<?if($dias >= 0):?>
+						<td  width=8% align="left" valign="middle" >
+							<?php 
+							if($dias <= 5){
+								$color = "RED";
+								$blink = "<blink>";
+								$fechaBlink = "</blink>";
+								}else{
+									$color = "BLUE";
+								}
+							?>
+						<?php 
+							if($dias >= 0):
+						?>
 						<a href='../WebSocialComum/autentificacao/autentificacao.php?acao=registroFuturo' title="VALIDADE PARA REGISTRO DO SISTEMA">
 							<font color="#0FF235">
-								<b><?=$blink?>Faltam <?=$dias?> dias<?=$fechaBlink?></b>
+								<b><blink>Faltam <?=$dias?> dias</blink></b>
 							</font>
 						</a>
-						<?endif; ?>
+						<?php endif; ?>
 					</td>
 					<td  align="left" valign="middle"><font color='#00F6FF'><?=ucwords(strtolower($user['usr_nome']))?></font></td>
 					<td  width=10% valign="middle" align="center">
@@ -261,12 +294,14 @@ $querySet = pg_query($sqlSetor);
 					</td>
 					<td width=230>
 						<?php
+						/*
 						  $dadosRegistro = "SELECT * FROM CONFIG WHERE CONF_CHAVE = 'VERSAO_ESUS'";
 						  //die($dadosRegistro);
 						  $exeDadosRegistro = pg_query($dadosRegistro);
 						  $resultadoDadosRegistro = pg_fetch_array($exeDadosRegistro);
 						  $dias = $resultadoDadosRegistro['dias'];
 						  echo "<i><font color=#FFE400>".utf8_decode($resultadoDadosRegistro['conf_valor_string'])."</font></i>";
+						*/
 						?>
 
 					</td>
@@ -293,18 +328,22 @@ if($hora >= 6 && $hora < 12){
 }else if($hora < 6){
 	$periodo = "1";
 }
-
+/*
 $pegaSetor = "select * from usuarios_setores as ususet
 					   join geladeira as gel
 					     on gel.set_codigo = ususet.set_codigo
 				      where ususet.usr_codigo = {$id_login}";
 $querySetor = pg_query($pegaSetor);
 $qnt = pg_num_rows($querySetor);
+*/
+$qnt = 1;
 if($qnt != 0){
+	/*
 	$validaPeriodo = "select * from temperatura_geladeira where temp_data =  CURRENT_DATE and temp_periodo ='$periodo'";
 	$queryPeriodo = pg_query($validaPeriodo);
 	$linhasPeriodo = pg_num_rows($queryPeriodo);
-	
+	*/
+	$linhasPeriodo = 0;
 	if($linhasPeriodo == 0){
 		include_once $_SESSION['root'].$_SESSION['modulo']."temperaturaAlert.php";
 	}
@@ -312,12 +351,14 @@ if($qnt != 0){
 
 ?>
 <?php
+/*
 $id_login = intval($id_login);
 $stmt_msg = "SELECT COUNT(msg_codigo) ".
     "FROM mensagem ".
     "WHERE usr_codigo_to = {$id_login} AND msg_copy = 'N' AND msg_dt_lida IS NULL ";
 $total = (int) db_get($stmt_msg);
-
+*/
+$total = 0;
 if( $total > 0 )
 {
     print "
@@ -325,7 +366,7 @@ if( $total > 0 )
         msg = 'Voce possui {$total} mensagem(ns) nao lida(s)\\nDeseja le-la(s) agora ?';
         if( confirm(msg) )
         {
-            var endereco = 'mensagem.php?id_login={$id_login}';
+            var endereco = 'mensagem.php?id_login=0';
             var params = 'width=600,height=350,scrollbars=yes,resizable=yes,top=100,left=10';
             window.open( endereco, 'msg', params );
         }
