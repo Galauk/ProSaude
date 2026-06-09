@@ -31,7 +31,7 @@ $versao = "1.0.0";
 
 	$dia = date('d');
 	$dias = intval(date('w'));
-	$mes = date('m');
+	$mes = date('n');
 	$ano = date('Y');
 	if ($dia < 10){
 		$dia = "0" . $dia;
@@ -48,22 +48,22 @@ $NomeDia = array(
 );
 
 $NomeMes = array(
-	"0" => "Janeiro",
-	"1" => "Fevereiro",
-	"2" => "Março",
-	"3" => "Abril",
-	"4" => "Maio",
-	"5" => "Junho",
-	"6" => "Julho",
-	"7" => "Agosto",
-	"8" => "Setembro",
-	"9" => "Outubro",
-	"10" => "Novembro",
-	"11" => "Dezembro",
+	1 => "Janeiro",
+	2 => "Fevereiro",
+	3 => "Março",
+	4 => "Abril",
+	5 => "Maio",
+	6 => "Junho",
+	7 => "Julho",
+	8 => "Agosto",
+	9 => "Setembro",
+	10 => "Outubro",
+	11 => "Novembro",
+	12 => "Dezembro",
 );
 ?>
 <script>
-	document.write ("<?php echo $NomeDia[$dias]; ?>" + ", " + <?php echo $dia; ?> + " de " + "<?php echo $NomeMes[$mes]; ?>" + " de " + <?php echo $ano; ?>);
+	document.write ("<?php echo $NomeDia[$dias]; ?>" + ", " + "<?php echo $dia; ?>" + " de " + "<?php echo $NomeMes[$mes]; ?>" + " de " + <?php echo $ano; ?>);
 </script>
 <html>
 <head>
@@ -336,18 +336,6 @@ $pegaSetor = "select * from usuarios_setores as ususet
 $querySetor = pg_query($pegaSetor);
 $qnt = pg_num_rows($querySetor);
 */
-$qnt = 1;
-if($qnt != 0){
-	/*
-	$validaPeriodo = "select * from temperatura_geladeira where temp_data =  CURRENT_DATE and temp_periodo ='$periodo'";
-	$queryPeriodo = pg_query($validaPeriodo);
-	$linhasPeriodo = pg_num_rows($queryPeriodo);
-	*/
-	$linhasPeriodo = 0;
-	if($linhasPeriodo == 0){
-		include_once $_SESSION['root'].$_SESSION['modulo']."temperaturaAlert.php";
-	}
-}
 
 ?>
 <?php
