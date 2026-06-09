@@ -13,6 +13,6 @@ define( 'ESQ_COMMON', 'common' );
 $GEX_TIPO = array (
 	'Q'  => 'Quantidade',
 	'V'  => 'Valor',
-	'QE' => 'Quantidade de Emergência',
-	'QG' => 'Quantidade de Grávidas'
+	'QE' => 'Quantidade de EmergÃªncia',
+	'QG' => 'Quantidade de GrÃ¡vidas'
 );
