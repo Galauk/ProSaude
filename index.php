@@ -1,11 +1,6 @@
 <?php
 
 	session_start();
-	$_SESSION['modulo'] = "WebSocialSaude/";
-	$_SESSION['root'] = $_SERVER['DOCUMENT_ROOT']."/";
-	$_SESSION['linkroot'] = "http://".$_SERVER['HTTP_HOST']."/";
-	$_SESSION['comum'] = "WebSocialComum/";
-
 /*
 	include_once $_SESSION['root'].$_SESSION['comum']."library/php/db.inc.php";
 	
@@ -91,9 +86,6 @@ $NomeMes = array(
 		.formul { background-color:#D0E0F0; width:50%; border: 0px solid; color:#153854; border-radius: 3px; }
 	</style>
     <link type="text/css" href="css/menu.css" rel="stylesheet" />
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/menu.js"></script>
-    <script type="text/javascript" src="ajax_motor.js"></script>
 <script language="javascript">
 
 function getSessao(){
