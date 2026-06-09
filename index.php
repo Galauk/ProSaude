@@ -4,10 +4,8 @@
 	$_SESSION['root'] = $_SERVER['DOCUMENT_ROOT']."/";
 	$_SESSION['linkroot'] = "http://".$_SERVER['HTTP_HOST']."/";
 	$_SESSION['comum'] = "WebSocialComum/";
-	//echo "a";
-	//die("b"); 
 
-	//die(var_dump($_SESSION));
+/*
 	include_once $_SESSION['root'].$_SESSION['comum']."library/php/db.inc.php";
 	
 	include_once $_SESSION['root'].$_SESSION['comum']."library/php/funcoes.inc.php";
@@ -15,22 +13,7 @@
 	
 	include_once $_SESSION['root'].$_SESSION['modulo']."authlib.inc.php";
 	require_once $_SESSION['root'] . $_SESSION['modulo'] . "sessao_controller.php";
-
-	$sessao = new TempoSessao();
-	//die(print_r($sessao,1));
-	$sessao->primeiraPagina(true);
-
-	$versao = file_get_contents("VERSAO");	
-	$_SESSION['versao'] = $versao;
-	
-	verauth($id_login);
-	if(isset($_GET['popup'])){				
-		echo "
-         <script type=\"text/javascript\">
-            window.close(self);
-         </script>";
-		exit;
-	}
+*/
 ?>
 <html>
 <head>
@@ -63,74 +46,6 @@
     <script type="text/javascript" src="js/menu.js"></script>
     <script type="text/javascript" src="ajax_motor.js"></script>
 <script language="javascript">
-var timerID = null;
-var timerRunning = false;
-function stopclock() {
-    if(timerRunning){
-        clearTimeout(timerID)
-	}
-    timerRunning = false;
-}
-
-function startclock(){
-    stopclock();
-    showtime();
-}
-
-function showtime(){
-    var now = new Date();
-    var hours = now.getHours();
-    var minutes = now.getMinutes();
-    var seconds = now.getSeconds();
-    var timeValue = "" + ((hours > 12) ? hours - 12 : hours);
-    timeValue  += ((minutes < 10) ? ":0" : ":") + minutes;
-    timeValue  += ((seconds < 10) ? ":0" : ":") + seconds;
-    timeValue  += (hours >= 12) ? " P.M." : " A.M.";
-    document.clock.face.value = timeValue;
-    timerID = setTimeout("showtime()",1000);
-    timerRunning = true;
-}
-
-function data() {
-	hoje = new Date()
-	dia = hoje.getDate()
-	dias = hoje.getDay()
-	mes = hoje.getMonth()
-	ano = hoje.getFullYear();
-	if (dia < 10){
-		dia = "0" + dia
-	}
-
-function CriaArray (n){
-	this.length = n
-}
-
-	NomeDia = new CriaArray(7)
-	NomeDia[0] = "Domingo"
-	NomeDia[1] = "Segunda-feira"
-	NomeDia[2] = "Ter&ccedil;a-feira"
-	NomeDia[3] = "Quarta-feira"
-	NomeDia[4] = "Quinta-feira"
-	NomeDia[5] = "Sexta-feira"
-	NomeDia[6] = "Sabado"
-
-	NomeMes = new CriaArray(12)
-	NomeMes[0] = "Janeiro"
-	NomeMes[1] = "Fevereiro"
-	NomeMes[2] = "Mar&ccedil;o"
-	NomeMes[3] = "Abril"
-	NomeMes[4] = "Maio"
-	NomeMes[5] = "Junho"
-	NomeMes[6] = "Julho"
-	NomeMes[7] = "Agosto"
-	NomeMes[8] = "Setembro"
-	NomeMes[9] = "Outubro"
-	NomeMes[10] = "Novembro"
-	NomeMes[11] = "Dezembro"
-
-	document.write (NomeDia[dias] + ", " + dia + " de " + NomeMes[mes] + " de " + ano)
-	
-}
 
 function getSessao(){
 	root = "<?= $_SESSION['root']?>";
@@ -139,71 +54,18 @@ function getSessao(){
 	modulo = "<?= $_SESSION['modulo']?>";
 }
 
-var tempo = new Number();
-// Tempo em segundos
-tempo = 1200;
-
-function startCountdown(){
-
-	// Se o tempo n�o for zerado
-	if((tempo - 1) >= 0){
-
-		// Pega a parte inteira dos minutos
-		var min = parseInt(tempo/60);
-		// Calcula os segundos restantes
-		var seg = tempo%60;
-
-		// Formata o n�mero menor que dez, ex: 08, 07, ...
-		if(min < 10){
-			min = "0"+min;
-			min = min.substr(0, 2);
-		}
-		if(seg <=9){
-			seg = "0"+seg;
-		}
-
-		// Cria a vari�vel para formatar no estilo hora/cron�metro
-		horaImprimivel = '00:' + min + ':' + seg;
-		//JQuery pra setar o valor
-		//$("#sessao").html("Sua sess�o vai expirar em:  "+ horaImprimivel);
-
-		// Define que a fun��o ser� executada novamente em 1000ms = 1 segundo
-		setTimeout('startCountdown()',1000);
-
-		// diminui o tempo
-		tempo--;
-
-	// Quando o contador chegar a zero faz esta a��o
-	} else {
-		//window.open('logoff.php', '_self');
-	}
-
-}
 
 function atualizaSetor(){
 	var set_codigo = $("#setor").val();
 	var linkroot = "<?=$_SESSION["linkroot"]?>";
 	var modulo = "<?=$_SESSION["modulo"]?>";
 	var id_login = "<?=$id_login?>";
-//	$('#setor option[value!=""]').remove();
-//	$("#setor").append("<option value='c' readonly>Carregando ...</option>");
 	$.ajax({
 		url: linkroot+modulo+"trocaDeSetor.php",
 		type: "POST",
 		data: { set_codigo: set_codigo, usr_codigo: id_login },
 		success: function(txt){
-                    console.log(txt);
-//			jQuery('#setor option[value!=""]').remove();
-//			if (txt.length>0) {
-//				jQuery('#setor-hidden').remove();
-//				jQuery('label[for=setor]').show();
-//				jQuery('#setor').show();
-//				jQuery("#setor").append(txt);
-//			} else {
-//				jQuery('label[for=setor]').hide();
-//				jQuery('#setor').hide();
-//				jQuery("#uni_codigo_t").append("<input type='hidden' name='setor' id='setor-hidden' value='0' />");
-//			}
+			console.log(txt);
 		}
 	});
 
@@ -237,17 +99,15 @@ function atualizaUnidade(){
 
 }
 
-// Chama a fun��o ao carregar a tela
-startCountdown();
 </script>
 
 </head>
 
-<body bgcolor="#ebfbe3" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onload="getSessao();">
+<body bgcolor="#ebfbe3" text="#000000" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" align=center>
 	<tr>
 		<td style="height: 30px;">
-			<?
+			<?php
 			session_start();
 			
 			$_SESSION['id_login'] = $id_login;
@@ -255,7 +115,7 @@ startCountdown();
 			$regLogon = pg_fetch_array($query);
 			$_SESSION['uni_codigo'] = $regLogon['uni_codigo'];
 			//die($regLogon[uni_codigo]."a");
-				// -> Se a variavel $link for igual a vazia mostra a tela inicial
+				//  Se a variavel $link for igual a vazia mostra a tela inicial
 				if(empty($link)) { 
 					$link = "zf/"; 
 				}
@@ -271,7 +131,7 @@ startCountdown();
 	<tr style="background: #FFF;">
 		<td height="5"><img src="<?= $_SESSION['linkroot'].$_SESSION['comum'];?>imgs/listra_submenu.jpg" width="100%" height="5"></td>
 	</tr>
-<? 
+<?php 
 	//	COME&ccedil;O IFRAME MEIO---------------------------------------------------------------->
 ?>
 	<tr>
@@ -279,7 +139,7 @@ startCountdown();
 			<iframe name="frameprincipal" src="<?=$link?>?id_login=<?=$id_login?>" id="frameprincipal" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto" width="100%" height="100%"></iframe>
 		</td>
 	</tr>
-<? 
+<?php
 	//	FINAL IFRAME MEIO---------------------------------------------------------------->
 	//	COME&ccedil;O RODAP�---------------------------------------------------------------->
 
@@ -377,7 +237,7 @@ $querySet = pg_query($sqlSetor);
                                             <?php // } ?>
                                             <?php //  echo "Setor: ".($set_nome == "" ? "Nenhum setor escolhido" : utf8_decode($set_nome)) ?></td>
 											
-					<? $user = pg_fetch_array(pg_query("select * from usuarios where usr_codigo='$id_login'")); ?>
+					<?php $user = pg_fetch_array(pg_query("select * from usuarios where usr_codigo='$id_login'")); ?>
 					<td  width=8% align="left" valign="middle" >
 						<?if($dias <= 5){
 						  	$color = "RED";
