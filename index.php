@@ -24,42 +24,7 @@ $setores = array(
 $user = ['usr_nome' => 'Usuário Exemplo'];
 $versao = "1.0.0";
 
-	$dia = date('d');
-	$dias = intval(date('w'));
-	$mes = date('n');
-	$ano = date('Y');
-	if ($dia < 10){
-		$dia = "0" . $dia;
-	}
-
-$NomeDia = array(
-	0 => "Domingo",
-	1 => "Segunda-feira",
-	2 => "Terça-feira",
-	3 => "Quarta-feira",
-	4 => "Quinta-feira",
-	5 => "Sexta-feira",
-	6 => "Sábado"
-);
-
-$NomeMes = array(
-	1 => "Janeiro",
-	2 => "Fevereiro",
-	3 => "Março",
-	4 => "Abril",
-	5 => "Maio",
-	6 => "Junho",
-	7 => "Julho",
-	8 => "Agosto",
-	9 => "Setembro",
-	10 => "Outubro",
-	11 => "Novembro",
-	12 => "Dezembro",
-);
 ?>
-<script>
-	document.write ("<?php echo $NomeDia[$dias]; ?>" + ", " + "<?php echo $dia; ?>" + " de " + "<?php echo $NomeMes[$mes]; ?>" + " de " + <?php echo $ano; ?>);
-</script>
 <html>
 <head>
 	<title>ProSaude <?php echo $versao; ?> | Software de Gestão Pública</title>
@@ -67,7 +32,7 @@ $NomeMes = array(
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-	<link rel="shortcut icon" href="<?=$_SESSION['linkroot'].$_SESSION['comum']?>imgsBotoes/mini_logo_elotech.png"> 
+	<link rel="shortcut icon" href="imgsBotoes/mini_logo_elotech.png"> 
 	<link href="estilo.css" rel="stylesheet" type="text/css">
 	<style>
 		.inputForm {
@@ -260,23 +225,17 @@ $querySet = pg_query($sqlSetor);
 											
 						<td  width=8% align="left" valign="middle" >
 							<?php 
-							if($dias <= 5){
 								$color = "RED";
 								$blink = "<blink>";
 								$fechaBlink = "</blink>";
-								}else{
-									$color = "BLUE";
-								}
 							?>
 						<?php 
-							if($dias >= 0):
 						?>
 						<a href='../WebSocialComum/autentificacao/autentificacao.php?acao=registroFuturo' title="VALIDADE PARA REGISTRO DO SISTEMA">
 							<font color="#0FF235">
-								<b><blink>Faltam <?=$dias?> dias</blink></b>
+								<b><blink>Faltam 0 dias</blink></b>
 							</font>
 						</a>
-						<?php endif; ?>
 					</td>
 					<td  align="left" valign="middle"><font color='#00F6FF'><?=ucwords(strtolower($user['usr_nome']))?></font></td>
 					<td  width=10% valign="middle" align="center">

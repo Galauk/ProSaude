@@ -1,9 +1,6 @@
 <?php
 require_once "global.php";
 
-$form = new classForm();
-$common = new commonClass();
-$table = new tableClass();
 echo $common->incJquery();
 ?>
 <script src='/WebSocialComum/library/js/jquery.maskedinput-1.3.min.js'></script>
