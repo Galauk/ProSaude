@@ -1,7 +1,7 @@
 <?php
 namespace App\Core;
 
-class Config
+class Environment
 {
     public static function load(string $path): void
     {

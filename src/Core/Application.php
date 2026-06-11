@@ -1,6 +1,7 @@
 <?php
-namespace App;
+namespace App\Core;
 
+Use App\Core\Environment;
 use App\Routing\Router;
 
 class Application
@@ -9,7 +10,15 @@ class Application
 
     public function __construct()
     {
+        $this->loadEnvironment();
         $this->router = new Router();
+    }
+
+    private function loadEnvironment(): void
+    {
+        Environment::load(
+            dirname(__DIR__) . '/.env'
+        );
     }
 
     public function run(): void
