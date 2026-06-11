@@ -1,8 +1,4 @@
 <?php
-session_start();
-require_once $_SESSION[root].$_SESSION[comum]."library/php/funcoes.inc.php";
-cabecario($hotkey = true);
-
 echo "<style type='text/css'>
 			.quebra_pagina{
 			page-break-before:always;
