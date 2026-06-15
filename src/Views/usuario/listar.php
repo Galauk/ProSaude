@@ -32,8 +32,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($usuarios)): ?>
-                            <?php foreach ($usuarios as $usuario): ?>
+                        <?php if (!empty($usuarios)) { ?>
+                            <?php foreach ($usuarios as $usuario) { ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($usuario->id); ?></td>
                                     <td><?php echo htmlspecialchars($usuario->nome); ?></td>
@@ -42,12 +42,12 @@
                                         <a href="/prosaude/usuarios/<?php echo $usuario->id; ?>" class="btn btn-sm btn-info">Visualizar</a>
                                     </td>
                                 </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
+                            <?php } ?>
+                        <?php }else{ ?>
                             <tr>
                                 <td colspan="4" class="text-center text-muted">Nenhum usuário cadastrado</td>
                             </tr>
-                        <?php endif; ?>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>

@@ -7,7 +7,7 @@
     <title><?= $title ?? 'Sistema' ?></title>
 
     <link rel="stylesheet"
-          href="/assets/css/app.css">
+          href="<?= asset('css/app.css'); ?>">
 </head>
 
 <body>
@@ -27,10 +27,10 @@
 <?php require __DIR__ .
     '/../partials/app/footer.php'; ?>
 
-<script src="/assets/js/app.js"></script>
+<script src="<?= asset('js/app.js'); ?>"></script>
 
 <?php if (isset($_SESSION['usuario'])): ?>
-    <script src="/assets/js/session-timeout.js"></script>
+    <script src="<?= asset('js/session-timeout.js'); ?>"></script>
 <?php endif; ?>
 
 </body>
