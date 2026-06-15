@@ -1,8 +1,10 @@
 <?php
-
 namespace App\Repositories;
+
 use PDO;
 use App\Models\Usuario;
+
+use App\Enums\PerfilUsuario;
 
 class UsuarioRepository
 {
@@ -28,11 +30,14 @@ class UsuarioRepository
 
     public function salvar(Usuario $usuario): void
     {
-        $stmt = $this->db->prepare("INSERT INTO usuario (id, nome, email) VALUES (:id, :nome, :email)");
+        $stmt = $this->db->prepare("INSERT INTO usuario (nome, login, email, senha, perfil, ativo) VALUES (:nome, :login, :email, :senha, :perfil, :ativo)");
         $stmt->execute([
-            'id' => $usuario->id,
-            'nome' => $usuario->nome,
-            'email' => $usuario->email
+            'nome' => $usuario->getNome(),
+            'email' => $usuario->getEmail(),
+            'login' => $usuario->getLogin(),
+            'senha' => $usuario->getSenha(),
+            'perfil' => $usuario->getPerfil()->value,
+            'ativo' => $usuario->isAtivo(),
         ]);
     }
 
@@ -42,7 +47,14 @@ class UsuarioRepository
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $usuarios = [];
         while ($data = $stmt->fetch()) {
-            $usuarios[] = new Usuario($data['id'], $data['nome'], $data['email']);
+            $usuario = new Usuario();
+            $usuario->setId($data['id']);
+            $usuario->setNome($data['nome']);
+            $usuario->setEmail($data['email']);
+            $usuario->setLogin($data['login']);
+            $usuario->setPerfil(PerfilUsuario::from($data['perfil']));
+            $usuario->setAtivo((bool)$data['ativo']);
+            $usuarios[] = $usuario;
         }
         return $usuarios;
     }

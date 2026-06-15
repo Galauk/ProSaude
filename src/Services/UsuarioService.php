@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Repositories\UsuarioRepository;
+use App\Models\Usuario;
 
 class UsuarioService
 {
@@ -22,9 +23,11 @@ class UsuarioService
         return $this->usuarioRepository->buscarPorCodigo($codigo);
     }
 
-    public function criarUsuario($id, $nome, $email)
+    public function salvar(Usuario $usuario)
     {
-        $usuario = new \App\Models\Usuario($id, $nome, $email);
+        if (empty($usuario->getNome()) || empty($usuario->getEmail())) {
+            throw new \Exception('Campos obrigatórios: nome e email');
+        }
         $this->usuarioRepository->salvar($usuario);
         return $usuario;
     }

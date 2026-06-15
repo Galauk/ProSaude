@@ -3,12 +3,27 @@
 namespace App\Controllers;
 
 use App\Services\UsuarioService;
+use App\Models\Usuario;
 use App\Core\View;
+
+use App\Enums\PerfilUsuario;
 
 class UsuarioController
 {
     public function __construct(private UsuarioService $service)
     {
+    }
+
+    public function criar()
+    {
+        View::render(
+            'usuario/criar',
+            [
+                'title' => 'Criar Usuário',
+                'perfilUsuario' => PerfilUsuario::cases()
+            ],
+            'app'
+        );
     }
 
     public function listar()
@@ -38,17 +53,18 @@ class UsuarioController
 
     public function salvar()
     {
-        $id = $_POST['id'] ?? null;
-        $nome = $_POST['nome'] ?? '';
-        $email = $_POST['email'] ?? '';
+        $usuario = new Usuario();
 
-        if (empty($id) || empty($nome) || empty($email)) {
-            header('Location: /prosaude/usuarios?erro=campos_obrigatorios');
-            exit;
-        }
+        $usuario->setNome($_POST['nome'] ?? '');
+        $usuario->setEmail($_POST['email'] ?? '');
+        $usuario->setLogin($_POST['login'] ?? '');
+        $usuario->setSenha($_POST['senha'] ?? '');
+        $usuario->setPerfil(
+            PerfilUsuario::from($_POST['perfil'])
+        );
 
         try {
-            $usuario = $this->service->criarUsuario($id, $nome, $email);
+            $usuario = $this->service->salvar($usuario);
             header('Location: /prosaude/usuarios?sucesso=usuario_criado');
         } catch (\Exception $e) {
             header('Location: /prosaude/usuarios?erro=' . urlencode($e->getMessage()));

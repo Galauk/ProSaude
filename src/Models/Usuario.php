@@ -1,44 +1,95 @@
 <?php
 namespace App\Models;
+
+use DateTime;
+use App\Enums\PerfilUsuario;
+
 class Usuario
 {
-    public $id;
-    public $nome;
-    public $email;
-    public $senha;
-    public $nomeMae;
-    public $id_unidade;
-    public $dataNasc;
-    public $sexo;
-    public Endereco $endereco;
-    public $ocupacao;
+    private ?string $id = null;
 
-    public $prontuario;
-    public $observacao;
-    /** @var Documento[] */
-    private array $documentos = [];
+    private string $nome;
 
-    public function __construct($id, $nome, $email, ) 
+    private string $login;
+
+    private ?string $email = null;
+
+    private string $senha;
+
+    private PerfilUsuario $perfil;
+
+    private bool $ativo = true;
+
+    private ?DateTime $ultimoLogin = null;
+
+    private DateTime $createdAt;
+
+    private DateTime $updatedAt;
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+    public function setId(string $id): void
     {
         $this->id = $id;
+    }
+
+    public function getNome(): string
+    {
+        return $this->nome;
+    }
+    public function setNome(string $nome): void
+    {
         $this->nome = $nome;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+    public function setEmail(string $email): void
+    {
         $this->email = $email;
+    }
+
+    public function getLogin(): ?string
+    {
+        return $this->login;
+    }
+    public function setLogin(string $login): void
+    {
+        $this->login = $login;
+    }
+
+    public function getPerfil(): PerfilUsuario
+    {
+        return $this->perfil;
+    }
+    public function setPerfil(PerfilUsuario $perfil): void
+    {
+        $this->perfil = $perfil;
+    }
+
+    public function isAtivo(): bool
+    {
+        return $this->ativo;
+    }
+    public function setAtivo(bool $ativo): void
+    {
+        $this->ativo = $ativo;
     }
 
     public function setSenha(string $senha): void
     {
         $this->senha = password_hash($senha, PASSWORD_BCRYPT);
     }
-
-    public function adicionarDocumento(Documento $documento): void
+    
+    public function verificarSenha(string $senha): bool
     {
-        $this->documentos[] = $documento;
+        return password_verify($senha, $this->senha);
     }
 
-    public function getDocumentos(): array
-    {
-        return $this->documentos;
-    }
 
 
 }
