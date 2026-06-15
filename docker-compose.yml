@@ -16,7 +16,7 @@ services:
 
     volumes:
       - prosaude_data:/var/lib/postgresql/data
-      - ./docker/init:/docker-entrypoint-initdb.d
+      - ./docker/init:/docker-entrypoint-initdb.d:Z
 
   pgadmin:
     image: dpage/pgadmin4
@@ -35,4 +35,4 @@ services:
       - postgres
 
 volumes:
-  prosaude_data:
+  prosaude_data: 

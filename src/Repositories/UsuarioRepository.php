@@ -15,7 +15,7 @@ class UsuarioRepository
 
     public function buscarPorCodigo(string $codigo): ?Usuario
     {
-        $stmt = $this->db->prepare("SELECT * FROM usuarios WHERE id = :codigo");
+        $stmt = $this->db->prepare("SELECT * FROM usuario WHERE id = :codigo");
         $stmt->execute(['codigo' => $codigo]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -28,7 +28,7 @@ class UsuarioRepository
 
     public function salvar(Usuario $usuario): void
     {
-        $stmt = $this->db->prepare("INSERT INTO usuarios (id, nome, email) VALUES (:id, :nome, :email)");
+        $stmt = $this->db->prepare("INSERT INTO usuario (id, nome, email) VALUES (:id, :nome, :email)");
         $stmt->execute([
             'id' => $usuario->id,
             'nome' => $usuario->nome,
@@ -38,7 +38,7 @@ class UsuarioRepository
 
     public function listar(): array
     {
-        $stmt = $this->db->query("SELECT * FROM usuarios");
+        $stmt = $this->db->query("SELECT * FROM usuario");
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $usuarios = [];
         while ($data = $stmt->fetch()) {

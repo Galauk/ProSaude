@@ -17,7 +17,7 @@ class Application
     private function loadEnvironment(): void
     {
         Environment::load(
-            dirname(__DIR__) . '/.env'
+            dirname(__DIR__) . '/../.env'
         );
     }
 

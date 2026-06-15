@@ -1,7 +1,7 @@
 <?php
 namespace App\Routing;
 
-use App\Core\Connection;
+use App\Core\Database;
 use PDO;
 use ReflectionClass;
 use Exception;
@@ -110,7 +110,7 @@ private function make(string $class): object
         if ($dependency === PDO::class) {
 
             $dependencies[] =
-                Connection::getInstance();
+                Database::getConnection();
 
             continue;
         }
