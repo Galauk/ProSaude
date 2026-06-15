@@ -7,10 +7,8 @@ use App\Core\View;
 
 class UsuarioController
 {
-    private UsuarioService $service;
-    public function __construct(UsuarioService $service)
+    public function __construct(private UsuarioService $service)
     {
-        $this->service = $service;
     }
 
     public function listar()

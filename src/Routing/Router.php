@@ -1,6 +1,11 @@
 <?php
 namespace App\Routing;
 
+use App\Core\Connection;
+use PDO;
+use ReflectionClass;
+use Exception;
+
 class Router
 {
     private array $routes = [];
@@ -54,12 +59,71 @@ class Router
             as $middleware
         ) {
 
-            (new $middleware())->handle();
+            $this->make($middleware)->handle();
         }
 
         [$controller, $action] =
             $route['action'];
 
-        (new $controller())->$action();
+        $this->make($controller)->$action();
     }
-}
+
+private function make(string $class): object
+{
+    $reflection = new ReflectionClass($class);
+
+    $constructor = $reflection->getConstructor();
+
+    /*
+     * Não possui construtor
+     */
+    if ($constructor === null) {
+
+        return new $class();
+    }
+
+    $dependencies = [];
+
+    foreach (
+        $constructor->getParameters()
+        as $parameter
+    ) {
+
+        $type = $parameter->getType();
+
+        if ($type === null) {
+
+            throw new Exception(
+                sprintf(
+                    'Não foi possível resolver %s::%s',
+                    $class,
+                    $parameter->getName()
+                )
+            );
+        }
+
+        $dependency = $type->getName();
+
+        /*
+         * PDO é um caso especial
+         */
+        if ($dependency === PDO::class) {
+
+            $dependencies[] =
+                Connection::getInstance();
+
+            continue;
+        }
+
+        /*
+         * Resolve recursivamente
+         */
+        $dependencies[] =
+            $this->make($dependency);
+    }
+
+    return $reflection
+        ->newInstanceArgs(
+            $dependencies
+        );
+}}
