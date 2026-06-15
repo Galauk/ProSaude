@@ -6,8 +6,9 @@
 
     <title><?= $title ?? 'Sistema' ?></title>
 
-    <link rel="stylesheet" href="<?= asset('css/app.css'); ?>">
     <link rel="stylesheet" href="<?= asset('css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" href="<?= asset('css/app.css'); ?>">
+    <link rel="stylesheet" href="<?= asset('css/all.min.css') ?>">
 </head>
 
 <body>
@@ -15,14 +16,14 @@
 <?php require __DIR__ .
     '/../partials/app/header.php'; ?>
 
-<?php require __DIR__ .
-    '/../partials/app/sidebar.php'; ?>
-
-<main>
-
-    <?= $content ?>
-
-</main>
+<div class="container-fluid">
+    <div class="row">
+    <?php require __DIR__ .'/../partials/app/sidebar.php'; ?>
+        <main class="col p-4">
+            <?= $content ?>
+        </main>
+    </div>
+</div>
 
 <?php require __DIR__ .
     '/../partials/app/footer.php'; ?>

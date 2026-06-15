@@ -1,4 +1,23 @@
+.sidebar {
+    min-height: calc(100vh - 56px);
+}
 
-body{
-    
+.sidebar .nav-link {
+    color: #333;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #e9ecef;
+}
+
+.sidebar .nav-link.active {
+    background-color: #0d6efd;
+    color: white;
+}
+.menu-arrow {
+    transition: transform 0.2s ease;
+}
+
+.nav-link[aria-expanded="true"] .menu-arrow {
+    transform: rotate(180deg);
 }
