@@ -25,9 +25,10 @@
                 <table class="table table-striped table-hover">
                     <thead class="table-dark">
                         <tr>
-                            <th>ID</th>
                             <th>Nome</th>
                             <th>Email</th>
+                            <th>Login</th>
+                            <th>Perfil</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -35,9 +36,10 @@
                         <?php if (!empty($usuarios)) { ?>
                             <?php foreach ($usuarios as $usuario) { ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($usuario->getId()); ?></td>
                                     <td><?php echo htmlspecialchars($usuario->getNome()); ?></td>
                                     <td><?php echo htmlspecialchars($usuario->getEmail()); ?></td>
+                                    <td><?php echo htmlspecialchars($usuario->getLogin()); ?></td>
+                                    <td><?php echo htmlspecialchars($usuario->getPerfil()); ?></td>
                                     <td>
                                         <a href="/prosaude/usuarios/<?php echo $usuario->getId(); ?>" class="btn btn-sm btn-info">Visualizar</a>
                                     </td>

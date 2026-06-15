@@ -37,8 +37,26 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-
-                <button type="submit" class="btn btn-success">Salvar Usuário</button>
+                <div class="mb-3">
+                    <label for="ativo" class="form-label">Ativo</label>
+                    <select class="form-select" id="ativo" name="ativo" required>
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="data_nascimento" class="form-label">Data de Nascimento</label>
+                    <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" required>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <a href="/prosaude/usuarios" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                    <div class="col text-end">
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                    </div>
+                </div>
             </div>
-    
+        </div>
+    </div>
 </form>

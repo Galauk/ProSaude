@@ -62,9 +62,9 @@ class Usuario
         $this->login = $login;
     }
 
-    public function getPerfil(): PerfilUsuario
+    public function getPerfil(): string
     {
-        return $this->perfil;
+        return $this->perfil->value;
     }
     public function setPerfil(PerfilUsuario $perfil): void
     {
@@ -88,6 +88,10 @@ class Usuario
     public function verificarSenha(string $senha): bool
     {
         return password_verify($senha, $this->senha);
+    }
+    public function getSenha(): string
+    {
+        return $this->senha;
     }
 
 

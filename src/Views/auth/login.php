@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-    </head>
-    <body>
-        <h1>Login</h1>
+<div class="d-flex align-items-center py-4 bg-body-tertiary">
+    <div class="form-signin  m-auto">
+    <h1 class="h3 mb-3 fw-normal">Login</h1>
+    <?= isset($erro) ? "<p style='color: red;'>$erro</p>" : "" ?>
         <form action="/autenticar" method="POST">
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" required>
-            <br>
-            <label for="senha">Senha:</label>
-            <input type="password" name="senha" id="senha" required>
-            <br>
-            <button type="submit">Entrar</button>
+            <div class="form-floating">
+                <input class="form-control" type="text" name="login" id="login" required>
+                <label class="form-label">Login:</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" type="password" name="senha" id="senha" required>
+                <label class="form-label" for="senha">Senha:</label>
+            </div>
+            <button class="btn btn-primary w-100 py-2" type="submit">Entrar</button>
         </form>
-    </body>
-</html>
+    </div>
+</div>

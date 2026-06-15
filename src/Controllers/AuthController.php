@@ -12,7 +12,7 @@ class AuthController
     }
     public function autenticar()
     {
-        $email = $_POST['email'] ?? '';
+        $login = $_POST['login'] ?? '';
         $senha = $_POST['senha'] ?? '';
         
         // Iniciar sessão uma única vez
@@ -27,12 +27,12 @@ class AuthController
         }
         
         // Validar entrada
-        if (empty($email) || empty($senha)) {
+        if (empty($login) || empty($senha)) {
             View::render(
                 'auth/login', 
                 [
                     'title' => 'ProSaúde',
-                    'erro' => 'Email e senha são obrigatórios'
+                    'erro' => 'Login e senha são obrigatórios'
                 ], 
                 'public'
             );
@@ -40,16 +40,16 @@ class AuthController
         }
         
         // TODO: Implementar validação no banco de dados
-        // $usuario = Usuario::where('email', $email)->first();
+        // $usuario = Usuario::where('login', $login)->first();
         // if ($usuario && password_verify($senha, $usuario->senha)) {
         
         // Validar credenciais
-        if ($this->validarCredenciais($email, $senha)) {
+        if ($this->validarCredenciais($login, $senha)) {
             // Regenerar ID de sessão para evitar session fixation
             session_regenerate_id(true);
             
             // Armazenar dados do usuário com chave padronizada
-            $_SESSION['usuario'] = $email;
+            $_SESSION['usuario'] = $login;
             $_SESSION['LAST_ACTIVITY'] = time();
             
             header('Location: /prosaude/dashboard');
@@ -59,7 +59,7 @@ class AuthController
                 'auth/login', 
                 [
                     'title' => 'ProSaúde',
-                    'erro' => 'Email ou senha inválidos'
+                    'erro' => 'Login ou senha inválidos'
                 ], 
                 'public'
             );
