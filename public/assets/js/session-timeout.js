@@ -1,12 +1,69 @@
-const TEMPO_LIMITE = 15 * 60 * 1000; // 15 minutos
+const TEMPO_LIMITE = 15 * 60; // 15 minutos em segundos
+const TEMPO_ALERTA = 60;      // Mostrar alerta faltando 1 minuto
 
+let tempoRestante = TEMPO_LIMITE;
+let intervalo;
 let tempoInatividade;
+
+const contador = document.getElementById(
+    'contador-sessao'
+);
+
+function atualizarContador() {
+
+    const minutos = Math.floor(
+        tempoRestante / 60
+    );
+
+    const segundos = tempoRestante % 60;
+
+    contador.textContent =
+        `${String(minutos).padStart(2, '0')}:` +
+        `${String(segundos).padStart(2, '0')}`;
+
+    // Alterar cor conforme o tempo restante
+    contador.className = 'badge';
+
+    if (tempoRestante > 300) {
+        contador.classList.add('bg-success');
+    } else if (tempoRestante > 60) {
+        contador.classList.add('bg-warning');
+    } else {
+        contador.classList.add('bg-danger');
+    }
+
+    if (tempoRestante === TEMPO_ALERTA) {
+
+        alert(
+            'Sua sessão expirará em 1 minuto por inatividade.'
+        );
+    }
+
+    if (tempoRestante <= 0) {
+
+        clearInterval(intervalo);
+
+        alert(
+            'Sua sessão expirou por inatividade.'
+        );
+
+        window.location.href = '/logout';
+    }
+
+    tempoRestante--;
+}
 
 function reiniciarTimer() {
 
     clearTimeout(tempoInatividade);
 
+    tempoRestante = TEMPO_LIMITE;
+
+    atualizarContador();
+
     tempoInatividade = setTimeout(() => {
+
+        clearInterval(intervalo);
 
         alert(
             'Sua sessão expirou por inatividade.'
@@ -14,7 +71,7 @@ function reiniciarTimer() {
 
         window.location.href = '/logout';
 
-    }, TEMPO_LIMITE);
+    }, TEMPO_LIMITE * 1000);
 }
 
 [
@@ -28,8 +85,12 @@ function reiniciarTimer() {
         evento,
         reiniciarTimer
     );
-
 });
+
+intervalo = setInterval(
+    atualizarContador,
+    1000
+);
 
 reiniciarTimer();
 
