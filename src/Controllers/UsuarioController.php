@@ -4,11 +4,10 @@ namespace App\Controllers;
 
 use App\Services\UsuarioService;
 use App\Models\Usuario;
-use App\Core\View;
 
 use App\Enums\PerfilUsuario;
 
-class UsuarioController
+class UsuarioController extends BaseController
 {
     public function __construct(private UsuarioService $service)
     {
@@ -16,7 +15,7 @@ class UsuarioController
 
     public function criar()
     {
-        View::render(
+        $this->render(
             'usuario/criar',
             [
                 'title' => 'Criar Usuário',
@@ -29,7 +28,7 @@ class UsuarioController
     public function listar()
     {
         $usuarios = $this->service->listarUsuarios();
-        View::render(
+        $this->render(
             'usuario/listar',
             [
                 'title' => 'Lista de Usuários',
@@ -41,7 +40,7 @@ class UsuarioController
 
     public function visualizar(string $codigo){
         $usuario = $this->service->buscarUsuarioPorCodigo($codigo);
-        View::render(
+        $this->render(
             'usuario/visualizar',
             [
                 'title' => 'Visualizar Usuário',

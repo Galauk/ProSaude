@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Controllers;
-use App\Controllers\DashboardController;
-use App\Core\View;
 
-class AuthController 
+class AuthController extends BaseController
 {
     public function login()
     {
-        View::render('auth/login');
+        $this->render('auth/login');
     }
     public function autenticar()
     {
@@ -22,13 +20,13 @@ class AuthController
         
         // Se já está logado, redirecionar para dashboard
         if (isset($_SESSION['usuario'])) {
-            header('Location: /prosaude/dashboard');
+            $this->redirect('/prosaude/dashboard');
             exit;
         }
         
         // Validar entrada
         if (empty($login) || empty($senha)) {
-            View::render(
+            $this->render(
                 'auth/login', 
                 [
                     'title' => 'ProSaúde',
@@ -52,10 +50,10 @@ class AuthController
             $_SESSION['usuario'] = $login;
             $_SESSION['LAST_ACTIVITY'] = time();
             
-            header('Location: /prosaude/dashboard');
+            $this->redirect('/prosaude/dashboard');
             exit;
         } else {
-            View::render(
+            $this->render(
                 'auth/login', 
                 [
                     'title' => 'ProSaúde',
@@ -82,7 +80,7 @@ class AuthController
         
         session_destroy();
         
-        header('Location: /login');
+        $this->redirect('/login');
         exit;
     }
 }

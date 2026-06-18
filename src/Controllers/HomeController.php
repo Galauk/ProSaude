@@ -1,12 +1,11 @@
 <?php
 namespace App\Controllers;
-use App\Core\View;
 
-class HomeController 
+class HomeController extends BaseController
 {
     public function index() : void
     {
-         View::render(
+         $this->render(
             'home/index',
             [
                 'title' => 'ProSaúde'
@@ -17,7 +16,7 @@ class HomeController
 
     public function sobre() : void
     {
-         View::render(
+         $this->render(
             'home/sobre',
             [
                 'title' => 'Sobre o ProSaúde'

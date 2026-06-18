@@ -1,12 +1,11 @@
 <?php
 namespace App\Controllers;
-use App\Core\View;
 
-class DashboardController 
+class DashboardController extends BaseController
 {
     public function index()
     {
-        View::render(
+        $this->render(
             'dashboard/index',
             [
                 'title' => 'ProSaúde'
