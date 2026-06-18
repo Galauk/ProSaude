@@ -47,7 +47,7 @@
                             <?php } ?>
                         <?php }else{ ?>
                             <tr>
-                                <td colspan="4" class="text-center text-muted">Nenhum usuário cadastrado</td>
+                                <td colspan="5" class="text-center text-muted">Nenhum usuário cadastrado</td>
                             </tr>
                         <?php } ?>
                     </tbody>

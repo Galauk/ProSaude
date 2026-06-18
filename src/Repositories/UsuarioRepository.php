@@ -28,6 +28,17 @@ class UsuarioRepository
         return null;
     }
 
+    public function buscarPorLogin(string $login){
+        $stmt = $this->db->prepare("SELECT * FROM usuario WHERE login = :login");
+        $stmt->execute(['login' => $login]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data) {
+            return new Usuario($data);
+        }
+        return null;
+    }
+
     public function salvar(Usuario $usuario): void
     {
         $stmt = $this->db->prepare("INSERT INTO usuario (nome, login, email, senha, perfil, ativo) VALUES (:nome, :login, :email, :senha, :perfil, :ativo)");
