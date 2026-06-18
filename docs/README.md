@@ -15,7 +15,4 @@ Quando algum arquivo antigo continha informacao util, o conteudo foi resumido em
 
 ## Regra para novos documentos
 
-- Documentos de decisao tecnica devem ir para `migracao/DECISOES.md`.
-- Descobertas sobre o legado devem ir para `migracao/DESCOBERTAS-LEGADO.md`.
-- Registro cronologico do trabalho deve ir para `migracao/DIARIO.md`.
 - Scripts SQL antigos devem ficar em `legado/banco/` ate existir uma estrategia nova de migrations.
