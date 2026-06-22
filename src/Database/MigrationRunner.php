@@ -1,34 +1,29 @@
 <?php
+
 namespace App\Database;
 
-use  App\Core\Database;
-use PDO;
+use App/Database/Migration;
 
-class Migrator
+class MigrationRunner extends Migration
 {
-    public function __construct(
-        private PDO $pdo
-    ) {}
-
-    public function migrate(): void
+    public function run(): void
     {
         $this->createMigrationTable();
 
-        $executadas = $this->getExecuted();
+        $executadas = $this->getExecutedMigrations();
 
         foreach (
             glob(
-                __DIR__ .
-                '/../../database/migrations/*.php'
+                database_path('migrations/*.php')
             )
             as $file
         ) {
 
-            $name = basename($file);
+            $migrationName = basename($file);
 
             if (
                 in_array(
-                    $name,
+                    $migrationName,
                     $executadas
                 )
             ) {
@@ -37,15 +32,13 @@ class Migrator
 
             $migration = require $file;
 
-            $migration->up(
-                $this->pdo
+            $migration->up();
+
+            $this->registerMigration(
+                $migrationName
             );
 
-            $this->register(
-                $name
-            );
-
-            echo "Executada: {$name}\n";
+            echo "Migration executada: {$migrationName}\n";
         }
     }
 
@@ -60,7 +53,7 @@ class Migrator
         ");
     }
 
-    private function getExecuted(): array
+    private function getExecutedMigrations(): array
     {
         return $this->pdo
             ->query(
@@ -71,16 +64,20 @@ class Migrator
             );
     }
 
-    private function register(
+    private function registerMigration(
         string $migration
     ): void
     {
-        $stmt =
-            $this->pdo->prepare("
-                INSERT INTO migrations
-                (migration)
-                VALUES (:migration)
-            ");
+        $stmt = $this->pdo->prepare("
+            INSERT INTO migrations
+            (
+                migration
+            )
+            VALUES
+            (
+                :migration
+            )
+        ");
 
         $stmt->execute([
             'migration' => $migration

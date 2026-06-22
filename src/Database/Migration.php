@@ -2,11 +2,9 @@
 
 namespace App\Database;
 
-use PDO;
-
-abstract class Migration
+abstract class Migration extends Executable
 {
-    abstract public function up(PDO $pdo): void;
+    abstract public function up(): void;
 
-    abstract public function down(PDO $pdo): void;
+    abstract public function down(): void;
 }
