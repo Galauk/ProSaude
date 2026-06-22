@@ -2,7 +2,7 @@
 
 namespace App\Database;
 
-use App/Database/Migration;
+use App\Database\Migration;
 
 class MigrationRunner extends Migration
 {

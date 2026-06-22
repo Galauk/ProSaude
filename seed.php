@@ -4,13 +4,13 @@ require 'vendor/autoload.php';
 
 use App\Core\Connection;
 use App\Core\Environment;
-use App\Database\MigrationRunner;
+use App\Database\SeedRunner;
 
 Environment::load(".env");
 $pdo = Connection::getConnection();
 
-$migrator = new MigrationRunner(
+$seeder = new SeedRunner(
     $pdo
 );
 
-$migrator->migrate();
+$seeder->migrate();

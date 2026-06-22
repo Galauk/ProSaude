@@ -28,6 +28,7 @@
     "cs": "phpcs --standard=PSR12 src/",
     "fix": "php-cs-fixer fix src/",
     "analyse": "phpstan analyse src/ --level=5",
-    "migrate": "php migrate.php"
+    "migrate": "php migrate.php",
+    "seed" : "php seed.php"
   }
 }
