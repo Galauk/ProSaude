@@ -1,8 +1,8 @@
 <?php
 namespace App\Routing;
 
-use App\Core\Database;
-use PDO;
+use App\Core\Connection;
+
 use ReflectionClass;
 use Exception;
 
@@ -110,7 +110,7 @@ private function make(string $class): object
         if ($dependency === PDO::class) {
 
             $dependencies[] =
-                Database::getConnection();
+                Connection::getConnection();
 
             continue;
         }
@@ -118,6 +118,7 @@ private function make(string $class): object
         /*
          * Resolve recursivamente
          */
+        echo "Classe: {$class} -> Dependência: {$dependency}\n";
         $dependencies[] =
             $this->make($dependency);
     }

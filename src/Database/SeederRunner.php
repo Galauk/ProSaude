@@ -2,7 +2,7 @@
 
 namespace App\Database;
 
-use App/Database/Seeder;
+use PDO;
 
 class SeederRunner extends Seeder
 {
@@ -12,20 +12,17 @@ class SeederRunner extends Seeder
 
     public function run(): void
     {
-        foreach (
-            glob(
-                database_path('seeds/*.php')
-            )
-            as $file
-        ) {
-
+        foreach (glob(database_path('seeds/*.php')) as $file) {
             $seeder = require $file;
+
+            // Correção principal: injetar o PDO
+            if (method_exists($seeder, 'setPdo')) {
+                $seeder->setPdo($this->pdo);
+            }
 
             $seeder->run();
 
-            echo "Seeder executado: "
-                . basename($file)
-                . PHP_EOL;
+            echo "Seeder executado: " . basename($file) . PHP_EOL;
         }
     }
 }

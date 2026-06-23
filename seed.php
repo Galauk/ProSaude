@@ -1,16 +1,13 @@
 <?php
 
-require 'vendor/autoload.php';
+require_once __DIR__ . '/public/index.php'; // ou bootstrap adequado
 
-use App\Core\Connection;
-use App\Core\Environment;
-use App\Database\SeedRunner;
+use App\Database\SeederRunner;
+use App\Core\Connection; // ajuste conforme sua estrutura
 
-Environment::load(".env");
-$pdo = Connection::getConnection();
+$pdo = Connection::getConnection(); // ou como você pega o PDO
 
-$seeder = new SeedRunner(
-    $pdo
-);
+$runner = new SeederRunner($pdo);
+$runner->run();
 
-$seeder->migrate();
+echo "Seeders concluídos!\n";

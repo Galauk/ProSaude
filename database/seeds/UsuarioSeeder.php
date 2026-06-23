@@ -1,45 +1,28 @@
 <?php
 
+namespace App\Database\Seeds;   
+
 use App\Database\Seeder;
-use PDO;
 
 class UsuarioSeeder extends Seeder
 {
-    public function run(PDO $pdo): void
+    public function run(): void   
     {
-        $stmt = $pdo->prepare("
+        $stmt = $this->pdo->prepare("
             SELECT COUNT(*)
             FROM usuario
             WHERE login = :login
         ");
 
-        $stmt->execute([
-            'login' => 'admin'
-        ]);
+        $stmt->execute(['login' => 'admin']);
 
         if ($stmt->fetchColumn() > 0) {
             return;
         }
 
-        $stmt = $pdo->prepare("
-            INSERT INTO usuario
-            (
-                nome,
-                login,
-                email,
-                senha,
-                perfil,
-                ativo
-            )
-            VALUES
-            (
-                :nome,
-                :login,
-                :email,
-                :senha,
-                :perfil,
-                :ativo
-            )
+        $stmt = $this->pdo->prepare("
+            INSERT INTO usuario (nome, login, email, senha, perfil, ativo)
+            VALUES (:nome, :login, :email, :senha, :perfil, :ativo)
         ");
 
         $stmt->execute([
