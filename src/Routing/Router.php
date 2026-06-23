@@ -68,63 +68,52 @@ class Router
         $this->make($controller)->$action();
     }
 
-private function make(string $class): object
-{
-    $reflection = new ReflectionClass($class);
+    private function make(string $class): object
+    {
+        $reflection = new ReflectionClass($class);
 
-    $constructor = $reflection->getConstructor();
+        $constructor = $reflection->getConstructor();
 
-    /*
-     * Não possui construtor
-     */
-    if ($constructor === null) {
-
-        return new $class();
-    }
-
-    $dependencies = [];
-
-    foreach (
-        $constructor->getParameters()
-        as $parameter
-    ) {
-
-        $type = $parameter->getType();
-
-        if ($type === null) {
-
-            throw new Exception(
-                sprintf(
-                    'Não foi possível resolver %s::%s',
-                    $class,
-                    $parameter->getName()
-                )
-            );
+        // Sem construtor → instancia normalmente
+        if ($constructor === null) {
+            return new $class();
         }
 
-        $dependency = $type->getName();
+        $dependencies = [];
 
-        /*
-         * PDO é um caso especial
-         */
-        if ($dependency === PDO::class) {
+        foreach ($constructor->getParameters() as $parameter) {
+            $type = $parameter->getType();
 
-            $dependencies[] =
-                Connection::getConnection();
+            if ($type === null) {
+                throw new Exception("Não foi possível resolver parâmetro {$parameter->getName()} em {$class}");
+            }
 
-            continue;
+            if ($type instanceof \ReflectionUnionType) {
+                throw new Exception("Tipos union não suportados ainda em {$class}");
+            }
+
+            $typeName = $type->getName();
+
+            // ====================== CORREÇÃO PRINCIPAL ======================
+            // Trata tipos primitivos (string, int, bool, float, array)
+            if (in_array($typeName, ['string', 'int', 'float', 'bool', 'array'])) {
+                throw new Exception(
+                    "Parâmetro '{$parameter->getName()}' do tipo '{$typeName}' " .
+                    "em {$class} não pode ser resolvido automaticamente. " .
+                    "Use injeção de dependência ou passe valor manualmente."
+                );
+            }
+
+            // PDO especial
+            if ($typeName === \PDO::class) {
+                $dependencies[] = Connection::getConnection();
+                continue;
+            }
+
+            // Resolve classes normalmente (recursivo)
+            $dependencies[] = $this->make($typeName);
         }
 
-        /*
-         * Resolve recursivamente
-         */
-        echo "Classe: {$class} -> Dependência: {$dependency}\n";
-        $dependencies[] =
-            $this->make($dependency);
+        return $reflection->newInstanceArgs($dependencies);
     }
-
-    return $reflection
-        ->newInstanceArgs(
-            $dependencies
-        );
-}}
+}
