@@ -6,11 +6,17 @@ use App\Core\Connection;
 use App\Core\Environment;
 use App\Database\MigrationRunner;
 
-Environment::load(".env");
-$pdo = Connection::getConnection();
+try{
+    Environment::load(".env");
+    $pdo = Connection::getConnection();
 
-$migrator = new MigrationRunner(
-    $pdo
-);
+    $migrator = new MigrationRunner(
+        $pdo
+    );
 
-$migrator->migrate();
+    $migrator->run();
+}catch(\Exception $e){
+    echo "Erro ao executar migrations: \n";
+    echo $e->getMessage()."\n";
+    exit(1);
+}

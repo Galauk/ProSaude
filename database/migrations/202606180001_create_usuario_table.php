@@ -2,11 +2,11 @@
 
 use App\Database\Migration;
 
-return new class extends Migration
+return new class($this->pdo) extends Migration
 {
-    public function up(PDO $pdo): void
+    public function up(): void
     {
-        $pdo->exec("
+        $this->pdo->exec("
             CREATE TABLE usuario (
                 id UUID PRIMARY KEY,
                 nome VARCHAR(255) NOT NULL,
@@ -17,9 +17,9 @@ return new class extends Migration
         ");
     }
 
-    public function down(PDO $pdo): void
+    public function down(): void
     {
-        $pdo->exec("
+        $this->pdo->exec("
             DROP TABLE usuario
         ");
     }

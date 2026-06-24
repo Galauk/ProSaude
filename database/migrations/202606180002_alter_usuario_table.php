@@ -2,35 +2,35 @@
 
 use App\Database\Migration;
 
-return new class extends Migration
+return new class($this->pdo) extends Migration
 {
-    public function up(\PDO $pdo): void
+    public function up(): void
     {
-        $pdo->exec("
+        $this->pdo->exec("
             ALTER TABLE usuario
             ADD COLUMN email VARCHAR(255) UNIQUE
         ");
 
-        $pdo->exec("
+        $this->pdo->exec("
             ALTER TABLE usuario
             ADD COLUMN perfil VARCHAR(50)
             NOT NULL
             DEFAULT 'USUARIO'
         ");
 
-        $pdo->exec("
+        $this->pdo->exec("
             ALTER TABLE usuario
             ADD COLUMN ativo BOOLEAN
             NOT NULL
             DEFAULT TRUE
         ");
 
-        $pdo->exec("
+        $this->pdo->exec("
             ALTER TABLE usuario
             ADD COLUMN ultimo_login TIMESTAMP
         ");
 
-        $pdo->exec("
+        $this->pdo->exec("
             ALTER TABLE usuario
             ADD COLUMN updated_at TIMESTAMP
             NOT NULL
@@ -38,9 +38,9 @@ return new class extends Migration
         ");
     }
 
-    public function down(\PDO $pdo): void
+    public function down(): void
     {
-        $pdo->exec("
+        $this->pdo->exec("
             ALTER TABLE usuario
             DROP COLUMN email,
             DROP COLUMN perfil,
