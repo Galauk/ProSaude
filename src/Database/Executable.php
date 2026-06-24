@@ -12,4 +12,20 @@ abstract class Executable
     {
         $this->pdo = $pdo;
     }
+    protected function invoke(
+        object $instance,
+        string $method
+    ): void
+    {
+        $reflection = new \ReflectionMethod(
+            $instance,
+            $method
+        );
+
+        if ($reflection->getNumberOfParameters() > 0) {
+            $instance->$method($this->pdo);
+        } else {
+            $instance->$method();
+        }
+    }
 }

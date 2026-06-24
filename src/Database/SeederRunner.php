@@ -2,27 +2,46 @@
 
 namespace App\Database;
 
-use PDO;
+use Exception;
 
-class SeederRunner extends Seeder
+class SeederRunner extends Executable
 {
-    public function __construct(
-        private PDO $pdo
-    ) {}
-
     public function run(): void
     {
-        foreach (glob(database_path('seeds/*.php')) as $file) {
-            $seeder = require $file;
+        $files = glob(database_path('seeds/*.php'));
 
-            // Correção principal: injetar o PDO
-            if (method_exists($seeder, 'setPdo')) {
-                $seeder->setPdo($this->pdo);
+        if (empty($files)) {
+            echo "Nenhum seeder encontrado em: " . database_path('seeds') . "\n";
+            return;
+        }
+
+        echo "Encontrados " . count($files) . " seed(s).\n\n";
+
+        foreach ($files as $file) {
+
+            $seederName = basename($file);
+
+            try {
+
+                echo "Executando: {$seederName}\n";
+
+                $seeder = require $file;
+
+                if (!$seeder instanceof Seeder) {
+                    echo "{$seederName} não é um Seeder válido.\n";
+                    continue;
+                }
+
+                $this->invoke($seeder,'run');
+
+                echo "Seeder executado com sucesso: {$seederName}\n\n";
+
+            } catch (Exception $e) {
+
+                echo "Erro no Seeder {$seederName}: "
+                    . $e->getMessage()
+                    . "\n\n";
             }
-
-            $seeder->run();
-
-            echo "Seeder executado: " . basename($file) . PHP_EOL;
         }
     }
 }

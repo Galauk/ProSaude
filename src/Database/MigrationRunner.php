@@ -2,43 +2,51 @@
 
 namespace App\Database;
 
-use App\Database\Migration;
+use PDO;
+use Exception;
 
-class MigrationRunner extends Migration
+class MigrationRunner extends Executable
 {
     public function run(): void
     {
         $this->createMigrationTable();
-
         $executadas = $this->getExecutedMigrations();
 
-        foreach (
-            glob(
-                database_path('migrations/*.php')
-            )
-            as $file
-        ) {
+        $files = glob(database_path('migrations/*.php'));
 
+        if (empty($files)) {
+            echo "Nenhuma migration encontrada em: " . database_path('migrations') . "\n";
+            return;
+        }
+
+        echo "Encontradas " . count($files) . " migrations.\n\n";
+
+        foreach ($files as $file) {
             $migrationName = basename($file);
 
-            if (
-                in_array(
-                    $migrationName,
-                    $executadas
-                )
-            ) {
+            if (in_array($migrationName, $executadas)) {
+                echo "Já executada: {$migrationName}\n";
                 continue;
             }
 
-            $migration = require $file;
+            try {
+                echo "Executando: {$migrationName}\n";
+                
+                $migration = require $file;
 
-            $migration->up();
+                if (!$migration instanceof Migration) {
+                    echo "{$migrationName} não é uma Migration válida.\n";
+                    continue;
+                }
 
-            $this->registerMigration(
-                $migrationName
-            );
+                $this->invoke($migration,'up');
 
-            echo "Migration executada: {$migrationName}\n";
+                $this->registerMigration($migrationName);
+                echo "Migration executada com sucesso: {$migrationName}\n\n";
+
+            } catch (Exception $e) {
+                echo "Erro na migration {$migrationName}: " . $e->getMessage() . "\n\n";
+            }
         }
     }
 
@@ -56,31 +64,16 @@ class MigrationRunner extends Migration
     private function getExecutedMigrations(): array
     {
         return $this->pdo
-            ->query(
-                "SELECT migration FROM migrations"
-            )
-            ->fetchAll(
-                PDO::FETCH_COLUMN
-            );
+            ->query("SELECT migration FROM migrations")
+            ->fetchAll(PDO::FETCH_COLUMN);
     }
 
-    private function registerMigration(
-        string $migration
-    ): void
+    private function registerMigration(string $migration): void
     {
         $stmt = $this->pdo->prepare("
-            INSERT INTO migrations
-            (
-                migration
-            )
-            VALUES
-            (
-                :migration
-            )
+            INSERT INTO migrations (migration)
+            VALUES (:migration)
         ");
-
-        $stmt->execute([
-            'migration' => $migration
-        ]);
+        $stmt->execute(['migration' => $migration]);
     }
 }
