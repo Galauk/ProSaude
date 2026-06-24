@@ -11,7 +11,7 @@ class AuthMiddleware
         }
         
         // Se o usuário não está logado, redirecionar para login
-        if (!isset($_SESSION['usuario'])) {
+        if (!isset($_SESSION['usuario_id'])) {
             header('Location: /login');
             exit;
         }

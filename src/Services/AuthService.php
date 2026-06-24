@@ -9,25 +9,11 @@ class AuthService
         private UsuarioRepository $usuarioRepository
     ) {}
 
-    public function autenticar(
-        string $login,
-        string $senha
-    ): bool {
+    public function autenticar(string $login,string $senha): bool {
 
-        $usuario =
-            $this->usuarioRepository
-                ->buscarPorLogin($login);
-
-        if (!$usuario) {
-            return false;
-        }
-
-        if (
-            !password_verify(
-                $senha,
-                $usuario->getSenha()
-            )
-        ) {
+        $usuario = $this->usuarioRepository->buscarPorLogin($login);
+ 
+        if (!$usuario || !$usuario->verificarSenha($senha)) {
             return false;
         }
 

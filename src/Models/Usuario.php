@@ -8,23 +8,23 @@ class Usuario
 {
     private ?string $id = null;
 
-    private string $nome;
+    private string $nome = '';
 
-    private string $login;
+    private string $login = '';
 
     private ?string $email = null;
 
-    private string $senha;
+    private string $senhaHash = '';
 
-    private PerfilUsuario $perfil;
+    private PerfilUsuario $perfil = PerfilUsuario::USUARIO;
 
     private bool $ativo = true;
 
     private ?DateTime $ultimoLogin = null;
 
-    private DateTime $createdAt;
+    private ?DateTime $createdAt = null;
 
-    private DateTime $updatedAt;
+    private ?DateTime $updatedAt = null;
 
     public function getId(): ?string
     {
@@ -80,20 +80,42 @@ class Usuario
         $this->ativo = $ativo;
     }
 
-    public function setSenha(string $senha): void
+    public function definirSenha(string $senha): void
     {
-        $this->senha = password_hash($senha, PASSWORD_BCRYPT);
+        $this->senhaHash = password_hash(
+            $senha,
+            PASSWORD_BCRYPT
+        );
+    }    
+
+    public function setSenhaHash(string $hash): void
+    {
+        $this->senhaHash = $hash;
     }
-    
+
+    public function getSenhaHash(): string
+    {
+        return $this->senhaHash;
+    }
+
     public function verificarSenha(string $senha): bool
     {
-        return password_verify($senha, $this->senha);
-    }
-    public function getSenha(): string
-    {
-        return $this->senha;
+        return password_verify(
+            $senha,
+            $this->senhaHash
+        );
     }
 
+    public function setUltimoLogin(DateTime $ultimoLogin){
+        $this->ultimoLogin = $ultimoLogin;
+    }
 
+    public function setCreatedAt(DateTime $createdAt){
+        $this->createdAt = $createdAt;
+    }
+    
+    public function setUpdatedAt(DateTime $updatedAt){
+        $this->updatedAt = $updatedAt;
+    }
 
 }
