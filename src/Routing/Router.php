@@ -43,29 +43,57 @@ class Router
             PHP_URL_PATH
         );
 
-        if (!isset($this->routes[$method][$uri])) {
+        if (!isset($this->routes[$method])) {
 
-            http_response_code(404);
-
-            echo "Página não encontrada";
+            http_response_code(405);
+            echo "Método não permitido";
 
             return;
         }
 
-        $route = $this->routes[$method][$uri];
+        foreach ($this->routes[$method] as $routeUri => $route) {
 
-        foreach (
-            $route['middlewares']
-            as $middleware
-        ) {
+            /*
+            * Converte:
+            * /usuarios/{id}
+            *
+            * em:
+            * #^/usuarios/([^/]+)$#
+            */
+            $pattern = preg_replace(
+                '/\{([a-zA-Z0-9_]+)\}/',
+                '([^/]+)',
+                $routeUri
+            );
 
-            $this->make($middleware)->handle();
+            $pattern = '#^' . $pattern . '$#';
+
+            if (!preg_match($pattern, $uri, $matches)) {
+                continue;
+            }
+
+            array_shift($matches);
+
+            foreach (
+                $route['middlewares']
+                as $middleware
+            ) {
+                $this->make($middleware)
+                    ->handle();
+            }
+
+            [$controller, $action] =
+                $route['action'];
+
+            $this->make($controller)
+                ->$action(...$matches);
+
+            return;
         }
 
-        [$controller, $action] =
-            $route['action'];
+        http_response_code(404);
 
-        $this->make($controller)->$action();
+        echo "Página não encontrada";
     }
 
     private function make(string $class): object

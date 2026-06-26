@@ -34,16 +34,17 @@ class UsuarioController extends BaseController
         $this->render('usuario/listar',$data,'app');
     }
 
-    public function visualizar(string $codigo){
-        $usuario = $this->service->buscarUsuarioPorCodigo($codigo);
-        $this->render(
-            'usuario/visualizar',
-            [
-                'title' => 'Visualizar Usuário',
-                'usuario' => $usuario
-            ],
-            'app'
-        );
+    public function visualizar(string $id): void
+    {
+        $usuario = $this->service->buscarUsuarioPorCodigo($id);
+
+        if (!$usuario) {
+            http_response_code(404);
+            echo "Usuário não encontrado";
+            return;
+        }
+
+        $this->render('usuario/visualizar',['usuario' => $usuario],'app');
     }
 
     public function salvar()
