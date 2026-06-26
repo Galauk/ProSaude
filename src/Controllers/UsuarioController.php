@@ -44,7 +44,20 @@ class UsuarioController extends BaseController
             return;
         }
 
-        $this->render('usuario/visualizar',['usuario' => $usuario],'app');
+        $this->render('usuario/visualizar',['title' => 'Visualizando usuário','usuario' => $usuario],'app');
+    }
+
+    public function editar(string $id): void
+    {
+        $usuario = $this->service->buscarUsuarioPorCodigo($id);
+
+        if (!$usuario) {
+            http_response_code(404);
+            echo "Usuário não encontrado";
+            return;
+        }
+
+        $this->render('usuario/editar',['title' => 'Editando usuario','perfilUsuario' => PerfilUsuario::cases(),'usuario' => $usuario],'app');
     }
 
     public function salvar()

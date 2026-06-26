@@ -69,6 +69,12 @@ $router->get(
 );
 
 $router->get(
+    '/prosaude/usuarios/edit/{id}',
+    [UsuarioController::class, 'editar'],
+    [AuthMiddleware::class,SessionMiddleware::class]
+);
+
+$router->get(
     '/prosaude/usuarios/criar',
     [UsuarioController::class, 'criar'],
     [AuthMiddleware::class,SessionMiddleware::class]
