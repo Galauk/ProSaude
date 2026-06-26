@@ -3,16 +3,16 @@
         <div class="col-md-12">
             <h1><?php echo $title ?? 'Usuários'; ?></h1>
             
-            <?php if (isset($_GET['sucesso'])): ?>
+            <?php if (isset($msg)): ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Sucesso!</strong> <?php echo htmlspecialchars($_GET['sucesso']); ?>
+                    <strong>Sucesso!</strong> <?php echo htmlspecialchars($msg); ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
             
-            <?php if (isset($_GET['erro'])): ?>
+            <?php if (isset($alert)): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Erro!</strong> <?php echo htmlspecialchars($_GET['erro']); ?>
+                    <strong>Erro!</strong> <?php echo htmlspecialchars($alert); ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
@@ -41,7 +41,8 @@
                                     <td><?php echo htmlspecialchars($usuario->getLogin()); ?></td>
                                     <td><?php echo htmlspecialchars($usuario->getPerfil()); ?></td>
                                     <td>
-                                        <a href="/prosaude/usuarios/<?php echo $usuario->getId(); ?>" class="btn btn-sm btn-info">Visualizar</a>
+                                        <a href="/prosaude/usuarios/<?php echo $usuario->getId(); ?>" class="btn btn-sm btn-info"><i class="fa-solid fa-eye"></i></a>
+                                        <a href="/prosaude/usuarios/edit/<?php echo $usuario->getId(); ?>" class="btn btn-sm btn-info"><i class="fa-solid fa-pen-to-square"></i></a>
                                     </td>
                                 </tr>
                             <?php } ?>

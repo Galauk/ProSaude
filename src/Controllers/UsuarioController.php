@@ -25,17 +25,13 @@ class UsuarioController extends BaseController
         );
     }
 
-    public function listar()
+    public function listar($msg = null,$alert = 0)
     {
         $usuarios = $this->service->listarUsuarios();
-        $this->render(
-            'usuario/listar',
-            [
-                'title' => 'Lista de Usuários',
-                'usuarios' => $usuarios
-            ],
-            'app'
-        );
+        $data = ['title' => 'Lista de Usuários','usuarios' => $usuarios];
+        if($msg != null && $alert == 0){ $data['msg'] = $msg;}
+        if($msg != null && $alert == 1){ $data['alert'] = $msg;}
+        $this->render('usuario/listar',$data,'app');
     }
 
     public function visualizar(string $codigo){
@@ -57,16 +53,16 @@ class UsuarioController extends BaseController
         $usuario->setNome($_POST['nome'] ?? '');
         $usuario->setEmail($_POST['email'] ?? '');
         $usuario->setLogin($_POST['login'] ?? '');
-        $usuario->setSenha($_POST['senha'] ?? '');
+        $usuario->definirSenha($_POST['senha'] ?? '');
         $usuario->setPerfil(
             PerfilUsuario::from($_POST['perfil'])
         );
 
         try {
             $usuario = $this->service->salvar($usuario);
-            header('Location: /prosaude/usuarios?sucesso=usuario_criado');
+            $this->listar("Usuario cadastrado com sucesso!");
         } catch (\Exception $e) {
-            header('Location: /prosaude/usuarios?erro=' . urlencode($e->getMessage()));
+            $this->listar("Falha ao cadastrar o usuario!",1);
         }
 
         exit;
