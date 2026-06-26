@@ -5,6 +5,7 @@ use PDO;
 use App\Models\Usuario;
 
 use App\Enums\PerfilUsuario;
+use DateTime;
 
 class UsuarioRepository
 {
@@ -21,11 +22,11 @@ class UsuarioRepository
         $stmt->execute(['codigo' => $codigo]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($data) {
-            return new Usuario($data['id'], $data['nome'], $data['email']);
+        if (!$data) {
+            return null;
         }
 
-        return null;
+        return $this->fromData($data);
     }
 
     public function buscarPorLogin(string $login){
@@ -33,10 +34,10 @@ class UsuarioRepository
         $stmt->execute(['login' => $login]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($data) {
-            return new Usuario($data);
+        if (!$data) {
+            return null;
         }
-        return null;
+        return $this->fromData($data);
     }
 
     public function salvar(Usuario $usuario): void
@@ -46,8 +47,8 @@ class UsuarioRepository
             'nome' => $usuario->getNome(),
             'email' => $usuario->getEmail(),
             'login' => $usuario->getLogin(),
-            'senha' => $usuario->getSenha(),
-            'perfil' => $usuario->getPerfil()->value,
+            'senha' => $usuario->getSenhaHash(),
+            'perfil' => $usuario->getPerfil(),
             'ativo' => $usuario->isAtivo(),
         ]);
     }
@@ -58,15 +59,56 @@ class UsuarioRepository
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $usuarios = [];
         while ($data = $stmt->fetch()) {
-            $usuario = new Usuario();
-            $usuario->setId($data['id']);
-            $usuario->setNome($data['nome']);
-            $usuario->setEmail($data['email']);
-            $usuario->setLogin($data['login']);
-            $usuario->setPerfil(PerfilUsuario::from($data['perfil']));
-            $usuario->setAtivo((bool)$data['ativo']);
-            $usuarios[] = $usuario;
+            
+            $usuarios[] = $this->fromData($data);
         }
         return $usuarios;
+    }
+
+    private function fromData(array $data): Usuario
+    {
+        $usuario = new Usuario();
+
+        $usuario->setId($data['id']);
+        $usuario->setNome($data['nome']);
+        $usuario->setLogin($data['login']);
+
+        $usuario->setEmail(
+            $data['email'] ?? null
+        );
+
+        $usuario->setSenhaHash(
+            $data['senha']
+        );
+
+        $usuario->setPerfil(
+            PerfilUsuario::from(
+                $data['perfil']
+            )
+        );
+
+        $usuario->setAtivo(
+            (bool) $data['ativo']
+        );
+
+        if (!empty($data['ultimo_login'])) {
+            $usuario->setUltimoLogin(
+                new DateTime($data['ultimo_login'])
+            );
+        }
+
+        if (!empty($data['created_at'])) {
+            $usuario->setCreatedAt(
+                new DateTime($data['created_at'])
+            );
+        }
+
+        if (!empty($data['updated_at'])) {
+            $usuario->setUpdatedAt(
+                new DateTime($data['updated_at'])
+            );
+        }
+
+        return $usuario;
     }
 }

@@ -17,11 +17,10 @@ class AuthController extends BaseController
     public function autenticar(): void
     {
         $ok = $this->authService->autenticar($_POST['login'],$_POST['senha']);
-
         if(!$ok){
             $this->redirect('/login');
         }else{
-            $this->redirect('/dashboard');
+            $this->redirect('/prosaude');
         }
     }
         

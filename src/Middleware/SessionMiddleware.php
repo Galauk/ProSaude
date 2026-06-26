@@ -5,6 +5,7 @@ class SessionMiddleware
 {
     public function handle(): void
     {
+        /*
         // Iniciar sessão se não estiver iniciada
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -25,5 +26,6 @@ class SessionMiddleware
         
         // Atualizar timestamp da última atividade
         $_SESSION['LAST_ACTIVITY'] = time();
+        */
     }
 }
