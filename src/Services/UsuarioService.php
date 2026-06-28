@@ -31,4 +31,12 @@ class UsuarioService
         $this->usuarioRepository->salvar($usuario);
         return $usuario;
     }
+    public function atualizar(Usuario $usuario)
+    {
+        if (empty($usuario->getNome()) || empty($usuario->getEmail())) {
+            throw new \Exception('Campos obrigatórios: nome e email');
+        }
+        $this->usuarioRepository->atualizar($usuario);
+        return $usuario;
+    }
 }

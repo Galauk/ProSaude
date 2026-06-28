@@ -59,7 +59,7 @@ if(!isset($usuario)){
             </div>
         </div>
         <div class="card-footer">
-            <a href="/prosaude/usuarios/editar/<?= $usuario->getId() ?>" class="btn btn-primary" >
+            <a href="/prosaude/usuarios/edit/<?= $usuario->getId() ?>" class="btn btn-primary" >
                 Editar
             </a>
             <a href="/prosaude/usuarios" class="btn btn-secondary">

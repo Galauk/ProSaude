@@ -1,3 +1,8 @@
+<?php
+if(!isset($perfilUsuario)){
+    die();
+}
+?>
 <form method="POST" action="/prosaude/usuarios">
     <div class="container mt-4">
         <div class="card">
@@ -46,7 +51,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="data_nascimento" class="form-label">Data de Nascimento</label>
-                    <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" required>
+                    <input type="date" class="form-control" id="data_nascimento" name="data_nascimento">
                 </div>
                 <div class="row">
                     <div class="col">

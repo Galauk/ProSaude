@@ -82,4 +82,28 @@ class UsuarioController extends BaseController
         exit;
     }
 
+    public function atualizar()
+    {
+        $usuario = new Usuario();
+
+        $usuario->setId($_POST['id'] ?? '');
+        $usuario->setNome($_POST['nome'] ?? '');
+        $usuario->setEmail($_POST['email'] ?? '');
+        $usuario->setLogin($_POST['login'] ?? '');
+        $usuario->definirSenha($_POST['senha'] ?? '');
+        $usuario->setPerfil(
+            PerfilUsuario::from($_POST['perfil'])
+        );
+
+        try {
+            $usuario = $this->service->atualizar($usuario);
+            $this->listar("Usuario atualizado com sucesso!");
+        } catch (\Exception $e) {
+            var_dump($e);
+            $this->listar("Falha ao atualizar o usuario! - ".$e->getMessage(),1);
+        }
+
+        exit;
+    }
+
 }

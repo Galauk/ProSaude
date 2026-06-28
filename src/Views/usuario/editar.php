@@ -3,11 +3,11 @@ if(!isset($usuario) || !isset($perfilUsuario)){
     die();
 }
 ?>
-<form method="POST" action="/prosaude/usuarios">
+<form method="POST" action="#">
     <div class="container mt-4">
         <div class="card">
             <div class="card-header">
-                <h3>Criar Novo Usuário</h3>
+                <h3>Editar Usuário</h3>
             </div>
             <div class="card-body">
                 <?php if (isset($_GET['erro'])): ?>
@@ -51,7 +51,8 @@ if(!isset($usuario) || !isset($perfilUsuario)){
                 </div>
                 <div class="mb-3">
                     <label for="data_nascimento" class="form-label">Data de Nascimento</label>
-                    <input type="date" class="form-control" id="data_nascimento" name="data_nascimento" required>
+                    <input type="date" class="form-control" id="data_nascimento" name="data_nascimento">
+                    <input type="hidden" name="id" value="<?=$usuario->getId()?>">
                 </div>
                 <div class="row">
                     <div class="col">

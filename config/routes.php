@@ -80,15 +80,15 @@ $router->get(
     [AuthMiddleware::class,SessionMiddleware::class]
 );
 
-$router->get(
-    '/prosaude/usuarios/edit/',
-    [UsuarioController::class, 'editar'],
+$router->post(
+    '/prosaude/usuarios',
+    [UsuarioController::class, 'salvar'],
     [AuthMiddleware::class,SessionMiddleware::class]
 );
 
 $router->post(
-    '/prosaude/usuarios',
-    [UsuarioController::class, 'salvar'],
+    '/prosaude/usuarios/edit/{id}',
+    [UsuarioController::class, 'atualizar'],
     [AuthMiddleware::class,SessionMiddleware::class]
 );
 
