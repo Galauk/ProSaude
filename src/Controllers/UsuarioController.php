@@ -44,7 +44,20 @@ class UsuarioController extends BaseController
             return;
         }
 
-        $this->render('usuario/visualizar',['usuario' => $usuario],'app');
+        $this->render('usuario/visualizar',['title' => 'Visualizando usuário','usuario' => $usuario],'app');
+    }
+
+    public function editar(string $id): void
+    {
+        $usuario = $this->service->buscarUsuarioPorCodigo($id);
+
+        if (!$usuario) {
+            http_response_code(404);
+            echo "Usuário não encontrado";
+            return;
+        }
+
+        $this->render('usuario/editar',['title' => 'Editando usuario','perfilUsuario' => PerfilUsuario::cases(),'usuario' => $usuario],'app');
     }
 
     public function salvar()
@@ -64,6 +77,30 @@ class UsuarioController extends BaseController
             $this->listar("Usuario cadastrado com sucesso!");
         } catch (\Exception $e) {
             $this->listar("Falha ao cadastrar o usuario!",1);
+        }
+
+        exit;
+    }
+
+    public function atualizar()
+    {
+        $usuario = new Usuario();
+
+        $usuario->setId($_POST['id'] ?? '');
+        $usuario->setNome($_POST['nome'] ?? '');
+        $usuario->setEmail($_POST['email'] ?? '');
+        $usuario->setLogin($_POST['login'] ?? '');
+        $usuario->definirSenha($_POST['senha'] ?? '');
+        $usuario->setPerfil(
+            PerfilUsuario::from($_POST['perfil'])
+        );
+
+        try {
+            $usuario = $this->service->atualizar($usuario);
+            $this->listar("Usuario atualizado com sucesso!");
+        } catch (\Exception $e) {
+            var_dump($e);
+            $this->listar("Falha ao atualizar o usuario! - ".$e->getMessage(),1);
         }
 
         exit;

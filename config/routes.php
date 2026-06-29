@@ -69,20 +69,26 @@ $router->get(
 );
 
 $router->get(
-    '/prosaude/usuarios/criar',
-    [UsuarioController::class, 'criar'],
+    '/prosaude/usuarios/edit/{id}',
+    [UsuarioController::class, 'editar'],
     [AuthMiddleware::class,SessionMiddleware::class]
 );
 
 $router->get(
-    '/prosaude/usuarios/edit/',
-    [UsuarioController::class, 'editar'],
+    '/prosaude/usuarios/criar',
+    [UsuarioController::class, 'criar'],
     [AuthMiddleware::class,SessionMiddleware::class]
 );
 
 $router->post(
     '/prosaude/usuarios',
     [UsuarioController::class, 'salvar'],
+    [AuthMiddleware::class,SessionMiddleware::class]
+);
+
+$router->post(
+    '/prosaude/usuarios/edit/{id}',
+    [UsuarioController::class, 'atualizar'],
     [AuthMiddleware::class,SessionMiddleware::class]
 );
 

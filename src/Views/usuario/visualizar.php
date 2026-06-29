@@ -2,7 +2,6 @@
 if(!isset($usuario)){
     die();
 }
-
 ?>
 <div class="container">
     <div class="card">
@@ -60,16 +59,10 @@ if(!isset($usuario)){
             </div>
         </div>
         <div class="card-footer">
-            <a
-                href="/prosaude/usuarios/editar/<?= $usuario->getId() ?>"
-                class="btn btn-primary"
-            >
+            <a href="/prosaude/usuarios/edit/<?= $usuario->getId() ?>" class="btn btn-primary" >
                 Editar
             </a>
-            <a
-                href="/prosaude/usuarios"
-                class="btn btn-secondary"
-            >
+            <a href="/prosaude/usuarios" class="btn btn-secondary">
                 Voltar
             </a>
         </div>

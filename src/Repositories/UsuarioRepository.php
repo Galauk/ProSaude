@@ -6,6 +6,8 @@ use App\Models\Usuario;
 
 use App\Enums\PerfilUsuario;
 use DateTime;
+use Exception;
+use PDOException;
 
 class UsuarioRepository
 {
@@ -51,6 +53,35 @@ class UsuarioRepository
             'perfil' => $usuario->getPerfil(),
             'ativo' => $usuario->isAtivo(),
         ]);
+    }
+
+    public function atualizar(Usuario $usuario){
+        try{
+            $stmt = $this->db->prepare("
+                UPDATE usuario
+                SET
+                    nome = :nome,
+                    login = :login,
+                    email = :email,
+                    senha = :senha,
+                    perfil = :perfil,
+                    ativo = :ativo
+                WHERE id = :id
+            ");
+            $stmt->execute([
+                'id' => $usuario->getId(),
+                'nome' => $usuario->getNome(),
+                'email' => $usuario->getEmail(),
+                'login' => $usuario->getLogin(),
+                'senha' => $usuario->getSenhaHash(),
+                'perfil' => $usuario->getPerfil(),
+                'ativo' => $usuario->isAtivo(),
+            ]);
+        }catch(Exception $e){
+            throw $e;
+        }catch(PDOException $e){
+            throw $e;
+        }
     }
 
     public function listar(): array
