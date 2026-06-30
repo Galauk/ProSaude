@@ -63,7 +63,6 @@ class UsuarioRepository
                     nome = :nome,
                     login = :login,
                     email = :email,
-                    senha = :senha,
                     perfil = :perfil,
                     ativo = :ativo
                 WHERE id = :id
@@ -73,7 +72,6 @@ class UsuarioRepository
                 'nome' => $usuario->getNome(),
                 'email' => $usuario->getEmail(),
                 'login' => $usuario->getLogin(),
-                'senha' => $usuario->getSenhaHash(),
                 'perfil' => $usuario->getPerfil(),
                 'ativo' => $usuario->isAtivo(),
             ]);
